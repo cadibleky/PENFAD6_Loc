@@ -1,0 +1,195 @@
+﻿
+
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+@model IEnumerable<crm_EmployeeSchemeFundRepo>
+
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+            .ID("ViewESF")
+           // .ColumnWidth(0.4)
+            .Title("Employee Scheme-Fund View")
+            .Frame(true)
+            .AutoScroll(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(1000)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+                        .Items(
+                        x.FieldSet()
+                       // .ColumnWidth(0.7)
+                       // .Collapsible(true)
+                        .Height(700)
+                        .Width(1500)
+                        .Frame(true)
+                        .Layout(LayoutType.Column)
+                        .Title("View Employee Scheme-Fund")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                        x.FieldSet()
+                        .AutoScroll(true)
+                        .Width(800)
+                        .Collapsible(true)
+                        .Height(620)
+                        .Title("Employee Scheme-Fund List")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                              x.GridPanel()
+                            .ID("ViewesfGrid")
+                            .Title("View Employee Scheme-Fund")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            //.Width(1150)
+                            .MarginSpec("10 0 0 10")
+                            .Height(550)
+                               .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ViewesfStore")
+                            // .DataSource(Model)
+                            .Model(
+                                x.Model()
+
+                                    .Fields(
+                                        x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("ESF_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("ESF ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employee_Id").Text("EMPLOYEE ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("SCHEME FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Cust_No").Text("EMPLOYEE ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Other_Name").Text("OTHER NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Date_Of_Birth").Text("DATE OF BIRTH").Width(200))
+                    .ColumnModel(x.Column().DataIndex("ESF_Status").Text("STATUS").Width(100))
+                       ),
+
+                          x.FieldSet()
+                       // .ColumnWidth(0.4)
+                        .Collapsible(true)
+                        .Height(620)
+                        .Title("Employee Scheme-Fund Details")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                            x.Hidden().Name("ESF_Id"),
+                            x.Hidden().Name("Cust_No"),
+
+                            x.TextField()
+                            .Name("Surname")
+                            .Width(400)
+                            .FieldLabel("surname")
+                            .Editable(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                           ,
+
+                             x.TextField()
+                            .Name("First_Name")
+                            .Width(400)
+                            .FieldLabel("First Name")
+                            .Editable(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            ,
+
+                            x.TextField()
+                            .Name("Other_Name")
+                            .Width(400)
+                            .FieldLabel("Other Name")
+                            .Editable(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                ,
+
+                             x.DateField()
+                            .Name("Date_Of_Birth")
+                            .Width(400)
+                            .FieldLabel("Date Of Birth")
+                            .ReadOnly(true)
+                            .MarginSpec("0 10 10 10"),
+
+                            x.TextField()
+                            .Name("Scheme_Name")
+                            .Width(400)
+                            .FieldLabel("Scheme")
+                            .Editable(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                             x.TextField()
+                            .Name("Fund_Name")
+                            .Width(400)
+                            .FieldLabel("Fund")
+                            .Editable(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+
+
+
+
+                              )
+
+                  )
+      )
+)
+
+
+
+
+
+
+
+
+
+
+

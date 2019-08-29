@@ -1,0 +1,382 @@
+﻿
+
+@model PENFAD6DAL.Repository.CRM.Employee.crm_EmployeeBatchLogRepo
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.CRM.Employee
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@{
+	var trustee = new setup_TrusteeRepo();
+	var y = Html.X();
+	var employer = new crm_EmployeeRepo();
+}
+<script>
+	var onSuccess = function (grid, data) {
+		grid.show();
+		grid.getStore().loadData(data);
+	};
+
+	var onSuccessgroup = function (grid, data) {
+		grid.show();
+		grid.getStore().loadData(data);
+	};
+</script>
+
+@(Html.X().FormPanel()
+			.ID("frm_empbatchportout")
+			.Title("Batch Portout")
+			.Width(1500)
+			.BodyPadding(5)
+			.AutoScroll(true)
+			.Height(850)
+			.Closable(true)
+			.Layout(LayoutType.Column)
+			.Items(
+					Html.X().Panel()
+					.Width(1400)
+					.Layout(LayoutType.Column)
+
+			.Items(
+
+			Html.X().Panel()
+						.ID("panel_forgrids_batch")
+						.Width(600)
+						.Title("Employer Accounts")
+						.Border(true)
+						.Height(850)
+						.MarginSpec("10 0 0 10")
+						.BodyPadding(5)
+						.TopBar(Html.X().Toolbar()
+						.Items(
+
+						Html.X().ComboBox().Name("Employer_Id")
+						.ID("change_ESF_updemp_cmbEmployerId_employer")
+						.FieldLabel("Employer Name")
+						.MarginSpec("0 0 0 10").TabIndex(5).Width(400)
+						.AllowBlank(false)
+						.QueryMode(DataLoadMode.Local)
+						.TriggerAction(TriggerAction.All)
+						.FieldStyle("text-transform: uppercase")
+						.Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+
+								Html.X().Button()
+										.ID("btnviewemployeebatchlog_portout")
+										.Text("View Accounts")
+										.Width(170)
+										.Icon(Icon.ApplicationViewDetail)
+										.DirectEvents(de =>
+										{
+											de.Click.Timeout = 12000000;
+											de.Click.Url = Url.Action("Get_Batchemp");
+											de.Click.Success = "onSuccess(App.batchloggrid_portout, result.data);";
+										})
+										.Handler("#{emp_list_store_portout}.removeAll();")
+									////.Handler("#{panel_majornav}.reload();")
+									)//end button
+								)// end topbar
+
+						 //begin role grid
+						 .Items(Html.X().GridPanel()
+										.ID("batchloggrid_portout")
+										//.Hidden(true)
+										.Border(true)
+										//.Width(400)
+										.Height(350)
+										.MarginSpec("10 0 0 10")
+										.Plugins(
+										Html.X().FilterHeader()
+											)
+										.Store(Html.X().Store()
+											.ID("batchstore_portout")
+											.AutoLoad(false)
+											.Model(Html.X().Model()
+												.Fields(
+													new ModelField("Scheme_Name", ModelFieldType.String),
+													new ModelField("Fund_Name", ModelFieldType.String),
+													new ModelField("Scheme_Id", ModelFieldType.String),
+													new ModelField("Fund_Id", ModelFieldType.String),
+													new ModelField("Scheme_Fund_Id", ModelFieldType.String),
+													new ModelField("ES_Id", ModelFieldType.String),
+													new ModelField("Unit_Price", ModelFieldType.Float)
+
+														)//end fields
+													)//end model
+													.Reader(reader =>
+														reader.Add(Html.X().ArrayReader())
+													)//end reader
+													 //.ServerProxy(Html.X().AjaxProxy().Url(Url.Action("Get_BatchLogPending")))
+												)//end  store
+										.ColumnModel(
+												//Html.X().Column().Text("Employer").DataIndex("Employer_name").Width(400),
+												Html.X().Column().Text("Scheme").DataIndex("Scheme_Name").Width(400),
+												Html.X().Column().Text("Fund").DataIndex("Fund_Name").Width(150),
+												Html.X().Column().Text("Unit Price").DataIndex("Unit_Price").Width(150)
+
+												)//end columnmodel
+										.View(Html.X().GridView().StripeRows(true).TrackOver(true))
+										.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+										.DirectEvents(de =>
+										{
+											de.CellClick.Url = Url.Action("Get_EmployeesInBatchLogPending");
+											de.CellClick.Success = "onSuccessgroup(App.employeeslist_grid_portout, result.data);";
+										})
+									  ) //end rolegridpanel
+
+							.Items(Html.X().Panel()
+									.ID("pn_fset_portout")
+									.Title("Portout Details")
+									.Height(400)
+									.AutoScroll(true)
+									//.Border(true)
+									.Width(580)
+									.MarginSpec("10 0 0 10")
+									.Items(Html.X().FieldSet()
+												.ID("fsset_details_portout")
+												.Height(330)
+												.MarginSpec("10 0 0 0")
+												.FieldDefaults(d =>
+												{
+													d.LabelWidth = 115;
+													//d.LabelStyle = "color:black;padding-left:4px;";
+												})
+												.Items(
+													//Html.X().TextField()
+													//					// .ID("Employer_name")
+													//					.Name("Employer_name")
+													//					.FieldLabel("Employer")
+													//					.MarginSpec("10 0 0 0")
+													//					.Width(500)
+													//					.ReadOnly(true),
+
+													Html.X().Hidden()
+														   .Name("Scheme_Id"),
+														Html.X().Hidden().ID("PortOutPaySFId_portout")
+														   .Name("Scheme_Fund_Id")
+														   .Listeners(ls =>
+																					   ls.Change.Handler = "App.PortOutPay_GLB_portout.clearValue(); App.PortOutPay_GLB_portout.getStore().load();"),
+
+													Html.X().Hidden()
+														   .Name("Fund_Id"),
+
+													Html.X().NumberField().FieldLabel("Unit Price")
+														   .Name("Unit_Price"),
+
+												   Html.X().Hidden()
+													   .ID("ES_Id"),
+
+												   //   .ReadOnly(true),
+												   Html.X().TextField()
+															   //.ID("Scheme_Name")
+															   .Name("Scheme_Name")
+															   .FieldLabel("Scheme")
+															   .Width(500)
+															   .MarginSpec("10 0 0 3")
+															   .ReadOnly(true),
+												 Html.X().ComboBox().Name("New_Trustee")
+												 .FieldLabel("New Trustee")
+												 .MarginSpec("10 0 0 0").TabIndex(5).Width(500)
+												 .Editable(false)
+												 .AllowBlank(false)
+												 .EmptyText("Select New Trustee")
+												 .QueryMode(DataLoadMode.Local)
+												 .TriggerAction(TriggerAction.All)
+												 .EmptyText("Select Trustee")
+												 .Items(trustee.GetTrusteeList().Select(c => new ListItem(c.Trustee_Name, c.Trustee_Id))),
+
+																		Html.X().DateField()
+																		.Name("Pay_Date_Benefit")
+																		.Width(500)
+																		.AllowBlank(false)
+																		.EmptyText("")
+																		.FieldLabel("Portout Date")
+																		.MarginSpec("10 0 0 0"),
+
+																		///////////////////////
+																		Html.X().ComboBox().Name("GL_Account_No").ID("PortOutPay_GLB_portout")
+																		.FieldLabel("GL Bank Account")
+																		.Width(500)
+																		.Editable(false)
+																		.TypeAhead(true)
+																		.QueryMode(DataLoadMode.Local)
+																		.ForceSelection(true)
+																		.TriggerAction(TriggerAction.All)
+																		.DisplayField("name")
+																		.ValueField("id")
+																		.BlankText("GL Bank Account is required.")
+																		.EmptyText("No GL Bank Account Available...")
+																		.ValueNotFoundText("No GL Bank Account Available...").MarginSpec("10 0 0 0")
+																		  .Listeners(ls =>
+																						   ls.Change.Handler = "App.PortOutPay_GLBalance_batch.clearValue(); App.PortOutPay_GLBalance_batch.getStore().load();")
+
+																		.Store(Html.X().Store()
+																			.AutoLoad(false)
+																			.Model(Html.X().Model()
+																				.IDProperty("PortOutPay_GLB_gId_portout")
+																				.Fields(
+																					new ModelField("id", ModelFieldType.String) { Mapping = "PortOutPay_GLB_gId_portout" },
+																					new ModelField("name", ModelFieldType.String) { Mapping = "gName" }
+																				)
+																			)
+																			.Proxy(Html.X().AjaxProxy()
+																				.Url(Url.Action("GetGLAB"))
+																				.Reader(Html.X().JsonReader().RootProperty("data"))
+																			)
+																			.Parameters(ps =>
+																				ps.Add(new StoreParameter("Scheme_Fund_Id", "App.PortOutPaySFId_portout.getValue()", ParameterMode.Raw))
+																			)
+																			.Listeners(ls =>
+																							ls.Load.Handler = @"var combo = App.PortOutPay_GLB_portout;
+																									combo.setValue(records[0].get(combo.valueField)); App.PortOutPay_GLBalance_batch.clearValue(); App.PortOutPay_GLBalance_batch.getStore().load();"
+
+																			)
+
+																	   )
+																,
+
+												Html.X().ComboBox().Name("GL_Balance").ID("PortOutPay_GLBalance_batch")
+													.FieldLabel("GL Bank Account Balance")
+													.Width(500)
+													.Editable(false)
+													.ReadOnly(true)
+													.TypeAhead(true)
+													.QueryMode(DataLoadMode.Local)
+													.ForceSelection(true)
+													.TriggerAction(TriggerAction.All)
+													.DisplayField("id")
+													.ValueField("name")
+													.BlankText("Select GL Bank Account.")
+													.ValueNotFoundText("No GL Bank Account...").MarginSpec("10 0 0 0")
+													.Store(Html.X().Store()
+														.AutoLoad(false)
+														.Model(Html.X().Model()
+															.IDProperty("mId")
+															.Fields(
+																new ModelField("id", ModelFieldType.String) { Mapping = "ID_BatchPort" },
+																new ModelField("name", ModelFieldType.String) { Mapping = "mName" }
+															)
+														)
+														.Proxy(Html.X().AjaxProxy()
+															.Url(Url.Action("GetGLacc"))
+															.Reader(Html.X().JsonReader().RootProperty("data"))
+														)
+														.Parameters(ps =>
+															ps.Add(new StoreParameter("GL_Account_No", "App.PortOutPay_GLB_portout.getValue()", ParameterMode.Raw))
+														)
+														.Listeners(ls =>
+																		ls.Load.Handler = @"var combo = App.PortOutPay_GLBalance_batch;
+																				combo.setValue(records[0].get(combo.valueField));"
+
+														)
+												   )
+
+
+
+
+													   )
+										   )//end fsset_details
+
+									)//end items pn_fset
+
+
+
+				   )//end panel_forgrids
+
+
+
+	  .Items(Html.X().Panel()
+									.ID("pn_fsetsss_portout")
+									.Title("Employee List")
+									 .Header(true)
+									.Height(850)
+									.AutoScroll(true)
+									.Border(true)
+									 .Width(670)
+									.MarginSpec("10 0 0 10")
+			// second column begins
+			.Items(Html.X().GridPanel()
+						.ID("employeeslist_grid_portout")
+						.ColumnWidth(0.6)
+			/// .Title("Employee List")
+			.Header(true)
+						.Border(true)
+						.Width(650)
+						.MarginSpec("10 0 0 10")
+						.Height(770)
+
+						//.HeightSpec("auto")
+						.BodyPadding(5)
+						.AutoScroll(true)
+
+						.Store(Html.X().Store()
+								.AutoLoad(false)
+								.ID("emp_list_store_portout")
+								.Model(Html.X().Model()
+									.Fields(
+											new ModelField("Surname", ModelFieldType.String),
+											new ModelField("First_Name", ModelFieldType.String),
+											new ModelField("Other_Name", ModelFieldType.String)
+											//new ModelField("Scheme_Name", ModelFieldType.String),
+											//new ModelField("Fund_Name", ModelFieldType.String)
+											)//end fields
+										)//end model
+										.Reader(reader =>
+											reader.Add(Html.X().ArrayReader())
+										)//end reader
+								)//end  store
+								 .Refresh()
+								.BottomBar(
+								Html.X().PagingToolbar())
+						.ColumnModel(
+								Html.X().Column().Text("Surname").DataIndex("Surname").Width(300),
+								Html.X().Column().Text("First Name").DataIndex("First_Name").Width(300),
+								Html.X().Column().Text("Other Name").DataIndex("Other_Name").Width(150)
+								//Html.X().Column().Text("Scheme").DataIndex("Scheme_Name").Width(300),
+								//Html.X().Column().Text("Fund Name").DataIndex("Fund_Name").Width(150)
+								)//end columnmodel
+						.View(Html.X().GridView().StripeRows(true).TrackOver(true))
+						.Plugins(Html.X().FilterHeader())
+						//.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+						.Buttons(y.Button()
+										.Text("PortOut Employer")
+										 .Border(true)
+										 .MarginSpec("30 5 0 10")
+										.Width(230).Icon(Icon.PageSave)
+
+									   //.Handler("getTasks")
+									   .DirectEvents(dpe =>
+									   {
+										   dpe.Click.Timeout = 12000000;
+										   //dpe.Click.Confirmation.ConfirmRequest = true;
+										   dpe.Click.Confirmation.Title = "Portout";
+										   // dpe.Click.Confirmation.Message = "Portout?";
+										   dpe.Click.Url = Url.Action("Approve_Pending_Batch");
+										   //dpe.Click.Url = Url.Action("Sms_Batch");
+									   }).Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Porting out... Please wait.'})"),
+
+
+
+									Html.X().Button()
+										.ID("btnclear")
+										.Text("Clear")
+										.Width(120)
+										.MarginSpec("30 5 0 10")
+										.Icon(Icon.ArrowRefresh)
+										.DirectEvents(de =>
+										{
+											de.Click.Url = Url.Action("ClearControls");
+										})
+								  ////.Handler("#{batchstore}.removeAll();")
+								  //.Handler("#{emp_list_store}.removeAll();")
+								  )// end buttons
+
+				)//end second panel which is grid
+
+
+				)
+
+
+
+		 )
+)

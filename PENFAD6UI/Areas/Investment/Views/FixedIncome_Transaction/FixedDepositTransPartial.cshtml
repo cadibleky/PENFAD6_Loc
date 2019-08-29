@@ -1,0 +1,515 @@
+﻿
+@using PENFAD6DAL.Repository.Investment.FixedIncome_Transaction
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+
+@model IEnumerable<Invest_Trans_Fix_Repo>
+
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var MM_TBill = new Invest_Trans_Fix_Repo();
+    var repo_Issuer = new setup_IssuerRepo();
+    var x = Html.X();
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+                        .ID("frm_FixedDepositTransPartial_main")
+                        .Title("Money Market / T_Bill Investment")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1000)
+                        .Height(1500)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+
+                                               x.FieldSet()
+                                                .Height(1500)
+                                                .Width(1600)
+                                                .Frame(true)
+                                                .MarginSpec("0 0 0 10")
+
+                                                .Items(
+
+                                                                  x.FieldSet()
+                                                                    .Height(320)
+                                                                    .Width(780)
+                                                                    .Layout(LayoutType.Column)
+                                                                    .Title("'Scheme-Fund' Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                        .Items(
+                                                                        x.Hidden().Name("Scheme_Id").ID("FixedDepositTransPartialAddES_ID")
+                                                                        .Listeners(ls =>
+                                                                                        ls.Change.Handler = "App.FixedDepositTransPartialAddEFM.clearValue(); App.FixedDepositTransPartialAddEFM.getStore().load();"),
+
+                                                                        x.Hidden().Name("Scheme_Fund_Id").ID("FixedDepositTransPartialAddESF_ID")
+                                                                        .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.FixedDepositTransPartialECIS_GLB.clearValue(); App.FixedDepositTransPartialECIS_GLB.getStore().load();"),
+
+                                                                        x.Hidden().Name("ES_Id").ID("FixedDepositTransPartialpurchase_ES_Id"),
+
+                                                                        x.TextField()
+                                                                        .Name("Scheme_Name")
+                                                                        .Width(710)
+                                                                        .FieldLabel("Scheme")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                        x.TextField()
+                                                                        .Name("Fund_Name")
+                                                                        .Width(450)
+                                                                        .FieldLabel("Fund")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                     x.ComboBox().Name("GL_Account_No").ID("FixedDepositTransPartialECIS_GLB")
+                                                                    .FieldLabel("GL Bank Account")
+                                                                    .Width(450)
+                                                                    .Editable(false)
+                                                                    .TypeAhead(true)
+                                                                    .QueryMode(DataLoadMode.Local)
+                                                                    .ForceSelection(true)
+                                                                    .TriggerAction(TriggerAction.All)
+                                                                    .DisplayField("name")
+                                                                    .ValueField("id")
+                                                                    .BlankText("GL Bank Account is required.")
+                                                                    .EmptyText("No GL Bank Account Available...")
+                                                                    .ValueNotFoundText("No GL Bank Account Available...").MarginSpec("0 0 0 10")
+                                                                      .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.FixedDepositTransPartialAddECIS_GLBalance.clearValue(); App.FixedDepositTransPartialAddECIS_GLBalance.getStore().load();")
+
+                                                                    .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("FDNEWId")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "FDNEWId" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "gName" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetGLAB"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Scheme_Fund_Id", "App.FixedDepositTransPartialAddESF_ID.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.FixedDepositTransPartialECIS_GLB; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField)); App.FixedDepositTransPartialAddECIS_GLBalance.clearValue(); App.FixedDepositTransPartialAddECIS_GLBalance.getStore().load();"
+
+                                                                        )
+
+                                                                   )
+                                                            ,
+
+                                            x.ComboBox().Name("GL_Balance").ID("FixedDepositTransPartialAddECIS_GLBalance")
+                                                .FieldLabel("GL Bank Account Balance")
+                                                .Width(250)
+                                                .Editable(false)
+                                                .ReadOnly(true)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("id")
+                                                .ValueField("name")
+                                                .BlankText("No GL Bank Account Balance")
+                                                .ValueNotFoundText("No GL Bank Account Balance").MarginSpec("0 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("FDNEWId_B")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "FDNEWId_B" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "mName" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetGLacc"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("GL_Account_No", "App.FixedDepositTransPartialECIS_GLB.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.FixedDepositTransPartialAddECIS_GLBalance; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               )
+                                        ,
+
+                                            x.Button()
+                                            .Text("Select 'Scheme-Fund'")
+                                            .Width(220)
+                                            .Icon(Icon.ApplicationFormAdd)
+                                            .TabIndex(28)
+                                            .Handler("App.MM_TBIllSchemeFund.show(this);")
+                                            .MarginSpec("32 10 0 10")
+                                            )
+                                            ,
+
+
+                                        x.FieldSet()
+                                        .Height(700)
+                                        .Width(780)
+                                        .Layout(LayoutType.Column)
+                                        .Title("Investment Details")
+                                        .MarginSpec("0 0 0 10")
+                                        .Defaults(dd =>
+                                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                            x.Hidden().Name("Invest_No"),
+
+                                                // x.ComboBox().Name("Currency")
+                                                //.FieldLabel("Currncy")
+                                                //.MarginSpec("10 1000 0 10").TabIndex(5).Width(350)
+                                                //.AllowBlank(false)
+                                                //.Editable(false)
+                                                //.EmptyText("Select Currency")
+                                                //.Items("GHS", "USD", "EUR"),
+
+                                                x.TextField()
+                                            .Name("Contract_No")
+                                            .Width(350)
+                                            .FieldLabel("Contract Number")
+                                            // .Editable(false)
+                                            .MarginSpec("10 0 0 10")
+                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                            ,
+
+                                            x.ComboBox().Name("Class_Id").ID("FixedDepositTransPartialADDECID")
+                                            .FieldLabel("Asset Class")
+                                            .MarginSpec("10 0 0 10").TabIndex(11).Width(350)
+                                            .AllowBlank(false)
+                                            .Editable(false)
+                                            .QueryMode(DataLoadMode.Local)
+                                            .TriggerAction(TriggerAction.All)
+                                            .EmptyText("Select Asset Class")
+                                            .Items(MM_TBill.GetAssetList().Select(d => new ListItem(d.Description, d.Class_Id)))
+                                            .Listeners(ls =>
+                                                            ls.Change.Handler = "App.FixedDepositTransPartialAddEPID.clearValue(); App.FixedDepositTransPartialAddEPID.getStore().load();"),
+
+                                                x.ComboBox().Name("Product_Id").ID("FixedDepositTransPartialAddEPID")
+                                                .FieldLabel("Product")
+                                                .Width(350)
+                                                .Editable(false)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("name")
+                                                .ValueField("id")
+                                                .BlankText("Product is required.")
+                                                .EmptyText("No Product Available...")
+                                                .ValueNotFoundText("No Product Available...").MarginSpec("10 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("pId")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "pId" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "pName" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetpID"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("Class_Id", "App.FixedDepositTransPartialADDECID.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.FixedDepositTransPartialAddEPID; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               ),
+
+                                                x.ComboBox().Name("Fund_Manager_Id").ID("FixedDepositTransPartialAddEFM")
+                                                .FieldLabel("Fund Manager")
+                                                .Width(350)
+                                                .Editable(false)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("name")
+                                                .ValueField("id")
+                                                .BlankText("Fund Manager is required.")
+                                                .EmptyText("No Fund Manager Available...")
+                                                .ValueNotFoundText("No Fund Manager Available...").MarginSpec("10 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("Id")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetFM"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("Scheme_Id", "App.FixedDepositTransPartialAddES_ID.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.FixedDepositTransPartialAddEFM; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               ),
+
+                                                x.ComboBox().Name("Interest_Day_Basic").FieldLabel("Interest Day Basis").ID("txt_MM_TBill_Interest_Day_Basic").Text("364")
+                                                    .Editable(false).MarginSpec("10 0 0 10").Width(350).TabIndex(5).Listeners(ls => ls.Select.Handler = "App.ComboBoxMonthint_day.clearValue(); App.ComboBoxMonthint_day.getStore().load();")
+                                                    .Items(
+                                                     new ListItem("364"),
+                                                     new ListItem("365"),
+                                                     new ListItem("366"),
+                                                     new ListItem("360"))
+                                                     .EmptyText("Select  Interest Day Basis")
+                                                     .Editable(false)
+                                                     .AllowBlank(true)
+                                                   .BlankText("Interest Day Basis is required.")
+                                                   //.Listeners(l => l.Change.Handler = "App.txt_MM_TBill_Daily_Int_Rate.setValue((App.frmAmount_txtAnnualInterest.getValue() / 100) / App.txt_MM_TBill_Interest_Day_Basic.getValue());App.frmInterest_On_Maturity.setValue(App.txt_MM_TBill_Daily_Int_Rate.getValue() * App.frmAmount_txtInvested.getValue() * App.frmDuration_In_Days.getValue()); App.frmAmount_on_txtMaturity.setValue(+App.frmInterest_On_Maturity.getValue() + +App.frmAmount_txtInvested.getValue());"),
+                                                   .DirectEvents(de =>
+                                                   {
+                                                       de.Change.Url = Url.Action("calValues");
+                                                   }),
+
+                                                x.NumberField()
+                                                    .ID("frmDuration_In_Days")
+                                                    .Name("Duration_In_Days")
+                                                    .FieldLabel("Tenor(In Days)").MarginSpec("10 0 0 10").TabIndex(6)
+                                                    .EmptyText("Enter Tenor(In Days)")
+                                                    .Width(350)
+                                                    .AllowBlank(false)
+                                                    .BlankText("Tenor In Days required.")
+                                                //.DirectEvents(de =>
+                                                //{
+                                                //    de.Change.Url = Url.Action("GetMDate");
+
+                                                //})
+                                                .DirectEvents(dee =>
+                                                {
+
+                                                    dee.Change.Url = Url.Action("calValues");
+                                                }),
+                                                //.Listeners(l => l.Change.Handler = "App.txt_MM_TBill_Daily_Int_Rate.setValue((App.frmAmount_txtAnnualInterest.getValue() / 100) / App.txt_MM_TBill_Interest_Day_Basic.getValue());App.frmInterest_On_Maturity.setValue(App.txt_MM_TBill_Daily_Int_Rate.getValue() * App.frmAmount_txtInvested.getValue() * App.frmDuration_In_Days.getValue()); App.frmAmount_on_txtMaturity.setValue(+App.frmInterest_On_Maturity.getValue() + +App.frmAmount_txtInvested.getValue());"),
+
+                                                x.ComboBox().Name("Issuer_Id")
+                                                    .FieldLabel("Select Issuer  Name")
+                                                    .EmptyText("Select  Issuer  Name")
+                                                    .MarginSpec("10 0 0 10").TabIndex(7).Width(350)
+                                                    .AllowBlank(false).Editable(true)
+                                                    .BlankText("Issuer Name is required.").Items(repo_Issuer.GetIssuerList().Select(d => new ListItem(d.Issuer_Name, d.Issuer_Id))),
+
+                                                 x.DateField().Name("Settlement_Date").Width(350)
+                                                   .FieldLabel("Settlement Date").MarginSpec("10 0 0 10").TabIndex(4)
+                                                   .EmptyText("Settlement Date").Editable(false),
+
+                                                x.NumberField().ID("frmAmount_txtInvested").Name("Amount_Invested").Text("0")
+                                                   .FieldLabel("Amount Invested").MarginSpec("10 0 0 10").Width(350)
+                                                   .AllowBlank(false)
+                                                   .BlankText("Amount Invested is required.")
+                                                       //.Listeners(l => l.Change.Handler = "App.txt_MM_TBill_Daily_Int_Rate.setValue((App.frmAmount_txtAnnualInterest.getValue() / 100) / App.txt_MM_TBill_Interest_Day_Basic.getValue());App.frmInterest_On_Maturity.setValue(App.txt_MM_TBill_Daily_Int_Rate.getValue() * App.frmAmount_txtInvested.getValue() * App.frmDuration_In_Days.getValue()); App.frmAmount_on_txtMaturity.setValue(+App.frmInterest_On_Maturity.getValue() + +App.frmAmount_txtInvested.getValue());"),
+                                                       .DirectEvents(de =>
+                                                       {
+                                                           de.Change.Url = Url.Action("calValues");
+                                                       }),
+
+                                               x.NumberField ().ID("frmAmount_txtAnnualInterest").Text("0")
+                                                   .Name("Annual_Int_Rate").FieldLabel("Annual Interest Rate")
+                                                   .MarginSpec("10 0 0 10").Width(350).TabIndex(2)
+                                                        //.Listeners(l => l.Change.Handler = "App.txt_MM_TBill_Daily_Int_Rate.setValue((App.frmAmount_txtAnnualInterest.getValue() / 100) / App.txt_MM_TBill_Interest_Day_Basic.getValue());App.frmInterest_On_Maturity.setValue(App.txt_MM_TBill_Daily_Int_Rate.getValue() * App.frmAmount_txtInvested.getValue() * App.frmDuration_In_Days.getValue()); App.frmAmount_on_txtMaturity.setValue(+App.frmInterest_On_Maturity.getValue() + +App.frmAmount_txtInvested.getValue());"),
+                                                        .DirectEvents(de =>
+                                                        {
+                                                            de.Change.Url = Url.Action("calValues");
+
+                                                        })
+                                                .DirectEvents(de =>
+                                                {
+
+                                                    de.Change.Url = Url.Action("calValues");
+                                                }),
+
+                                               x.DateField().ID("MM_TBillStart_Date").Name("Start_Date")
+                                                   .FieldLabel("Investment Start Date").Editable(false)
+                                                   .EmptyText("Select  Investment Start Date")
+                                                   .MarginSpec("10 0 0 10").Width(350).TabIndex(3)
+                                                              .DirectEvents(de =>
+                                                              {
+                                                                  de.Change.Url = Url.Action("calValues");
+
+                                                              }),
+                                               //.DirectEvents(de =>
+                                               //{
+
+                                               //    de.Change.Url = Url.Action("calValues");
+                                               //}),
+
+
+                                               x.DateField().ID("MM_TBillMaturity_Date").Name("Maturity_Date").ReadOnly(true)
+                                                   .FieldLabel("Maturity Date").MarginSpec("10 0 0 10").Width(350).TabIndex(4)
+                                                   .EmptyText("Maturity  Date").Editable(false)
+                                                    .DirectEvents(de =>
+                                                              {
+                                                                  de.Change.Url = Url.Action("calValues");
+
+                                                              }),
+
+                                               x.TextField().ID("frmInterest_On_Maturity").Name("Interest_On_Maturity").Text("0")
+                                                    .FieldLabel("Interest on Maturity")
+                                                    .MarginSpec("10 0 0 10").Width(350).TabIndex(5).ReadOnly(true).Editable(false),
+
+                                               x.TextField().ID("frmAmount_on_txtMaturity").Name("Amount_on_Maturity").Text("0")
+                                                    .FieldLabel("Maturity Value").MarginSpec("0 30 10 10").Width(300).TabIndex(6)
+                                                    .MarginSpec("10 0 0 10").Width(350).ReadOnly(true ),
+
+                                               x.Hidden().Name("Daily_Int_Rate").ID("txt_MM_TBill_Daily_Int_Rate").Text("0")
+
+                                                                ),
+                                                                 x.Button()
+                                                                .Text("Submit for approval")
+                                                                .Width(200)
+                                                                .Icon(Icon.Add)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                    de.Click.Confirmation.Title = "Save";
+                                                                    de.Click.Confirmation.Message = "Process Investment?";
+                                                                    de.Click.Url = Url.Action("SaveRecord");
+                                                                    de.Click.Timeout = 12000000;
+                                                                }).MarginSpec("20 10 0 35"),
+
+
+                                                                x.Button()
+                                                                .Text("Cancel")
+                                                                .Width(120)
+                                                                .Icon(Icon.ArrowRefresh)
+                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                .MarginSpec("20 10 0 10")
+                                                                ),
+
+                                 x.Window()
+                                .ID("MM_TBIllSchemeFund")
+                                .Title("'Scheme-Fund' List")
+                                .Width(1000)
+                                .Height(700)
+                                //.AutoScroll(true)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+
+                                      x.FieldSet()
+                                .MarginSpec("0 0 0 0")
+                                  .Width(980)
+                                  .Height(600)
+                                .Defaults(dd =>
+                                { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                .Items(
+
+                                    x.Button()
+                                    .Text("View Scheme-Fund Accounts")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(300)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadSchemeFund");
+                                        de.Click.Success = "onSuccess(App.FDSchemeFundGrid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("FDSchemeFundGrid")
+                                    .Frame(true)
+                                    .Width(950)
+                                    .Height(550)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("MM_TBillSFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                       )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSchemeFund"))
+                                            )
+                                            //.PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_FixedDepositTransPartial_main.getForm().loadRecord(selected[0]);App.MM_TBIllSchemeFund.hide(); }")
+
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(600))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND NAME").Width(200))
+                    )
+                    )
+            )
+)
+
+
+
+
+
+
+
+
+
+
+
+

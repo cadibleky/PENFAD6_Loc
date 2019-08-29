@@ -1,0 +1,295 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+  @using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_ReceiptRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+                        .ID("receipt")
+                        .ColumnWidth(0.4)
+                        .Title("Capture Payment")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1100)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+                                    x.FieldSet()
+                                    .ColumnWidth(0.7)
+                                    .Collapsible(true)
+                                    .Height(630)
+                                    .Width(1000)
+                                    .Frame(true)
+                                    .Title("Payment")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+                                     x.FieldSet()
+                                    .Collapsible(true)
+                                    .Height(230)
+                                    .Width(900)
+                                    .Layout(LayoutType.Column)
+                                    .Title("'Employer Scheme' Details")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                        .Items(
+                                        x.Hidden().Name("Receipt_Id"),
+                                        x.Hidden().Name("ES_Id"),
+                                        x.Hidden().Name("Scheme_Id")
+                                         .DirectEvents(de =>
+                                                            {
+                                                                de.Change.Url = Url.Action("Get_Con_Balance");
+                                                            }),
+
+
+                                        x.TextField()
+                                        .Name("Employer_Name")
+                                        .Width(400)
+                                        .FieldLabel("Name of Employer")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 10 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                        x.TextField()
+                                        .Name("Scheme_Name")
+                                        .Width(440)
+                                        .FieldLabel("Scheme")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 10 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                        
+
+                                        x.Button()
+                                        .Text("Select 'Employer Scheme'")
+                                        .Width(240)
+                                        .Icon(Icon.ApplicationFormAdd)
+                                        .TabIndex(28)
+                                        .Handler("App.ReceiptemployerScheme.show(this);")
+                                        .MarginSpec("30 160 10 10"),
+
+                                        x.TextField().Name("Cash_Balance").FieldLabel("Available Cash Balance").MarginSpec("3 0 10 10").ReadOnly(true).Width(200),
+                                        
+                                        x.TextField().ID("ReceiptPartial_Con_Total").Name("Con_Total").FieldLabel("Pending Total Contribution").MarginSpec("3 0 10 10").ReadOnly(true).Width(230)
+                                        ),
+
+                                    x.FieldSet()
+                                    .Collapsible(true)
+                                    .Height(340)
+                                    .Width(900)
+                                    .Layout(LayoutType.Column)
+                                    .Title("Payment Details")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                            x.DateField()
+                            .Name("Actual_Receipt_Date")
+                            .Width(400)
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .EmptyText("Select  Date")
+                            .FieldLabel("Actual Payment Date")
+                            .MarginSpec("3 0 10 10"),
+
+                            x.ComboBox().Name("Payment_Mode")
+                            .FieldLabel("Payment Mode")
+                            .ID("P_Mode")
+                            .MarginSpec("3 0 10 10").TabIndex(5).Width(400)
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .EmptyText("Select Payment Mode")
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All)
+                            .EmptyText("Select Payment Mode")
+                            .BlankText("'Receipt Type' is required.").Items("TRANSFER","CASH", "CHEQUE")
+
+                            .Listeners(l => l.Select.Handler = "if (App.P_Mode.getValue() == 'CHEQUE') {App.Instrument_Number.enable();App.Instrument_Number.clear()} else {App.Instrument_Number.disable();}"),
+
+                            x.NumberField().Name("Trans_Amount").Width(400).AllowBlank(false).EmptyText("Enter Amount").FieldLabel("Amount").MarginSpec("3 0 10 10"),
+                    
+
+                            x.TextField()
+                            .Name("Instrument_No")
+                            .ID("Instrument_Number")
+                            .Width(400)
+                            .FieldLabel("Instrument Number")
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                              x.TextArea()
+                            .Name("Narration")
+                            .Width(400)
+                            .AllowBlank(false)
+                            .EmptyText("Enter Narration")
+                            .FieldLabel("Narration")
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                )
+                            ),
+
+                        x.FieldSet()
+                        .Height(80)
+                         .Width(1000)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("10 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Button()
+                                .Text("Done")
+                                .Width(250)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Process Payment";
+                                    de.Click.Confirmation.Message = "Process Payment?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                }).MarginSpec("20 10 0 200"),
+
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(250)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        ),
+
+
+                                x.Window()
+                                .ID("ReceiptemployerScheme")
+                                .Title("'Employer-Scheme Account' List")
+                                .Width(1100)
+                                .Height(720)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+
+                         x.FieldSet()
+                        .MarginSpec("0 0 0 0")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+
+                                    x.Button()
+                                    .Text("View Employer-Scheme Accounts")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(240)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadEmployerScheme");
+                                        de.Click.Success = "onSuccess(App.ReceiptempGrid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("ReceiptempGrid")
+                                    .Frame(true)
+                                    .Width(1050)
+                                    .Height(620)
+                                    .MarginSpec("0 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ReceiptempStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String)
+
+                                            )
+                                       )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadEmployerScheme"))
+                                            )
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.receipt.getForm().loadRecord(selected[0]);App.ReceiptemployerScheme.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYEE ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(450))
+                    .ColumnModel(x.Column().DataIndex("ES_Id").Text("ES ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(600))
+                                            )
+                                    )
+                                )
+                     )
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

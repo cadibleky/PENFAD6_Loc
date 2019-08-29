@@ -1,0 +1,193 @@
+﻿@using PENFAD6DAL.Repository.Setup.InvestSetup
+
+    @model IEnumerable<Invest_AuthorizersRepo>
+
+    @{
+        var Auth = new Invest_AuthorizersRepo();
+        var x = Html.X();
+    }
+
+
+    @(x.FormPanel()
+            .ID("frmAuthorizers")
+            .ColumnWidth(0.4)
+            .AutoScroll(true)
+            .Title("Setup Authorizers")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(500)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+                // fd.LabelStyle = "color:blue;";
+            })
+            .Items(
+                    x.GridPanel()
+                            .ID("authorizersGrid")
+                            .Title("Authorizers List")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            .Width(600)
+                            .MarginSpec("10 0 0 10")
+                            .Height(550)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                            x.Store()
+                                    .AutoLoad(true)
+                                    .ID("authorizersStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("User_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fullname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Authority_Level").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Approve_Fixed_Income").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Approve_Equity").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fixed_Income_Limit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Equity_Limit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Record_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); } ")
+                    .ColumnModel(x.Column().DataIndex("User_Id").Text("USER ID").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Fullname").Text("FULL NAME").Width(300))                 
+                    .ColumnModel(x.Column().DataIndex("Record_Status").Text("STATUS").Width(100)),
+
+                    x.FieldSet()
+                        .Width(450)
+                        .Collapsible(true)
+
+                        .Height(560)
+                        .Title("Add/Edit Authorizer")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                       
+                                x.ComboBox().ID("AuthorizerP_User_Id").Name("User_Id")
+                                .FieldLabel("User Full Name")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                //.Editable(false)
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select User")
+                                .Items(Auth.GetUsersList().Select(d => new ListItem(d.Fullname, d.User_Id))),
+
+                                 x.ComboBox().Name("Authority_Level")
+                                .FieldLabel("Authority Level")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select Authority Level")
+                                .Items("JUNIOR","SENIOR","MANAGEMENT"),
+                              
+
+                                x.ComboBox().Name("Approve_Fixed_Income")
+                                .FieldLabel("Approve Fixed Income?")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .Text("NO")
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select")
+                                .Items("YES", "NO"),
+
+                                x.NumberField().Name("Fixed_Income_Limit")
+                                .FieldLabel("Fixed Income Limit")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false),
+                                
+                                x.ComboBox().Name("Approve_Equity")
+                                .FieldLabel("Approve Equity?")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .Text("NO")
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select")
+                                .Items("YES", "NO"),
+
+                                x.NumberField().Name("Equity_Limit")
+                                .FieldLabel("Equity Limit")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                               
+                                
+
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save")
+                                .Width(120)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Add Record";
+                                    de.Click.Confirmation.Message = "Create Product?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+
+                            x.Button()
+                                .Text("Delete")
+                                .Width(120)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete Product?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset(); ")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

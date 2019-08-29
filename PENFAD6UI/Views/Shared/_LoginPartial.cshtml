@@ -1,0 +1,79 @@
+﻿@using PENFAD6DAL.GlobalObject
+@{ 
+    var x = Html.X();
+    var uname = User.Identity.Name;
+}
+<style>
+    .Transparet-Background .x-panel-body
+    {
+        background-color:Transparent !important; 
+        color: white !important; 
+
+    }
+    .FontIncrease .x-buttom-body
+    {
+        font-size: 1.2em;
+    }
+</style>
+@if (Request.IsAuthenticated)
+{
+    
+    
+ 
+           @* Posting Date:<a style="background-color:Transparent; color:white;font-weight:bold;margin-bottom: 2em;">@DateTime.Now.ToString("dd-MMM-yyyy")</a> &nbsp;*@
+
+
+              
+<p/><p/>
+    @(
+        x.Panel()
+        .Width(260)
+        .Height(22)
+        .Cls("Transparet-Background")
+        .StyleSpec("position: absolute; right: 0; ")
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 20 0 0")
+        .AlignTarget("left")
+        .Items(
+            x.Label()
+                      .Text("Hello,")
+                      .Cls("Transparet-Background")
+                      .StyleSpec("font-size: .9em;font-weight:bold;")
+                      .MarginSpec("3 10 0 0"),
+            x.HyperlinkButton()
+                            .Text(uname.ToString())
+                            .MarginSpec("2 10 0 0")
+                            .ToolTip("Click to Change your password.")
+                            .Cls("Transparet-Background FontIncrease")
+                            .Border(false)
+                            .StyleSpec("background-color:Transparent; font-size: 1.2em; font-weight:bold;")
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("AddUserChangePasswordTab", "StartUp");
+                            }),
+            x.HyperlinkButton()
+                            .Text("Log Out")
+                            .MarginSpec("2 0 0 0")
+                            .ToolTip("Click to close session.")
+                            .Cls("Transparet-Background FontIncrease")
+                            .Border(false)
+                            .StyleSpec("background-color:Transparent; font-size: 1.2em;font-weight:bold; position: absolute; right: 0;")
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("Logout", "StartUp");
+                            })
+
+
+            )
+    )
+
+
+    @*</ul>*@
+
+ 
+
+}
+
+
+
+

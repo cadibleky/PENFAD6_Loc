@@ -1,0 +1,687 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <con Ref="2" type="Stimulsoft.Report.Dictionary.StiOracleDatabase" isKey="true">
+        <Alias>con</Alias>
+        <ConnectionStringEncrypted>9Di9oW5+MU15C0XQc9yl//ESzYNWa0nIRmQ5BHT4oj/+cJdMTlzTGXph/VjizPXr5CyV72F3wgV5eyEcTQFqB8M6lcPWCXugcgdtnfXMd7veIg==</ConnectionStringEncrypted>
+        <Name>con</Name>
+      </con>
+    </Databases>
+    <DataSources isList="true" count="2">
+      <Heading Ref="3" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>Heading</Alias>
+        <Columns isList="true" count="9">
+          <value>SCHEME_NAME,System.String</value>
+          <value>FUND_NAME,System.String</value>
+          <value>USER_ID,System.String</value>
+          <value>CLASS_GROUP,System.String</value>
+          <value>GL_ACCOUNT_NAME,System.String</value>
+          <value>GL_ACCOUNT_BALANCE,System.Decimal</value>
+          <value>MONTH_DATE,System.DateTime</value>
+          <value>POSITION,System.Decimal</value>
+          <value>SCHEME_FUND_ID,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Heading</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:P_ID,_x0022_SYS_x0022_,119,1000</value>
+          <value>:P_SFID,_x0022_0402_x0022_,119,100</value>
+        </Parameters>
+        <SqlCommand>SELECT PFM_SCHEME.SCHEME_NAME,
+	PFM_FUND.FUND_NAME,
+	REPORT_CINAAFB.USER_ID,
+	REPORT_CINAAFB.CLASS_GROUP,
+	REPORT_CINAAFB.GL_ACCOUNT_NAME,
+	REPORT_CINAAFB.GL_ACCOUNT_BALANCE,
+	LAST_DAY(REPORT_CINAAFB.REPORT_DATE) AS MONTH_DATE,
+  REPORT_CINAAFB.POSITION,
+  REPORT_CINAAFB.SCHEME_FUND_ID
+FROM REPORT_CINAAFB
+INNER JOIN PFM_SCHEME_FUND
+ON PFM_SCHEME_FUND.SCHEME_FUND_ID = REPORT_CINAAFB.SCHEME_FUND_ID
+INNER JOIN PFM_SCHEME
+ON PFM_SCHEME.SCHEME_ID = PFM_SCHEME_FUND.SCHEME_ID
+INNER JOIN PFM_FUND
+ON PFM_FUND.FUND_ID                = PFM_SCHEME_FUND.FUND_ID
+WHERE REPORT_CINAAFB.USER_ID       = :P_ID
+AND PFM_SCHEME_FUND.SCHEME_FUND_ID = :P_SFID</SqlCommand>
+      </Heading>
+      <COMP Ref="4" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>COMP</Alias>
+        <Columns isList="true" count="10">
+          <value>COMPANY_NAME,System.String</value>
+          <value>SMTP,System.String</value>
+          <value>PORT,System.Decimal</value>
+          <value>EMAIL_FROM,System.String</value>
+          <value>EMAIL_PASSWORD,System.String</value>
+          <value>WEBSITE_ADDRESS,System.String</value>
+          <value>POSTAL_ADDRESS,System.String</value>
+          <value>TELEPHONE_NUMBER,System.String</value>
+          <value>LOCATION,System.String</value>
+          <value>LOGO,System.Byte[]</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>COMP</Name>
+        <NameInSource>CON</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>SELECT SETUP_COMPANY.COMPANY_NAME,
+	SETUP_COMPANY.SMTP,
+	SETUP_COMPANY.PORT,
+	SETUP_COMPANY.EMAIL_FROM,
+	SETUP_COMPANY.EMAIL_PASSWORD,
+	SETUP_COMPANY.WEBSITE_ADDRESS,
+	SETUP_COMPANY.POSTAL_ADDRESS,
+	SETUP_COMPANY.TELEPHONE_NUMBER,
+	SETUP_COMPANY.LOCATION,
+	SETUP_COMPANY.logo
+	FROM SETUP_COMPANY</SqlCommand>
+      </COMP>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="5" type="Page" isKey="true">
+      <Border>None;[127:127:127];2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="4">
+        <ReportTitleBand1 Ref="6" type="ReportTitleBand" isKey="true">
+          <Brush>White</Brush>
+          <ClientRectangle>0,0.2,7.87,2.1</ClientRectangle>
+          <Components isList="true" count="8">
+            <Text4 Ref="7" type="Text" isKey="true">
+              <Border>All;Black;1;None;False;4;Black</Border>
+              <Brush>[247:150:70]</Brush>
+              <ClientRectangle>0.4,1.6,1.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,7</Font>
+              <Guid>1ffa266cf64a4e1ea1ba97f2ea5f0cc9</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>NAME OF SCHEME:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text5 Ref="8" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.1,1.6,5.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,7,Bold</Font>
+              <Guid>85a1683002114a4e8ded186c1ae5cf18</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>{Heading.SCHEME_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="9" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text10 Ref="10" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.1,1.8,5.1,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,7,Bold</Font>
+              <Guid>540e0391b8914b2cb65e87a4f7297638</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>{Heading.FUND_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="11" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+            <Text7 Ref="12" type="Text" isKey="true">
+              <Border>All;Black;1;None;False;4;Black</Border>
+              <Brush>[247:150:70]</Brush>
+              <ClientRectangle>0.4,1.8,1.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,7</Font>
+              <Guid>feb08e9e20794e65a8d47a990dbe6c2c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>FUND:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
+            <Text1 Ref="13" type="Text" isKey="true">
+              <Border>All;Navy;2;Solid;False;4;Navy</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0.8,7.6,0.7</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9,Bold</Font>
+              <Guid>4397cf97f7054a88b406075367520b8c</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>MONTHLY STATEMENT CHANGE IN NET ASSET AVAILABLE FOR BENEFITS
+FOR THE PERIOD ENDING {Heading.MONTH_DATE} </Text>
+              <TextBrush>Navy</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+            <Text33 Ref="14" type="Text" isKey="true">
+              <Border>All;White;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>4.4,0,3.3,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,12.75,Bold</Font>
+              <Guid>6c68d5225e5d4a5dbe2415acf3ee7ae6</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>{COMP.COMPANY_NAME}</Text>
+              <TextBrush>Red</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text33>
+            <Text37 Ref="15" type="Text" isKey="true">
+              <Border>All;White;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>4.4,0.4,3.3,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Bold| Italic</Font>
+              <Guid>a5e8e4a4874e478896e235bf2682b823</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>{COMP.WEBSITE_ADDRESS}</Text>
+              <TextBrush>Red</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text37>
+            <Image1 Ref="16" type="Image" isKey="true">
+              <AspectRatio>True</AspectRatio>
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>3.4,0,1,0.7</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DataColumn>COMP.LOGO</DataColumn>
+              <Guid>aeb2ce0621674fe7a21fda6d90db6563</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image1</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Stretch>True</Stretch>
+            </Image1>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </ReportTitleBand1>
+        <HeaderBand1 Ref="17" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,2.7,7.87,0.3</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text2 Ref="18" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0.2,0,4.7,0.3</ClientRectangle>
+              <ComponentStyle>PageHeaderss</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Guid>c39ae34390084b419c03655a2e855e12</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="5" />
+              <Parent isRef="17" />
+              <Text>GL ACCOUNT NAME</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text22 Ref="19" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>4.9,0,2.8,0.3</ClientRectangle>
+              <ComponentStyle>PageHeaderss</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Guid>5f8eca9e98dd4467a08daae4995efab9</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="5" />
+              <Parent isRef="17" />
+              <Text>GHC</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text22>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>bb7fd810432f40759c1bf0cf7ead1e58</Guid>
+          <Name>HeaderBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </HeaderBand1>
+        <GroupHeaderBand1 Ref="20" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3.4,7.87,0.3</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text3 Ref="21" type="Text" isKey="true">
+              <Border>Bottom;[31:73:125];2;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0,4.7,0.2</ClientRectangle>
+              <ComponentStyle>ReportName</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,11.25,Regular,Point,False,0</Font>
+              <Guid>c2456776c1cc47f3af67116831ec9a2b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="5" />
+              <Parent isRef="20" />
+              <Text>{Heading.CLASS_GROUP}</Text>
+              <TextBrush>Navy</TextBrush>
+              <Type>DataColumn</Type>
+            </Text3>
+          </Components>
+          <Condition>{Heading.CLASS_GROUP}</Condition>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <SortDirection>None</SortDirection>
+        </GroupHeaderBand1>
+        <DataBand1 Ref="22" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,4.1,7.87,0.2</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text6 Ref="23" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>0.2,0,4.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Verdana,10</Font>
+              <Guid>ef15c717b6e14bfb8ef91211c6bc537b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="5" />
+              <Parent isRef="22" />
+              <Text>{Heading.GL_ACCOUNT_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text6>
+            <Text24 Ref="24" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>4.9,0,2.8,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Verdana,10</Font>
+              <Guid>160c977271224545b380708af1c62a44</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="5" />
+              <Parent isRef="22" />
+              <Text>{Heading.GL_ACCOUNT_BALANCE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="25" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>0</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text24>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Heading</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>5d42c3e0a97f44ce91d4994afedfdcf6</Guid>
+          <Name>DataBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>POSITION</value>
+          </Sort>
+        </DataBand1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>c06a348bfb92429b98a7797e367f5add</Guid>
+      <Margins>0.2,0.2,0.2,0.2</Margins>
+      <Name>Page1</Name>
+      <PageHeight>12.69</PageHeight>
+      <PageWidth>8.27</PageWidth>
+      <PaperSize>A4</PaperSize>
+      <Report isRef="0" />
+      <Watermark Ref="26" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="27" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>7/8/2019 10:44:45 AM</ReportChanged>
+  <ReportCreated>8/9/2016 9:52:53 AM</ReportCreated>
+  <ReportFile>E:\REPORTS\CINAAFB.mrt</ReportFile>
+  <ReportGuid>6a7ee60aaf034d7cb5eca3df27290156</ReportGuid>
+  <ReportImage isNull="true" />
+  <ReportName>Report</ReportName>
+  <ReportUnit>Inches</ReportUnit>
+  <ReportVersion>2016.2.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="31">
+    <CompanyName Ref="28" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Navy;2;Solid;False;4;Navy</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>CompanyName</Name>
+      <TextBrush>Navy</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </CompanyName>
+    <ReportName Ref="29" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Bottom;[31:73:125];2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,11.25,Regular,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>ReportName</Name>
+      <TextBrush>Navy</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </ReportName>
+    <PageHeaderss Ref="30" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>[224:224:224]</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>PageHeaderss</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </PageHeaderss>
+    <BodyText Ref="31" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>EmptyBrush</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <Name>BodyText</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </BodyText>
+    <PageFooterss Ref="32" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>PageFooterss</Name>
+      <TextBrush>Black</TextBrush>
+    </PageFooterss>
+    <Header_Details Ref="33" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>Header_Details</Name>
+      <TextBrush>Black</TextBrush>
+    </Header_Details>
+    <Bodytext_naration Ref="34" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,6.75,Regular,Point,False,0</Font>
+      <Name>Bodytext_naration</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </Bodytext_naration>
+    <RunningTotal Ref="35" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9,Regular,Point,False,0</Font>
+      <Name>RunningTotal</Name>
+      <TextBrush>Black</TextBrush>
+    </RunningTotal>
+    <FRunningTotal_B Ref="36" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Bold,Point,False,0</Font>
+      <Name>FRunningTotal_B</Name>
+      <TextBrush>Black</TextBrush>
+    </FRunningTotal_B>
+    <CompanyGL Ref="37" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,18,Regular,Point,False,0</Font>
+      <Name>CompanyGL</Name>
+      <TextBrush>Navy</TextBrush>
+    </CompanyGL>
+    <GLBalances Ref="38" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>GLBalances</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </GLBalances>
+    <GLTotals Ref="39" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;EmptyBrush</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Bold,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>GLTotals</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </GLTotals>
+    <GroupHeader Ref="40" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>EmptyBrush</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>GroupHeader</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GroupHeader>
+    <GroupTotal Ref="41" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9,Bold,Point,False,0</Font>
+      <Name>GroupTotal</Name>
+      <TextBrush>Black</TextBrush>
+    </GroupTotal>
+    <GLTotaltext Ref="42" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <Name>GLTotaltext</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GLTotaltext>
+    <GroupTotaltext Ref="43" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9,Regular,Point,False,0</Font>
+      <Name>GroupTotaltext</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GroupTotaltext>
+    <BodytextPNL Ref="44" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9.75,Regular,Point,False,0</Font>
+      <Name>BodytextPNL</Name>
+      <TextBrush>Black</TextBrush>
+    </BodytextPNL>
+    <header_red Ref="45" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>header_red</Name>
+      <TextBrush>Red</TextBrush>
+    </header_red>
+    <Body_Tahoma_black Ref="46" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>Body_Tahoma_black</Name>
+      <TextBrush>Black</TextBrush>
+    </Body_Tahoma_black>
+    <MF_TopHeader Ref="47" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Times New Roman,12,Bold,Point,False,0</Font>
+      <Name>MF_TopHeader</Name>
+      <TextBrush>Black</TextBrush>
+    </MF_TopHeader>
+    <Bog_Body_Tahoma Ref="48" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9,Regular,Point,False,0</Font>
+      <Name>Bog_Body_Tahoma</Name>
+      <TextBrush>Black</TextBrush>
+    </Bog_Body_Tahoma>
+    <MF_TopHeader_2 Ref="49" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Times New Roman,9.75,Bold,Point,False,0</Font>
+      <Name>MF_TopHeader_2</Name>
+      <TextBrush>Black</TextBrush>
+    </MF_TopHeader_2>
+    <CompanySmaller Ref="50" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>WhiteSmoke</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,11.25,Bold,Point,False,0</Font>
+      <Name>CompanySmaller</Name>
+      <TextBrush>Black</TextBrush>
+    </CompanySmaller>
+    <hearder_small Ref="51" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>WhiteSmoke</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>hearder_small</Name>
+      <TextBrush>Black</TextBrush>
+    </hearder_small>
+    <Statement_Header Ref="52" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>Statement_Header</Name>
+      <TextBrush>Black</TextBrush>
+    </Statement_Header>
+    <Statement_Det1 Ref="53" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+      <Name>Statement_Det1</Name>
+      <TextBrush>Black</TextBrush>
+    </Statement_Det1>
+    <totaltahoma Ref="54" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>totaltahoma</Name>
+      <TextBrush>Black</TextBrush>
+    </totaltahoma>
+    <tahoma_x0020_no_x0020_border Ref="55" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>tahoma no border</Name>
+      <TextBrush>Black</TextBrush>
+    </tahoma_x0020_no_x0020_border>
+    <toho_x0020_b Ref="56" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+      <Name>toho b</Name>
+      <TextBrush>Black</TextBrush>
+    </toho_x0020_b>
+    <header_Line Ref="57" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,9.75,Bold| Underline,Point,False,0</Font>
+      <Name>header_Line</Name>
+      <TextBrush>Black</TextBrush>
+    </header_Line>
+    <Style1 Ref="58" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Calibri,9,Regular,Point,False,0</Font>
+      <Name>Style1</Name>
+      <TextBrush>Black</TextBrush>
+    </Style1>
+  </Styles>
+</StiSerializer>

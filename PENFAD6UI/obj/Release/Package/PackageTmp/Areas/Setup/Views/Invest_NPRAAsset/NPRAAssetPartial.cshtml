@@ -1,0 +1,168 @@
+﻿@using PENFAD6DAL.Repository.Setup.InvestSetup
+
+    @model IEnumerable<invest_NPRAAssetRepo>
+
+    @{
+        var NPRAAsset = new invest_NPRAAssetRepo();
+        var x = Html.X();
+    }
+
+
+    @(x.FormPanel()
+            .ID("frmNPRAAsset")
+            .AutoScroll(true)
+            .Title("Setup NPRA Asset")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(500)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+            .Items(
+                    x.GridPanel()
+                            .ID("npraAssetGrid")
+                            .Title("NPRA Asset List")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            .Width(600)
+                            .MarginSpec("10 0 0 10")
+                            .Height(450)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                            x.Store()
+                                    .AutoLoad(true)
+                                    .ID("npraassetStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("NPRA_Asset_Class_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("NPRA_Asset_Class_Name").Type(ModelFieldType.String),
+                                        //x.ModelField().Name("Class_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Description").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Asset_Allocation_Limit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Issuer_Limit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Record_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("NPRA_Asset_Class_Id").Text("ID").Width(200))
+                    .ColumnModel(x.Column().DataIndex("NPRA_Asset_Class_Name").Text("NPRA ASSET CLASS NAME").Width(300)),
+                    // .ColumnModel(x.Column().DataIndex("Description").Text("SECURITY TYPE").Width(300)),
+
+                    x.FieldSet()
+                        .Width(450)
+                        .Collapsible(true)
+
+                        .Height(460)
+                        .Title("Add/Edit NPRA Asset Class")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                                x.Hidden().Name("NPRA_Asset_Class_Id"),
+
+                                x.TextField()
+                                .Name("NPRA_Asset_Class_Name")
+                                .Width(350)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("NPRA Asset Class")
+                                .AllowBlank(false),
+
+
+                                 // x.ComboBox().ID("txtClass_Id").Name("Class_Id")
+                                 // .FieldLabel("Select Security Type")
+                                 // .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                 // .AllowBlank(false)
+                                 // .Editable(false)
+                                 // .QueryMode(DataLoadMode.Local)
+                                 // .TriggerAction(TriggerAction.All)
+                                 // .EmptyText("Select a Security Type")
+                                 //.Items(NPRAAsset.GetAssetList().Select(d => new ListItem(d.Description, d.Class_Id))),
+
+                                 x.NumberField()
+                                .Name("Asset_Allocation_Limit")
+                                .Width(200)
+                                .FieldLabel("Asset Allocation Limit (%)")
+                                .AllowBlank(false),
+
+                                 x.NumberField()
+                                .Name("Issuer_Limit")
+                                .Width(200)
+                                .FieldLabel("Issuer Limit (%)")
+                                .AllowBlank(false)
+
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save")
+                                .Width(120)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Add Record";
+                                    de.Click.Confirmation.Message = "Create NPRA Asset Class?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+
+                            x.Button()
+                                .Text("Delete")
+                                .Width(120)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete  NPRA Asset Class?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset(); App.txtClass_Id.enable();")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

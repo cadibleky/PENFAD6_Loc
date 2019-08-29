@@ -1,0 +1,297 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@model IEnumerable<Remit_Contribution_Upload_LogRepo>
+
+@{
+
+    int yyyy = Convert.ToInt32(DateTime.Now.Year.ToString());
+    List<SelectListItem> YearList = new List<SelectListItem>();
+    for (int i = yyyy - 4; i <= yyyy + 10; i++)
+    {
+        YearList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+    var x = Html.X();
+    var y = Html.X();
+}
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+    var onSuccessgroup = function (grid, data)
+    {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+</script>
+
+
+
+
+@(Html.X().FormPanel()
+        .ID("frm_remittancebatchapproval")
+        .Title("Approve Remittance")
+        .Width(1500)
+        .BodyPadding(5)
+        .AutoScroll(true)
+        .Height(750)
+        .Closable(true)
+
+        .Items(
+                x.Panel().Width(1400)
+                .Layout(LayoutType.Column)
+
+
+        .Items(Html.X().Panel()
+                    .ID("remittanceapprovepanel_forgrids")
+                    .Width(600)
+                    .Title("Batch Remittance Pending Approval")
+                    .Border(true)
+                    .Height(720)
+                    .MarginSpec("10 0 0 10")
+                    .BodyPadding(5)
+                    .TopBar(Html.X().Toolbar()
+                            .Items(Html.X().Button()
+                                    .ID("btnviewremittanceemployeebatchlog")
+                                    .Text("View Pending Uploads")
+                                    .Width(250)
+                                    .Icon(Icon.ApplicationViewDetail)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("Get_BatchLogPending");
+                                        de.Click.Success = "onSuccess(App.appbatchloggrid, result.data);";
+                                    })
+                                //.Handler("#{emp_list_store}.removeAll();")
+                                ////.Handler("#{panel_majornav}.reload();")
+                                )//end button
+                            )// end topbar
+
+                     //begin role grid
+                     .Items(Html.X().GridPanel()
+                                    .ID("appbatchloggrid")
+                                    //.Hidden(true)
+                                    .Border(true)
+                                    .Width(600)
+                                    .Height(350)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(Html.X().Store()
+                                        .ID("approveemppppbatchstore")
+                                        .AutoLoad(false)
+                                        .Model(Html.X().Model()
+                                            .Fields(
+                                                new ModelField("Employer_Name", ModelFieldType.String),
+                                                new ModelField("Scheme_Name", ModelFieldType.String),
+                                                new ModelField("Employer_Id", ModelFieldType.String),
+                                                new ModelField("Total_Contribution", ModelFieldType.Float),
+                                                 new ModelField("Total_Contribute", ModelFieldType.Int),
+                                                new ModelField("Log_Status", ModelFieldType.String),
+                                                new ModelField("Con_Log_Id", ModelFieldType.String),
+                                                 new ModelField("Scheme_id", ModelFieldType.String),
+                                                new ModelField("ES_Id", ModelFieldType.String)
+
+
+                                                    )//end fields
+                                                )//end model
+                                                .Reader(reader =>
+                                                    reader.Add(Html.X().ArrayReader())
+                                                )//end reader
+                                                 //.ServerProxy(Html.X().AjaxProxy().Url(Url.Action("Get_BatchLogPending")))
+                                            )//end  store
+                                           .ColumnModel(
+                                            Html.X().Column().Text("Employer Name").DataIndex("Employer_Name").Width(400),
+                                            Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(400),
+                                            Html.X().Column().Text("Employer Id").DataIndex("Employer_Id").Width(90),
+                                            Html.X().Column().Text("Total Contribution").DataIndex("Total_Contribution").Width(130),
+                                            Html.X().Column().Text("Total Member").DataIndex("Total_Contribute").Width(120),
+                                            Html.X().Column().Text("Month").DataIndex("For_Month").Width(60),
+                                            Html.X().Column().Text("Year").DataIndex("For_Year").Width(80),
+                                            Html.X().Column().Text("Log Status").DataIndex("Log_Status").Width(100),
+                                             Html.X().Column().Text("ES ID").DataIndex("ES_Id").Width(100)
+
+
+
+                                            )//end columnmodel
+                                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                                    .DirectEvents(de =>
+                                    {
+                                        de.CellClick.Url = Url.Action("Get_RemittnaceInBatchLogPending");
+                                        de.CellClick.Success = "onSuccessgroup(App.employConlist_grid, result.data);";
+                                    })
+                                  ) //end rolegridpanel
+
+                        .Items(Html.X().Panel()
+                                .ID("ApprovedRemit_ContributionController_log_details")
+                                .Title("Batch Remittance Details")
+                                .Height(350)
+                                .AutoScroll(true)
+                                .Width(600)
+                                .MarginSpec("10 0 0 10")
+                                .Items(Html.X().FieldSet()
+                                            .ID("ApprovedRemit_ContributionControllerfsset_details")
+                                            .Height(180)
+                                            .MarginSpec("10 0 0 0")
+                                            .FieldDefaults(d =>
+                                            {
+                                                d.LabelWidth = 115;
+                                                //d.LabelStyle = "color:black;padding-left:4px;";
+                                            })
+                                            .Items(Html.X().TextField()
+                                                       .ID("ApprovedRemit_ContributionControllerEmployer_Name")
+                                                        .Name("Employer_Name")
+                                                        .FieldLabel("Employer")
+                                                        .MarginSpec("3 0 0 0")
+                                                        .Width(550)
+                                                        .ReadOnly(true),
+
+                                                   Html.X().Hidden()
+                                                      .ID("ApprovedRemit_ContributionController_Employer_Id")
+                                                       .Name("Employer_Id"),
+                                                     Html.X().Hidden()
+                                                       .Name("For_Month"),
+                                                       Html.X().Hidden()
+                                                       .Name("For_Year"),
+
+                                                Html.X().Hidden()
+                                                       .ID("ApprovedRemit_ContributionController_Con_Log_Id")
+                                                       .Name("Con_Log_Id")
+                                                       .Width(450),
+                                                   Html.X().Hidden()
+                                                       .ID("ApprovedRemit_ContributionController_ES_Id")
+                                                       .Name("ES_Id"),
+                                                       Html.X().Hidden()
+                                                       .ID("ApprovedRemit_ContributionController_Scheme_Id")
+                                                       .Name("Scheme_id"),
+
+                                               Html.X().TextField()
+                                                           .ID("ApprovedRemit_ContributionController_Total_Contribution")
+                                                           .Name("Total_Contribution")
+                                                           .FieldLabel("Total Contributon")
+                                                           .Width(300)
+                                                           .MarginSpec("10 0 0 3")
+                                                           .ReadOnly(true),
+                                               Html.X().TextField()
+                                                           .ID("ApprovedRemit_ContributionController_Total_Contribute")
+                                                           .Name("Total_Contribute")
+                                                           .FieldLabel("Total Member")
+                                                           .Width(300)
+                                                           .MarginSpec("10 0 0 3")
+                                                           .ReadOnly(true)
+                                                   )
+                                       )//end fsset_details
+
+                                )//end items pn_fset
+
+
+
+               )//end panel_forgrids
+
+
+  .Items(Html.X().Panel()
+                        .ID("ApprovedRemit_ContributionController_frm_employees_contributions")
+                        .Title("Employee Remittance List")
+                        .Header(true)
+                        .Height(720)
+                        .Border(true)
+                        .Width(770)
+                        .MarginSpec("10 0 0 10")
+
+        // second column begins
+        .Items(Html.X().GridPanel()
+                    .ID("employConlist_grid")
+                    .Header(true)
+                    .Border(true)
+                    .Width(750)
+                    .MarginSpec("10 0 0 10")
+                    .Height(650)
+
+                    //.HeightSpec("auto")
+                    .BodyPadding(5)
+                    .AutoScroll(true)
+
+                    .Store(Html.X().Store()
+                            .AutoLoad(false)
+                            .ID("approveempconremitance_list_store")
+                            .Model(Html.X().Model()
+                                .Fields(
+                                        new ModelField("Surname", ModelFieldType.String),
+                                         new ModelField("first_Name", ModelFieldType.String),
+                                        new ModelField("Employee_Id", ModelFieldType.String),
+                                        new ModelField("Fund_Name", ModelFieldType.String),
+                                        new ModelField("Employee_Con", ModelFieldType.Float),
+                                        new ModelField("Employer_Con", ModelFieldType.Float)
+                                        /// new ModelField("Employee_Salary", ModelFieldType.String)
+                                        )//end fields
+                                    )//end model
+                                    .Reader(reader =>
+                                        reader.Add(Html.X().ArrayReader())
+                                    )//end reader
+                            )//end  store
+                    .ColumnModel(
+                            Html.X().Column().Text("Surname").DataIndex("Surname").Width(300),
+                             Html.X().Column().Text("First Name").DataIndex("first_Name").Width(250),
+                            Html.X().Column().Text("Employee Id").DataIndex("Employee_Id").Width(100),
+                             Html.X().Column().Text("Fund Name").DataIndex("Fund_Name").Width(230),
+                            Html.X().Column().Text("Employee Contribution").DataIndex("Employee_Con").Width(150),
+                            Html.X().Column().Text("Employer Contribution").DataIndex("Employer_Con").Width(150),
+                            Html.X().Column().Text("Employee Salary").DataIndex("Employee_Salary").Width(150)
+                            //// Html.X().Column().Text("Salary Rate").DataIndex("Employee_Rate").Width(150)
+
+                            )//end columnmodel
+                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                    .Plugins(Html.X().FilterHeader())
+                    //.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .Buttons(y.Button()
+                                    .ID("btnApproveRemittanceBatchList")
+                                    .Text("Approve Batch Remittance")
+                                      .MarginSpec("0 50 40 20")
+                                    .Width(250).Icon(Icon.PageSave)
+                                    //.Handler("getTasks")
+                                    .DirectEvents(dpe =>
+                                    {
+                                        dpe.Click.Url = Url.Action("ApprovedRetmit_Record");
+                                        dpe.Click.Timeout = 120000000;
+                                        dpe.Click.Confirmation.Message = "Approve selected batch ?";
+
+                                    }).Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Approving... Please wait.'})"),
+                                Html.X().Button()
+                                    .ID("btnremittancedelete")
+                                    .Icon(Icon.DriveDelete)
+                                    .Text("Delete This Batch")
+                                    .MarginSpec("0 50 40 20")
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("DisapprovedRecord");
+                                        //de.Click.Confirmation.ConfirmRequest = true;
+                                        //de.Click.Confirmation.Title = "Delete Remittance Batch List";
+                                        de.Click.Confirmation.Message = "Delete selected batch ?";
+                                    }).Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Disapproving... Please wait.'})"), // end delete button,
+
+                                Html.X().Button()
+                                    .ID("btnrrmittanceclear")
+                                      .MarginSpec("0 50 40 20")
+                                    .Text("Clear")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ClearControls");
+                                    })
+                              ////.Handler("#{batchstore}.removeAll();")
+                              //.Handler("#{emp_list_store}.removeAll();")
+                              )// end buttons
+
+            )//end second panel which is grid
+
+    )
+
+  )
+
+
+)

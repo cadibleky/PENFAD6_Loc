@@ -1,0 +1,379 @@
+﻿
+@using PENFAD6DAL.Repository.Investment.FixedIncome_Transaction
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<Invest_Trans_Fix_Repo>
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var MM_TBill = new Invest_Trans_Fix_Repo();
+    var repo_Issuer = new setup_IssuerRepo();
+    var x = Html.X();
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+                        .ID("frm_ReceiptReverseFixedDepositTransPartial_main")
+                        .Title("Reverse Receipt - Money Market / T_Bill Investment")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(2600)
+                        .Height(2500)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+                                                x.FieldSet()
+                                                .Height(850)
+                                                .Width(1550)
+                                                .Frame(true)
+                                                .Collapsible(true)
+                                                .MarginSpec("5 0 0 10")
+                                                .Layout(LayoutType.Column)
+                                                .Items(
+                                                     x.FieldSet().Width(710)
+                                                    .Items(
+
+                                                            x.GridPanel()
+                                                            .ID("ReverseReceiptInvesttrans_grid")
+                                                            .Title("Reverse Investment Receipt")
+                                                            .Cls("gridFont")
+                                                            .Height(800)
+                                                            .Width(700)
+                                                            .TopBar(Html.X().Toolbar().Layout(LayoutType.Column)
+                                                                        .Items(
+                                                                x.Label().Text("Search by Receipt Date:").MarginSpec("45 20 20 10"),
+                                                                  x.DateField().Name("From_Date").FieldLabel("From").MarginSpec("5 20 20 10"),
+                                                                   x.DateField().Name("To_Date").FieldLabel("To").MarginSpec("5 0 20 10"),
+
+                                                                Html.X().Button()
+                                                                                .Text("View Received Fixed Income")
+                                                                                .Width(320)
+                                                                                .Icon(Icon.ApplicationViewDetail)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Url = Url.Action("ReverseReadPending_Transaction");
+                                                                                    de.Click.Success = "onSuccess(App.ReverseReceiptInvesttrans_grid, result.data);";
+                                                                                }))
+
+                                                                        .Items(Html.X().Button()
+                                                                                .Text("View Received T-Bill")
+                                                                                .Width(320)
+                                                                                .Icon(Icon.ApplicationViewDetail)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Url = Url.Action("ReverseReadPendingTBill_Transaction");
+                                                                                    de.Click.Success = "onSuccess(App.ReverseReceiptInvesttrans_grid, result.data);";
+                                                                                }))
+
+                                                                                  // .Items(Html.X().Button()
+                                                                                  //.Text("View Received Bond Receipts")
+                                                                                  //.Width(320).MarginSpec("20 0 20 0")
+                                                                                  //.Icon(Icon.ApplicationViewDetail)
+                                                                                  //.DirectEvents(de =>
+                                                                                  //{
+                                                                                  //    de.Click.Url = Url.Action("ReverseReadPendingBonds_Transaction");
+                                                                                  //    de.Click.Success = "onSuccess(App.ReverseReceiptInvesttrans_grid, result.data);";
+                                                                                  //}))
+                                                                                  )
+
+                                                                                .Store(Html.X().Store()
+                                                                                    .ID("ReverseReceiptfixedincomestore")
+                                                                                    .AutoLoad(false)
+                                                                                    .Model(Html.X().Model()
+                                                                                    .Fields(
+                                                                                                new ModelField("Account_Name", ModelFieldType.String),
+                                                                                                new ModelField("Scheme_Name", ModelFieldType.String),
+                                                                                                new ModelField("Scheme_Id", ModelFieldType.String),
+                                                                                                new ModelField("Fund_Id", ModelFieldType.String),
+                                                                                                new ModelField("ES_Id", ModelFieldType.String),
+                                                                                                new ModelField("Scheme_Fund_Id", ModelFieldType.String),
+                                                                                                new ModelField("Invest_No", ModelFieldType.String),
+                                                                                                new ModelField("Contract_No", ModelFieldType.String),
+                                                                                                new ModelField("GL_Account_Name", ModelFieldType.String),
+                                                                                                new ModelField("GL_Account_No", ModelFieldType.String),
+                                                                                                new ModelField("GL_Balance", ModelFieldType.Float),
+                                                                                                new ModelField("product_Name", ModelFieldType.String),
+                                                                                                new ModelField("Amount_Invested", ModelFieldType.Float),
+                                                                                                new ModelField("Annual_Int_Rate", ModelFieldType.Float),
+                                                                                                new ModelField("Duration_In_Days", ModelFieldType.Float),
+                                                                                                new ModelField("Expected_Int", ModelFieldType.Float),
+                                                                                                new ModelField("Interest_Bal", ModelFieldType.Float),
+                                                                                                 new ModelField("Principal_Bal", ModelFieldType.Float),
+                                                                                                new ModelField("Interest_Accrued", ModelFieldType.Float),
+                                                                                                new ModelField("Amount_on_Maturity", ModelFieldType.Float),
+                                                                                                new ModelField("Last_Date_Int_Accrued", ModelFieldType.Date),
+                                                                                                new ModelField("Interest_Type", ModelFieldType.String),
+                                                                                                new ModelField("Interest_Day_Basic", ModelFieldType.Float),
+                                                                                                new ModelField("Security_Type", ModelFieldType.String),
+                                                                                                new ModelField("Start_Date", ModelFieldType.Date),
+                                                                                                new ModelField("Maturity_Date", ModelFieldType.Date),
+                                                                                                new ModelField("Issuer_Name", ModelFieldType.String),
+                                                                                                new ModelField("Fund_Manager_Id", ModelFieldType.String),
+                                                                                                new ModelField("Fund_Manager", ModelFieldType.String),
+                                                                                                new ModelField("Invest_Status", ModelFieldType.String),
+                                                                                                new ModelField("FullName", ModelFieldType.String), new ModelField("Fund_Name", ModelFieldType.String),
+                                                                                                new ModelField("Payment_Date", ModelFieldType.Date),
+                                                                                                new ModelField("TID", ModelFieldType.String),
+                                                                                                new ModelField("Principal_Amount", ModelFieldType.Float),
+                                                                                                new ModelField("Interest_Amount", ModelFieldType.Float)
+
+                                                                                                )//end fields
+                                                                                            )//end model
+                                                                                            .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                                                            .ServerProxy(
+                                                                                                        Html.X().AjaxProxy()
+                                                                                                                .Url(Url.Action("ReverseReadPending_Transaction"))
+                                                                                                        )//end serverproxy
+                                                                                        )//end  store
+                                                                                        .ColumnModel(
+                                                                                         Html.X().Column().Text("Scheme").DataIndex("Scheme_Name").Width(200),
+                                                                                        Html.X().Column().Text("Receipt Date").DataIndex("Payment_Date").Width(100),
+                                                                                         Html.X().Column().Text("Principal Paid").DataIndex("Principal_Amount").Width(150),
+                                                                                        Html.X().Column().Text("Interest Paid").DataIndex("Interest_Amount").Width(150),
+                                                                                        Html.X().Column().Text("Product Name").DataIndex("Product_Name").Width(200),
+                                                                                        Html.X().Column().Text("Amount Invested").DataIndex("Amount_Invested").Width(150),
+                                                                                        Html.X().Column().Text("Annual Interest Rate").DataIndex("Annual_Int_Rate").Width(150),
+                                                                                        Html.X().Column().Text("Interest On Maturity").DataIndex("Expected_Int").Width(150)
+
+                                                                                       )//end columnmodel
+                                                                                .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                                                                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);};")
+                                                                                .Plugins(Html.X().FilterHeader())
+                                                                                .Refresh()
+                                                                                .BottomBar(
+                                                                                        Html.X().PagingToolbar()
+                                                                        )),
+
+                                                                    x.FieldSet()
+                                                                    .Height(230)
+                                                                    .Width(780)
+                                                                    .Layout(LayoutType.Column)
+                                                                    .Title("'Scheme-Fund' Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                        .Items(
+                                                                        x.Hidden().Name("Scheme_Id"),
+                                                                        x.Hidden().Name("TID"),
+                                                                        x.Hidden().Name("Scheme_Fund_Id").ID("ReverserpSFId"),
+                                                                        x.Hidden().Name("Invest_Status"),
+                                                                        x.Hidden().Name("ES_Id"),
+
+                                                                        x.Hidden().Name("Issuer_Id"),
+
+                                                                        x.Hidden().Name("GL_Account_No"),
+
+                                                                        x.TextField()
+                                                                        .Name("Scheme_Name")
+                                                                        .Width(650)
+                                                                        .FieldLabel("Scheme")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                        x.TextField()
+                                                                        .Name("Fund_Name")
+                                                                        .Width(450)
+                                                                        .FieldLabel("Fund")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected.")
+
+
+                                                                    ),
+
+                                        x.FieldSet()
+                                        .Height(570)
+                                        .Width(780)
+                                        .Layout(LayoutType.Column)
+                                        .Title("Investment Details")
+                                        .MarginSpec("0 0 0 10")
+                                        .Defaults(dd =>
+                                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                            x.Hidden().Name("Invest_No"),
+
+                                             x.TextField()
+                                            .Name("Contract_No")
+                                            .Width(350)
+                                            .FieldLabel("Contract Number")
+                                            .ReadOnly(true)
+                                            .MarginSpec("10 0 0 10")
+                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                            ,
+
+                                            x.Hidden().Name("Class_Id"),
+
+                                            x.ComboBox().Name("Description")
+                                            .FieldLabel("Asset Class")
+                                            .MarginSpec("10 0 0 10").TabIndex(11).Width(350)
+                                            .AllowBlank(false)
+                                            .ReadOnly(true),
+
+                                             x.Hidden().Name("Product_Id"),
+
+                                                x.ComboBox().Name("Product_Name")
+                                                .FieldLabel("Product")
+                                                .Width(350)
+                                                .MarginSpec("10 0 0 10")
+                                                .ReadOnly(true),
+
+                                                x.Hidden().Name("Fund_Manager_Id"),
+
+                                                x.ComboBox().Name("Fund_Manager")
+                                                .FieldLabel("Fund Manager")
+                                                .Width(350)
+                                                .MarginSpec("10 0 0 10")
+                                                .ReadOnly(true),
+
+                                                x.ComboBox().Name("Interest_Day_Basic").FieldLabel("Interest Day Basis")
+                                                    .ReadOnly(true).MarginSpec("10 0 0 10").Width(350).TabIndex(5),
+
+                                                x.NumberField()
+                                                    .Name("Duration_In_Days")
+                                                    .FieldLabel("Tenor(In Days)").MarginSpec("10 0 0 10").TabIndex(6)
+                                                    .EmptyText("Enter Tenor(In Days)")
+                                                    .Width(350)
+                                                    .ReadOnly(true),
+
+                                                x.ComboBox().Name("Issuer_Name")
+                                                    .FieldLabel("Issuer  Name")
+                                                    .EmptyText("Select  Issuer  Name")
+                                                    .MarginSpec("10 0 0 10").TabIndex(7).Width(350)
+                                                    .AllowBlank(false).ReadOnly(true),
+
+
+                                                x.NumberField().Name("Amount_Invested")
+                                                   .FieldLabel("Amount Invested").MarginSpec("10 0 0 10").Width(350)
+                                                   .ReadOnly(true),
+
+
+                                               x.NumberField ()
+                                                   .Name("Annual_Int_Rate").FieldLabel("Annual Interest Rate")
+                                                   .MarginSpec("10 0 0 10").Width(350).TabIndex(2).ReadOnly(true),
+
+                                               x.DateField().Name("Start_Date")
+                                                   .FieldLabel("Investment Start Date").ReadOnly(true)
+                                                   .EmptyText("Select  Investment Start Date")
+                                                   .MarginSpec("10 0 0 10").Width(350).TabIndex(3),
+
+
+                                               x.DateField().Name("Maturity_Date")
+                                                   .FieldLabel("Maturity Date").MarginSpec("10 0 0 10").Width(350).TabIndex(4)
+                                                   .EmptyText("Maturity  Date").ReadOnly(true).Editable(false),
+
+                                               x.TextField().Name("Expected_Int")
+                                                    .FieldLabel("Interest on Maturity")
+                                                    .MarginSpec("10 0 0 10").Width(350).TabIndex(5).ReadOnly(true).ReadOnly(true),
+
+                                               x.TextField().Name("Amount_on_Maturity")
+                                                    .FieldLabel("Maturity Value").MarginSpec("0 30 10 10").Width(300).TabIndex(6)
+                                                    .MarginSpec("10 0 0 10").Width(350).ReadOnly(true ),
+
+                                               x.Hidden().Name("Daily_Int_Rate").Text("0")
+                                               )
+                                                                ),
+                                        x.FieldSet()
+                                        .Height(120)
+                                        .Width(1550)
+                                        .Layout(LayoutType.Column)
+                                        .Title("Receipt Details")
+                                        .MarginSpec("0 0 0 10")
+                                        .Defaults(dd =>
+                                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                                    x.NumberField()
+                                                   .Name("Principal_Amount").FieldLabel("Principal Paid")
+                                                   .MarginSpec("10 0 0 5").Width(180).TabIndex(2).ReadOnly(true),
+
+                                                     x.NumberField()
+                                                    .Name("Principal_Bal").FieldLabel("Principal Bal.")
+                                                    .MarginSpec("10 0 0 5").Width(180).TabIndex(2).ReadOnly(true),
+
+                                                    //
+                                                    x.NumberField()
+                                                   .Name("Interest_Amount").FieldLabel("Interest Paid")
+                                                   .MarginSpec("10 0 0 5").Width(180).TabIndex(2).ReadOnly(true),
+
+                                                    x.NumberField()
+                                                   .Name("Interest_Bal").FieldLabel("Interest Bal")
+                                                   .MarginSpec("10 0 0 5").Width(180).TabIndex(2).ReadOnly(true),
+
+                                                   x.DateField()
+                                                   .Name("Last_Date_Int_Accrued").FieldLabel("Last Date Int Accrued")
+                                                   .MarginSpec("10 0 0 5").Width(180).TabIndex(2).ReadOnly(true),
+
+                                                    x.DateField()
+                                                   .Name("Payment_Date").FieldLabel("Receipt Date")
+                                                   .MarginSpec("10 0 0 5").Width(180).TabIndex(2).ReadOnly(true),
+
+
+                                                     x.ComboBox().Name("GL_Account_Name")
+                                                                    .FieldLabel("Debit Bank Account")
+                                                                    .Width(350)
+                                                                    .ReadOnly(true)
+                                                                    .TypeAhead(true).MarginSpec("10 0 0 10"),
+
+                                                                    x.Hidden().Name("GL_Balance")
+                                                                    .FieldLabel("GL Account Balance")
+                                                                    .Width(190)
+                                                                    .ReadOnly(true)
+                                                                    .ReadOnly(true).MarginSpec("0 0 0 10")
+
+
+                                                    ),
+
+                                         x.Button()
+                                                        .Text("Reverse Investment Receipt")
+                                                        .Width(300)
+                                                        .Icon(Icon.Add)
+                                                        .DirectEvents(de =>
+                                                        {
+                                                            //de.Click.Confirmation.ConfirmRequest = true;
+                                                            de.Click.Confirmation.Title = "Reverse";
+                                                            de.Click.Confirmation.Message = "Reverse Receipt?";
+                                                            de.Click.Url = Url.Action("ReverseReceiptRecord");
+                                                            de.Click.Timeout = 1200000;
+                                                        }).MarginSpec("10 10 0 35").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Processing... Please wait.'})"),
+
+                                                        x.Button()
+                                                        .Text("Cancel")
+                                                        .Width(120)
+                                                        .Icon(Icon.ArrowRefresh)
+                                                        .OnClientClick("this.up('form').getForm().reset();")
+                                                        .MarginSpec("10 10 0 10")
+
+
+
+                    )
+            )
+
+
+
+
+
+
+
+
+
+
+
+
+

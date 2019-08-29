@@ -1,0 +1,248 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+
+@{
+    Layout = null;
+    var X = Html.X();
+}
+
+@*<script>
+    vvar sessionTimeoutWarning = @Session.Timeout - 1;
+
+    var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+
+    setTimeout('SessionEnd()', sTimeout);
+
+    function SessionEnd()
+    {
+        alert("Your session has expired");
+        window.location = "~/Views/Shared / _LoginMainPartial.cshtml";
+    }
+  
+</script>*@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TekSol PenFad 6n- Pension Fund Admin System</title>
+    @*<title>Ext.NET Examples - ASP.NET (Web Forms + MVC) component framework integrating the cross-browser Sencha Ext JS JavaScript Library.</title>*@
+    <link rel="stylesheet" href="@Url.Content("~/Content/main.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/teksolext.css")" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="@Url.Content("~/resources/js/perfect-scrollbar.min.js")"></script>
+    <script src="@Url.Content("~/resources/js/main.js?4.0.0-beta")"></script>
+
+     <script type="text/javascript">
+
+        //prevent backspace key
+        //version 2
+        Ext.getDoc().on('keydown', function (e, t) {
+            if (e.getKey() == e.BACKSPACE && (!/^input$/i.test(t.tagName) || t.disabled || t.readOnly)) {
+                e.stopEvent();
+            }
+        });
+
+        ///prevent browser back button click
+        history.pushState(null, null, document.title);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.title);
+        });
+
+
+    </script>
+
+    <style type="text/css">
+        body {
+            background-image: url("resources/images/z_1.png");
+        }
+
+        .transparent-window,
+        .transparent-window .x-window-body,
+        .transparent-window .x-panel-body {
+            background-color: transparent;
+        }
+
+        .transparent-panel {
+            background-color: transparent;
+        }
+    </style>
+
+</head>
+<body>
+
+    @(Html.X().ResourceManager())
+
+    @(Html.X().Viewport()
+        .ID("Viewp")
+        .WidthSpec("100%")
+        .HeightSpec("100%")
+        //.OverflowX(Overflow.Scroll)
+        //.OverflowY(Overflow.Scroll)
+        .Layout(LayoutType.Border)
+        .Items(
+                Html.X().Panel()
+                    .Region(Region.North)
+                    //.Title("Prime Sample")
+                    .Collapsible(true)
+                    .Height(50)
+                    .Header(false)
+                    //.MinWidth(175)
+                    //.MaxWidth(400)
+                    .MarginSpec("5 0 5 5")
+                    .Content(@<div>@Html.Partial("_HeaderPartial")</div>),
+
+
+
+                    //starts west region  moved to GetSubModule.cshtml
+                    Html.X().Panel()
+                            .Region(Region.West)
+                            .Title("West")
+                            .Width(300)
+                            .MaxWidth(300)
+                            .Header(false)
+                            .Collapsible(true)
+                            .Split(true)
+                            .MinWidth(175)
+                            .MaxWidth(300)
+                            .OverflowY(Overflow.Auto)
+                            .MarginSpec("5 0 5 5")
+                            .Items(X.TreePanel()
+                                        .ID("leftnav")
+                                        .Width(300)
+                                        .MinWidth(300)
+                                        .MaxWidth(300)
+                                        .Lines(false)
+                                        .UseArrows(true)
+                                        .CollapseFirst(false)
+                                        //.Height(800)
+                                        //.AutoScroll(true)
+                                        .RootVisible(false)
+                                        .HideHeaders(true)
+                                        .Animate(false)
+                                        .Hidden(false)
+                                        .TopBar(X.Toolbar()
+                                                .Cls("left-header")
+                                                .Items(X.Button()
+                                                        .ID("btnModule")
+                                                        .IconCls("fa fa-cog")
+                                                        .ArrowVisible(false)
+                                                        .ToolTip("Penfad 6 Modules")
+                                                        .Handler("#{mnu_main1}.reload();")
+                                                        .Menu(X.Menu()
+                                                               .ID("mnu_main1")
+                                                               .Loader(X.ComponentLoader()
+                                                                   .ID("loader_main1")
+                                                                   //.AutoLoad(false)
+                                                                   .Mode(LoadMode.Component)
+                                                                   .Url(Url.Action("LoadModulesMainMenu"))
+                                                                   .RemoveAll(true)
+                                                                    ) // end componentloader
+                                                                .Items(X.MenuItem())
+
+                                                              ) // ends menu
+
+                                                        )  // end item btnModule
+
+                                                         .Items(Html.X().TextField()
+                                                                    .ID("txtsearch")
+                                                                    .EnableKeyEvents(true)
+                                                                    .EmptyText("Enter short code")
+                                                                    .Flex(1)
+                                                                    .RemoveClearTrigger(true)
+                                                                    .Triggers(Html.X().FieldTrigger()
+                                                                                .Hidden(true)
+                                                                                .Icon(TriggerIcon.Clear)
+                                                                                )
+                                                                    .Listeners(l =>
+                                                                    {
+                                                                        l.KeyUp.Fn = ("keyUp");
+                                                                        l.KeyUp.Buffer = 500;
+
+                                                                    })
+
+                                                        ) //end textfield
+
+                                                ) // end toolbar
+
+                                         .RootVisible(false)
+                                         .Root(Html.X().Node()
+                                                    .NodeID("root")
+                                                    .Expanded(true)
+                                                    .AllowDrop(false)
+                                                )//end root
+  ////////////////////////////////////////////////////////                                               //.Listeners(l => l.ItemClick.Handler = "Ext.net.Mask.show({msg: 'Loading... Please wait.'})")
+                                         .DirectEvents(de =>
+                                         {
+                                             de.Select.Url = de.Select.Before = "o.url = record.get('url');";// Url.Action("GetMenuUrlLink", "Startup");
+                                             de.Select.Timeout = 120000000;                                                              //de.Select.ExtraParams.Add(new Parameter("evtname", "record.get('id')", ParameterMode.Raw));
+                                                                                                                                         //de.Select.Before = "o.url = record.get('url');";
+                                                                                                                                         ////de.Select.ExtraParams.Add(new { containerId = "MainArea" });
+                                         })
+
+
+                                    ), // end treebar and West
+
+
+                    //central region begins
+                    Html.X().TabPanel()
+                            .Region(Region.Center)
+                            .Title("Tab Panel")
+                            .ID("MainArea")
+                            .Header(false)
+                            .Items(
+                                    Html.X().Panel()
+                                            .Title("TEKSOL PENFAD 6")
+                                            .Layout(LayoutType.Fit)
+                                            .ID("z_mainform_center_panel_tab_main_1")
+                                            .BodyCls("transparent-panel")
+                                    .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+                                        )
+
+
+                                    ), // end Center region item 1
+
+
+
+                     X.Panel()
+                    .Title("South")
+                    .Region(Region.South)
+                    .Header(false)
+                    .Split(false)
+                    .MarginSpec("2 5 0 5")
+                    //.Collapsible(true)
+                    .Height(25)
+                    //.BodyPadding(6)
+                    .Content(@<footer class="site-title" role="banner">
+                        <nav class="top-navigation">
+
+                            <div class="content-wrapper main-content clear-fix">
+                                <div class="float-left">
+                                    <p style="color:white; margin:2px 0 2px 0px;" class="float-left">&copy; @DateTime.Now.Year - TEKSOL LTD (PENFAD 6)</p>
+                                </div>
+                                @*<span id="spanTimeLeft"></span> seconds left*@
+                            </div>
+
+
+                        </nav>
+                    </footer>
+                            )
+
+
+
+      ) // ends items for viewport
+
+
+
+
+    )
+
+
+</body>
+</html>

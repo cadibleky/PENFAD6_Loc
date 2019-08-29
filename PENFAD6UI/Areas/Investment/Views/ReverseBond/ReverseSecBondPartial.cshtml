@@ -1,0 +1,355 @@
+﻿
+@using PENFAD6DAL.Repository.Investment.Bond
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<BondRepo>
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var MM_TBill = new BondRepo();
+    var repo_Issuer = new setup_IssuerRepo();
+    var x = Html.X();
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+                        .ID("frm_ReverseSecBondPartial_main")
+                        .Title("Reverse Secondary Bond")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(2600)
+                        .Height(1600)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+                                                x.FieldSet()
+                                                .Height(1500)
+                                                .Width(1600)
+                                                .Frame(true)
+                                                .MarginSpec("5 0 0 10")
+                                                .Layout(LayoutType.Column)
+                                                .Items(
+                                                            x.GridPanel()
+                                                            .ID("SecBond_ReverseInvesttrans_grid")
+                                                            .Title("Pending Secondary Bonds")
+                                                            .Cls("gridFont")
+                                                            .Height(1000)
+                                                            .Width(700)
+                                                            .TopBar(Html.X().Toolbar()
+                                                                        .Items(Html.X().Button()
+                                                                                .Text("View Secondary Bond")
+                                                                                .Width(340)
+                                                                                .Icon(Icon.ApplicationViewDetail)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Url = Url.Action("Sec_ReadPending_Transaction");
+                                                                                    de.Click.Success = "onSuccess(App.SecBond_ReverseInvesttrans_grid, result.data);";
+                                                                                }))
+                                                                               )
+
+                                                                                .Store(Html.X().Store()
+                                                                                    .ID("Reversesecbondstore")
+                                                                                    .AutoLoad(true)
+                                                                                    .Model(Html.X().Model()
+                                                                                    .Fields(
+                                                                                                new ModelField("Account_Name", ModelFieldType.String),
+                                                                                                new ModelField("Scheme_Name", ModelFieldType.String),
+                                                                                                new ModelField("Scheme_Id", ModelFieldType.String),
+                                                                                                new ModelField("Fund_Id", ModelFieldType.String),
+                                                                                                new ModelField("ES_Id", ModelFieldType.String),
+                                                                                                new ModelField("Scheme_Fund_Id", ModelFieldType.String),
+                                                                                                new ModelField("Invest_No", ModelFieldType.String),
+                                                                                                new ModelField("Contract_No", ModelFieldType.String),
+                                                                                                new ModelField("GL_Account_Name", ModelFieldType.String),
+                                                                                                new ModelField("GL_Account_No", ModelFieldType.String),
+                                                                                                new ModelField("GL_Balance", ModelFieldType.Float),
+                                                                                                new ModelField("product_Name", ModelFieldType.String),
+                                                                                                new ModelField("Amount_Invested", ModelFieldType.Float),
+                                                                                                new ModelField("Cost", ModelFieldType.Float),
+                                                                                                new ModelField("Annual_Int_Rate", ModelFieldType.Float),
+                                                                                                new ModelField("Duration_In_Days", ModelFieldType.Float),
+                                                                                                new ModelField("Expected_Int", ModelFieldType.Float),
+                                                                                                new ModelField("Amount_on_Maturity", ModelFieldType.Float),
+                                                                                                new ModelField("Interest_Type", ModelFieldType.String),
+                                                                                                new ModelField("Interest_Day_Basic", ModelFieldType.Float),
+                                                                                                new ModelField("Security_Type", ModelFieldType.String),
+                                                                                                new ModelField("Start_Date", ModelFieldType.Date),
+                                                                                                new ModelField("Maturity_Date", ModelFieldType.Date),
+                                                                                                new ModelField("Issuer_Name", ModelFieldType.String),
+                                                                                                new ModelField("Fund_Manager_Id", ModelFieldType.String),
+                                                                                                new ModelField("Fund_Manager", ModelFieldType.String),
+                                                                                                new ModelField("Next_Coupon_Date_Aftertrade", ModelFieldType.Date),
+                                                                                                new ModelField("Settlement_Date", ModelFieldType.Date),
+                                                                                                new ModelField("Current_Yield", ModelFieldType.Float),
+                                                                                                new ModelField("Bond_Qutn", ModelFieldType.Float),
+
+                                                                                                new ModelField("FullName", ModelFieldType.String), new ModelField("Fund_Name", ModelFieldType.String)
+
+                                                                                                )//end fields
+                                                                                            )//end model
+                                                                                            .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                                                            .ServerProxy(
+                                                                                                        Html.X().AjaxProxy()
+                                                                                                                .Url(Url.Action("Sec_ReadPending_Transaction"))
+                                                                                                        )//end serverproxy
+                                                                                        )//end  store
+                                                                                        .ColumnModel(
+
+                                                                                        Html.X().Column().Text("SCHEME").DataIndex("Scheme_Name").Width(200),
+                                                                                        Html.X().Column().Text("FUND").DataIndex("Fund_Name").Width(150),
+                                                                                        Html.X().Column().Text("GL Account Name").DataIndex("GL_Account_Name").Width(300),
+                                                                                        Html.X().Column().Text("Product Name").DataIndex("Product_Name").Width(150),
+                                                                                        Html.X().Column().Text("Amount Invested").DataIndex("Amount_Invested").Width(150),
+                                                                                        Html.X().Column().Text("Annual Interest Rate").DataIndex("Annual_Int_Rate").Width(150),
+                                                                                        Html.X().Column().Text("Interest On Maturity").DataIndex("Interest_On_Maturity").Width(150),
+                                                                                        Html.X().Column().Text("Amount on Maturity").DataIndex("Amount_on_Maturity").Width(150),
+                                                                                        Html.X().Column().Text("Investment Date").DataIndex("Start_Date").Width(150),
+                                                                                        Html.X().Column().Text("Maturity Date").DataIndex("Maturity_Date").Width(150),
+                                                                                        Html.X().Column().Text("Fund Manager").DataIndex("Fund_Manager").Width(150),
+                                                                                        Html.X().Column().Text("Investment Status").DataIndex("Invest_Status").Width(150),
+                                                                                        Html.X().Column().Text("Investment No").DataIndex("Invest_No").Width(150)
+                                                                                        )//end columnmodel
+                                                                                .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                                                                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);};")
+                                                                                .Plugins(Html.X().FilterHeader())
+                                                                                .Refresh()
+                                                                                .BottomBar(
+                                                                                        Html.X().PagingToolbar()
+                                                                        ),
+
+                                                                    x.FieldSet()
+                                                                    .Height(250)
+                                                                    .Width(780)
+                                                                    .Layout(LayoutType.Column)
+                                                                    .Title("'Scheme-Fund' Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                        .Items(
+                                                                        x.Hidden().Name("Scheme_Id"),
+
+                                                                        x.Hidden().Name("Scheme_Fund_Id"),
+
+                                                                        x.Hidden().Name("ES_Id"),
+
+                                                                        x.Hidden().Name("Issuer_Id"),
+
+                                                                        x.Hidden().Name("GL_Account_No"),
+
+                                                                        x.TextField()
+                                                                        .Name("Scheme_Name")
+                                                                        .Width(650)
+                                                                        .FieldLabel("Scheme")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                        x.TextField()
+                                                                        .Name("Fund_Name")
+                                                                        .Width(450)
+                                                                        .FieldLabel("Fund")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                     x.ComboBox().Name("GL_Account_Name")
+                                                                    .FieldLabel("GL Bank Account")
+                                                                    .Width(450)
+                                                                    .ReadOnly(true)
+                                                                    .TypeAhead(true).MarginSpec("0 0 0 10"),
+
+                                                                    x.Hidden().Name("GL_Balance")
+                                                                    .FieldLabel("GL Account Balance")
+                                                                    .Width(190)
+                                                                    .ReadOnly(true)
+                                                                    .ReadOnly(true).MarginSpec("0 0 0 10")
+                                                                    ),
+
+                                        x.FieldSet()
+                                        .Height(670)
+                                        .Width(780)
+                                        .Layout(LayoutType.Column)
+                                        .Title("Investment Details")
+                                        .MarginSpec("0 0 0 10")
+                                        .Defaults(dd =>
+                                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                            x.Hidden().Name("Invest_No"),
+
+                                             x.TextField()
+                                            .Name("Contract_No")
+                                            .Width(350)
+                                            .FieldLabel("Contract Number")
+                                            .ReadOnly(true)
+                                            .MarginSpec("10 0 0 10")
+                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                                            x.Hidden().Name("Class_Id"),
+
+
+                                            x.ComboBox().Name("Description")
+                                            .FieldLabel("Asset Class")
+                                            .MarginSpec("10 0 0 10").TabIndex(11).Width(350)
+                                            .AllowBlank(false)
+                                            .ReadOnly(true),
+
+                                             x.Hidden().Name("Product_Id"),
+
+                                                x.ComboBox().Name("Product_Name")
+                                                .FieldLabel("Product")
+                                                .Width(350)
+                                                .MarginSpec("10 0 0 10")
+                                                .ReadOnly(true),
+
+                                                x.Hidden().Name("Fund_Manager_Id"),
+
+                                                x.ComboBox().Name("Fund_Manager")
+                                                .FieldLabel("Fund Manager")
+                                                .Width(350)
+                                                .MarginSpec("10 0 0 10")
+                                                .ReadOnly(true),
+
+                                                x.ComboBox().Name("Interest_Day_Basic").FieldLabel("Interest Day Basis")
+                                                    .ReadOnly(true).MarginSpec("10 0 0 10").Width(350).TabIndex(5),
+
+                                                x.NumberField()
+                                                    .Name("Duration_In_Days")
+                                                    .FieldLabel("Tenor(In Days)").MarginSpec("10 0 0 10").TabIndex(6)
+                                                    .Width(350)
+                                                    .ReadOnly(true),
+
+                                                x.ComboBox().Name("Issuer_Name").ReadOnly(true)
+                                                .FieldLabel("Issuer  Name")
+                                                    .MarginSpec("10 300 30 10").TabIndex(7).Width(350)
+                                                    .ReadOnly(true),
+
+
+                                                  x.NumberField().Name("Amount_Invested").Text("0")
+                                                   .FieldLabel("Nominal Value").MarginSpec("10 0 0 10").Width(170)
+                                                   .AllowBlank(false).ReadOnly(true)
+                                                     ,
+
+
+                                                  x.NumberField().Text("0")
+                                                   .Name("Annual_Int_Rate").FieldLabel("Coupon Rate")
+                                                   .MarginSpec("10 0 0 10").Width(170).TabIndex(2)
+                                                    .ReadOnly(true),
+
+
+                                                  x.NumberField().Name("Current_Yield(%)").Text("0")
+                                                   .FieldLabel("Current Yield").MarginSpec("10 0 0 10").Width(170)
+                                                   .AllowBlank(false).ReadOnly(true)
+                                                  ,
+
+                                                   x.NumberField().Name("Bond_Qutn").Text("0")
+                                                   .FieldLabel("Listed Quantity").MarginSpec("10 0 0 10").Width(170)
+                                                   .AllowBlank(false).ReadOnly(true),
+
+
+                                                  x.NumberField().Name("Cost").Text("0")
+                                                   .FieldLabel("Cost").MarginSpec("10 0 0 10").Width(170)
+                                                   .AllowBlank(false).ReadOnly(true)
+                                                   ,
+
+                                                  x.NumberField().Name("Brokerage_Fee").Text("0")
+                                                   .FieldLabel("Brokerage Fee").MarginSpec("10 0 0 10").Width(170)
+                                                   .AllowBlank(false).ReadOnly(true),
+
+
+                                                 x.DateField().Name("Start_Date")
+                                                   .FieldLabel("Investment Start Date").Editable(false)
+                                                   .ReadOnly(true)
+                                                   .MarginSpec("10 0 0 10").Width(170).TabIndex(3),
+
+
+                                               x.DateField().Name("Maturity_Date").ReadOnly(true)
+                                                   .FieldLabel("Maturity Date").MarginSpec("10 0 0 10").Width(170).TabIndex(4)
+                                                   .ReadOnly(true),
+
+
+
+                                              x.DateField().Name("Next_Coupon_Date_Aftertrade")
+                                                   .FieldLabel("Next Coupon Date").MarginSpec("10 0 0 10").Width(170).TabIndex(4)
+                                                   .ReadOnly(true),
+
+                                              x.DateField().Name("Settlement_Date")
+                                                   .FieldLabel("Settlement Date").MarginSpec("10 0 0 10").Width(170).TabIndex(4)
+                                                   .ReadOnly(true),
+
+                                               //x.NumberField().Name("Trans_Duration").Text("0")
+                                               //      .FieldLabel("Duration")
+                                               //      .MarginSpec("10 0 0 10").Width(100).TabIndex(5).ReadOnly(true).Editable(false),
+
+
+                                               x.FieldSet().Title("Future Values").Layout(LayoutType.Column).Height(110).MarginSpec("5 0 0 5")
+                                               .Items(
+
+
+                                               x.NumberField().Name("Expected_Int").Text("0")
+                                                    .FieldLabel("Redemption Yield")
+                                                    .MarginSpec("10 0 0 10").Width(220).TabIndex(5).ReadOnly(true),
+
+                                               x.NumberField().Name("Amount_on_Maturity").Text("0")
+                                                    .FieldLabel("Maturity Value").MarginSpec("0 30 10 10").Width(300).TabIndex(6)
+                                                    .MarginSpec("10 0 0 10").Width(220).ReadOnly(true)
+                                               ),
+
+                                               x.Hidden().Name("Daily_Int_Rate").ID("txt_MM_TBill_Daily_Int_Rate_SecBond").Text("0")
+
+
+                                                                ),
+                                                                 x.Button()
+                                                                .Text("Reverse Investment")
+                                                                .Width(200)
+                                                                .Icon(Icon.Add)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                    de.Click.Confirmation.Title = "Reverse";
+                                                                    de.Click.Confirmation.Message = "Reverse Investment?";
+                                                                    de.Click.Url = Url.Action("ReverseRecordSec");
+                                                                    de.Click.Timeout = 1200000;
+                                                                }).MarginSpec("20 10 0 35"),
+
+                                                               
+                                                                x.Button()
+                                                                .Text("Cancel")
+                                                                .Width(120)
+                                                                .Icon(Icon.ArrowRefresh)
+                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                .MarginSpec("20 10 0 10")
+                                 )
+
+
+                    )
+            )
+
+
+
+
+
+
+
+
+
+
+
+
+

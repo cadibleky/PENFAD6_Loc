@@ -1,0 +1,144 @@
+﻿
+
+
+
+@using PENFAD6DAL.Repository.Security
+
+@model IEnumerable<sec_UserRoleRepo>
+
+@{
+    var X = Html.X();
+    var repo_group = new sec_UserGroupRepo();
+    var repo_role = new sec_UserRoleRepo();
+}
+<script>
+        var onComboBoxSelect = function (combo) {
+            var store = combo.up("gridpanel").getStore();
+            store.pageSize = parse(combo.getValue(), 10);
+            store.reload();
+        };
+</script>
+
+
+
+@(Html.X().FormPanel()
+            .ID("frmuserrole")
+            .Title("User Role")
+            .Header(false)
+            .Border(true)
+            .Closable(true)
+            .Frame(true)
+            .Height(500)
+            .MarginSpec("0 0 0 10 ")
+            .Layout(LayoutType.Column)
+            .Width(270)
+            //.WidthSpec("auto")
+            .BodyPadding(5)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+            .Items(Html.X().GridPanel()
+                    .Title("User Role")
+                    .ColumnWidth(0.6)
+                    .Height(500)
+                    .Frame(true)
+                    .Border(true)
+                    .Store(Html.X().Store()
+                                .ID("rolestore")
+                                .DataSource(Model)
+                                .PageSize(10)
+                                .Model(Html.X().Model()
+                                        .Fields(f =>
+                                        {
+                                            f.Add(Html.X().ModelField().Name("UserRoleName"));
+                                            f.Add(Html.X().ModelField().Name("UserRoleDesc"));
+                                            f.Add(Html.X().ModelField().Name("UserRoleStatus"));
+                                            f.Add(Html.X().ModelField().Name("UserRoleId"));
+                                            f.Add(Html.X().ModelField().Name("MakerId"));
+                                            f.Add(Html.X().ModelField().Name("MakeDate").Type(ModelFieldType.Date).DateFormat("M/d hh:mmtt"));
+                                        })
+                                        )// end model
+                                .ServerProxy(
+                                              Html.X().AjaxProxy()
+                                                        .Url(Url.Action("Read"))
+                                            )//end serverproxy
+                            )// end store
+                     .ColumnModel(
+                                    Html.X().Column().Text("Role").DataIndex("UserRoleName").Flex(1),
+                                    Html.X().Column().Text("Description").DataIndex("UserRoleDesc"),
+                                    Html.X().Column().Text("Status").Width(100).DataIndex("UserRoleStatus"),
+                                    Html.X().Column().Text("Creator").Width(120).DataIndex("MakerId"),
+                                    Html.X().DateColumn().Text("Date").Width(100).DataIndex("MakeDate")
+                               )// end coloumnmodel
+                     .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                     .SelectionModel(Html.X().RowSelectionModel().Mode(SelectionMode.Single))
+                     .View(Html.X().GridView().StripeRows(true))
+                     .Plugins(Html.X().FilterHeader())
+                     .Refresh()
+                     .BottomBar(
+                                Html.X().PagingToolbar()
+                                    .Items(
+                                            Html.X().Label("Page Size:"),
+                                            Html.X().ComboBox()
+                                                    .Width(80)
+                                                    .Items("5", "10", "15", "20")
+                                                    .SelectedItems("10")
+                                                    .Listeners(l => { l.Select.Fn = "onComboBoxSelect"; })
+                                            )
+                                       .Plugins(Html.X().ProgressBarPager())
+                                ),//end bottombar
+
+                     Html.X().FieldSet()
+                            .ColumnWidth(0.3)
+                            .Title("Add/Edit User Role")
+                            .MarginSpec("0 0 0 10")
+                            .Height(500)
+                            .Defaults(d =>
+                            {
+                                d.Add(new Parameter("LabelWidth", "115"));
+                            })// end defaults
+                           .Items(
+                                    Html.X().Hidden().Name("UserRoleId"),
+                                    Html.X().TextField().Name("UserRoleName").FieldLabel("User Role").Width(350).AllowBlank(false).BlankText("Role name is required.").FieldStyle("text-transform:uppercase"),
+                                    Html.X().TextField().Name("UserRoleDesc").FieldLabel("Description").Width(350).FieldStyle("text-transform:uppercase")
+                                  )// end field items
+                            .Items(Html.X().Button()
+                                       .Text("Save")
+                                       .Width(130)
+                                       .Icon(Icon.PageSave)
+                                       .DirectEvents(de =>
+                                       {
+                                           de.Click.Url = Url.Action("SaveRole");
+                                       }).MarginSpec("20 10 0 0"),
+                                      // end save button
+                                      Html.X().Button()
+                                        .Text("Delete")
+                                        .Width(130)
+                                        .Icon(Icon.Delete)
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Click.Url = Url.Action("DeleteRole");
+                                            de.Click.Confirmation.ConfirmRequest = true;
+                                            de.Click.Confirmation.Title = "Delete Role";
+                                            de.Click.Confirmation.Message = "Delete selected role ?";
+                                        }).MarginSpec("20 10 0 0"), // end delete button
+
+                                     Html.X().Button()
+                                            .Text("Clear")
+                                            .Width(120)
+                                            .Icon(Icon.ArrowRefresh)
+                                            .OnClientClick("this.up('form').getForm().reset();")
+                                            .MarginSpec("20 10 0 0")
+                                      )
+
+
+            ) // end of gridpanel
+
+
+
+
+
+//end form tag
+)

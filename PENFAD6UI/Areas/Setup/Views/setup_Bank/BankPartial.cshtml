@@ -1,0 +1,133 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+    
+    @model IEnumerable<setup_BankRepo>
+    @{
+        var bank = new setup_BankRepo();
+        var x = Html.X();
+    }
+    @(x.FormPanel()
+                        .ID("bank")
+                        .ColumnWidth(0.6)
+                        .Title("Setup Bank")
+                        .Frame(true)
+                        .Closable(true)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("0 0 0 0")
+                        .Width(850)
+                        .Height(550)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+
+                        .Items(
+
+                                x.GridPanel()
+                                        .ID("bankGrid")
+                                        .Title("View Bank List")
+                                        .Frame(true)
+                                        .Width(510)
+                                        .MarginSpec("10 0 0 10")
+                                        .Height(500)
+                                        .Store(
+                                            x.Store()
+                                                .AutoLoad(true)
+                                                .ID("bankStore")
+                                        .DataSource(Model)
+                                        .Model(
+                                            x.Model()
+                                                .Fields(
+                                                    x.ModelField().Name("Bank_Id").Type(ModelFieldType.String),
+                                                    x.ModelField().Name("Bank").Type(ModelFieldType.String)                                                  
+                                                    )
+                                        )
+                                        .ServerProxy(
+                                                Html.X().AjaxProxy()
+                                                .Url(Url.Action("Read"))
+                                        )
+                                        .PageSize(10)
+                                )
+                                .Refresh()
+                                .BottomBar(
+                                    Html.X().PagingToolbar()
+                                )
+                                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);}")
+                                .ColumnModel(x.Column().DataIndex("Bank_Id").Text("BANK ID").Width(0))
+                                .ColumnModel(x.Column().DataIndex("Bank").Text("BANK").Width(500)),
+
+                x.FieldSet()
+              //  .ColumnWidth(0.4)
+                .Collapsible(true)
+                .Width(500)
+                .Height(510)
+                .Title("Add/Edit Bank")
+                .MarginSpec("0 0 0 10")
+                .Defaults(dd =>
+                { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                .Items(
+                    x.Hidden().Name("Bank_Id"),
+
+                    x.TextField()
+                        .Name("Bank")
+                        .Width(400)
+                        .FieldLabel("BANK")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                        .AllowBlank(false)
+                        .BlankText("'BANK' is required.")
+                       
+                    )
+
+                .Items(
+                    x.Button()
+                    .ID("SU")
+                        .Text("Save")
+                        .Width(100)
+                        .Icon(Icon.Add)
+                        .DirectEvents(de =>
+                        {
+                            de.Click.Url = Url.Action("SaveRecord");
+
+                        }).MarginSpec("20 10 0 0"),
+                            x.Button()
+                        .Text("Delete")
+                        .Width(120)
+                .Icon(Icon.Delete)
+                .DirectEvents(de =>
+                {
+                    de.Click.Url = Url.Action("DeleteRecord");
+                    de.Click.Confirmation.ConfirmRequest = true;
+                    de.Click.Confirmation.Title = "Delete Record";
+                    de.Click.Confirmation.Message = "Delete Bank?";
+                }).MarginSpec("20 10 0 0"),
+
+            x.Button()
+                .Text("Clear")
+                .Width(90)
+                .Icon(Icon.ArrowRefresh)
+                .OnClientClick("this.up('form').getForm().reset();")
+                .MarginSpec("20 10 0 0")
+
+        )
+    )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

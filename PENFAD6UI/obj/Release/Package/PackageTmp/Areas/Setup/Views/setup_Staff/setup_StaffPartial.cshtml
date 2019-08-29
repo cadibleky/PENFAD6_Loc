@@ -1,0 +1,170 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+@model IEnumerable<setup_StaffRepo>
+
+@{
+    var title = new setup_StaffRepo();
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+            .ID("frmAddSatff")
+            //.ColumnWidth(0.6)
+            .Title("Setup Staff")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(850)
+            .Height(650)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+
+                    x.GridPanel()
+                            .ID("staffGrid")
+                            .Title("View Staff List")
+                            .Frame(true)
+                            .Width(610)
+                            .MarginSpec("10 0 0 10")
+                            .Height(600)
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("staffStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Staff_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Staff_Name").Type(ModelFieldType.String),
+                                         x.ModelField().Name("MobileNo").Type(ModelFieldType.String),
+                                        x.ModelField().Name("PhoneNo").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Email").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Gender").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Staff_Status").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Residential_Address").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                   .ColumnModel(x.Column().DataIndex("Staff_Id").Text("STAFF ID").Width(100))
+                   .ColumnModel(x.Column().DataIndex("Staff_Name").Text("STAFF NAME").Width(400))
+                   .ColumnModel(x.Column().DataIndex("MobileNo").Text("MOBILE NUMBER").Width(0))
+                   .ColumnModel(x.Column().DataIndex("PhoneNo").Text("PHONE NUMBER").Width(0))
+                   .ColumnModel(x.Column().DataIndex("Email").Text("E-MAIL").Width(0))
+                   .ColumnModel(x.Column().DataIndex("Gender").Text("GENDER").Width(100))
+                   .ColumnModel(x.Column().DataIndex("Residential_Address").Text("ADDRESS").Width(0)),
+
+
+                    x.FieldSet()
+                       // .Width(400)
+                        .Collapsible(true)
+                         .Width(400)
+                         .Height(610)
+                        .Title("Add/Edit Staff")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Hidden().Name("Staff_Id"),
+                            x.TextField()
+                                .Name("Staff_Name")
+                                .Width(350)
+                                 .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Staff Name")
+                                .AllowBlank(false)
+                                .BlankText("Staff Name is required."),
+
+                               x.TextField()
+                                .Name("MobileNo")
+                                .Width(350)
+                                 .FieldLabel("Mobile Number"),
+
+                               x.ComboBox()
+                                .Name("Gender")
+                                .Width(350)
+                                 .FieldLabel("Gender")
+                                 .Items("MALE","FEMALE"),
+
+                                x.TextField()
+                                .Name("PhoneNo")
+                                .Width(350)
+                                 .FieldLabel("Phone Number"),
+                            
+                             x.TextField()
+                                .Name("Email")
+                                .Width(350)
+                                 .FieldLabel("E-Mail"),
+
+                             x.TextField()
+                                .Name("Residential_Address")
+                                .Width(350)
+                                 .FieldLabel("Residential Address")
+  
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save Staff")
+                                .Width(130)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                }).MarginSpec("20 10 0 0"),
+                            x.Button()
+                                .Text("Delete")
+                                .Width(110)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete Staff?";
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

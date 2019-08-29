@@ -1,0 +1,167 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+@model IEnumerable<setup_EmployeeTypeRepo>
+
+@{
+    var relationRepo = new setup_EmployeeTypeRepo();
+    var x = Html.X();
+
+}
+<style>
+    .btnStyle .x-btn-inner {
+        color: #5fa2dd;
+        font-weight: bold;
+        font-size: 15px;
+    }
+</style>
+<script>
+
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+</script>
+
+@(x.FormPanel()
+        .ID("employeeType")
+        .ColumnWidth(0.4)
+        .Title("setup Employee Type")
+        .Frame(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(500)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("employeeTypeGrid")
+                        //.Title("View Employee Type List")
+                        .Frame(true)
+                        .Width(550)
+                        .MarginSpec("10 0 0 10")
+                        .Height(350)
+                        .DockedItems(
+                                    x.Toolbar()
+                                        .Dock(Dock.Top)
+                                        .Items(
+                                            x.Button()
+                                                .Text("View Employee Type")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("10 0 20 170")
+                                                .Cls("btnStyle")
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("Read");
+                                                    de.Click.Success = "onSuccess(App.employeeTypeGrid, result.data);";
+                                                })
+                                        )
+                                    )
+                        .Store(
+                            x.Store()
+                                .AutoLoad(false)
+                                .ID("empTypeStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Employee_Type_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Employee_Type").Type(ModelFieldType.String)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+
+                        .PageSize(10)
+                )
+                .Refresh()
+                .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("Employee_Type_Id").Text("EMPLOYEE TYPE ID").Width(0))
+                .ColumnModel(x.Column().DataIndex("Employee_Type").Text("EMPLOYEE TYPE").Width(300)),
+
+                x.FieldSet()
+                    .ColumnWidth(0.5)
+                    .Collapsible(true)
+                    .Height(360)
+                    .Title("Add/Edit Employee Type")
+                    .MarginSpec("0 0 0 10")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Employee_Type_Id"),
+                        x.TextField()
+                            .Name("Employee_Type")
+                            .Width(350)
+                            .FieldLabel("Employee Type")
+                            .AllowBlank(false)
+                            .BlankText("Employee Type is required.")
+                            .FieldStyle("text-transform: uppercase")
+                        )
+                    .Items(
+                        x.Button()
+                            .Text("Save")
+                            .Width(120)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Save Record";
+                                de.Click.Confirmation.Message = "Save?";
+                                de.Click.Before = "this.up('form').getForm().reset();";
+
+                            }).MarginSpec("30 0 0 0"),
+                        x.Button()
+                            .Text("Delete")
+                            .Width(120)
+                            .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                            }).MarginSpec("30 0 0 0"),
+                        x.Button()
+                            .Text("Clear")
+                            .Width(120)
+                            .Icon(Icon.ArrowRefresh)
+                            .OnClientClick("this.up('form').getForm().reset();")
+                            .MarginSpec("30 0 0 0")
+
+                    )
+
+
+        )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

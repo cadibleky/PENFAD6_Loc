@@ -1,0 +1,323 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_PurchaseRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+                        .ID("frmWithdrawalReverseP_Main")
+                        .Title("Reverse Benefit Payment")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1000)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+
+
+                                    x.FieldSet()
+                                    .Height(1200)
+                                    .Width(1600)
+                                    .Frame(true)
+                                    .Layout(LayoutType.Column)
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                     x.FieldSet()
+                                    .MarginSpec("5 0 0 0")
+                                    .Width(800)
+                                    .Height(1100)
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                    x.Button()
+                                    .Text("View Benefit Paid")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(280)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadWithdrawalReverse");
+                                        de.Click.Success = "onSuccess(App.WithdrawalBenefitReverse_Grid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("WithdrawalBenefitReverse_Grid")
+                                    .Title("List of Paid Benefit")
+                                    .Frame(true)
+                                    //.Width(790)
+                                    .Height(980)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ReverseRequestWithStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Withdrawal_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Total_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Accrued_Benefit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Withdrawal_Unit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Withdrawal_Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Unit_Price").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Pay_Date_Benefit").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Trans_Request_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Payment_Mode").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Tax").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Withdrawal_Reason").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Pay_Benefit").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Pay_Tax").Type(ModelFieldType.String)
+
+                                            )
+                                        )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                              .Url(Url.Action("ReadWithdrawalReverse"))
+                                              )
+                                            // .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmWithdrawalReverseP_Main.getForm().loadRecord(selected[0]);}")
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("EMPLOYEE ACCOUNT ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Employee_Name").Text("EMPLOYEE NAME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Total_Withdrawal_Amount").Text("WITHDRAWAL AMOUNT").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Pay_Date_Benefit").Text("PAYMENT DATE ").Width(100))
+
+                                                               ),
+
+                                                                  x.FieldSet()
+                                                                    .Height(1100)
+                                                                    .Width(450)
+                                                                   .Layout(LayoutType.Column)
+                                                                    .Title("Benefit Request Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                      .Items(
+                                                                            x.Hidden().Name("Withdrawal_No"),
+                                                                            x.Hidden().Name("Scheme_Id"),
+                                                                            x.Hidden().Name("Fund_Id"),
+                                                                             x.Hidden().Name("GL_Account_No"),
+                                                                             x.Hidden().Name("Pay_Benefit"),
+                                                                             x.Hidden().Name("Pay_Tax"),
+                                                                             x.Hidden().Name("Scheme_Fund_Id"),
+
+                                                                             x.TextField()
+                                                                            .Name("ESF_Id")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Employee Account ID")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Employee_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Name of Employee")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Scheme_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Scheme")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+                                                                             x.TextField()
+                                                                            .Name("Fund_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Fund")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+
+                                                                             x.TextField()
+                                                                            .Name("Accrued_Benefit").ID("WithdrawalReverse_TotalB")
+                                                                            .Width(170)
+                                                                            .FieldLabel("Accrued Benefit")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10"),
+
+
+
+                                                                            x.TextField().Name("Total_Withdrawal_Amount").Width(210).ReadOnly(true).FieldLabel("Withdrawal (Amount)").MarginSpec("3 0 10 10"),
+
+                                                                            x.TextField()
+                                                                            .Name("Tax")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .FieldLabel("Tax")
+                                                                            .MarginSpec("3 0 10 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                                                                            x.TextField().Name("Total_Withdrawal_Unit").Width(210).ReadOnly(true).FieldLabel("Total Withdrawal  .(Unit)").MarginSpec("3 0 10 10"),
+
+
+
+                                                                              //x.DateField()
+                                                                              //.Name("Trans_Request_Date")
+                                                                              //.Width(170)
+                                                                              //.ReadOnly(true)
+                                                                              //.AllowBlank(false)
+                                                                              //.EmptyText("")
+                                                                              //.FieldLabel("Request Date")
+                                                                              //.MarginSpec("3 0 10 10"),
+
+
+                                                                              x.TextArea()
+                                                                            .Name("Withdrawal_Reason")
+                                                                            .Width(400)
+                                                                            .AllowBlank(false)
+                                                                            .ReadOnly(true)
+                                                                            .FieldLabel("Reason for withdrawal")
+                                                                            .MarginSpec("3 0 10 10"),
+
+                                                                                x.ComboBox().Name("Payment_Mode")
+                                                                                .FieldLabel("Payment Mode")
+                                                                                .ID("ReverseBenefit_P_Mode")
+                                                                                .MarginSpec("3 0 10 10").TabIndex(5).Width(170)
+                                                                                .Editable(false)
+                                                                                .AllowBlank(false)
+                                                                                .EmptyText("Select Payment Mode")
+                                                                                .QueryMode(DataLoadMode.Local)
+                                                                                .TriggerAction(TriggerAction.All)
+                                                                                .EmptyText("Select Payment Mode").ReadOnly(true),
+
+                                                                                // .Listeners(l => l.Select.Handler = "if (App.Benefit_P_Mode.getValue() == 'CHEQUE') {App.Benefit_Instrument_Number.enable();App.Instrument_Number.clear()} else {App.Benefit_Instrument_Number.disable();}"),
+
+                                                                                x.TextField()
+                                                                                .Name("Instrument_No")
+                                                                                //.ID("Benefit_Instrument_Number")
+                                                                                .Width(170)
+                                                                                .FieldLabel("Instrument Number")
+                                                                                .MarginSpec("3 0 10 10")
+                                                                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE").ReadOnly(true),
+
+                                                                               x.DateField()
+                                                                            .Name("Pay_Date_Benefit")
+                                                                            .Width(350)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Payment Date")
+                                                                            .MarginSpec("3 0 10 10").ReadOnly(true),
+
+
+                                                                    ///////////////////////
+                                                                    x.ComboBox().Name("GL_Account_Name")
+                                                                    .Width(350).MarginSpec("3 0 10 10")
+                                                                    .FieldLabel("Bank Account")
+                                                                    .Editable(false).ReadOnly(true),
+
+                                                                    x.TextArea().Name("Reverse_Reason")                    
+                                                                    .Width(350).MarginSpec("3 0 10 10")
+                                                                    .FieldLabel("Reason for Reversal")
+                                                                    .Editable(true).ReadOnly(false),
+
+                                                                                //////////////////////////
+
+
+                                                                                x.Button()
+                                                                                .Text("Reverse Benefit Payment")
+                                                                                .Width(200)
+                                                                                .Icon(Icon.Add)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                                    de.Click.Confirmation.Title = "Process";
+                                                                                    de.Click.Confirmation.Message = "Reverse Benefit Payment?";
+                                                                                    de.Click.Url = Url.Action("ReversePayRecord");
+
+                                                                                }).MarginSpec("20 10 0 10"),
+
+                                                                                x.Button()
+                                                                                .Text("Cancel")
+                                                                                .Width(100)
+                                                                                .Icon(Icon.ArrowRefresh)
+                                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                                .MarginSpec("20 10 0 10")
+
+
+                                                               )
+                     )
+            )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+

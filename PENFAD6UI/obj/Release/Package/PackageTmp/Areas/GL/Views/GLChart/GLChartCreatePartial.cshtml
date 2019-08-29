@@ -1,0 +1,83 @@
+﻿
+@model PENFAD6DAL.Repository.GL.GLChartRepo
+
+@{
+    var x = Html.X();
+}
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frm_gl_chart")
+        .Closable(true)
+        .Title("GL Chart of Accounts")
+        .WidthSpec("auto")
+        .AutoScroll(true)
+        .HeightSpec("auto")
+        .BodyPadding(5)
+        //.Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelWidth = 115;
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+
+                                 x.Button()
+                                .Text("Refresh GL Chart of Account")
+                                .Width(300)
+                                .Icon(Icon.ArrowRefresh)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Url = Url.Action("Read");
+                                    de.Click.Success = "onSuccess(App.GLChartGrid, result.data);";
+
+                                }).MarginSpec("20 10 0 20"),
+
+                                 x.GridPanel()
+                                    .ID("GLChartGrid")
+                                    .Title("GL Chart of Accounts")
+                                    .Frame(true)
+                                    .Width(1200)
+                                    .Height(700)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("GLChartStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Con_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Name").Type(ModelFieldType.String)
+
+                                            )
+                                        )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                              .Url(Url.Action("Read"))
+                                              )
+                                    .PageSize(20)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    // .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_gl_chart.getForm().loadRecord(selected[0]);}")
+
+                    .ColumnModel(x.Column().DataIndex("Con_Code").Text("GL CONTROL CODE").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Con_Name").Text("GL CONTROL NAME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Memo_Code").Text("GL MEMO CODE").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Memo_Name").Text("GL MEMO NAME").Width(400))
+
+           )
+)

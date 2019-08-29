@@ -1,0 +1,1134 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <con Ref="2" type="Stimulsoft.Report.Dictionary.StiOracleDatabase" isKey="true">
+        <Alias>con</Alias>
+        <ConnectionStringEncrypted>9Di9oW5+MU15C0XQY9yl//ESzYNWa0nIRmQ5BHR4oj/+cJdMTlzTmWph/VjizPXr5GyV72FXwgV5eyEcTQFqB8M6lcPWCXugYgdtneXMd7veYg==</ConnectionStringEncrypted>
+        <Name>con</Name>
+      </con>
+    </Databases>
+    <DataSources isList="true" count="3">
+      <rep_emp_top Ref="3" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>rep_emp_top</Alias>
+        <Columns isList="true" count="11">
+          <value>EMPLOYEE_ID,System.String</value>
+          <value>SURNAME,System.String</value>
+          <value>FIRST_NAME,System.String</value>
+          <value>OTHER_NAME,System.String</value>
+          <value>POSTAL_ADDRESS,System.String</value>
+          <value>SSNIT_NO,System.String</value>
+          <value>CUST_NO,System.String</value>
+          <value>EMPLOYER_NAME,System.String</value>
+          <value>SCHEME_NAME,System.String</value>
+          <value>ESF_ID,System.String</value>
+          <value>FUND_NAME,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>rep_emp_top</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>:P_ESF_ID,_x0022_00000010102_x0022_,126,100</value>
+        </Parameters>
+        <SqlCommand>SELECT yees.EMPLOYEE_ID, yees.SURNAME, yees.FIRST_NAME, yees.OTHER_NAME, yees.POSTAL_ADDRESS, yees.SSNIT_NO,yees.CUST_NO ,
+	yer.EMPLOYER_NAME, pfms.SCHEME_NAME,esf.ESF_ID, f.FUND_NAME
+	FROM CRM_EMPLOYEE yees
+inner join CRM_EMPLOYER yer on yer.EMPLOYER_ID = yees.EMPLOYER_ID
+inner join CRM_EMPLOYEE_SCHEME_FUND esf on esf.CUST_NO = yees.CUST_NO
+inner join PFM_SCHEME_FUND pfmsf on pfmsf.SCHEME_FUND_ID = esf.SCHEME_FUND_ID
+inner join PFM_SCHEME pfms on pfms.SCHEME_ID = pfmsf.SCHEME_ID
+inner join PFM_FUND f on f.FUND_ID = pfmsf.FUND_ID
+WHERE esf.ESF_ID = :P_ESF_ID</SqlCommand>
+      </rep_emp_top>
+      <trans Ref="4" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>trans</Alias>
+        <Columns isList="true" count="6">
+          <value>EMPLOYEE_AMT,System.Decimal</value>
+          <value>EMPLOYEE_UNITS,System.Decimal</value>
+          <value>EMPLOYER_AMT,System.Decimal</value>
+          <value>EMPLOYER_UNITS,System.Decimal</value>
+          <value>FOR_YEAR,System.Decimal</value>
+          <value>totalcon,totalcon,System.Decimal,trans.EMPLOYEE_AMT_x0020__x002B__x0020_trans.EMPLOYER_AMT</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>trans</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>:P_ESF_ID,_x0022_00000010102_x0022_,126,100</value>
+        </Parameters>
+        <SqlCommand>SELECT COALESCE(SUM(ptrans.EMPLOYEE_AMT),0) AS EMPLOYEE_AMT, COALESCE(SUM(ptrans.EMPLOYEE_UNITS),0) AS EMPLOYEE_UNITS, 
+	COALESCE(SUM(ptrans.EMPLOYER_AMT),0) AS EMPLOYER_AMT, COALESCE(SUM(ptrans.EMPLOYER_UNITS),0) AS EMPLOYER_UNITS, 
+	conlog.FOR_YEAR
+	FROM REMIT_UNIT_PURCHASES_TRANS ptrans
+inner join REMIT_UNIT_PURCHASES_LOG p_log on p_log.PURCHASE_LOG_ID = ptrans.PURCHASE_LOG_ID
+inner join REMIT_CON_LOG conlog on conlog.CON_LOG_ID = p_log.CON_LOG_ID
+WHERE ptrans.ESF_ID = :P_ESF_ID
+GROUP BY conlog.FOR_YEAR
+ORDER BY conlog.FOR_YEAR</SqlCommand>
+      </trans>
+      <Emp_Benefit Ref="5" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>Emp_Benefit</Alias>
+        <Columns isList="true" count="7">
+          <value>ESF_ID,System.String</value>
+          <value>TOTAL_UNIT_PURCHASED,System.Decimal</value>
+          <value>TOTAL_UNIT_WITHDRAWN,System.Decimal</value>
+          <value>TOTAL_UNIT_BALANCE,System.Decimal</value>
+          <value>CURRENT_BENEFIT,System.Decimal</value>
+          <value>UNIT_PRICE,System.Decimal</value>
+          <value>TOTAL_CON_BALANCE,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Emp_Benefit</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>:P_ESF_ID,_x0022_00000010102_x0022_,119,100</value>
+        </Parameters>
+        <SqlCommand>SELECT CRM_EMPLOYEE_SCHEME_FUND.ESF_ID,
+	CRM_EMPLOYEE_SCHEME_FUND.TOTAL_UNIT_PURCHASED,
+	CRM_EMPLOYEE_SCHEME_FUND.TOTAL_UNIT_WITHDRAWN,
+	CRM_EMPLOYEE_SCHEME_FUND.TOTAL_UNIT_BALANCE,
+	CRM_EMPLOYEE_SCHEME_FUND.TOTAL_UNIT_BALANCE * PFM_SCHEME_FUND.UNIT_PRICE AS
+	CURRENT_BENEFIT, PFM_SCHEME_FUND.UNIT_PRICE,
+	CRM_EMPLOYEE_SCHEME_FUND.TOTAL_CON_BALANCE
+	FROM CRM_EMPLOYEE_SCHEME_FUND INNER JOIN
+	PFM_SCHEME_FUND ON PFM_SCHEME_FUND.SCHEME_FUND_ID =
+    CRM_EMPLOYEE_SCHEME_FUND.SCHEME_FUND_ID
+WHERE CRM_EMPLOYEE_SCHEME_FUND.ESF_ID = :P_ESF_ID</SqlCommand>
+      </Emp_Benefit>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="2">
+      <value>,todate,todate,,System.String,,False,False,False,False</value>
+      <value>,formdate,formdate,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="6" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="5">
+        <ReportTitleBand1 Ref="7" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.2,7.72,2.8</ClientRectangle>
+          <Components isList="true" count="3">
+            <Panel1 Ref="8" type="Panel" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>0.1,0.6,7.5,1.8</ClientRectangle>
+              <Components isList="true" count="14">
+                <Text13 Ref="9" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,0.2,2.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>afbbd4220ab64ca3884d5ccfe05305a2</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text13</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>NAME OF CONTRIBUTOR:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text13>
+                <Text14 Ref="10" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,0.2,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>47561e7ffb3948f094ea332fa26f0aca</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text14</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.SURNAME}  {rep_emp_top.FIRST_NAME}  {rep_emp_top.OTHER_NAME}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text14>
+                <Text16 Ref="11" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0.8,2.2,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>79d0ba712cd54a7f969158f80ce97713</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text16</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>SOCIAL SECURITY NO:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text16>
+                <Text17 Ref="12" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,1.2,2.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>b3f42f675fb848b18adf4df682a7ea23</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text17</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>EMPLOYEE ACCOUNT NO:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text17>
+                <Text18 Ref="13" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,1,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>165b29912bfa4365bf706ac83d5feebb</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text18</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.EMPLOYEE_ID}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text18>
+                <Text19 Ref="14" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,0.8,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>6611f058ccbd4f3d98c3ecd0956ad865</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text19</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.SSNIT_NO}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text19>
+                <Text20 Ref="15" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,1.2,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>405e2c28063c4d079455783ea95677ff</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text20</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.ESF_ID}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text20>
+                <Text6 Ref="16" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,0.4,2.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>62c79235677740828c91adb3aaa3e2aa</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text6</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>POSTAL ADDRESS:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text6>
+                <Text12 Ref="17" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,0.4,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>d25acdb056c44c0dbf3b5d1cadf1003e</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text12</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.POSTAL_ADDRESS}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text12>
+                <Text15 Ref="18" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,1,2.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>527fb8e88b8748d2bc69b2ed4d10a5fb</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text15</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>EMPLOYEE ID:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text15>
+                <Text28 Ref="19" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,1.4,2.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>ada59242ab3c430e891c98747106495b</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text28</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>FUND:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text28>
+                <Text29 Ref="20" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,1.4,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>639b1b234ab44f89b85e960a48aa7fd0</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text29</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.FUND_NAME}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>DataColumn</Type>
+                </Text29>
+                <Text21 Ref="21" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.1,0.6,2.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>ea1892267caa4da591ce9fa420bd9bb0</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text21</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>EMPLOYER NAME:</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text21>
+                <Text23 Ref="22" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.3,0.6,5.1,0.2</ClientRectangle>
+                  <ComponentStyle>Statement_Header</ComponentStyle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+                  <Guid>d80eaf5f9ee145eeadcabbafb4a37b6c</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text23</Name>
+                  <Page isRef="6" />
+                  <Parent isRef="8" />
+                  <Text>{rep_emp_top.EMPLOYER_NAME}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </Text23>
+              </Components>
+              <ComponentStyle>BodyText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Name>Panel1</Name>
+              <Page isRef="6" />
+              <Parent isRef="7" />
+            </Panel1>
+            <Text27 Ref="23" type="Text" isKey="true">
+              <Border>Bottom;[31:73:125];2;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,2.5,7.5,0.2</ClientRectangle>
+              <ComponentStyle>ReportName</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,11.25,Regular,Point,False,0</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="6" />
+              <Parent isRef="7" />
+              <Text>Annual Member Contribution Statement </Text>
+              <TextBrush>Navy</TextBrush>
+              <Type>Expression</Type>
+            </Text27>
+            <Text2 Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0.2,5.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Header</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Guid>534e0a1d6b9e4e64be1220ba7e74df97</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="6" />
+              <Parent isRef="7" />
+              <Text>{rep_emp_top.SCHEME_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand1</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+        </ReportTitleBand1>
+        <HeaderBand1 Ref="25" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3.4,7.72,0.3</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text1 Ref="26" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0.1,0,2.4,0.3</ClientRectangle>
+              <ComponentStyle>PageHeaderss</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Text>Year</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+            <Text4 Ref="27" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>2.5,0,1.5,0.3</ClientRectangle>
+              <ComponentStyle>PageHeaderss</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Guid>636adf808365439c931e9355d62f5db1</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Text>Employee Contribution</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text8 Ref="28" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>4,0,1.5,0.3</ClientRectangle>
+              <ComponentStyle>PageHeaderss</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Guid>a4286b96d7f34e64b1f3e6b89a116bb7</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Text>Employer Contribution</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text8>
+            <Text22 Ref="29" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>5.5,0,2.1,0.3</ClientRectangle>
+              <ComponentStyle>PageHeaderss</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+              <Guid>7ec99b2809f64ba587e19c8eb2f20368</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Text>Total Contribution</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text22>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand1</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+        </HeaderBand1>
+        <DataBand1 Ref="30" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,4.1,7.72,0.2</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text7 Ref="31" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,2.4,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="6" />
+              <Parent isRef="30" />
+              <Text>{trans.FOR_YEAR}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text7>
+            <Text10 Ref="32" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.5,0,1.5,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>7bea574ce246409f8e8b1bfa974a3b0e</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="6" />
+              <Parent isRef="30" />
+              <Text>{trans.EMPLOYEE_AMT}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="33" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text10>
+            <Text9 Ref="34" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4,0,1.5,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1ced3edadde140258000027a1ea30afc</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="6" />
+              <Parent isRef="30" />
+              <Text>{trans.EMPLOYER_AMT}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="35" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text9>
+            <Text24 Ref="36" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.5,0,2.1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>4220cd45c35240d0bcdd8e2827346f56</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="6" />
+              <Parent isRef="30" />
+              <Text>{trans.totalcon}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="37" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text24>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>trans</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <FooterBand1 Ref="38" type="FooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4.7,7.72,0.2</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text3 Ref="39" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,2.4,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="6" />
+              <Parent isRef="38" />
+              <Text>Total Contribution</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text3>
+            <Text5 Ref="40" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.5,0,1.5,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="6" />
+              <Parent isRef="38" />
+              <Text>{SumRunning(DataBand1,trans.EMPLOYEE_AMT)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="41" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text5>
+            <Text11 Ref="42" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4,0,1.5,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>d55c8c7e3ab04f0d9af099eaaad3a1c5</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="6" />
+              <Parent isRef="38" />
+              <Text>{SumRunning(DataBand1,trans.EMPLOYER_AMT)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="43" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text11>
+            <Text25 Ref="44" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.5,0,2.1,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>55dcd53a50f94dd388036c4b79a07b3f</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="6" />
+              <Parent isRef="38" />
+              <Text>{SumRunning(DataBand1,trans.totalcon)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="45" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, NegativePattern</State>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text25>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>FooterBand1</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+        </FooterBand1>
+        <DataBand2 Ref="46" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.3,7.72,1.2</ClientRectangle>
+          <Components isList="true" count="10">
+            <Text26 Ref="47" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.7,0.1,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>035ed28677c141c096a87c198b64c7d0</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>{Emp_Benefit.TOTAL_UNIT_PURCHASED}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text26>
+            <Text30 Ref="48" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0.1,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>9908f025c5a74024832430c69df1f172</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>TOTAL UNIT PURCHASED:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text30>
+            <Text31 Ref="49" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.7,0.3,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>e9933d64914f4e0db329ed058a6d477d</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>{Emp_Benefit.TOTAL_UNIT_WITHDRAWN}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text31>
+            <Text32 Ref="50" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0.3,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>32ec470b4bfb4845a498f98f0acb43ee</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>TOTAL UNIT WITHDRAWN:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text32>
+            <Text37 Ref="51" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.7,0.5,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>48038edd5bdd4988899fee381b52ec37</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>{Emp_Benefit.TOTAL_CON_BALANCE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="52" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
+            </Text37>
+            <Text38 Ref="53" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0.5,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>9e150c69b2034361a9753ea4c252e9a0</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>TOTAL CONTRIBUTION:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text38>
+            <Text33 Ref="54" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.7,0.7,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>9bdc98c1885843c0ad7845e9ac8b05aa</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>{Emp_Benefit.UNIT_PRICE}</Text>
+              <TextBrush>Black</TextBrush>
+            </Text33>
+            <Text34 Ref="55" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0.7,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>cfadf4395f914f6e9d3bd487381a9bc8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>CURRENT UNIT PRICE:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text34>
+            <Text35 Ref="56" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.7,0.9,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>8bdf2774cb7b4aea921b5fa7089d2d03</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>{Emp_Benefit.CURRENT_BENEFIT}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="57" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
+            </Text35>
+            <Text36 Ref="58" type="Text" isKey="true">
+              <Border>None;[155:187:89];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0.9,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>2724eefff8ca41c0a36b84e80e13942a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text36</Name>
+              <Page isRef="6" />
+              <Parent isRef="46" />
+              <Text>ACCRUED BENEFIT:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text36>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>897bb37d0ef249fa96e8de10651e95e1</Guid>
+      <Margins>0.39,0.39,0.39,0.39</Margins>
+      <Name>Page1</Name>
+      <PageHeight>11</PageHeight>
+      <PageWidth>8.5</PageWidth>
+      <PaperSize>Letter</PaperSize>
+      <Report isRef="0" />
+      <Watermark Ref="59" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="60" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>10/25/2016 4:12:40 PM</ReportChanged>
+  <ReportCreated>7/28/2016 2:56:39 PM</ReportCreated>
+  <ReportFile>C:\Users\Kris\Desktop\PENFAD6_Loc\PenfadReportsApp\Employees\Employee_ContributionYear_On_Year_2.mrt</ReportFile>
+  <ReportGuid>8f032fdd76704ca2ae85b8fd59470f55</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Inches</ReportUnit>
+  <ReportVersion>2016.1.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="31">
+    <CompanyName Ref="61" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Navy;2;Solid;False;4;Navy</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>CompanyName</Name>
+      <TextBrush>Navy</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </CompanyName>
+    <ReportName Ref="62" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Bottom;[31:73:125];2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,11.25,Regular,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>ReportName</Name>
+      <TextBrush>Navy</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </ReportName>
+    <PageHeaderss Ref="63" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>[224:224:224]</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>PageHeaderss</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </PageHeaderss>
+    <BodyText Ref="64" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>EmptyBrush</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <Name>BodyText</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </BodyText>
+    <PageFooterss Ref="65" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>PageFooterss</Name>
+      <TextBrush>Black</TextBrush>
+    </PageFooterss>
+    <Header_Details Ref="66" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>Header_Details</Name>
+      <TextBrush>Black</TextBrush>
+    </Header_Details>
+    <Bodytext_naration Ref="67" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,6.75,Regular,Point,False,0</Font>
+      <Name>Bodytext_naration</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </Bodytext_naration>
+    <RunningTotal Ref="68" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9,Regular,Point,False,0</Font>
+      <Name>RunningTotal</Name>
+      <TextBrush>Black</TextBrush>
+    </RunningTotal>
+    <FRunningTotal_B Ref="69" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Bold,Point,False,0</Font>
+      <Name>FRunningTotal_B</Name>
+      <TextBrush>Black</TextBrush>
+    </FRunningTotal_B>
+    <CompanyGL Ref="70" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,18,Regular,Point,False,0</Font>
+      <Name>CompanyGL</Name>
+      <TextBrush>Navy</TextBrush>
+    </CompanyGL>
+    <GLBalances Ref="71" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>GLBalances</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </GLBalances>
+    <GLTotals Ref="72" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;EmptyBrush</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Bold,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>GLTotals</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </GLTotals>
+    <GroupHeader Ref="73" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>EmptyBrush</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>GroupHeader</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GroupHeader>
+    <GroupTotal Ref="74" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9,Bold,Point,False,0</Font>
+      <Name>GroupTotal</Name>
+      <TextBrush>Black</TextBrush>
+    </GroupTotal>
+    <GLTotaltext Ref="75" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <Name>GLTotaltext</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GLTotaltext>
+    <GroupTotaltext Ref="76" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9,Regular,Point,False,0</Font>
+      <Name>GroupTotaltext</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GroupTotaltext>
+    <BodytextPNL Ref="77" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9.75,Regular,Point,False,0</Font>
+      <Name>BodytextPNL</Name>
+      <TextBrush>Black</TextBrush>
+    </BodytextPNL>
+    <header_red Ref="78" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>header_red</Name>
+      <TextBrush>Red</TextBrush>
+    </header_red>
+    <Body_Tahoma_black Ref="79" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>Body_Tahoma_black</Name>
+      <TextBrush>Black</TextBrush>
+    </Body_Tahoma_black>
+    <MF_TopHeader Ref="80" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Times New Roman,12,Bold,Point,False,0</Font>
+      <Name>MF_TopHeader</Name>
+      <TextBrush>Black</TextBrush>
+    </MF_TopHeader>
+    <Bog_Body_Tahoma Ref="81" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9,Regular,Point,False,0</Font>
+      <Name>Bog_Body_Tahoma</Name>
+      <TextBrush>Black</TextBrush>
+    </Bog_Body_Tahoma>
+    <MF_TopHeader_2 Ref="82" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Times New Roman,9.75,Bold,Point,False,0</Font>
+      <Name>MF_TopHeader_2</Name>
+      <TextBrush>Black</TextBrush>
+    </MF_TopHeader_2>
+    <CompanySmaller Ref="83" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>WhiteSmoke</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,11.25,Bold,Point,False,0</Font>
+      <Name>CompanySmaller</Name>
+      <TextBrush>Black</TextBrush>
+    </CompanySmaller>
+    <hearder_small Ref="84" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>WhiteSmoke</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>hearder_small</Name>
+      <TextBrush>Black</TextBrush>
+    </hearder_small>
+    <Statement_Header Ref="85" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>Statement_Header</Name>
+      <TextBrush>Black</TextBrush>
+    </Statement_Header>
+    <Statement_Det1 Ref="86" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+      <Name>Statement_Det1</Name>
+      <TextBrush>Black</TextBrush>
+    </Statement_Det1>
+    <totaltahoma Ref="87" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>totaltahoma</Name>
+      <TextBrush>Black</TextBrush>
+    </totaltahoma>
+    <tahoma_x0020_no_x0020_border Ref="88" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>tahoma no border</Name>
+      <TextBrush>Black</TextBrush>
+    </tahoma_x0020_no_x0020_border>
+    <toho_x0020_b Ref="89" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+      <Name>toho b</Name>
+      <TextBrush>Black</TextBrush>
+    </toho_x0020_b>
+    <header_Line Ref="90" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,9.75,Bold| Underline,Point,False,0</Font>
+      <Name>header_Line</Name>
+      <TextBrush>Black</TextBrush>
+    </header_Line>
+    <Style1 Ref="91" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Calibri,9,Regular,Point,False,0</Font>
+      <Name>Style1</Name>
+      <TextBrush>Black</TextBrush>
+    </Style1>
+  </Styles>
+</StiSerializer>

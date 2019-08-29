@@ -1,0 +1,230 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@model IEnumerable<pfm_SchemeRepo>
+
+@{
+    var x = Html.X();
+    var schemerepo = new pfm_SchemeRepo();
+
+    List<SelectListItem> TierTypeList = new List<SelectListItem>();
+    TierTypeList.Add(new SelectListItem
+    {
+        Text = "TIER TYPE 1",
+        Value = "TIER TYPE 1"
+    });
+    TierTypeList.Add(new SelectListItem
+    {
+        Text = "TIER TYPE 2",
+        Value = "TIER TYPE 2"
+    });
+
+    List<SelectListItem> TierList = new List<SelectListItem>();
+    TierList.Add(new SelectListItem
+    {
+        Text = "TIER 2",
+        Value = "TIER 2"
+    });
+    TierList.Add(new SelectListItem
+    {
+        Text = "TIER 3",
+        Value = "TIER 3"
+    });
+
+    List<SelectListItem> SchemeStatusList = new List<SelectListItem>();
+    SchemeStatusList.Add(new SelectListItem
+    {
+        Text = "ACTIVE",
+        Value = "ACTIVE"
+    });
+    SchemeStatusList.Add(new SelectListItem
+    {
+        Text = "INACTIVE",
+        Value = "INACTIVE"
+    });
+
+    List<SelectListItem> SubmissionDayList = new List<SelectListItem>();
+    for (int i = 1; i <= 30; i++)
+    {
+        SubmissionDayList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+    List<SelectListItem> GracePeriodList = new List<SelectListItem>();
+    for (int i = 0; i <= 30; i++)
+    {
+        GracePeriodList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+}
+
+@(x.FormPanel()
+                    .ID("ReassignSchemePan")
+                    .WidthSpec("auto")
+                    .Title("Re-assign Scheme Custodian")
+                    .Frame(true)
+                    .AutoScroll(true)
+                    .Closable(true)
+                    .Layout(LayoutType.Column)
+                    .MarginSpec("0 0 0 0")
+                    .Width(1400)
+                    .Height(600)
+                    .FieldDefaults(fd =>
+                    {
+                        fd.LabelAlign = LabelAlign.Top;
+                        fd.MsgTarget = MessageTarget.Side;
+                    })
+
+                    .Items(
+                     
+
+                        x.GridPanel()
+                                .ID("ReSchemeGrid")
+                                .Title("View Scheme List")
+                                .Frame(true)
+                                .Width(700)
+                                .StyleSpec("float:left;")
+                                .MarginSpec("10 0 0 10")
+                                .Height(600)
+                                .Store(
+                                    x.Store()
+                                        .AutoLoad(true)
+                                        .ID("ReassignSchemeStore")
+                                .DataSource(Model)
+                                .Model(
+                                    x.Model()
+                                        .Fields(
+                                            x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                            x.ModelField().Name("NPRA_Number").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Tier_Type").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Tier").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Custodian_Id").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Custodian_Name").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Salary_Rate").Type(ModelFieldType.Float),
+                                            x.ModelField().Name("First_Deadline_Date").Type(ModelFieldType.Date),
+                                            x.ModelField().Name("Surcharge_Grace_Period").Type(ModelFieldType.Float),
+                                            x.ModelField().Name("Monthly_Penal_Rate").Type(ModelFieldType.Float),
+                                            x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                            x.ModelField().Name("Make_Date").Type(ModelFieldType.Date),
+                                            x.ModelField().Name("Scheme_Status").Type(ModelFieldType.String)
+                                            //x.ModelField().Name("Update_Id").Type(ModelFieldType.String),
+                                            //x.ModelField().Name("Update_Date").Type(ModelFieldType.Date)
+                                            )
+
+                                )
+                                .ServerProxy(
+                                       Html.X().AjaxProxy()
+                                       .Url(Url.Action("Read"))
+                                      )
+                                .PageSize(10)
+
+                        )
+                         .BottomBar(
+                            Html.X().PagingToolbar()
+                        )
+                        .Plugins(
+                            x.FilterHeader()
+                        )
+                        .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); App.svbtn.show(); App.Custodian_Id.clearValue() }")
+
+                        .ColumnModel(x.Column().DataIndex("Scheme_Id").Width(0))
+                        .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(420))
+                        .ColumnModel(x.Column().DataIndex("NPRA_Number").Text("NPRA Number").Width(200))
+                        .ColumnModel(x.Column().DataIndex("Tier_Type").Text("Tier Type").Width(150))
+                        .ColumnModel(x.Column().DataIndex("Custodian_Name").Text("Custodian").Width(180)),
+                        //.ColumnModel(x.Column().DataIndex("Salary_Rate").Text("Sal Rate").Width(150))
+                        //.ColumnModel(x.Column().DataIndex("First_Submit_Day").Text("Final Submission Day").Width(150))
+                        //.ColumnModel(x.Column().DataIndex("Surcharge_Grace_Period").Text("Grace Period").Width(150))
+                        //.ColumnModel(x.Column().DataIndex("Monthly_Penal_Rate").Text("Monthly Penal Rate").Width(150)),
+                        //.ColumnModel(x.Column().DataIndex("Update_Id").Text("Updated By").Width(300))
+                        //.ColumnModel(x.Column().DataIndex("Update_Date").Text("Last Updated By").Width(300)),
+
+                        x.FieldSet()
+                            //.WidthSpec("auto")
+                            .ID("fs")
+                            .Collapsible(true)
+                            .Layout(LayoutType.Column)
+                            .Width(615)
+                            .Height(610)
+                            .StyleSpec("float:left;")
+                            .Title("Re-assign Scheme Custodian")
+                            .MarginSpec("0 20 0 20")
+                            .Defaults(dd =>
+                            { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                                x.Hidden().Name("Scheme_Id"),
+                                x.TextField().Name("Scheme_Name").FieldLabel("Scheme Name").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Scheme name is required.").AutoFitErrors(true).ReadOnly(true),
+                                x.TextField().Name("NPRA_Number").FieldLabel("NPRA Number").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("0 30 10 10").ReadOnly(true),
+                                x.ComboBox().Name("Tier_Type").FieldLabel("Tier Type").Editable(false).Width(250).Items(TierList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Tier type is required.").AutoFitErrors(true).ReadOnly(true),
+                                //x.ComboBox().Name("Tier").FieldLabel("Tier").Editable(false).Width(250).Items(TierList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 0 10"),
+                                x.TextField().Namespace("Custodian_Name").FieldLabel("Custodian").Width(250).Editable(false).MarginSpec("0 30 10 10").AutoFitErrors(true).ReadOnly(true),
+                                x.TextField().Name("Salary_Rate").FieldLabel("Salary Contribution Rate").Width(250).MarginSpec("0 30 10 10").ReadOnly(true),
+                                x.ComboBox().Name("First_Deadline_Date").FieldLabel("First Deadline Date").Editable(false).Width(250).Items(SubmissionDayList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Submition day is required.").AutoFitErrors(true).ReadOnly(true),
+                                x.ComboBox().Name("Surcharge_Grace_Period").FieldLabel("Grace Period").Editable(false).Width(250).Items(GracePeriodList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Grace period is required.").AutoFitErrors(true).ReadOnly(true),
+                                x.TextField().Name("Monthly_Penal_Rate").FieldLabel("Monthly Penal Rate").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Penal rate is required.").AutoFitErrors(true).ReadOnly(true),
+                                x.ComboBox().Name("Scheme_Status").FieldLabel("Status").Editable(false).Width(250).Items(SchemeStatusList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 0 10").ReadOnly(true),
+
+
+                                x.FieldSet()
+                                    //.WidthSpec("auto")
+                                    .ID("fscs")
+                                    //.Collapsible(true)
+                                    .Layout(LayoutType.Column)
+                                    .Width(550)
+                                    .Height(150)
+                                    .StyleSpec("float:left;")
+                                    .Title("Select new Custodian")
+                                    .MarginSpec("0 5 0 5")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                        x.ComboBox().ID("Custodian_Id").Name("Custodian_Id").FieldLabel("Custodian").Items(schemerepo.GetCustodianList().Select(c => new ListItem(c.Custodian_Name, c.Custodian_Id))).Width(400).Editable(false).MarginSpec("0 30 10 10")
+                                        )
+                        //x.TextField().Name("Maker_Id").FieldLabel("Added By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Make_Date").FieldLabel("Date Added").Width(230).ReadOnly(true),
+                        //x.DateField().Name("Update_Id").FieldLabel("Updated By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Update_Date").FieldLabel("Date Last Updated").Width(230).ReadOnly(true)
+                        )
+                    .Items(
+                    x.Panel()
+                    .WidthSpec("100%")
+                    .Height(40)
+                    .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+                    .Items(
+                        x.Button()
+                            .Text("Re-assign new custodian")
+                            .ID("svbtn")
+                            .Width(250)
+                            .Icon(Icon.Add)
+                            .Hidden(true)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("ReassignSaveRecord");
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("5 10 10 5"),
+
+
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset(); App.svbtn.hide() ")
+                                .MarginSpec("5 10 10 5")
+
+                        )
+                        )
+                 )
+
+
+)
+

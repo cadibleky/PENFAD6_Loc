@@ -1,0 +1,544 @@
+﻿
+@model PENFAD6DAL.Repository.Investment.FixedIncome_Transaction.Invest_Trans_Fix_Repo
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.Security
+@using PENFAD6DAL.Repository.Setup.InvestSetup
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@*@using PRIME5DAL.Repository.AccountingMIS.GL*@
+
+
+@{
+    var X = Html.X();
+    var repo_scheme = new pfm_SchemeRepo();
+    var repo_fund_manager = new pfm_FundManagerRepo();
+    var repo_product = new Invest_ProductRepo();
+    var repo_Issuer = new setup_IssuerRepo();
+    var repo_Authorizer = new sec_AuthorizerRepo();
+    var repo_Assclass = new Invest_AssetClassRepo();
+
+
+}
+
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+
+
+
+
+</script>
+
+
+<style>
+    .lableStyle {
+        color: #darkblue;
+    }
+</style>
+
+
+
+@(Html.X().FormPanel()
+                                .ID("frm_UpdateFixedDepositTransPartial")
+                                .Closable(true)
+                                .Title("Money Market Details")
+                                .WidthSpec("auto")
+                                .HeightSpec("auto")
+                                .BodyPadding(5)
+                                //.Collapsible(true)
+                                .Layout(LayoutType.Column)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelWidth = 115;
+                                    fd.LabelStyle = "font-weight: bolder";
+                                    //fd.LabelStyle = "font-size: 14px;font-weight: bolder";
+                                })
+                                //.AutoScroll(true)
+                                .Items(Html.X().Panel()
+                                            .ID("panelUpdateFixedDepositTransPartial_for_gl_pugrid")
+                                            .ColumnWidth(0.4)
+                                            .Border(true)
+                                            .Height(760)
+                                            .Title("Editing Transaction Details")
+                                            .MarginSpec("10 0 0 10")
+                                            .AutoScroll(true)
+                                            .BodyPadding(5)
+                                            .Items(Html.X().Panel()
+                                                        .ID("UpdateFixedDepositTransPartialpanel_sAccount")
+                                                        .Items(Html.X().FieldSet()
+                                                                       .ID("UpdateFixedDepositTransPartialfs_sschemeAccount")
+                                                                       .Layout(LayoutType.Column)
+                                                                       .Width(750)
+                                                                       .Items(
+                                                                            // X.ComboBox()
+                                                                            //.ID("cmd_schemename_for_gl")
+                                                                            //.Name("Scheme_Id")
+                                                                            //.FieldLabel("Scheme Name")
+                                                                            //.Width(600)
+                                                                            //.MarginSpec("10 0 5 0")
+                                                                            //s.SimpleSubmit(true)
+                                                                            //.Editable(false)
+                                                                            //.AllowBlank(false)
+                                                                            //.BlankText("Select role")
+                                                                            // .TriggerAction(TriggerAction.All)
+                                                                            //.FieldStyle("text-transform:uppercase")
+                                                                            //.Items(repo_scheme.GetSchemeList().Select(c => new ListItem(c.Scheme_Name, c.Scheme_Id)))
+                                                                            //.Listeners(l => { l.Select.Handler = "App.Scheme_ID_forgl.setValue() = this.next().setValue(this.getValue());   this.up('form').reset();"; })
+                                                                            //.DirectEvents(dte =>
+                                                                            //            {
+                                                                            //                dte.TriggerClick.Url = Url.Action("GetGL_List");
+                                                                            //                dte.TriggerClick.Success = "onSuccess(App.gl_grid, result.data);";
+                                                                            //            }),
+
+                                                                            ///  X.TextField().ID("Scheme_ID_forgl").Name("Account_No").FieldLabel("Account Name").Width(600)
+                                                                            )//end fs_scheme_gl_forschemegl items
+                                                        )//end fs_scheme_gl_forschemegl
+                                                    )//end fs_scheme_gl item
+                                                     //begin role grid
+                                             .Items(Html.X().GridPanel()
+                                                            .ID("UpdateFixedDepositTransPartialupdaccountt_grid")
+                                                            //.Hidden(true)
+                                                            .Region(Region.West)
+                                                            //.Split(true)
+                                                            .Border(true)
+                                                            //.Frame(true)
+                                                            //.Width(350)
+                                                            .Cls("gridFont")
+                                                            .Height(600)
+                                                            //.HeightSpec("auto")
+                                                            .TopBar(Html.X().Toolbar()
+                                                                        .Items(Html.X().Button()
+                                                                                .ID("btn_viewActEdit")
+                                                                                .Text("View Editing Transaction")
+                                                                                .Width(200)
+                                                                                .Icon(Icon.ApplicationViewDetail)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    //de.Click.Url = Url.Action("ReadEditing_Transaction");
+                                                                                    //de.Click.Success = "onSuccess(App.UpdateFixedDepositTransPartialupdaccountt_grid, result.data);";
+                                                                                    //de.Click.ExtraParams.Add(new Parameter("Scheme_Id", "App.cmd_schemename_for_gl.getValue()", ParameterMode.Raw));
+
+                                                                                    de.Click.Url = Url.Action("ReadEditing_Transaction");
+                                                                                    de.Click.Success = "onSuccess(App.UpdateFixedDepositTransPartialupdaccountt_grid, result.data);";
+                                                                                })))
+
+                                                            .Store(Html.X().Store()
+                                                                .ID("UpdateFixedDepositTransPartialaccounttore")
+                                                                .AutoLoad(false)
+                                                                .Model(Html.X().Model()
+                                                                    .Fields(
+
+                                                                            new ModelField("Account_Name", ModelFieldType.String),
+                                                                            new ModelField("Scheme_Name", ModelFieldType.String),
+                                                                            new ModelField("Invest_No", ModelFieldType.String),
+                                                                            new ModelField("Contract_No", ModelFieldType.String),
+                                                                            new ModelField("Account_Name", ModelFieldType.String),
+                                                                            new ModelField("Account_No", ModelFieldType.String),
+                                                                            new ModelField("Avaliable_Balance", ModelFieldType.Float),
+                                                                            new ModelField("product_Name", ModelFieldType.String),
+                                                                            new ModelField("Product_Id", ModelFieldType.String),
+                                                                            new ModelField("Amount_Invested", ModelFieldType.Float),
+                                                                            new ModelField("Annual_Int_Rate", ModelFieldType.Float),
+                                                                            new ModelField("Daily_Int_Rate", ModelFieldType.Float),
+                                                                            new ModelField("Duration_In_Days", ModelFieldType.Float),
+                                                                            new ModelField("Expected_Int", ModelFieldType.Float),
+                                                                            new ModelField("Amount_on_Maturity", ModelFieldType.Float),
+                                                                            new ModelField("Interest_Type", ModelFieldType.String),
+                                                                            new ModelField("Interest_Day_Basic", ModelFieldType.Float),
+                                                                            new ModelField("Security_Type", ModelFieldType.String),
+                                                                            new ModelField("Start_Date", ModelFieldType.Date),
+                                                                            new ModelField("Maturity_Date", ModelFieldType.Date),
+                                                                            new ModelField("Issuer_Name", ModelFieldType.String),
+                                                                            new ModelField("Issuer_Id", ModelFieldType.String),
+                                                                            new ModelField("Fund_Manager", ModelFieldType.String),
+                                                                            new ModelField("Fund_Manager_Id", ModelFieldType.String),
+                                                                            new ModelField("FullName", ModelFieldType.String),
+                                                                            new ModelField("Fund_Name", ModelFieldType.String),
+                                                                            new ModelField("SF_ID", ModelFieldType.String),
+                                                                             new ModelField("Scheme_Id", ModelFieldType.String)
+
+
+
+                                                                            )//end fields
+                                                                        )//end model
+                                                                        .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                                        .ServerProxy(
+                                                                                    Html.X().AjaxProxy()
+                                                                                            .Url(Url.Action("ReadEditing_Transaction"))
+                                                                                    )//end serverproxy
+                                                                    )//end  store
+                                                            .ColumnModel(
+
+                                                                    Html.X().Column().Text("Account Name").DataIndex("Account_Name").Width(350),
+                                                                    //Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(350),
+                                                                    Html.X().Column().Text("Account No.").DataIndex("Account_No").Width(150),
+                                                                     Html.X().Column().Text("Available Balance").DataIndex("Avaliable_Balance").Width(150),
+                                                                    Html.X().Column().Text("Product Name").DataIndex("product_Name").Width(150),
+                                                                    Html.X().Column().Text("Amount Invested").DataIndex("Amount_Invested").Width(150),
+                                                                    Html.X().Column().Text("Annual Interest Rate").DataIndex("Annual_Int_Rate").Width(150),
+                                                                   Html.X().Column().Text("Interest On Maturity").DataIndex("Expected_Int").Width(150),
+                                                                    Html.X().Column().Text("Amount on Maturity").DataIndex("Amount_on_Maturity").Width(150),
+                                                                    Html.X().Column().Text("Investment Date").DataIndex("Start_Date").Width(150),
+                                                                    Html.X().Column().Text("Maturity Date").DataIndex("Maturity_Date").Width(150),
+                                                                    ///   Html.X().Column().Text("Issuer Name").DataIndex("Issuer_Name").Width(150),
+                                                                    Html.X().Column().Text("Fund Manager").DataIndex("Fund_Manager").Width(150),
+                                                                    Html.X().Column().Text("Investment Status").DataIndex("Invest_Status").Width(150),
+                                                                    Html.X().Column().Text("Investment No").DataIndex("Invest_No").Width(150)
+                                                                    /// Html.X().Column().Text("Authorizer Name").DataIndex("FullName").Width(150)
+
+
+                                                                    /////Html.X().Column().Text("Back Period Entry").DataIndex("AllowBack_PeriodEntry").Width(150)
+                                                                    )//end columnmodel
+                                                            .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);};")
+                                                            .Plugins(Html.X().FilterHeader())
+                                                            .Refresh()
+                                                            .BottomBar(
+                                                                    Html.X().PagingToolbar()
+                                                                    //.Items(
+                                                                    //        Html.X().Label("Page Size:"),
+                                                                    //        Html.X().ComboBox()
+                                                                    //                .Width(80)
+                                                                    //                .Items("5", "10", "15", "20")
+                                                                    //                .SelectedItems("10")
+                                                                    //                .Listeners(l => { l.Select.Fn = "onComboBoxSelect"; })
+                                                                    //        )
+                                                                    //    .Plugins(Html.X().ProgressBarPager())
+                                                                    )
+                                                          //.DirectEvents(de =>
+                                                          //{
+                                                          //    de.CellClick.Url = Url.Action("GetGroupsByRoleId");
+                                                          //    de.CellClick.Success = "onSuccessgroup(App.group_grid, result.data);";
+                                                          //})
+                                                          ) //end rolegridpanel
+                                         )//end panel_forgrids
+                                          // second column begins
+                                 .Items(Html.X().Panel()
+                                            .ID("panel_rightcolumnEditfixedincome_actddetails")
+                                            .Border(true)
+                                            .ColumnWidth(0.5)
+                                            .AutoScroll(true)
+                                            //.Title("GL Properties")
+                                            .Height(760)
+                                            .MarginSpec("10 0 0 0")
+                                            .ButtonAlign(Alignment.Left)
+                                            .Buttons(
+                                                        X.Button().ID("btnUpdate").Text("Submit Trans For Approval").Icon(Icon.ApplicationAdd).Width(200)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Url = Url.Action("Editing_Submit_FixedIncTransaction");
+                                                                }),
+                                                         X.Button().ID("btn_SaveEdit").Text("Save Trans.For Editing").Icon(Icon.ApplicationAdd).Width(200)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Url = Url.Action("ForEditSubmit_FixedIncTransaction");
+                                                                }),
+
+                                                     X.Button().ID("btnfixedincomeTra_Delete").Text("Delete Transaction").Icon(Icon.ApplicationAdd).Width(200)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                    de.Click.Confirmation.Title = "Delete Record";
+                                                                    de.Click.Confirmation.Message = "Delete Transaction?";
+                                                                    de.Click.Url = Url.Action("DeleteRecord");
+                                                                }),
+
+                                                         X.Button()
+                                                              .Text("Clear Screen")
+                                                                .Width(150)
+                                                               .Icon(Icon.ArrowRefresh)
+                                                              .OnClientClick("this.up('form').getForm().reset();")
+                                                           // .MarginSpec("10 0 0 0")
+
+
+                                                           )
+
+                                            .Items(Html.X().FieldSet()
+                                                        .ID("updatefixedincomefss_parent1")
+                                                         .MarginSpec("0 10 0 10")
+                                                        .Title("Account Details")
+                                                        .Collapsible(true)
+                                                        .Defaults(d =>
+                                                        {
+                                                            d.Add(new Parameter("LabelWidth", "115"));
+                                                        })
+                                                        //.Height(130)
+                                                        .Items(
+                                                                Html.X().TextField().ID("txtedit_Account_Name").Name("Account_Name").FieldLabel("Account Name").Width(500).ReadOnly(true),
+                                                                Html.X().TextField().ID("txtedit_Account_No").Name("Account_No").FieldLabel("Account No.").Width(500).ReadOnly(true),
+                                                                Html.X().TextField().ID("txtedit_Available_Balance").Name("Avaliable_Balance").FieldLabel("Available  Balance").Width(500).ReadOnly(true),
+                                                                 Html.X().TextField().ID("txtedit_frmtxtFundName").Name("Fund_Name").FieldLabel("Fund Name").Width(500).ReadOnly(true),
+                                                                 Html.X().Hidden().Name("SF_ID")
+                                                                 )//end items fs_parent1
+                                                    )//end fs_parent1
+                                           .Items(Html.X().FieldSet().Layout(LayoutType.Column)
+                                                        .ID("updatefixedincfs_parentProduct")
+                                                      .MarginSpec("0 10 0 10")
+                                                        .Title("Product Details")
+                                                        //.Disable(true)
+                                                        .Collapsible(true)
+                                                          //.Collapsed(true)
+                                                          //.Defaults(d =>
+                                                          //{
+                                                          //    d.Add(new Parameter("LabelWidth", "115"));
+                                                          //})
+                                                          //.Height(130)
+                                                          .FieldDefaults(d =>
+                                                          {
+                                                              d.LabelAlign = LabelAlign.Top;
+                                                              d.MsgTarget = MessageTarget.Side;
+                                                              d.LabelWidth = 150;
+                                                              d.PreventMark = true;
+                                                          })
+
+                                                        .Items
+                                                        (
+                                                                Html.X().TextField().ID("frmEdit_txtContract_No").Name("Contract_No")
+                                                                      .FieldLabel("Contract No").MarginSpec("0 30 10 10").Width(300).TabIndex(1)
+                                                                        .AllowBlank(false)
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .BlankText("Contract No is required."),
+                                                                   Html.X().TextField().ID("frmEdit_txtInvestment_No").Name("Invest_No")
+                                                                      .FieldLabel("Investment No").MarginSpec("0 30 10 10").Width(300).TabIndex(2)
+                                                                        .AllowBlank(false)
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .BlankText("Contract No is required."),
+                                                               Html.X().ComboBox().Name("Security_Type").ID("txteditInvestment_type")
+                                                                          .FieldLabel("Select Investment Type")
+                                                                          .EmptyText("Investment Type")
+                                                                         .MarginSpec("0 30 10 10").TabIndex(3).Width(300)
+                                                                         .AllowBlank(false).Editable(false)
+                                                                         .FieldStyle("text-transform: uppercase")
+                                                                        .BlankText("Investment Type is required.").Items(repo_Assclass.GetAssetList().Select(d => new ListItem(d.description, d.Class_Id)))
+                                                                        .Listeners(ls =>
+                                                                        ls.Change.Handler = "App.txteditproduct_id.clearValue(); App.txteditproduct_id.getStore().load();"),
+
+                                                                  Html.X().ComboBox().ID("txteditproduct_id").Name("Product_Id")
+                                                                          .FieldLabel("Select Product")
+                                                                          .EmptyText("Select Product")
+                                                                         .MarginSpec("0 30 10 10").TabIndex(4).Width(300)
+                                                                         .AllowBlank(false).Editable(false)
+                                                                         .FieldStyle("text-transform: uppercase")
+                                                                            .ValueNotFoundText("No Product Available...")
+                                                                         .Editable(false)
+                                                                         .TypeAhead(true)
+                                                                        .QueryMode(DataLoadMode.Local)
+                                                                        .ForceSelection(true)
+                                                                        .TriggerAction(TriggerAction.All)
+                                                                       .DisplayField("name")
+                                                                       .ValueField("id")
+                                                                      .BlankText("Product is required.")
+                                                                     .EmptyText("No Product Available...")
+                                                                     .Store(Html.X().Store()
+                                                                      .AutoLoad(false)
+                                                                    .Model(Html.X().Model()
+                                                                   .IDProperty("pId")
+                                                            .Fields(
+                                                                   new ModelField("id", ModelFieldType.String) { Mapping = "pId" },
+                                                                  new ModelField("name", ModelFieldType.String) { Mapping = "pName" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetpID"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("Class_Id", "App.txteditInvestment_type.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.txteditproduct_id; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               )
+                                        ,
+
+                                                                Html.X().ComboBox().ID("frmeditInterest_Type").Name("Interest_Type").FieldLabel("Interest Type")
+                                                                          .MarginSpec("0 30 10 10").Width(300).TabIndex(5).Listeners(ls => ls.Select.Handler = "App.ComboBoxMonthInt_type.clearValue(); App.ComboBoxMonthint_type.getStore().load()")
+                                                                          .Items(
+                                                                            new ListItem("SIMPLE INTEREST")
+                                                                            )
+                                                                           .EmptyText("Select Interest Type")
+                                                                           .Editable(false)
+                                                                           .AllowBlank(false)
+                                                                           .BlankText("Interest Day Basis is required.")
+                                                                           .FieldStyle("text-transform:UPPERCASE"),
+                                                                  Html.X().ComboBox().Name("Interest_Day_Basic").FieldLabel("Interest Day Basis")
+                                                                          .MarginSpec("0 30 10 10").Width(300).TabIndex(6).Listeners(ls => ls.Select.Handler = "App.ComboBoxMonthint_day.clearValue(); App.ComboBoxMonthint_day.getStore().load()")
+                                                                          .Items(
+                                                                            new ListItem("364"),
+                                                                            new ListItem("365"),
+                                                                             new ListItem("366")
+
+                                                                           )
+                                                                            .EmptyText("Select  Interest Day Basis")
+                                                                           .Editable(true)
+                                                                             .AllowBlank(true)
+                                                                             .BlankText("Interest Day Basis is required.")
+                                                                             .FieldStyle("text-transform:UPPERCASE"),
+                                                            Html.X().Hidden().Name("Scheme_Id").ID("frmEditAccount_txtScheme_Id")
+                                                              .Listeners(ls =>
+                                                                  ls.Change.Handler = "App.txtFund_Manager_Id.clearValue(); App.txtFund_Manager_Id.getStore().load();"),
+                                                                Html.X().NumberField()
+                                                                       .ID("frmeditDuration_In_Days")
+                                                                        .Name("Duration_In_Days")
+                                                                        .FieldLabel("Tenor(In Days)").MarginSpec("0 30 10 10").TabIndex(7)
+                                                                        .EmptyText("Select  Tenor(In Days)")
+                                                                        .Width(300)
+                                                                        .AllowBlank(false)
+                                                                        .BlankText("Tenor In Days required.")
+                                                                        .FieldStyle("text-transform: uppercase"),
+                                                               Html.X().ComboBox().Name("Issuer_Id").ID("txteditIssuer_Id")
+                                                                        .FieldLabel("Select Issuer  Name")
+                                                                         .EmptyText("Select  Issuer  Name")
+                                                                        .MarginSpec("0 30 10 10").TabIndex(8).Width(300)
+                                                                        .AllowBlank(false).Editable(false)
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                      .BlankText("Issuer Name is required.").Items(repo_Issuer.GetIssuerList().Select(d => new ListItem(d.Issuer_Name, d.Issuer_Id))),
+                                                           Html.X().ComboBox().Name("Fund_Manager_Id").ID("txteditFund_Manager_Id")
+                                                                        .FieldLabel("Select Fund Manager")
+                                                                         .EmptyText("Select Fund Manager")
+                                                                        .MarginSpec("0 30 10 10").TabIndex(9).Width(300)
+                                                                        .AllowBlank(false).Editable(false)
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .BlankText("Fund Manager Name  is required.").Items(repo_fund_manager.GetFundmanagerList().Select(d => new ListItem(d.Fund_Manager ,d.Fund_Manager_Id))),
+                                                //                         .BlankText("Issuer Name is required.").Items(repo_Issuer.GetIssuerList().Select(d => new ListItem(d.Issuer_Name, d.Issuer_Id))),
+                                                //            Html.X().ComboBox().Name("Fund_Manager_Id").ID("txteditFund_Manager_Id")
+                                                //                    .FieldLabel("Select Fund Manager")
+                                                //                         .EmptyText("Select  Fund Manager")
+                                                //                         .MarginSpec("0 30 10 10").TabIndex(8).Width(300)
+                                                //                         .AllowBlank(false).Editable(false)
+                                                //                         .FieldStyle("text-transform: uppercase")
+                                                //                       ///  .BlankText("Fund Manager Name is required.").Items(repo_fund_manager.GetFundmanagerList().Select(d => new ListItem(d.Fund_Manager, d.Fund_Manager_Id))),
+                                                //                       .TypeAhead(true)
+                                                //                    .QueryMode(DataLoadMode.Local)
+                                                //                    .ForceSelection(true)
+                                                //                   .TriggerAction(TriggerAction.All)
+                                                //                    .DisplayField("name")
+                                                //                  .ValueField("id")
+                                                //                  .BlankText("Fund Manager is required.")
+                                                //                   .EmptyText("No Fund Manager Available...")
+                                                //                .ValueNotFoundText("No Fund Manager Available...")
+                                                //                   .Store(Html.X().Store()
+                                                //                .AutoLoad(false)
+                                                //             .Model(Html.X().Model()
+                                                //         .IDProperty("Id")
+                                                //         .Fields(
+                                                //             new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                                //             new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                                //         )
+                                                //     )
+                                                //     .Proxy(Html.X().AjaxProxy()
+                                                //         .Url(Url.Action("GetFM"))
+                                                //         .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                //     )
+                                                //     .Parameters(ps =>
+                                                //         ps.Add(new StoreParameter("Scheme_Id", "App.frmEditAccount_txtScheme_Id.getValue()", ParameterMode.Raw))
+                                                //     )
+                                                //     .Listeners(ls =>
+                                                //                     ls.Load.Handler = @"var combo = App.txteditFund_Manager_Id; 
+                                                //                                      combo.setValue(records[0].get(combo.valueField));"
+
+                                                //     )
+                                                //),
+
+
+
+
+                                                Html.X().ComboBox().Name("Auth_Id").ID("txteditAuthorzer_Id")
+                                                                        .FieldLabel("Select Authorizer")
+                                                                        .EmptyText("Select  Authorizer")
+                                                                        .MarginSpec("0 30 10 10").TabIndex(10).Width(300)
+                                                                        .AllowBlank(false).Editable(false)
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .BlankText("Authorizer Name is required.")
+                                                                        .Items(repo_Authorizer.GetFixedIncomeAuthorizerList().Select(d => new ListItem(d.Full_Name, d.User_Id)))
+                                                                     ))//end items fs_parent3
+
+
+
+                                             .Items(Html.X().FieldSet()
+                                                        .Layout(LayoutType.Column)
+                                                        .ID("fs_parentInvestmenttransedit")
+                                                        .MarginSpec("0 10 0 10")
+                                                        .Title("Investment Details")
+                                                        //.Disable(true)
+                                                        .Collapsible(true)
+                                                          //.Collapsed(true)
+                                                          .FieldDefaults(d =>
+                                                          {
+                                                              d.LabelAlign = LabelAlign.Top;
+                                                              d.MsgTarget = MessageTarget.Side;
+                                                              d.LabelWidth = 150;
+                                                              d.PreventMark = true;
+                                                          })
+
+                                                        //.Height(130)
+                                                        .Items
+                                                        (
+                                                             Html.X().NumberField().ID("frmeditAmount_txtInvested").Name("Amount_Invested")
+                                                                      .FieldLabel("Amount Invested").MarginSpec("0 30 10 10").Width(300).TabIndex(1)
+                                                                        .AllowBlank(false)
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .BlankText("Amount Invested is required."),
+                                                             Html.X().NumberField().ID("frmeditAmount_txtAnnualInterest")
+                                                                     .Name("Annual_Int_Rate").FieldLabel("Annual Interest Rate")
+                                                                     .MarginSpec("0 30 10 10").Width(300).TabIndex(2),
+                                                             /// .Listeners(ls => ls.FocusLeave.Handler = @"var ann_interest = App.frmAmount_txtAnnualInterest.getValue()/100;
+                                                             ///   var amount = App.frmAmount_txtInvested.getValue();
+                                                             /// App.frmInterest_On_Maturity.setValue(amount * ann_interest);
+                                                             //// "),
+                                                             Html.X().DateField().ID("dateeditStart_Date").Name("Start_Date")
+                                                                     .FieldLabel("Investment Start Date")
+                                                                     .EmptyText("Select  Investment Start Date")
+                                                                     .MarginSpec("0 30 10 10").Width(300).TabIndex(3),
+                                                          Html.X().DateField().ID("dateeditMaturity_Date").Name("Maturity_Date").
+                                                                   FieldLabel("Maturity Date").MarginSpec("0 30 10 10").Width(300).TabIndex(4)
+                                                                  .EmptyText("Maturity  Date").ReadOnly(true).Editable(false),
+                                                         Html.X().TextField().ID("frmeditInterest_On_Maturity").Name("Expected_Int")
+                                                                .FieldLabel("Interest on Maturity")
+                                                                 .MarginSpec("0 30 10 10").Width(300).TabIndex(5).ReadOnly(true).Editable(false),
+                                                       /// .Listeners(ls => ls.FocusLeave.Handler = @"var interest_Onmaturity = App.frmInterest_On_Maturity.getValue();
+                                                       ///  var amount_invested = App.frmAmount_txtInvested.getValue();
+                                                       /// App.frmAmount_on_txtMaturity.setValue([amount_invested] + [interest_Onmaturity]);
+                                                       /// "),
+                                                       Html.X().TextField().ID("frmeditAmount_on_txtMaturity").Name("Amount_on_Maturity")
+                                                                .FieldLabel("Maturity Value").MarginSpec("0 30 10 10").Width(300).TabIndex(6)
+                                                                 .MarginSpec("0 30 0 10").Width(300).ReadOnly(true),
+
+                                                                 Html.X().Button()
+
+                                                                            .Text("Compute Interest")
+                                                                            .Icon(Icon.ArrowRefresh)
+                                                                            .MarginSpec("30 0 20 0")
+                                                                            .Width(160)
+                                                                            .Cls("btn_comp_Interest")
+                                                                            .DirectEvents(de =>
+                                                                            {
+                                                                                de.Click.Url = Url.Action("Compute_InterestAndMaturitydate");
+                                                                                /// de.Click.Success = "onSuccess(App.employeeGrid, result.data);";
+                                                                                ///de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.cmbEmployerId.getValue()", ParameterMode.Raw));
+
+                                                                            })
+
+
+
+                                                                         )//end button
+
+                                                ))//end items fs_parent4
+)//end fs_parent3
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+﻿@{
+    var x = Html.X();
+}
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+               .ID("Report_EmployeeBPartial_frm_main")
+               .Title("Benefits Summary")
+               .Closable(true)
+               .Layout(LayoutType.Border)
+               .Frame(true)
+               .AutoScroll(true)
+               .FieldDefaults(fd =>
+               {
+                   fd.LabelAlign = LabelAlign.Top;
+                   fd.MsgTarget = MessageTarget.Side;
+               })
+               .MarginSpec("10 0 0 10")
+              .Items(
+               //x.Hidden().Text("Preview").Width(80).MarginSpec("34 0 0 5")
+               //                                       .DirectEvents(de =>
+               //                                         {
+               //                                             de.Render.Url = Url.Action("Load_Employee_Report_IFrame");
+               //                                             de.Render.ExtraParams.Add( new Parameter("containerId", "Report_EmployeeActPartial_panel_right_center_content"));
+    //                                         }),
+    // end items
+
+    // end
+
+    ///center region starts
+    Html.X().Panel()
+                            .ID("Report_EmployeeBPartial_panel_right_center_content")
+                            //.Title("GL Journal Trans. Posting")
+                            .Region(Region.Center)
+                            .Split(true)
+                            .AutoScroll(true)
+                            .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Employee_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+                                        )
+                                                        .DirectEvents(de =>
+                                                        {
+                                                            de.Render.Url = Url.Action("Load_Employee_Report_IFrame");
+                                                            de.Render.ExtraParams.Add( new Parameter("containerId", "Report_EmployeeBPartial_panel_right_center_content"));
+
+                                                        })
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+
+
+
+// end main
+)

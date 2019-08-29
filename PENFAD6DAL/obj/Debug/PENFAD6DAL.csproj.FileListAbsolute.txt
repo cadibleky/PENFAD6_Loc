@@ -1,0 +1,112 @@
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.FullNetFx.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.xml
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.xml
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.xml
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.RollingFile.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.Seq.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.FullNetFx.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.RollingFile.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.Seq.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.xml
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.xml
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.xml
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.FullNetFx.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.RollingFile.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.Seq.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.xml
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.xml
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.xml
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\Kris\Desktop\new_penfad\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.FullNetFx.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.RollingFile.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.Seq.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.xml
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.File.xml
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\bin\Debug\Serilog.Sinks.PeriodicBatching.xml
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\Kris\Desktop\PENFAD6\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\bin\Debug\EASendMail20.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\bin\Debug\EASendMail20.dll
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\KRIS\Documents\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csproj.CoreCompileInputs.cache
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csproj.CopyComplete
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Dapper.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll.config
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\PENFAD6DAL.pdb
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Dapper.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache

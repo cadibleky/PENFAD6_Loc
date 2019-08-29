@@ -1,0 +1,91 @@
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\InfoBipTestApp.exe.config
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\InfoBipTestApp.exe
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\InfoBipTestApp.pdb
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.dll
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\WorldDomination.HttpClient.Helpers.dll
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.xml
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.xml
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.csproj.App.config
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.csprojResolveAssemblyReference.cache
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.exe
+C:\Users\Fredrick\Dropbox\NFORTICS FILES\C# CODES\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.pdb
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\TeksolServices.dll.config
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\TeksolServices.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\TeksolServices.pdb
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Aspose.Email.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Polly.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.Sinks.Email.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\WorldDomination.HttpClient.Helpers.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Aspose.Email.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Polly.pdb
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Polly.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.pdb
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.pdb
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.Sinks.Email.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.csproj.App.config
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\TeksolServices.dll
+C:\Users\User\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\TeksolServices.pdb
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\TeksolServices.dll.config
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\TeksolServices.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\TeksolServices.pdb
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Polly.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.Sinks.Email.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\WorldDomination.HttpClient.Helpers.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Aspose.Email.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Polly.pdb
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Polly.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.pdb
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.pdb
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\Serilog.Sinks.Email.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.csproj.App.config
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\InfoBipTestApp.csprojResolveAssemblyReference.cache
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\TeksolServices.dll
+C:\Users\TROAS\Documents\_TEKSOL\PROJECTS\InfoBip\InfoBipTestApp\obj\Debug\TeksolServices.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\TeksolServices.dll.config
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\TeksolServices.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\TeksolServices.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Polly.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.Sinks.Email.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\WorldDomination.HttpClient.Helpers.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Polly.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Polly.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.FullNetFx.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\Serilog.Sinks.Email.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\System.Net.Http.Extensions.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\obj\Debug\InfoBipTestApp.csproj.App.config
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\obj\Debug\TeksolServices.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\obj\Debug\TeksolServices.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\InfoBipTestApp\obj\Debug\InfoBipTestApp.csprojResolveAssemblyReference.cache

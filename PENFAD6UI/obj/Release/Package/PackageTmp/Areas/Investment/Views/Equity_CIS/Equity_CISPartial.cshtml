@@ -1,0 +1,477 @@
+﻿
+@using PENFAD6DAL.Repository.Investment.Equity_CIS
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+@model IEnumerable<Invest_Equity_CISRepo>
+
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var equity_CIS = new Invest_Equity_CISRepo();
+    var repo_Issuer = new setup_IssuerRepo();
+    var x = Html.X();
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+                        .ID("frmAddEquity_CIS")
+                        .Title("Buy Equity / CIS Investment")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1000)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+
+                                               x.FieldSet()
+                                                .Height(1000)
+                                                .Width(1600)
+                                                .Frame(true)
+                                                .MarginSpec("0 0 0 10")
+
+                                                .Items(
+
+                                                                  x.FieldSet()
+                                                                    .Height(320)
+                                                                    .Width(780)
+                                                                    .Layout(LayoutType.Column)
+                                                                    .Title("'Scheme-Fund' Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                        .Items(
+                                                                        x.Hidden().Name("Scheme_Id").ID("AddES_ID")
+                                                                        .Listeners(ls =>
+                                                                                        ls.Change.Handler = "App.AddEFM.clearValue(); App.AddEFM.getStore().load();"),
+
+                                                                        x.Hidden().Name("Scheme_Fund_Id").ID("AddESF_ID")
+                                                                        .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.ECIS_GLB.clearValue(); App.ECIS_GLB.getStore().load();"),
+
+                                                                        x.Hidden().Name("ES_Id").ID("purchase_ES_Id"),
+
+                                                                        x.TextField()
+                                                                        .Name("Scheme_Name")
+                                                                        .Width(650)
+                                                                        .FieldLabel("Scheme")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                        x.TextField()
+                                                                        .Name("Fund_Name")
+                                                                        .Width(450)
+                                                                        .FieldLabel("Fund")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 10")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Scheme-Fund' must be selected."),
+
+                                                                     x.ComboBox().Name("GL_Account_No").ID("ECIS_GLB")
+                                                                    .FieldLabel("GL Bank Account")
+                                                                    .Width(450)
+                                                                    .Editable(false)
+                                                                    .TypeAhead(true)
+                                                                    .QueryMode(DataLoadMode.Local)
+                                                                    .ForceSelection(true)
+                                                                    .TriggerAction(TriggerAction.All)
+                                                                    .DisplayField("name")
+                                                                    .ValueField("id")
+                                                                    .BlankText("GL Bank Account is required.")
+                                                                    .EmptyText("No GL Bank Account Available...")
+                                                                    .ValueNotFoundText("No GL Bank Account Available...").MarginSpec("15 0 0 10")
+                                                                      .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.AddECIS_GLBalance.clearValue(); App.AddECIS_GLBalance.getStore().load();")
+
+                                                                    .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("ECNEWId")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "ECNEWId" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "gName" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetGLAB"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Scheme_Fund_Id", "App.AddESF_ID.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.ECIS_GLB; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField)); App.AddECIS_GLBalance.clearValue(); App.AddECIS_GLBalance.getStore().load();"
+
+                                                                        )
+
+                                                                   )
+                                                            ,
+
+                                            x.ComboBox().Name("GL_Balance").ID("AddECIS_GLBalance")
+                                                .FieldLabel("GL Bank Account Balance")
+                                                .Width(190)
+                                                .Editable(false)
+                                                .ReadOnly(true)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("id")
+                                                .ValueField("name")
+                                                .BlankText("Select GL Bank Account.")
+                                                .ValueNotFoundText("No GL Bank Account...").MarginSpec("0 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("ECNEWId_B")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "ECNEWId_B" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "mName" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetGLacc"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("GL_Account_No", "App.ECIS_GLB.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.AddECIS_GLBalance; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               )
+                                            ,
+
+                                            x.Button()
+                                            .Text("Select 'Scheme-Fund'")
+                                            .Width(250)
+                                            .Icon(Icon.ApplicationFormAdd)
+                                            .TabIndex(28)
+                                            .Handler("App.ECISSchemeFund.show(this);")
+                                            .MarginSpec("32 10 0 10")
+                                            )
+                                            ,
+
+
+                                        x.FieldSet()
+                                        .Height(470)
+                                        .Width(780)
+                                        .Layout(LayoutType.Column)
+                                        .Title("Investment Details")
+                                        .MarginSpec("0 0 0 10")
+                                        .Defaults(dd =>
+                                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                            x.Hidden().Name("Invest_No"),
+
+                                                x.TextField()
+                                            .Name("Invest_Description")
+                                            .Width(350)
+                                            .FieldLabel("Description")
+                                            // .Editable(false)
+                                            .MarginSpec("10 0 0 10")
+                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                            ,
+
+                                            x.ComboBox().Name("Class_Id").ID("ADDECID")
+                                            .FieldLabel("Asset Class")
+                                            .MarginSpec("10 0 0 10").TabIndex(11).Width(350)
+                                            .AllowBlank(false)
+                                            .Editable(false)
+                                            .QueryMode(DataLoadMode.Local)
+                                            .TriggerAction(TriggerAction.All)
+                                            .EmptyText("Select Asset Class")
+                                            .Items(equity_CIS.GetAssetList().Select(d => new ListItem(d.Description, d.Class_Id)))
+                                            .Listeners(ls =>
+                                                            ls.Change.Handler = "App.AddEPID.clearValue(); App.AddEPID.getStore().load();"),
+
+                                                x.ComboBox().Name("Product_Id").ID("AddEPID")
+                                                .FieldLabel("Product")
+                                                .Width(350)
+                                                .Editable(false)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("name")
+                                                .ValueField("id")
+                                                .BlankText("Product is required.")
+                                                .EmptyText("No Product Available...")
+                                                .ValueNotFoundText("No Product Available...").MarginSpec("10 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("pId")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "pId" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "pName" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetpID"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("Class_Id", "App.ADDECID.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.AddEPID; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               )
+                                        ,
+
+                                                x.ComboBox().Name("Fund_Manager_Id").ID("AddEFM")
+                                                .FieldLabel("Fund Manager")
+                                                .Width(350)
+                                                .Editable(false)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("name")
+                                                .ValueField("id")
+                                                .BlankText("Fund Manager is required.")
+                                                .EmptyText("No Fund Manager Available...")
+                                                .ValueNotFoundText("No Fund Manager Available...").MarginSpec("10 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("Id")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetFM"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("Scheme_Id", "App.AddES_ID.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.AddEFM; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               ),
+
+                                                 x.ComboBox().Name("Issuer_Id")
+                                                    .FieldLabel("Select Issuer  Name")
+                                                    .EmptyText("Select  Issuer  Name")
+                                                    .MarginSpec("10 0 0 10").TabIndex(7).Width(710)
+                                                    .AllowBlank(false).Editable(true)
+                                                    .BlankText("Issuer Name is required.").Items(repo_Issuer.GetIssuerList().Select(d => new ListItem(d.Issuer_Name, d.Issuer_Id))),
+
+
+                                                    x.NumberField().ID("AddEquity_OQ")
+                                                    .Name("Order_Quantity")
+                                                    .Width(350)
+                                                    .FieldLabel("Order Quantity")
+                                                    .AllowBlank(false)
+                                                    .MarginSpec("10 0 0 10")
+                                                        .Listeners(l => l.Change.Handler = "App.AddEquity_Con.setValue(App.AddEquity_OQ.getValue() * App.AddEquity_UP.getValue());App.ECIS_TC.setValue(+App.AddEquity_Con.getValue() + +App.ECIS_TL.getValue());"),
+
+
+                                                    x.NumberField().ID("AddEquity_UP").DecimalPrecision(4)
+                                                    .Name("Order_Unit_Price")
+                                                    .Width(350)
+                                                    .FieldLabel("Order Unit Price")
+                                                    .AllowBlank(false)
+                                                    .MarginSpec("10 0 0 10")
+                                                        .Listeners(l => l.Change.Handler = "App.AddEquity_Con.setValue(App.AddEquity_OQ.getValue() * App.AddEquity_UP.getValue());App.ECIS_TC.setValue(+App.AddEquity_Con.getValue() + +App.ECIS_TL.getValue()); "),
+
+                                                     x.NumberField().ID("ECIS_TL")
+                                                    .Name("Total_Levies")
+                                                    .Text("0")
+                                                    .Width(350)
+                                                    .FieldLabel("Total Levies")
+                                                    .MarginSpec("10 0 0 10")
+                                                    .Listeners(l => l.Change.Handler = "App.ECIS_TC.setValue(+App.AddEquity_Con.getValue() + +App.ECIS_TL.getValue())  "),
+
+
+                                                        x.DateField()
+                                                    .Name("Order_Date")
+                                                    .Width(350)
+                                                    .FieldLabel("Purchase Date")
+                                                    .Editable(false)
+                                                    .AllowBlank(false)
+                                                    .MarginSpec("10 0 0 10")
+                                                    .BlankText("Select Purchase Date"),
+
+
+                                                    x.NumberField().Text("0").ID("AddEquity_Con")
+                                                    .Name("Consideration")
+                                                    .Width(350)
+                                                    .FieldLabel("Consideration")
+                                                    .MarginSpec("10 0 0 10"),
+
+
+
+                                                        x.TextField().Text("0").ID("ECIS_TC")
+                                                    .Name("Total_Cost")
+                                                    .Width(350)
+                                                    .FieldLabel("Total Cost")
+                                                    .Editable(false)
+                                                    .AllowBlank(false)
+                                                    .MarginSpec("10 0 0 10")
+
+                                                // x.ComboBox().Name("User_Id")
+                                                //.FieldLabel("Authorizer")
+                                                //.Width(350)
+                                                //.Editable(false)
+                                                //.TypeAhead(true)
+                                                //.QueryMode(DataLoadMode.Local)
+                                                //.ForceSelection(true)
+                                                //.TriggerAction(TriggerAction.All)
+                                                //.BlankText("Authorizer is required.")
+                                                //.EmptyText("No Authorizer Available...")
+                                                //.MarginSpec("10 0 0 10")
+                                                //.Items(equity_CIS.GetuserAList().Select(d => new ListItem(d.User_Id, d.User_Id)))
+
+
+
+                                                                ),
+
+
+                                                                              x.Button()
+                                                                                .Text("Submit for approval")
+                                                                                .Width(200)
+                                                                                .Icon(Icon.Add)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                                    de.Click.Confirmation.Title = "Process Order";
+                                                                                    de.Click.Confirmation.Message = "Process Order?";
+                                                                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                                                                }).MarginSpec("20 10 0 35"),
+
+
+                                                                                x.Button()
+                                                                                .Text("Cancel")
+                                                                                .Width(120)
+                                                                                .Icon(Icon.ArrowRefresh)
+                                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                                .MarginSpec("20 10 0 10")
+
+                     ),
+
+
+
+
+                                 x.Window()
+                                .ID("ECISSchemeFund")
+                                .Title("'Scheme-Fund' List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+
+                                      x.FieldSet()
+                                .MarginSpec("0 0 0 0")
+                                .Defaults(dd =>
+                                { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                .Items(
+
+                                    x.Button()
+                                    .Text("View Scheme-Fund Accounts")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(300)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadSchemeFund");
+                                        de.Click.Success = "onSuccess(App.ECISSchemeFundGrid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("ECISSchemeFundGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ecisSFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                       )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSchemeFund"))
+                                            )
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmAddEquity_CIS.getForm().loadRecord(selected[0]);App.ECISSchemeFund.hide(); }")
+
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(600))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND NAME").Width(200))
+                    )
+                    )
+            )
+)
+
+
+
+
+
+
+
+
+
+
+
+

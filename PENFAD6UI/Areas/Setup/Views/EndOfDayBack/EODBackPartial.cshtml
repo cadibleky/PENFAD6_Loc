@@ -1,0 +1,80 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+    @{
+        var scheme = new pfm_SchemeRepo();
+        var x = Html.X();
+    }
+    @(x.FormPanel()
+                        .ID("frmEOD_Reverse")
+                        .ColumnWidth(0.6)
+                        .Title("REVERSE END OF DAY")
+                        .Frame(true)
+                        .Closable(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(850)
+                        .Height(550)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+
+                        .Items(
+
+
+                            x.ComboBox().Name("Scheme_Id").ID("cboschemeEOD_Reverse")
+                            .FieldLabel("Scheme")
+                            .MarginSpec("3 0 10 10").TabIndex(5).Width(600)
+                            .AllowBlank(false)
+                            .Editable(false)
+                            .StyleSpec("font-size: 30px; font-weight: bold")
+                            .MarginSpec("0 10 50 50")
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All)
+                            .EmptyText("Select Scheme")
+                            .BlankText("Scheme is required.").Items(scheme.GetSchemeList().Select(d => new ListItem(d.Scheme_Name, d.Scheme_Id)))
+                            .DirectEvents(de =>
+                            {
+                                de.Change.Url = Url.Action("GetSchemeDate");
+                            }),
+
+                            x.DateField().Name("Scheme_Today_Date").ID("EOD_Scheme_Today_Date_Reverse").StyleSpec("font-size: 20px; font-weight: bold").Width(600).ReadOnly(true).MarginSpec("50 10 20 50").FieldLabel("Scheme Current Date(MM/DD/YYYY)")  ,
+
+                            x.DateField().Name("Confirm_Date").StyleSpec("font-size: 20px; font-weight: bold").Width(600).MarginSpec("50 10 20 50").FieldLabel("Confirm Date"),
+
+                            x.Hidden().Name("Scheme_Name").ID("txtschemeEOD_Reverse"),
+
+                        x.Button()
+                        .Text("REVERSE END OF DAY")
+                        .Width(620)
+                        .Height(150)
+                        .Icon(Icon.Add)
+                        .DirectEvents(de =>
+                        {
+                            de.Click.Confirmation.ConfirmRequest = true;
+                            de.Click.Confirmation.Title = "END OF DAY";
+                            de.Click.Confirmation.Message = "REVERSE END OF DAY?";
+                            de.Click.Url = Url.Action("RunEOD");
+                            de.Click.Timeout = 120000000;
+                        }).MarginSpec("20 10 0 40")
+
+    )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

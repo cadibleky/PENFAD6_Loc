@@ -1,0 +1,347 @@
+﻿
+
+
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+@model IEnumerable<crm_EmployeeSchemeFundRepo>
+
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var x = Html.X();
+    var employer = new crm_EmployeeRepo();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+}
+
+@(x.FormPanel()
+			.ID("frm_EmployeeDelete")
+			.Title("Delete Employee")
+			.Frame(true)
+			.Closable(true)
+			.AutoScroll(true)
+			.MarginSpec("0 0 0 0")
+			.Width(1400)
+			.Height(1300)
+			.FieldDefaults(fd =>
+			{
+				fd.LabelAlign = LabelAlign.Top;
+				fd.MsgTarget = MessageTarget.Side;
+			})
+
+.Items(
+
+
+						x.FieldSet()
+						.Width(500)
+						// .Collapsible(true)
+						// .AutoScroll(true).Layout(LayoutType.Column)
+						.Height(800)
+						.Title("Delete Employee")
+						.MarginSpec("0 0 0 10")
+						.Defaults(dd =>
+						{ dd.Add(new Parameter("LabelWidth", "115")); })
+
+							.Items(
+
+							  x.Button()
+							.Text("Select Employee")
+							.Width(200)
+							.Icon(Icon.ApplicationFormAdd)
+							.TabIndex(28)
+							.Handler("App.deletechangeemployee_employer.show(this);")
+							.MarginSpec("5 10 10 10"),
+
+							x.Hidden().Name("ESF_Id"),
+							x.Hidden().Name("Cust_No"),
+							x.Hidden().Name("Employer_Id").ID("Employer_Id"),
+
+							x.TextField()
+							.Name("Surname")
+							.Width(400)
+							.FieldLabel("surname")
+							.Editable(false)
+							.AllowBlank(false)
+							.MarginSpec("3 0 10 10")
+							.FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+							.BlankText("Employee must be selected."),
+
+							 x.TextField()
+							.Name("First_Name")
+							.Width(400)
+							.FieldLabel("First Name")
+							.Editable(false)
+							.AllowBlank(false)
+							 .MarginSpec("3 0 10 10")
+							.FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+							.BlankText("Employee must be selected."),
+
+							  x.TextField()
+							.Name("Other_Name")
+							.Width(400)
+							.FieldLabel("Other Name")
+							.Editable(false)
+							.AllowBlank(false)
+							.MarginSpec("3 0 10 10")
+							.FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+							,
+
+							 x.DateField()
+							.Name("Date_Of_Birth")
+							.Width(400)
+							.FieldLabel("Date of Birth")
+							.ReadOnly(true)
+							 .MarginSpec("3 0 10 10"),
+
+							 x.TextField()
+							.Name("Employer_Name")
+							.Width(400)
+							.FieldLabel("Current Employer Name")
+							.Editable(false)
+							.AllowBlank(false)
+							.MarginSpec("3 0 10 10")
+							.FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+							,
+
+							x.TextField()
+							.Name("SSNIT_NO")
+							.Width(400)
+							.FieldLabel("SSNIT Number")
+							.Editable(false)
+							.AllowBlank(false)
+							.MarginSpec("3 0 10 10")
+							.FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+						 x.FieldSet()
+						.Width(400)
+						.Layout(LayoutType.Column)
+						.MarginSpec("50 10 10 10")
+						.Defaults(dd =>
+						{ dd.Add(new Parameter("LabelWidth", "115")); })
+
+						.Items(
+
+							  x.Button()
+								.Text("Delete")
+								.Width(160)
+								.Icon(Icon.Add)
+								.DirectEvents(de =>
+								{
+									de.Click.Confirmation.ConfirmRequest = true;
+									de.Click.Confirmation.Title = "Delete Record";
+									de.Click.Confirmation.Message = "Delete Employee?";
+									de.Click.Url = Url.Action("DeleteRecord");
+
+								}).MarginSpec("10 10 10 10"),
+							// .Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Sending Mail... Please wait.'})"),
+
+
+							x.Button()
+								.Text("Clear")
+								.Width(140)
+								.Icon(Icon.ArrowRefresh)
+								.OnClientClick("this.up('form').getForm().reset();")
+								.MarginSpec("10 10 10 10")
+
+							 )
+
+						),
+
+								 x.Window()
+								.ID("deletechangeemployee_employer")
+								.Title("Employee List")
+								.Width(1000)
+								.Height(1000)
+								.X(0)
+								.Y(0)
+								.Modal(true)
+								.AutoRender(false)
+								.Collapsible(true)
+								.Maximizable(true)
+								.Hidden(true)
+								.Loader(x.ComponentLoader()
+								.Mode(LoadMode.Frame)
+								.LoadMask(lm => lm.ShowMask = true)
+									   )
+									.Items(
+									x.Panel()
+							.TabMenuHidden(true)
+							.Title("VIEW EMPLOYEE LIST")
+							.BodyPadding(6)
+							.Items(
+									x.FieldSet()
+												.Title("Search")
+												.Width(700)
+												.Items(
+														x.Panel()
+															.Layout(LayoutType.HBox)
+															.Items(
+																	x.ComboBox().Name("Employer_Id")
+																				.ID("delete_ESF_updemp_cmbEmployerId_employer")
+																				.FieldLabel("Employer Name")
+																				.MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+																				.AllowBlank(false)
+																				.QueryMode(DataLoadMode.Local)
+																				.TriggerAction(TriggerAction.All)
+																				.FieldStyle("text-transform: uppercase")
+																				.Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+																		x.Button()
+																			.Text("View Employees")
+																			.Icon(Icon.ArrowRefresh)
+																			.MarginSpec("30 0 20 0")
+																			.Width(200)
+																			//.Cls("btnStyle")
+																			.DirectEvents(de =>
+																			{
+																				de.Click.Url = Url.Action("Read5");
+																				de.Click.Success = "onSuccess(App.delete_ESF_Edit_employeeGrid_employer, result.data);";
+																				de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.delete_ESF_updemp_cmbEmployerId_employer.getValue()", ParameterMode.Raw));
+
+																			})
+
+																)
+													),
+									x.GridPanel()
+										.ID("delete_ESF_Edit_employeeGrid_employer")
+										.Frame(true)
+										.WidthSpec("Auto")
+										.Height(700)
+										.MarginSpec("10 0 0 0")
+										.Plugins(
+											x.FilterHeader()
+										)
+
+										.Store(
+									x.Store()
+										.AutoLoad(false)
+										.ID("employeedelete_empStore")
+									// .DataSource(Model)
+									.Model(
+										x.Model()
+											.Fields(
+												x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+												x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+												x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+												x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Surname").Type(ModelFieldType.String),
+												x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Maiden_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Title").Type(ModelFieldType.String),
+												x.ModelField().Name("Gender").Type(ModelFieldType.String),
+												x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+												x.ModelField().Name("HomeTown").Type(ModelFieldType.String),
+												x.ModelField().Name("Town_Of_Birth").Type(ModelFieldType.String),
+												x.ModelField().Name("Town_Of_Birth_District").Type(ModelFieldType.String),
+												x.ModelField().Name("Town_Of_Birth_City").Type(ModelFieldType.String),
+												x.ModelField().Name("Town_Of_Birth_Region").Type(ModelFieldType.String),
+												x.ModelField().Name("Nationality").Type(ModelFieldType.String),
+												x.ModelField().Name("Resident_Country").Type(ModelFieldType.String),
+												x.ModelField().Name("Nationality").Type(ModelFieldType.String),
+												x.ModelField().Name("Country_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+												x.ModelField().Name("Residential_Address").Type(ModelFieldType.String),
+												x.ModelField().Name("Mobile_Number").Type(ModelFieldType.String),
+												x.ModelField().Name("Other_Number").Type(ModelFieldType.String),
+												x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+												x.ModelField().Name("Other_Email_Address").Type(ModelFieldType.String),
+												x.ModelField().Name("Identity_Type").Type(ModelFieldType.String),
+												x.ModelField().Name("Identity_Number").Type(ModelFieldType.String),
+												x.ModelField().Name("Identity_Issue_Date").Type(ModelFieldType.Date),
+												x.ModelField().Name("Identity_Expiry_Date").Type(ModelFieldType.Date),
+												x.ModelField().Name("SSNIT_NO").Type(ModelFieldType.String),
+												x.ModelField().Name("Marital_Status").Type(ModelFieldType.String),
+												x.ModelField().Name("Position").Type(ModelFieldType.String),
+												x.ModelField().Name("Employee_Type").Type(ModelFieldType.String),
+												x.ModelField().Name("Father_First_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Father_Middle_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Father_Last_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Father_Phone_Number").Type(ModelFieldType.String),
+												x.ModelField().Name("Father_Birth_Date").Type(ModelFieldType.Date),
+												x.ModelField().Name("Mother_First_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Mother_Middle_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Mother_Last_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Mother_Maiden_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Mother_Birth_Date").Type(ModelFieldType.Date),
+												x.ModelField().Name("Mother_Phone_Number").Type(ModelFieldType.String),
+												x.ModelField().Name("Date_Of_Employment").Type(ModelFieldType.Date),
+												x.ModelField().Name("Resident_City").Type(ModelFieldType.String),
+												x.ModelField().Name("Resident_District").Type(ModelFieldType.String),
+												x.ModelField().Name("Resident_Region").Type(ModelFieldType.String),
+												x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+												x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+												x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+												x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+												x.ModelField().Name("ESF_Id").Type(ModelFieldType.String)
+
+										 )
+
+									)
+									.ServerProxy(
+										   x.AjaxProxy()
+											// .Url(Url.Action("ReadEmployee"))
+											.Url(Url.Action("Read5"))
+											.Reader(x.JsonReader().RootProperty("data")))
+											.Parameters(ps =>
+													   ps.Add(new StoreParameter("Employer_Id", "App.delete_ESF_updemp_cmbEmployerId_employer.getValue()", ParameterMode.Raw))
+
+									 )
+							// .PageSize(10)
+							)
+							 .BottomBar(
+								x.PagingToolbar()
+							)
+							//.DirectEvents(de =>
+							//{
+							//    de.CellClick.Url = Url.Action("DisplayPhoto");
+							//    de.CellClick.ExtraParams.Add(new Parameter("cust_no", "App.txtCustNo_EmpEdit.getValue()", ParameterMode.Raw));
+
+							//})
+
+							//.Listeners(l => l.SelectionChange.Fn = "onSelectionChange")
+							.Listeners(l => l.SelectionChange.Handler = "if (selected[0])"
+							+ "{App.frm_EmployeeDelete.getForm().loadRecord(selected[0]);App.deletechangeemployee_employer.hide();"
+							+ "}")
+
+							.ColumnModel(x.Column().DataIndex("Employee_Id").Text("EMPLOYEE ID").Width(100))
+							.ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(200))
+							.ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(200))
+							.ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(200))
+							.ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND").Width(100))
+							.ColumnModel(x.Column().DataIndex("Email_Address").Text("EMAIL ADDRESS").Width(200))
+							.ColumnModel(x.Column().DataIndex("Employee_Type").Text("EMPLOYEE TYPE").Width(200))
+							.ColumnModel(x.Column().DataIndex("Mobile_Number").Text("MOBILE NUMBER").Width(150))
+
+							)
+				  )
+
+	)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

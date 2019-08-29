@@ -1,0 +1,152 @@
+﻿@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@model IEnumerable<pfm_Scheme_Fund_ManagerRepo>
+
+@{
+    var x = Html.X();
+    var schemerepo = new pfm_SchemeRepo();
+    var fundmanagerrepo = new pfm_FundManagerRepo();
+
+    
+}
+
+@(x.FormPanel()
+        .ID("SchemeFundManagerPan")
+        .WidthSpec("auto")
+        .Title("Setup Scheme Fund Manager")
+        .Frame(true)
+        .AutoScroll(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("SchemeFundManagerGrid")
+                        .Title("View Scheme Fund Manager List")
+                        .Frame(true)
+                        .Width(700)
+                        .MarginSpec("10 0 0 10")
+                        .Height(500)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("SchemeFundManagerStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Scheme_Fund_Manager_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Manager_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Manager").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Scheme_Fund_Manager_Status").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Make_Date").Type(ModelFieldType.Date)
+                                    //x.ModelField().Name("Update_Id").Type(ModelFieldType.String),
+                                    //x.ModelField().Name("Update_Date").Type(ModelFieldType.Date)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);  App.savebtn.hide();}")
+
+                .ColumnModel(x.Column().DataIndex("Scheme_Fund_Manager_Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(450))
+                .ColumnModel(x.Column().DataIndex("Fund_Manager").Text("Fund Manager").Width(240)),
+                //.ColumnModel(x.Column().DataIndex("Maker_Id").Text("Added By").Width(150))
+                //.ColumnModel(x.Column().DataIndex("Make_Date").Text("Date Created").Width(150)),
+
+                //.ColumnModel(x.Column().DataIndex("Update_Id").Text("Updated By").Width(300))
+                //.ColumnModel(x.Column().DataIndex("Update_Date").Text("Last Updated By").Width(300)),
+
+                x.FieldSet()
+                    //.WidthSpec("auto")
+                    .Collapsible(true)
+                    .Width(400)
+                    .Height(510)
+                    .Title("Add/Edit Scheme Fund Manager")
+                    .MarginSpec("0 20 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Scheme_Fund_Manager_Id"),
+                        x.ComboBox().Name("Scheme_Id").FieldLabel("Scheme").Editable(false).Width(350).Items(schemerepo.GetSchemeList().Select(d => new ListItem(d.Scheme_Name, d.Scheme_Id))).MarginSpec("10 30 20 10").AllowBlank(false).BlankText("Scheme is required.").AutoFitErrors(true),
+                        x.ComboBox().Name("Fund_Manager_Id").FieldLabel("Fund Manager").Editable(false).Width(350).Items(fundmanagerrepo.GetFundmanagerList().Select(d => new ListItem(d.Fund_Manager, d.Fund_Manager_Id))).MarginSpec("10 30 20 10").AllowBlank(false).BlankText("Fund manager is required.").AutoFitErrors(true)
+
+
+                        //x.TextField().Name("Maker_Id").FieldLabel("Added By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Make_Date").FieldLabel("Date Added").Width(230).ReadOnly(true),
+                        //x.DateField().Name("Update_Id").FieldLabel("Updated By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Update_Date").FieldLabel("Date Last Updated").Width(230).ReadOnly(true)
+                        )
+                    .Items(
+                    x.Panel()
+                    .WidthSpec("100%")
+                    .Height(40)
+                    .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+                    .Items(
+                    x.Button()
+                            .Text("Save")
+                            .ID("savebtn")
+                            .Width(90)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Create  Record";
+                                de.Click.Confirmation.Message = "Create Scheme Fund Manager?";
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("5 10 10 5"),
+                        x.Button()
+                            .Text("Delete")
+                            .Width(110)
+                            .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Delete Scheme Fund Manager?";
+                                de.Click.Timeout = 120000;
+                                de.Click.Success = "App.savebtn.show()";
+                            }).MarginSpec("5 10 10 5"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset(); App.savebtn.show();")
+                                .MarginSpec("5 10 10 5")
+
+                        )
+                        )
+                 )
+
+
+)
+
+

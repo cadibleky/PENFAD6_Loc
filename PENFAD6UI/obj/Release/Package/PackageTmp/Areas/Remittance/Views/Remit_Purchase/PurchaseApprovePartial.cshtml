@@ -1,0 +1,257 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_PurchaseRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+                        .ID("frmPurchaseApprove")
+                        .Title("Approve Purchase")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1000)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+
+
+                                    x.FieldSet()
+                                    .Height(1200)
+                                    .Width(1600)
+                                    .Frame(true)
+                                    .Layout(LayoutType.Column)
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                     x.FieldSet()
+                                    .MarginSpec("5 0 0 0")
+                                    .Width(800)
+                                    .Height(900)
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                    x.Button()
+                                    .Text("View Pending Purchases")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(240)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadPurchasePending");
+                                        de.Click.Success = "onSuccess(App.purchaseApprove_ConGrid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("purchaseApprove_ConGrid")
+                                    .Title("List of Pending Purchases")
+                                    .Frame(true)
+                                    .Width(790)
+                                    .Height(850)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ApprovepurconStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Purchase_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Trans_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Trans_Status").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Log_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("For_Month").Type(ModelFieldType.Int),
+                                        x.ModelField().Name("For_Year").Type(ModelFieldType.Int),
+                                        x.ModelField().Name("Total_Contribution").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Purchase").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Surcharge").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Sur_Purchase").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Sur_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Purchase").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Cash_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Type").Type(ModelFieldType.String)
+                                            )
+                                        )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                              .Url(Url.Action("ReadPurchasePending"))
+                                              )
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmPurchaseApprove.getForm().loadRecord(selected[0]);}")
+                    .ColumnModel(x.Column().DataIndex("Con_Type").Text("CON TYPE").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Con_Log_Id").Text("LOG ID").Width(200))
+                    .ColumnModel(x.Column().DataIndex("For_Month").Text("MONTH").Width(100))
+                    .ColumnModel(x.Column().DataIndex("For_Year").Text("YEAR").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Total_Contribution").Text("TOTAL CONTRIBUTION").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Con_Balance").Text("CONTRIBUTION BALANCE ").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Total_Surcharge").Text("TOTAL SURCHARGE ").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Sur_Balance").Text("SURCHARGE BALANCE ").Width(100))
+                    .ColumnModel(x.Column().DataIndex("ES_Id").Text("TOTAL BALANCE ").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Cash_Balance").Text("CASH BALANCE ").Width(0))
+                                                               ),
+
+                                                                  x.FieldSet()
+                                                                    .Height(900)
+                                                                    .Width(450)
+                                                                   .Layout(LayoutType.Column)
+                                                                    .Title("Purchase Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                        .Items(
+                                                                         x.Hidden().Name("Con_Log_Id"),
+                                                                         x.Hidden().Name("ES_Id"),
+                                                                         x.Hidden().Name("Employer_Id"),
+                                                                         x.Hidden().Name("ES_Id"),
+                                                                         x.Hidden().Name("Con_Type"),
+                                                                          x.Hidden().Name("Scheme_Id"),
+                                                                        x.TextField()
+                                                                        .Name("Employer_Name")
+                                                                        .Width(300)
+                                                                        .FieldLabel("Name of Employer")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 20")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                                                        x.TextField()
+                                                                        .Name("Scheme_Name")
+                                                                        .Width(300)
+                                                                        .FieldLabel("Scheme")
+                                                                        .Editable(false)
+                                                                        .AllowBlank(false)
+                                                                        .MarginSpec("0 0 0 20")
+                                                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                                                         x.NumberField()
+                                                                        .Name("Cash_Balance")
+                                                                        .Width(300)
+                                                                        .FieldLabel("Available Cash Balance")
+                                                                        .ReadOnly(true)
+                                                                        .AllowBlank(false).FieldStyle("color:blue;font-weight:bold;")
+                                                                        .MarginSpec("0 0 0 20"),
+
+                                                                 x.TextField().Name("For_Month").FieldLabel("Month").Width(135).ReadOnly(true).MarginSpec("0 0 0 20"),
+                                                                 x.TextField().Name("For_Year").FieldLabel("Year").Width(140).ReadOnly(true).MarginSpec("0 0 0 20"),
+                                                                 x.TextField().Name("Total_Contribution").FieldLabel("Total Contribution").Width(300).ReadOnly(true).MarginSpec("0 0 0 20"),
+                                                                 x.TextField().Name("Total_Purchase").FieldLabel("Total Purchase(Contribution)").Width(300).ReadOnly(true).MarginSpec("0 0 0 20"),
+                                                                 x.TextField().Name("Con_Balance").FieldLabel("Contribution Balance").Width(300).ReadOnly(true).MarginSpec("0 0 0 20").FieldStyle("color:blue;font-weight:bold;"),
+                                                                 x.TextField().Name("Total_Surcharge").FieldLabel("Total Surcharge").Width(300).ReadOnly(true).MarginSpec("0 0 0 20"),
+                                                                 x.TextField().Name("Total_Sur_Purchase").FieldLabel("Total Purchase(Surcharge)").Width(300).ReadOnly(true).MarginSpec("0 0 0 20"),
+                                                                 x.TextField().Name("Sur_Balance").FieldLabel("Surcharge Balance").Width(300).ReadOnly(true).MarginSpec("0 0 0 20").FieldStyle("color:blue;font-weight:bold;"),
+                                                                 x.TextField().Name("Total_Balance").FieldLabel("Total Balance").Width(300).ReadOnly(true).MarginSpec("0 0 0 20").FieldStyle("color:blue;font-weight:bold;"),
+                                                                 x.Hidden().Name("Purchase_Id"),
+                                                                 x.Hidden().Name("Temp_Con_Purchase"),
+                                                                 x.Hidden().Name("Temp_Sur_Purchase"),
+
+                                                                    x.DateField()
+                                                                    .Name("Trans_Date")
+                                                                    .Width(300)
+                                                                    .Editable(false).ReadOnly(true)
+                                                                    .AllowBlank(false)
+                                                                    .FieldLabel("Purchase Date")
+                                                                    .MarginSpec("0 0 10 20"),
+
+
+
+                                                                                x.Button()
+                                                                                .Text("Approve")
+                                                                                .Width(120)
+                                                                                .Icon(Icon.Add)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    //de.Click.Confirmation.ConfirmRequest = true;
+                                                                                    de.Click.Confirmation.Title = "Approve Purchase";
+                                                                                    // de.Click.Confirmation.Message = "Approve Purchase?";
+                                                                                    de.Click.Url = Url.Action("ApproveRecord");
+                                                                                    de.Click.Timeout = 120000000;
+
+                                                                                }).MarginSpec("20 5 0 10").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Approving... Please wait.'})"),
+
+                                                                                x.Button()
+                                                                                .Text("Disapprove")
+                                                                                .Width(140)
+                                                                                .Icon(Icon.Add)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    //de.Click.Confirmation.ConfirmRequest = true;
+                                                                                    //de.Click.Confirmation.Title = "Disapprove Purchase";
+                                                                                    de.Click.Confirmation.Message = "Disapprove Purchase?";
+                                                                                    de.Click.Url = Url.Action("DisapproveRecord");
+                                                                                    de.Click.Timeout = 1200000;
+                                                                                }).MarginSpec("20 5 0 10").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Disapproving... Please wait.'})"),
+
+
+                                                                                x.Button()
+                                                                                .Text("Cancel")
+                                                                                .Width(100)
+                                                                                .Icon(Icon.ArrowRefresh)
+                                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                                .MarginSpec("20 10 0 10")
+
+
+                                                               )
+                     )
+            )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,121 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<setup_PositionRepo>
+
+
+@{
+
+    var x = Html.X();
+
+}
+
+@(x.FormPanel()
+        .ID("Position")
+        .ColumnWidth(0.4)
+        .Title("setup Position")
+        .Frame(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(500)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("positionGrid")
+                        .Title("View Position List")
+                        .Frame(true)
+                        .Width(500)
+                        .MarginSpec("10 0 0 10")
+                        .Height(350)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("positionStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Position_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Position_Name").Type(ModelFieldType.String)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("Position_Id").Text("Position Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Position_Name").Text("Position Name").Width(300)),
+
+                x.FieldSet()
+                    .ColumnWidth(0.4)
+                    .Collapsible(true)
+                    .Height(360)
+                    .Title("Add/Edit Position")
+                    .MarginSpec("0 0 0 10")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Position_Id"),
+                        x.TextField().Name("Position_Name").FieldLabel("Position Name").Width(230)
+                        .FieldStyle("text-transform:UPPERCASE")
+                         .AllowBlank(false)
+                        .BlankText("Position Name is required.").SetActive(true)
+                        )
+                    .Items(
+                       x.Button()
+                            .Text("Save Position")
+                            .Width(90)
+                             .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.Message = "Are you sure you want to Create?";
+
+                            }).MarginSpec("70 10 0 0"),
+
+                        x.Button()
+                            .Text("Delete")
+                            .Width(90)
+                             .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                            }).MarginSpec("70 10 0 0"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                 .Icon(Icon.Cancel)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("70 10 0 0")
+                        )
+                 )
+
+
+)
+
+)
+
+
+

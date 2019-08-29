@@ -1,0 +1,443 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+    var onSuccess = function (grid, data)
+        {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frmGLJournalCreate")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("New Journal Transaction")
+        .Width(1200)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .BodyPadding(5)
+       // .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+               
+             x.FieldSet()
+                        .Width(950)
+                        .AutoScroll(true).Layout(LayoutType.Column)
+                        .Height(700)
+                        .Title("New Journal Transaction")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                  x.FieldSet()
+                            .Height(150)
+                            .Width(900)
+                            //.Layout(LayoutType.Column)
+                            .Items
+                            (
+                        x.Button()
+                        .Text("Select Scheme-Fund")
+                        .Width(250)
+                        .Icon(Icon.ApplicationFormAdd)
+                        .TabIndex(28)
+                        .Handler("App.AccountschemeFund_journal.show(this);")
+                        .MarginSpec("10 1000 0 0")
+                        ,
+
+
+                            x.Hidden().Name("GL_Account_No"),
+                            x.Hidden().Name("Scheme_Fund_Id").ID("AccSFId_journal"),
+                            x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(700).MarginSpec("5 10 0 5").ReadOnly(true),
+                            x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(400).MarginSpec("5 10 0 5").ReadOnly(true)
+                            ),
+
+                                x.FormPanel()
+                                .ID("frmJournalDebit")
+                                .AutoScroll(true)
+                                .MarginSpec("0 20 0 0")
+                                .Height(300)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelAlign = LabelAlign.Top;
+                                    fd.MsgTarget = MessageTarget.Side;
+                                })
+
+                        .Items(
+                            x.Button()
+                            .Text("Select Debit Account")
+                            .Width(220)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.winJournalDebit.show(this);")
+                            .MarginSpec("5 10 10 10"),               
+
+                            x.TextField()
+                            .ID("txtDebit_Gl_No")
+                            .Name("Debit_Gl_No")
+                            .Width(400)
+                            .FieldLabel("GL Account No")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Debit Account must be selected."),
+
+                             x.TextField()
+                            .Name("Debit_Gl_Name")
+                            .Width(400)
+                            .FieldLabel("GL Account Name ")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Debit Account must be selected."),
+
+                              x.TextField()
+                            .Name("Debit_Gl_Balance")
+                            .Width(400)
+                            .FieldLabel("GL Account Balance")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Debit Account must be selected.")
+                             
+                             ),
+
+                          x.FormPanel()
+                                .ID("frmJournalCredit")
+                                .AutoScroll(true)
+                                .MarginSpec("0 0 0 0")
+                                .Height(300)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelAlign = LabelAlign.Top;
+                                    fd.MsgTarget = MessageTarget.Side;
+                                })
+
+                        .Items(
+                            x.Button()
+                            .Text("Select Credit Account")
+                            .Width(220)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.winJournalCredit.show(this);")
+                            .MarginSpec("5 10 10 10"),               
+
+                            x.TextField()
+                            .Name("Credit_Gl_No")
+                            .Width(400)
+                            .FieldLabel("GL Account No")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Credit Account must be selected."),
+
+                             x.TextField()
+                            .Name("Credit_Gl_Name")
+                            .Width(400)
+                            .FieldLabel("GL Account Name ")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Credit Account must be selected."),
+
+                              x.TextField()
+                            .Name("Credit_Gl_Balance")
+                            .Width(400)
+                            .FieldLabel("GL Account Balance")
+                            .Editable(false)
+                            .AllowBlank(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Credit Account must be selected.")
+
+                              
+                             ),
+
+                                             x.FieldSet()
+                                            .Width(880)
+                                            .AutoScroll(true).Layout(LayoutType.Column)
+                                            .Height(200)
+                                            .Title("Transaction Details")
+                                            .Defaults(dd =>
+                                            { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                                  x.ComboBox()
+                                                .Name("Trans_Type")
+                                                .Width(200)
+                                                .FieldLabel("Transaction Type")
+                                                .Editable(false)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .BlankText("Select.")
+                                                .Items("TRANSFER","CHEQUE","CASH")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                 x.NumberField()
+                                                .Name("Amount")
+                                                .Width(200)
+                                                .FieldLabel("Amount")
+                                                .Editable(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .BlankText("Enter Amount.")
+                                                .LabelAlign(LabelAlign.Top),
+                                                
+                                                 x.DateField()
+                                                .Name("Trans_Date")
+                                                .Width(200)
+                                                .FieldLabel("Transaction Date")
+                                                .Editable(false)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .BlankText("Select Date.")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                
+
+                                                 x.ComboBox()
+                                                .Name("Narration")
+                                                .Width(800)
+                                                .FieldLabel("Narration")
+                                                .Editable(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                .BlankText("Enter Narration")
+                                                .LabelAlign(LabelAlign.Top).Items("CALL INTEREST","FUND TRANSFER","DIVIDEND PAYMENT")
+                                                 )
+                                 ),
+                                 
+                                 x.Button()
+                                .Text("Submit for Approval")
+                                .Width(250)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Save Record";
+                                    de.Click.Confirmation.Message = "Submit Journal Transaction?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                }).MarginSpec("10 10 10 200"),
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(150)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 0")
+                                 ,
+
+                                x.Window()
+                                .ID("winJournalDebit")
+                                .Title("GL Account List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("JournalCreateDebit_Grid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("JournalCreateDebit_Store")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Debit_Gl_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Debit_Gl_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Manager").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Debit_Gl_Balance").Type(ModelFieldType.Float)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadDebitGL"))
+                                    )
+                                    .Parameters(ps =>
+                                                ps.Add(new StoreParameter("scheme_fund_id", "App.AccSFId_journal.getValue()", ParameterMode.Raw))                                    
+                                       )   
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmJournalDebit.getForm().loadRecord(selected[0]); App.winJournalDebit.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Debit_Gl_No").Text("GL ACCOUNT NO").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Debit_Gl_Name").Text("GL ACCOUNT NAME").Width(400))
+                     .ColumnModel(x.Column().DataIndex("Fund_Manager").Text("FUND MANAGER").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Debit_Gl_Balance").Text("GL BALANCE").Width(150))
+                    ),
+
+                                 x.Window()
+                                .ID("winJournalCredit")
+                                .Title("GL Account List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("JournalCreateCredit_Grid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("JournalCreateCredit_Store")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Credit_Gl_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Credit_Gl_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Manager").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Credit_Gl_Balance").Type(ModelFieldType.Float)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadCreditGL"))
+                                    )
+                                                           .Parameters(ps =>
+                                                ps.Add(new StoreParameter("scheme_fund_id", "App.AccSFId_journal.getValue()", ParameterMode.Raw))                                    
+                                       )   
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmJournalCredit.getForm().loadRecord(selected[0]); App.winJournalCredit.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Credit_Gl_No").Text(" GL ACCOUNT NO").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Credit_Gl_Name").Text("GL ACCOUNT NAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Manager").Text("FUND MANAGER").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Credit_Gl_Balance").Text("GL BALANCE").Width(150))
+                    )
+                    ,
+                                 x.Window()
+                                .ID("AccountschemeFund_journal")
+                                .Title("Scheme-Fund List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AccountSFGrid_journal")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("journalAccountSFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmJournalCredit.reset(); App.frmJournalDebit.reset();App.frmGLJournalCreate.getForm().loadRecord(selected[0]); App.AccountschemeFund_journal.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                    .DirectEvents(de =>
+                    {
+                        de.SelectionChange.Url = (Url.Action("FilterSFGridBank", "GLChart"));
+                        de.SelectionChange.Success = "onSuccess(App.GLFAccountGrid_journal, result.data);";
+                    })
+                   )
+
+                    
+
+
+           )
+
+)

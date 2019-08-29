@@ -1,0 +1,208 @@
+﻿
+@{
+
+    var x = Html.X();
+
+}
+ 
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+               .ID("Report_LedgerPartial_frm_mainGL")
+               .Title("Ledger/GL Account-Consolidated")
+               .Closable(true)
+               .Layout(LayoutType.Border)
+               .Frame(true)
+               .AutoScroll(true)
+               .FieldDefaults(fd =>
+               {
+                   fd.LabelAlign = LabelAlign.Top;
+                   fd.MsgTarget = MessageTarget.Side;
+               })
+               .MarginSpec("10 0 0 10")
+               .Items(Html.X().FormPanel()
+                            .ID("Report_LedgerPartial_frm_left_PanelGL")
+                            .Title("Select Merged GL Account")
+                            .Region(Region.West)
+                            .Split(true)
+                            .Collapsible(true)
+                            .AutoScroll(true)
+                            .Width(410)
+                            .MinWidth(150)
+                            .MaxWidth(410)
+                            .Items(Html.X().FormPanel()
+                                            .ID("Report_LedgerPartial_frm_txtFieldsGL")
+                                            .Border(true)
+                                            .AutoScroll(true)
+                                            .Width(410)
+                                            .Height(400)
+                                            .Layout(LayoutType.Column)
+                                            .Items(
+                                                      x.Button()
+                                                        .Text("Select Scheme")
+                                                        .Width(250)
+                                                        .Icon(Icon.ApplicationFormAdd)
+                                                        .TabIndex(28)
+                                                        .Handler("App.AccountschemeFund_ledgerGL.show(this);")
+                                                        .MarginSpec("10 10 0 10")
+                                                        ,
+
+                                                       x.Hidden().Name("Scheme_Id").ID("AccSFId_ledgerGL")
+                                                       .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.txtLedger_GLBGL.clearValue(); App.txtLedger_GLBGL.getStore().load();"),
+
+                                                        x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(400).MarginSpec("5 10 0 5").ReadOnly(true),
+                                                         //x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(400).MarginSpec("5 100 0 5").ReadOnly(true),
+
+                                                        //    // x.Button().Text("View All Entries").Width(250).MarginSpec("10 5 30 10")
+                                                        //.DirectEvents(de =>
+                                                        //{
+                                                        //    de.Click.Url = Url.Action("Load_Employee_Report_IFrameAll");
+                                                        //    de.Click.ExtraParams.Add(new Parameter("containerId", "Report_LedgerPartial_panel_right_center_contentGL"));
+
+                                                        //    de.Click.ExtraParams.Add(new StoreParameter("Scheme_Id", "App.AccSFId_ledgerGL.getValue()", ParameterMode.Raw));
+
+                                                        //}),
+
+                                                        x.ComboBox().Name("Account_Name").ID("txtLedger_GLBGL")
+                                                                    .FieldLabel("Merged GL Account")
+                                                                    .Width(400)
+                                                                    .TypeAhead(true)
+                                                                    .QueryMode(DataLoadMode.Local)
+                                                                    .ForceSelection(true)
+                                                                    .TriggerAction(TriggerAction.All)
+                                                                    .DisplayField("name")
+                                                                    .ValueField("id")
+                                                                    .BlankText("GL Account is required.")
+                                                                    .EmptyText("No GL Account Available...")
+                                                                    .ValueNotFoundText("No GL Account Available...").MarginSpec("0 0 5 10")
+                                                                    //.Listeners(ls =>
+                                                                    //                 ls.Change.Handler = "App.FixedDepositTransPartialAddECIS_GLBalance.clearValue(); App.FixedDepositTransPartialAddECIS_GLBalance.getStore().load();")
+
+                                                                    .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("gId")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "gId" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "gName" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetGLAB"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Scheme_Id", "App.AccSFId_ledgerGL.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.txtLedger_GLBGL; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField));"
+                                                                        )
+
+                                                                   )
+                                                            ,
+                                                     x.Button().Text("View").Width(250).MarginSpec("5 5 0 10")
+                                                      .DirectEvents(de =>
+                                                      {
+                                                          de.Click.Url = Url.Action("Load_Employee_Report_IFrame");
+                                                          de.Click.ExtraParams.Add( new Parameter("containerId", "Report_LedgerPartial_panel_right_center_contentGL"));
+
+                                                          de.Click.ExtraParams.Add(new StoreParameter("Account_Name", "App.txtLedger_GLBGL.getValue()", ParameterMode.Raw));
+
+                                                      })
+
+                                           )// end items
+
+                            ),// end
+
+                   ///center region starts
+                   Html.X().Panel()
+                            .ID("Report_LedgerPartial_panel_right_center_contentGL")
+                            //.Title("GL Journal Trans. Posting")
+                            .Region(Region.Center)
+                            .Split(true)
+                            //.AutoScroll(true)
+                            .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Employee_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+                                        ),
+                                x.Window()
+                                .ID("AccountschemeFund_ledgerGL")
+                                .Title("Scheme List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AccountSFGrid_ledgerGL")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ledgerAccountSFStoreGL")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        // x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String)
+                                            // x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                            //x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Report_LedgerPartial_frm_mainGL.getForm().loadRecord(selected[0]); App.AccountschemeFund_ledgerGL.hide(); }")
+                    //.ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    //.ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    //.ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                    .DirectEvents(de =>
+                    {
+                        de.SelectionChange.Url = (Url.Action("FilterSFGridBank", "GLChart"));
+                        de.SelectionChange.Success = "onSuccess(App.AccountSFGrid_ledgerGL, result.data);";
+                    })
+                   )
+
+
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+
+
+
+// end main
+)

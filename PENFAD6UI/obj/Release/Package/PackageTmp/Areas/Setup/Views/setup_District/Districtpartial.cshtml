@@ -1,0 +1,148 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<setup_DistrictRepo>
+
+@{
+    var regions = new setup_RegionRepo();
+    var x = Html.X();
+
+}
+
+
+
+@(x.FormPanel()
+        .ID("frmDistrict")
+        .ColumnWidth(0.4)
+        .Title("setup District")
+        .Frame(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(500)
+
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("districtGrid")
+                        .Title("View district List")
+                        .Frame(true)
+                        .Width(600)
+                        .MarginSpec("10 0 0 10")
+                        .Height(350)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("districtStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+
+                                    x.ModelField().Name("District_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("District_Name").Type(ModelFieldType.String)
+                                    //x.ModelField().Name("Region_Id").Type(ModelFieldType.String),
+                                    // x.ModelField().Name("Region_Name").Type(ModelFieldType.String)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("District_Id").Text("District Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("District_Name").Text("District Name").Width(300)),
+                //.ColumnModel(x.Column().DataIndex("Region_Name").Text("Region Name").Width(300)),
+
+
+                x.FieldSet()
+                    .Collapsible(true)
+                    .Height(360)
+                    .WidthSpec("auto")
+                    .Title("Add/Edit District")
+                    .MarginSpec("0 0 0 10")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("District_Id"),
+
+                        //x.ComboBox().Name("Region_Id").FieldLabel("Region Name").Items(regions.GetRegionList().Select(d => new ListItem(d.Region_Name, d.Region_ID)))
+                        //.FieldStyle("text-transform:UPPERCASE")
+                        //.AllowBlank(false).Width(300)
+                        //.BlankText("Region Name is required.").SetActive(true),
+
+                        x.TextField().Name("District_Name").FieldLabel("District Name").Width(300)
+                        .FieldStyle("text-transform:UPPERCASE")
+                        .AllowBlank(false)
+                        .BlankText("District Name is required.").SetActive(true)
+                        )
+                    .Items(
+                       x.Button()
+                            .Text("Save")
+                            .Width(120)
+                             .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.Message = "Save District?";
+
+                            }).MarginSpec("70 10 0 0"),
+
+
+                        x.Button()
+                            .Text("Delete")
+                            .Width(120)
+                             .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Delete District?";
+                            }).MarginSpec("70 10 0 0"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(100)
+                                 .Icon(Icon.Cancel)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("70 10 0 0")
+
+                        )
+                 )
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+﻿@using PENFAD6DAL.Repository.Security
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@model IEnumerable<crm_EmployerRepo>
+
+@{
+    var district = new crm_EmployerRepo();
+    var regions = new setup_RegionRepo();
+    var sectors = new setup_SectorRepo();
+    var schemes = new pfm_SchemeRepo();
+    var x = Html.X();
+}
+
+
+@(x.FormPanel()
+      .ID("employerNew")
+      //.ColumnWidth(0.4)
+      .Title("Setup Employer")
+      .Frame(true)
+      .Closable(true)
+      .Layout(LayoutType.Column)
+      .MarginSpec("0 0 0 0")
+      .Width(1200)
+      .AutoScroll(true)
+      .Height(600)
+      .FieldDefaults(fd =>
+      {
+          fd.LabelAlign = LabelAlign.Top;
+          fd.MsgTarget = MessageTarget.Side;
+      })
+      .Items(
+          x.FieldSet()
+              .Width(1000)
+              .Collapsible(true)
+              .HeightSpec("auto")
+              .Title("Add Employer")
+              .Layout(LayoutType.Column)
+              .MarginSpec("0 5 0 20")
+              .Defaults(dd => { dd.Add(new Parameter("LabelWidth", "115")); })
+              .Items(
+                  x.Hidden().Name("Employer_Id"),
+                  x.TextField().Name("Employer_Name").FieldLabel("Employer Name").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .AllowBlank(false)
+                      .BlankText("Employer Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Tin_No").FieldLabel("T.I.N").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .AllowBlank(true)
+                      .BlankText("T.I.N is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Ssnit").FieldLabel("SSNIT").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .AllowBlank(true)
+                      .BlankText("SSNIT is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Npra_Number").FieldLabel("NPRA Number").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .AllowBlank(true)
+                      .BlankText("NPRA Numbber is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Business_Address").FieldLabel("Business Address").MarginSpec("0 30 10 10").Width(250).TabIndex(2)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Employer_Postal_Address").FieldLabel("Postal Address").MarginSpec("0 30 10 10").Width(250).TabIndex(3)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Phone_Number").FieldLabel("Phone Number").MarginSpec("0 30 10 10").Width(250).TabIndex(4),
+                  x.TextField().Name("Employer_Email_Address").FieldLabel("Email Address")
+                      .InputType(Ext.Net.InputType.Email).MarginSpec("0 30 10 10").Width(250).TabIndex(5)
+                      .FieldStyle("text-transform:LOWERCASE"),
+                  x.TextField().Name("Web_Site").FieldLabel("Web_Site")
+                      .InputType(Ext.Net.InputType.Email).MarginSpec("0 30 10 10").Width(250).TabIndex(6)
+                      .FieldStyle("text-transform:LOWERCASE"),
+                  x.TextField().Name("Registration_Number").FieldLabel("Registration Number")
+                        .MarginSpec("0 30 10 10").Width(250).TabIndex(7)
+                         .FieldStyle("text-transform:UPPERCASE"),
+                  x.DateField().Name("Registration_Date").FieldLabel("Registration Date").MarginSpec("0 30 10 10").Width(250).TabIndex(8),
+                  x.TextField().Name("Contact_Person").FieldLabel("Contact Person").MarginSpec("0 30 10 10").Width(250).TabIndex(9)
+                      .AllowBlank(false)
+                      .BlankText("Contact Person Name is required.").MarginSpec("0 30 10 10").Width(250).TabIndex(10)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Contact_Number").FieldLabel("Contact Number").MarginSpec("0 30 10 10").Width(250).TabIndex(11)
+                      .AllowBlank(false)
+                      .BlankText("Contact Number is required."),
+                  x.TextField().Name("Contact_Email").FieldLabel("Contact Email").MarginSpec("0 30 10 10").Width(250).TabIndex(11)
+                      .AllowBlank(true)
+                      .BlankText("Contact Email is required."),
+                  x.TextField().Name("Employer_Other_Number").FieldLabel("Other Number").MarginSpec("0 30 10 10").Width(250).TabIndex(12),
+                  x.ComboBox().Name("Region_Id").FieldLabel("Region").MarginSpec("0 30 10 10").Width(250).TabIndex(13)
+                      .Editable(false)
+                      .Items(regions.GetRegionList().Select(d => new ListItem(d.Region_Name, d.Region_ID)))
+                      .AllowBlank(false)
+                      .BlankText("Region Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                   x.ComboBox().Name("District_Id").FieldLabel("District").MarginSpec("0 30 10 10").Width(250).TabIndex(13)
+                      .Editable(false)
+                      .Items(district.GetDistrictList().Select(d => new ListItem(d.District_Name, d.District_Id)))
+                      .AllowBlank(true)
+                      .BlankText("Region Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Office_Location").FieldLabel("Office Location").MarginSpec("0 30 10 10").Width(250).TabIndex(14)
+                      .AllowBlank(false)
+                      .BlankText("Office Location Number is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.ComboBox().Name("Sector_Id").FieldLabel("Sector Name").MarginSpec("0 30 10 10").Width(250).TabIndex(15)
+                      .Editable(false)
+                      .Items(sectors.GetSectorList().Select(d => new ListItem(d.Sector_Name, d.Sector_Id)))
+                      .AllowBlank(false)
+                      .BlankText("Sector  Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                   x.ComboBox().Name("Scheme_Id").FieldLabel("Scheme Name").MarginSpec("0 30 10 10").Width(550).TabIndex(13)
+                      .Editable(false)
+                      .Items(schemes.GetSchemeList().Select(d => new ListItem(d.Scheme_Name, d.Scheme_Id)))
+                      .AllowBlank(false)
+                      .BlankText("Scheme Name Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+
+                  x.FieldSet()
+                  .Height(50)
+                  .Width(830)
+                  .MarginSpec("0 30 10 10")
+                  
+                  .Items(
+                  x.Button()
+                  .Text("Save")
+                  .Width(150)
+                  .Icon(Icon.ApplicationAdd)
+                  .DirectEvents(de =>
+                  {
+                      de.Click.Confirmation.ConfirmRequest = true;
+                      de.Click.Confirmation.Title = "Save Record";
+                      de.Click.Confirmation.Message = "Save employer record?";
+                      de.Click.Url = Url.Action("SaveRecord");
+                  }).MarginSpec("10 10 0 250"),
+
+                  x.Button()
+                  .Text("Clear")
+                  .Width(150)
+                  .Icon(Icon.Cancel)
+                  .OnClientClick("this.up('form').getForm().reset();")
+                  .MarginSpec("10 10 0 0")
+              )
+              )
+
+      )
+   )

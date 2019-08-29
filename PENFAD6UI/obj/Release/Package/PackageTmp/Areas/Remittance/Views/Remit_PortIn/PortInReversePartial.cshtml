@@ -1,0 +1,317 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_PurchaseRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+                        .ID("frmPortInReverseP_Main")
+                        .Title("Reverse Porting In")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1000)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+
+
+                                    x.FieldSet()
+                                    .Height(1200)
+                                    .Width(1600)
+                                    .Frame(true)
+                                    .Layout(LayoutType.Column)
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                     x.FieldSet()
+                                    .MarginSpec("5 0 0 0")
+                                    .Width(800)
+                                    .Height(1010)
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                    x.Button()
+                                    .Text("View Porting In")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(240)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadPortInReverse");
+                                        de.Click.Success = "onSuccess(App.PortInBenefitReverse_Grid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("PortInBenefitReverse_Grid")
+                                    .Title("List of Porting In")
+                                    .Frame(true)
+                                    .Width(790)
+                                    .Height(1000)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ReverseRequestPortInStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("PortIn_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Unit_Purchased").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Unit_Purchased").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Trustee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Previous_Trustee").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Unit_Price").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Benefit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Trans_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String)
+
+                                            )
+                                        )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                              .Url(Url.Action("ReadPortInReverse"))
+                                              )
+                                            // .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmPortInReverseP_Main.getForm().loadRecord(selected[0]);}")
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("EMPLOYEE ACCOUNT ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Employee_Name").Text("EMPLOYEE NAME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Unit_Price").Text("UNIT PRICE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Employee_Amount").Text("EMPLOYEE AMOUNT").Width(150))
+                     .ColumnModel(x.Column().DataIndex("Employer_Amount").Text("EMPLOYER AMOUNT").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Trans_Date").Text("DATE").Width(100))
+                                                               ),
+
+                                                                  x.FieldSet()
+                                                                    .Height(1010)
+                                                                    .Width(450)
+                                                                   .Layout(LayoutType.Column)
+                                                                    .Title("Porting In Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                      .Items(
+                                                                            x.Hidden().Name("PortIn_No"),
+                                                                            x.Hidden().Name("Scheme_Id"),
+                                                                            x.Hidden().Name("Fund_Id"),
+                                                                            x.Hidden().Name("Scheme_Fund_Id"),
+                                                                            x.Hidden().Name("GL_Account_No"),
+                                                                            x.Hidden().Name("Previous_Trustee"),
+                                                                              x.Hidden().Name("ES_Id"),
+                                                                            x.Hidden().Name("Employer_Id"),
+                                                                             x.Hidden().Name("Employee_Id"),
+
+                                                                            x.TextField()
+                                                                            .Name("ESF_Id")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Employee Account ID")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Employee_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Name of Employee")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Scheme_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Scheme")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+                                                                             x.TextField()
+                                                                            .Name("Fund_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Fund")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+                                                                            x.TextField().Name("Unit_Price").FieldLabel("Unit Price").MarginSpec("3 100 5 10").ReadOnly(true) .Width(170),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Employee_Amount")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Receiving Employee Amount")
+                                                                            .MarginSpec("3 0 10 10"),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Employee_Unit_Purchased")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Employee Unit Purchased")
+                                                                            .MarginSpec("3 0 10 10"),
+
+                                                                             x.TextField()
+                                                                            .Name("Employer_Amount")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Receiving Employer Amount")
+                                                                            .MarginSpec("3 0 10 10"),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Employer_Unit_Purchased")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Employer Unit Purchased")
+                                                                            .MarginSpec("3 0 10 10"),
+
+
+
+                                                                             x.TextField()
+                                                                            .Name("Trustee_Name")
+                                                                            .Width(400)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Trustee Name")
+                                                                            .MarginSpec("3 0 10 10"),
+
+                                                                              x.TextField()
+                                                                            .Name("GL_Account_Name")
+                                                                            .Width(400)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Trustee Name")
+                                                                            .MarginSpec("3 0 10 10"),
+
+
+                                                                            x.DateField()
+                                                                            .Name("Trans_Date")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Request Date")
+                                                                            .MarginSpec("3 200 10 10"),
+
+                                                                             x.TextArea()
+                                                                            .Name("Reverse_Reason")
+                                                                            .Width(400)
+                                                                            .AllowBlank(false)
+                                                                            //.ReadOnly(true)
+                                                                            .FieldLabel("Reason for reversal")
+                                                                            .MarginSpec("3 0 10 10"),
+
+                                                                                x.Button()
+                                                                                .Text("Reverse")
+                                                                                .Width(120)
+                                                                                .Icon(Icon.Add)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                                    de.Click.Confirmation.Title = "Reverse";
+                                                                                    de.Click.Confirmation.Message = "Reverse Porting In?";
+                                                                                    de.Click.Url = Url.Action("ReverseRecord");
+
+                                                                                }).MarginSpec("10 10 0 10"),
+
+                                                                               
+
+                                                                                x.Button()
+                                                                                .Text("Cancel")
+                                                                                .Width(100)
+                                                                                .Icon(Icon.ArrowRefresh)
+                                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                                .MarginSpec("10 10 0 10")
+
+
+                                                               )
+                     )
+            )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+

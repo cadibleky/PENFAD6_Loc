@@ -1,0 +1,170 @@
+﻿
+<h2>Index</h2>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+@section headtag
+{
+    <style>
+        html, body {
+            font: normal 12px verdana;
+            margin: 0;
+            padding: 0;
+            border: 0 none;
+            background-color: #dfe8f6 !important;
+        }
+    </style>
+
+    <style type="text/css">
+        .css1 .x-panel-body {
+            background-color: aliceblue !important;
+            color: white;
+        }
+
+        .css11 .x-panel-body {
+            background-color: !important;
+            color: white;
+        }
+    </style>
+
+    <script>
+        var replace = function (panel) {
+            var btns = Ext.getCmp("btns"),
+                comp;
+
+            comp = btns.remove(0, false);
+
+            if (comp) {
+                Ext.get("hiddenArea").appendChild(comp.getEl());
+            }
+            btns.add(panel);
+            btns.updateLayout();
+        };
+
+        var addTab = function (tabPanel, id, url, menuItem) {
+            var tab = tabPanel.getComponent(id);
+
+            if (!tab) {
+                tab = tabPanel.add({
+                    id: id,
+                    title: url,
+                    closable: true,
+                    menuItem: menuItem,
+                    loader: {
+                        url: url,
+                        renderer: 'frame',
+                        loadMask: {
+                            showMask: true,
+                            msg: 'Loading ' + url + '...'
+                        }
+                    }
+                });
+
+                tab.on('activate', function (tab) {
+                    App.MenuPanel1.setSelection(tab.menuItem);
+                });
+            }
+            tabPanel.setActiveTab(tab);
+        }
+    </script>
+}
+
+@section example
+{
+    @(X.Viewport()
+        .Layout(LayoutType.Border)
+        .Items(
+            X.Panel()
+                .Region(Region.North)
+                .Split(false)
+                .Height(100)
+                .BodyPadding(3)
+
+                .Html("Teksol Penfad")
+                .Collapsible(false)
+                .Cls("css1")
+               ,
+
+            X.Panel()
+                .Title("West")
+                .Region(Region.West)
+                .Layout(LayoutType.Accordion)
+                .Width(250)
+                .MinWidth(250)
+                .MaxWidth(400)
+                .BodyPadding(3)
+                .Split(true)
+                .Collapsible(false)
+                .Items(
+
+                     X.TreePanel()
+                        .Width(300)
+                        .Height(450)
+                        .Icon(Icon.Folder)
+                        .Title("NavMain")
+                        .AutoScroll(true)
+                        .TopBar(
+                            X.Toolbar()
+                                .Items(
+                                    X.Button()
+                                        .Text("Expand All")
+                                        .Handler("this.up('treepanel').expandAll();"),
+
+                                    X.Button()
+                                        .Text("Collapse All")
+                                        .Handler("this.up('treepanel').collapseAll();")
+                                )
+                        )
+                        .Root(
+                            X.Node()
+                             .Text("Try")
+                             .Expanded(true)
+
+                        )
+                        .BottomBar(
+                            X.StatusBar().AutoClear(1500)
+                        )
+
+                        .DirectEvents(me =>
+                        {
+                            me.Select.Url = Url.Action("AddESFApproveTab");
+                            me.Select.ExtraParams.Add(new { containerId = "MainTab" });
+                        })
+                        ,
+                        X.Panel()
+                        .Title("Settings")
+                        .Border(false)
+                        .BodyPadding(6)
+                        .Icon(Icon.FolderWrench)
+                        .Html("Some settings in here")
+                        ),
+
+            X.TabPanel()
+                .Region(Region.Center)
+                .ID("MainTab")
+                .Items(
+                    X.Panel()
+                   
+                        .Title("Home")
+                        .Border(false)
+                        .BodyPadding(6)
+                        .Icon(Icon.ApplicationOsxHome)
+                        .Html("<h1>Welcome to Penfad 6</h1>")
+                        .ID("TabPanel1")
+
+                ),
+
+            X.Panel()
+                .Region(Region.South)
+                .Split(false)
+                .Collapsible(false)
+                .Height(50)
+                .BodyPadding(3)
+                .Html("")
+                .Cls("css1")
+        )
+    )
+}

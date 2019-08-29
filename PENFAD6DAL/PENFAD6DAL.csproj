@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{85B0CEF1-30AD-45C7-A1EA-BC3367F657A5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PENFAD6DAL</RootNamespace>
+    <AssemblyName>PENFAD6DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50-rc2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EASendMail20">
+      <HintPath>..\..\..\..\..\Program Files (x86)\EASendMail\EASendMail20.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.1.24160419\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>..\..\..\.nuget\packages\Serilog\1.5.14\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Seq">
+      <HintPath>..\..\..\.nuget\packages\Serilog.Sinks.Seq\1.5.36\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DBContext\AppSettings.cs" />
+    <Compile Include="DBContext\DataProvider.cs" />
+    <Compile Include="GlobalObject\cLogger.cs" />
+    <Compile Include="GlobalObject\GlobalValue.cs" />
+    <Compile Include="GlobalObject\ImageWork.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CRM\Employee\crm_EmployeeBatchLogRepo.cs" />
+    <Compile Include="Repository\CRM\Employee\crm_EmployeeSchemeFundRepo.cs" />
+    <Compile Include="Repository\CRM\Employer\crm_EmployerSchemeFundRepo.cs" />
+    <Compile Include="Repository\CRM\Employer\crm_EmployerSchemeRepo.cs" />
+    <Compile Include="Repository\GL\GLTBRepo.cs" />
+    <Compile Include="Repository\GL\GLInitialRepo.cs" />
+    <Compile Include="Repository\GL\GLCallInterestRepo.cs" />
+    <Compile Include="Repository\GL\GLFeeRepo.cs" />
+    <Compile Include="Repository\GL\GLJournalRepo.cs" />
+    <Compile Include="Repository\GL\GLAccountRepo.cs" />
+    <Compile Include="Repository\GL\GLChartRepo.cs" />
+    <Compile Include="Repository\Investment\Bond\BondRepo.cs" />
+    <Compile Include="Repository\Investment\Equity_CIS\Invest_Equity_CISRepo.cs" />
+    <Compile Include="Repository\Investment\FixedIncome_Transaction\Invest_Trans_Fix_Repo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Empoyee_ReportReop.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_BatchLogRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_Contribution_Trans_LogRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_Contribution_Supplimentary_LogRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Report_Repo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_WithdrawalRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_Unit_MigrateRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_Con_MigrateRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_Contribution_Upload_LogRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_Unit_TransferRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_PurchaseRepo.cs" />
+    <Compile Include="Repository\Remittance\Contribution\Remit_ReceiptRepo.cs" />
+    <Compile Include="Repository\Security\App_Parameter_SettingsRepo.cs" />
+    <Compile Include="Repository\Security\cSecurityRepo.cs" />
+    <Compile Include="Repository\Security\LoginModelRepo.cs" />
+    <Compile Include="Repository\Security\sec_AuthorizerRepo.cs" />
+    <Compile Include="Repository\Security\sec_UserGroupPermissionRepo.cs" />
+    <Compile Include="Repository\Security\sec_UserGroupRepo.cs" />
+    <Compile Include="Repository\Security\Sec_UserGroupRightTemp.cs" />
+    <Compile Include="Repository\Security\sec_UserRepo.cs" />
+    <Compile Include="Repository\Security\sec_UserRoleRepo.cs" />
+    <Compile Include="Repository\CRM\Employee\crm_BeneNextRepo.cs" />
+    <Compile Include="Repository\CRM\Employee\crm_EmployeeRepo.cs" />
+    <Compile Include="Repository\CRM\Employer\crm_EmployerRepo.cs" />
+    <Compile Include="Repository\Setup\InvestSetup\Invest_AssetClassRepo.cs" />
+    <Compile Include="Repository\Setup\InvestSetup\setup_CurrencyRepo.cs" />
+    <Compile Include="Repository\Setup\InvestSetup\invest_NPRAAssetRepo.cs" />
+    <Compile Include="Repository\Setup\InvestSetup\invest_AuthorizersRepo.cs" />
+    <Compile Include="Repository\Setup\InvestSetup\invest_ProductRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_CustodianRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\Pfm_FeesRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_FundManagerRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_FundRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_SchemeFeeRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_SchemeRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_Scheme_FundRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_Scheme_Fund_ManagerRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_SecurityRepo.cs" />
+    <Compile Include="Repository\Setup\PfmSetup\pfm_VestingRuleRepo.cs" />
+    <Compile Include="Repository\Setup\RemitSetup\Remit_Bank_SchemeFundRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_CompanyRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_TrusteeRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_InternetRepo.cs" />
+    <Compile Include="Repository\Setup\Utilities\EndOfDayReversalRepo.cs" />
+    <Compile Include="Repository\Setup\Utilities\EndOfYearRepo.cs" />
+    <Compile Include="Repository\Setup\Utilities\EndOfMonthRepo.cs" />
+    <Compile Include="Repository\Setup\Utilities\EndOfDayRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_BranchRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_BankRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_CountryRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_DistrictRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_EmployeeTypeRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_GenderRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_IdentityTypesRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_IssuerRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_MaritalStatusRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_PositionRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_RegionRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_RelationshipRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_SectorRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_StaffRepo.cs" />
+    <Compile Include="Repository\Setup\SystemSetup\setup_TitleRepo.cs" />
+    <Compile Include="Services\MessageFactory.cs" />
+    <Compile Include="Services\TeksolLogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

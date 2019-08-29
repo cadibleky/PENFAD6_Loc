@@ -1,0 +1,311 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@model IEnumerable<Remit_Contribution_Upload_LogRepo>
+
+@{
+    var regions = new setup_RegionRepo();
+    var sectors = new setup_SectorRepo();
+    var schemes = new pfm_SchemeRepo();
+    int yyyy = Convert.ToInt32(DateTime.Now.Year.ToString());
+    List<SelectListItem> YearList = new List<SelectListItem>();
+    for (int i = yyyy - 10; i <= yyyy + 10; i++)
+    {
+        YearList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+    var x = Html.X();
+
+}
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+    var onSuccessgroup = function (grid, data)
+    {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+</script>
+
+
+   @(Html.X().FormPanel()
+        .ID("frm_remittanceContribution_TPFA")
+        .Title("TPFA Remittance Upload")
+        .Closable(true)
+        .Header(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("10 0 0 20")
+        //.Frame(true)
+        //.Border(true)
+        .Width(1200)
+        .AutoScroll(true)
+        .Height(800)
+        .Items(x.Panel()
+                .ID("panel1_panel_remittancebatch_upload_TPFA")
+                .Title("TPFA Remittance Batch Upload")
+                .Border(true)
+                //.ColumnWidth(0.5)
+                .Border(true)
+                .Width(1000)
+                .Height(630)
+                .Items(Html.X().FieldSet().Layout(LayoutType.Column)
+                            .ID("fs_uploadremittance_details_TPFA")
+                            .Height(300)
+                            .MarginSpec("0 10 0 10")
+                            .Title("Employer Details")
+                            .FieldDefaults(fd =>
+                            {
+                                fd.LabelAlign = LabelAlign.Top;
+                                fd.MsgTarget = MessageTarget.Side;
+                                //fd.LabelWidth = 150;
+                                fd.PreventMark = true;
+                            })
+                            .Items(
+                                        x.Hidden().ID("ContributionRemitPartial_txt_ES_Id_TPFA").Name("ES_Id"),
+
+                                        x.TextField().ID("ContributionRemitPartial_Employer_Id_TPFA").Name("Employer_Id").FieldLabel("Employer ID").ReadOnly(true)
+                                                    .FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 10").Width(300).TabIndex(2)
+                                                    .StyleSpec("color:#333; font-size: 20px; font-weight: bold"),
+
+                                        x.TextField().Name("Employer_Name").ID("remittanceEmployer_Name_TPFA").FieldLabel("Employer Name").ReadOnly(true)
+                                                      .FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 10").Width(400).TabIndex(1)
+                                                      .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                      .BlankText("Employer name is required."),
+
+                                        x.Button()
+
+                                          .Text("Select Employer")
+                                                     .ID("rremittanceddfgh_TPFA")
+                                                     .Width(180)
+                                                     .TabIndex(60)
+                                                     .Icon(Icon.Add)
+                                                     .MarginSpec("30 10 0 10")
+                                                     .Handler("App.win_Employer_scheme_TPFA.show(this)"),
+                                           x.TextField().Name("Scheme_Id").ID("ContributionRemitPartial_Scheme_Id_TPFA").FieldLabel("Scheme ID").MarginSpec("0 10 0 10").Width(300).TabIndex(3)
+                                                    .ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                    .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                    .BlankText("Scheme name is required."),
+                                           x.TextField().Name("Scheme_Name").ID("Scheme_Name_TPFA").Width(600).TabIndex(4)
+                                                    .ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                    .FieldLabel("Scheme Name").MarginSpec("0 10 0 10")
+                                                    .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                    .BlankText("Scheme Name is required."),
+                                          x.DateField().Name("DeadLine_Date").ID("txtDeadline_Date_TPFA")
+                                                   .FieldLabel("DeadLine Date").MarginSpec("0 10 0 10").Width(300).TabIndex(6)
+                                                   .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold").ReadOnly(true)
+                                                   .BlankText("Deadline Date is required."),
+                                          x.ComboBox().ID("ContributionRemitPartial_txtremittancemonth_TPFA").Name("For_Month").FieldLabel("For Month")
+                                                   .MarginSpec("0 10 0 10").Width(250).TabIndex(5).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                    //.Listeners(ls => ls.Select.Handler = "App.ContributionRemitPartial_txtremittancemonth.clearValue(); App.ComboBoxMonth.getStore().load()")
+                                                    .Items(
+                                                            new ListItem("JANUARY", "1"),
+                                                            new ListItem("FEBRUARY", "2"),
+                                                            new ListItem("MARCH", "3"),
+                                                            new ListItem("APRIL", "4"),
+                                                            new ListItem("MAY", "5"),
+                                                            new ListItem("JUNE", "6"),
+                                                            new ListItem("JULY", "7"),
+                                                            new ListItem("AUGUST", "8"),
+                                                            new ListItem("SEPTEMBER", "9"),
+                                                            new ListItem("OCTOBER", "10"),
+                                                            new ListItem("NOVEMBER", "11"),
+                                                            new ListItem("DECEMBER", "12")
+                                                         )
+                                                  .Editable(false)
+                                                  .AllowBlank(false)
+                                                  .BlankText("Month is required.")
+                                                  .FieldStyle("text-transform:UPPERCASE")
+                                                  .DirectEvents(de =>
+                                                  {
+                                                      de.Change.Url = Url.Action("GetMDate");
+                                                  }),
+                               x.ComboBox().Name("For_Year").ID("ContributionRemitPartial_txtfrmRemittance_year_TPFA").FieldLabel("For Year")
+                                                 .Editable(false)
+                                                 .MarginSpec("0 10 0 10").Width(250).TabIndex(6).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                 .Items(YearList.Select(y => new ListItem(y.Text, y.Value)))
+                                                 .AllowBlank(false).BlankText("Year is required.").FieldStyle("text-transform:UPPERCASE")
+                                                 .DirectEvents(de =>
+                                                 {
+                                                     de.Change.Url = Url.Action("GetMDate");
+                                                 })
+
+                                    )//end items for field set
+
+                                    )//end fset_uploademployer
+
+                    .Items(x.FieldSet()
+                            //.ColumnWidth(0.55)
+                            .ID("frsetremitremmittance_fileupload_TPFA")
+                            .Collapsible(true)
+                            .Layout(LayoutType.Column)
+                            .HeightSpec("Auto")
+                            .Title("Remittance File Upload ")
+                            .MarginSpec("0 10 0 10")
+                            .Items(
+                                    x.FileUploadField().ButtonText("Browse Excel File")
+                                            .ID("remitfile_upload1_TPFA")
+                                            .Width(600)
+                                            .Icon(Icon.Attach),
+                                    x.Button()
+                                            .Text("Upload")
+                                            .Width(100)
+                                            .DirectEvents(dex =>
+                                            {
+                                                dex.Click.Url = Url.Action("UploadRemittanceClick");
+                                                dex.Click.Timeout = 12000000;
+                                                dex.Click.ExtraParams.Add(new Parameter()
+
+                                                {
+                                                    Name = "param_employer_scheme_id",
+                                                    Value = "App.ContributionRemitPartial_txt_ES_Id_TPFA.getValue()",
+                                                    Mode = ParameterMode.Raw
+                                                });
+
+                                                dex.Click.ExtraParams.Add(new Parameter()
+                                                {
+                                                    Name = "Month_str",
+                                                    Value = "App.ContributionRemitPartial_txtremittancemonth_TPFA.getValue()",
+                                                    Mode = ParameterMode.Raw
+                                                });
+
+                                                dex.Click.ExtraParams.Add(new Parameter()
+                                                {
+                                                    Name = "year_str",
+                                                    Value = "App.ContributionRemitPartial_txtfrmRemittance_year_TPFA.getValue()",
+                                                    Mode = ParameterMode.Raw
+                                                });
+
+                                            })
+                                        .MarginSpec("0 10 20 10").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Uploading... Please wait.'})"),
+
+                                    x.Button()
+                                        .ID("btnremitclear_TPFA")
+                                        .Text("Clear")
+                                        .Icon(Icon.ArrowRefresh)
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Click.Url = Url.Action("ClearControls");
+                                        })
+                                     ) //file_upload1
+                             .Items(x.Label()
+                                        .ID("lblnotice_TPFA")
+                                        .Height(100)
+                                        .Text("* Please Not : Do NOT Reassign Employer ID that already exist in Penfad to use for Remittance." +
+                                                Environment.NewLine + "Else two people would be given one scheme account and that will create reconcilliation problems.Thank you")
+                                        )//end lable
+                                   )// end fset_fileupload
+
+                     )// panel1_panel_batch_upload
+
+
+            .Items(x.Window()
+                    .ID("win_Employer_scheme_TPFA")
+                    .Icon(Icon.Application)
+                    .Title("Employer List")
+                    .Width(700)
+                    .Height(600)
+                    .Modal(true)
+                    .AutoRender(false)
+                    //.Collapsible(true)
+                    //.BodyStyle("TPFAground-color: #fff;")
+                    //.BodyPadding(5)
+                    //.SetPagePosition(50,50)
+                    .Hidden(true)
+                    .Items(x.GridPanel()
+                                .ID("AddschemeAcct_grid_TPFA")
+                                //.Hidden(true)
+                                .Border(true)
+                                //.Width(350)
+                                .Height(580)
+                                .WidthSpec("Auto")
+                                // .HeightSpec("Auto")
+
+                                .MarginSpec("10 0 0 10")
+                                .TopBar(Html.X().Toolbar()
+                                            .Items(Html.X().Button()
+                                                        .ID("btn_viewemployers_TPFA")
+                                                        .Text("View Employers Scheme")
+                                                        .Width(250)
+                                                        .Icon(Icon.ApplicationViewDetail)
+                                                        .DirectEvents(de =>
+                                                        {
+                                                            de.Click.Url = Url.Action("Get_EmployersScheme");
+                                                            de.Click.Success = "onSuccess(App.AddschemeAcct_grid_TPFA, result.data);";
+                                                            //de.Click.ExtraParams.Add(new { containerId = "panel_majornav" });
+                                                        })
+                                                            //.Handler("#{panel_majornav}.reload();")
+                                                            )//end button
+                                                        )// end topbar
+                                .Store(Html.X().Store()
+                                            .ID("employerscheme_store_TPFA")
+                                            .AutoLoad(false)
+                                            .Model(Html.X().Model()
+                                                    .Fields(
+                                                           new ModelField("Employer_Name", ModelFieldType.String),
+                                                             new ModelField("Scheme_Name", ModelFieldType.String),
+                                                             new ModelField("Employer_Id", ModelFieldType.String),
+                                                            new ModelField("Scheme_Id", ModelFieldType.String),
+                                                            new ModelField("ES_Id", ModelFieldType.String),
+                                                              new ModelField("DeadLine_Date", ModelFieldType.Date)
+
+                                                            )//end fields
+                                                    )//end model
+                                                    .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                    .ServerProxy(Html.X().AjaxProxy()
+                                                                        .Url(Url.Action("Get_EmployersScheme"))
+                                                                    )// END SERVER PROXY
+                                                    .PageSize(10)
+                                        )//end  store
+
+                                .ColumnModel(
+                                          Html.X().Column().Text("Employer Name").DataIndex("Employer_Name").Width(350),
+                                                  Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(250),
+                                                  Html.X().Column().Text("Employer Id").DataIndex("Employer_Id").Width(100),
+                                                 Html.X().Column().Text("Scheme Id").DataIndex("Scheme_Id").Width(100),
+                                                 Html.X().Column().Text("Employer Acct.No.").DataIndex("ES_Id").Width(100),
+                                                  Html.X().Column().Text("DeadLine Date").DataIndex("DeadLine_Date").Width(100)
+                                        )//end columnmodel
+                                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                    //.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                                    ///.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_Contribution.getForm().loadRecord(selected[0]); App.win_Employer_scheme.hide(true); }")
+
+                                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_remittanceContribution_TPFA.getForm().loadRecord(selected[0]); App.win_Employer_scheme_TPFA.hide(true);}")
+                            //.DirectEvents(de =>
+                            //{
+                            //    de.SelectionChange.Url = Url.Action("Get_Month_Year_For_Employer_Upload");
+                            //    ///dex.CellClick.Success = "onSuccess(App.AddschemeAcct_grid, result.data);";
+
+                            //    de.SelectionChange.ExtraParams.Add(new Parameter()
+                            //    {
+                            //        Name = "param_employer_scheme_id",
+                            //        Value = "App.ContributionRemitPartial_txt_ES_Id_Sup.getValue()",
+                            //        Mode = ParameterMode.Raw
+                            //    });
+
+                            //    de.SelectionChange.ExtraParams.Add(new Parameter()
+                            //    {
+                            //        Name = "param_scheme_id",
+                            //        Value = "App.ContributionRemitPartial_Scheme_Id_Sup.getValue()",
+                            //        Mode = ParameterMode.Raw
+                            //    });
+                            //})
+                            .Refresh()
+                            .BottomBar(Html.X().PagingToolbar())
+                            .Plugins(x.FilterHeader())
+
+                                 )// end grid panel
+
+
+                    )// end windows       
+
+         )
+      
+  
+ 

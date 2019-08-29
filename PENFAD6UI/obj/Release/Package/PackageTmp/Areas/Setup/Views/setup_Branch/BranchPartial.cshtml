@@ -1,0 +1,149 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<setup_BranchRepo>
+
+@{
+    var regions = new setup_RegionRepo();
+    var x = Html.X();
+
+}
+
+
+@(x.FormPanel()
+        .ID("branch")
+        .ColumnWidth(0.4)
+        .Title("setup Branch")
+        .Frame(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("branchGrid")
+                        .Title("View Branch List")
+                        .Frame(true)
+                        .Width(600)
+                        .MarginSpec("10 0 0 10")
+                        .Height(650)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("branchStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Branch_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Branch_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Branch_Code").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Telephone_No").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Mobile_No").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Region_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Region_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Email_Address").Type(ModelFieldType.String)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("Branch_Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Branch_Name").Text("Branch Name").Width(300))
+               .ColumnModel(x.Column().DataIndex("Postal_Address").Text("Postal Address").Width(300))
+                .ColumnModel(x.Column().DataIndex("Telephone_No").Text("Telephone No").Width(300))
+                .ColumnModel(x.Column().DataIndex("Mobile_No").Text("Mobile No").Width(300))
+                  .ColumnModel(x.Column().DataIndex("Branch_Code").Text("Branch Code").Width(300))
+                .ColumnModel(x.Column().DataIndex("Region_Id").Text("Region Id").Width(300))
+                .ColumnModel(x.Column().DataIndex("Region_Name").Text("Region Name").Width(300))
+                .ColumnModel(x.Column().DataIndex("Email_Address").Text("Email Address").Width(300)),
+
+                x.FieldSet()
+                    .ColumnWidth(0.4)
+                    .Collapsible(true)
+                    .HeightSpec("auto")
+                    .Title("Add/Edit Branch")
+                    .MarginSpec("0 0 0 10")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Branch_Id"),
+                        x.TextField().Name("Branch_Name").FieldLabel("Branch Name").Width(230)
+                        .FieldStyle("text-transform:UPPERCASE")
+                         .AllowBlank(false)
+                        .BlankText("Branch Name is required.").SetActive(true),
+                        x.TextField().Name("Branch_Code").FieldLabel("Branch Code").Width(230)
+                        .FieldStyle("text-transform:UPPERCASE"),
+                        x.TextField().Name("Postal_Address").FieldLabel("Postal Address").Width(230)
+                        .FieldStyle("text-transform:UPPERCASE"),
+                         x.TextField().Name("Telephone_No").FieldLabel("Telephon No.").Width(230),
+                        x.TextField().Name("Mobile_No").FieldLabel("Mobile No").Width(230)
+                         .AllowBlank(false)
+                        .BlankText("Mobile Number is required.").SetActive(true),
+                         x.ComboBox().Name("Region_Id").FieldLabel("Region Name").Items(regions.GetRegionList().Select(d => new ListItem(d.Region_Name, d.Region_ID)))
+                         .FieldStyle("text-transform:UPPERCASE")
+                         .AllowBlank(false)
+                        .BlankText("Region Name is required.").SetActive(true),
+                        x.TextField().Name("Email_Address").FieldLabel("Email Address").InputType(Ext.Net.InputType.Email).Width(230)
+                        )
+                    .Items(
+                        x.Button()
+                            .Text("Save")
+                            .Width(90)
+                             .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.Message = "Are you sure you want to Save?";
+
+                            }).MarginSpec("70 10 0 0"),
+
+
+                        x.Button()
+                            .Text("Delete")
+                            .Width(90)
+                             .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                            }).MarginSpec("70 10 0 0"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                 .Icon(Icon.Cancel)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("70 10 0 0")
+
+                        )
+                 )
+
+
+)
+
+
+
+

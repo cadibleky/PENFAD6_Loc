@@ -1,0 +1,11 @@
+﻿
+@using Stimulsoft.Report.Mvc
+
+
+
+
+@Html.Stimulsoft().StiMvcViewer(
+    "MvcViewer1", new StiMvcViewerOptions()
+    {
+        Actions = { GetReportSnapshot = "GetReportSnapshot", ViewerEvent = "ViewerEvent" }
+    })

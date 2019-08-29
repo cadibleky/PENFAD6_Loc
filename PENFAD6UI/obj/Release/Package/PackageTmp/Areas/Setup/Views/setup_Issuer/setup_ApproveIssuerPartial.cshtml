@@ -1,0 +1,140 @@
+﻿
+
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+
+@model IEnumerable<setup_IssuerRepo>
+
+@{
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+        .ID("ApproveIssuerPan")
+        .WidthSpec("auto")
+        .Title("Approve Issuer")
+        .Frame(true)
+        .AutoScroll(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("ApproveIssuerGrid")
+                        .Title("View Issuer Approval List")
+                        .Frame(true)
+                        .Width(960)
+                        .MarginSpec("10 0 0 10")
+                        .Height(500)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("ApproveIssuerStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Issuer_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Issuer_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Phone_Number").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Make_Date").Type(ModelFieldType.Date),
+                                    x.ModelField().Name("Auth_Status").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Auth_Id").Type(ModelFieldType.String)
+                                    //x.ModelField().Name("Update_Id").Type(ModelFieldType.String),
+                                    //x.ModelField().Name("Update_Date").Type(ModelFieldType.Date)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("ReadUnApporved"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("Issuer_Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Issuer_Name").Text("Issuer").Width(200))
+                .ColumnModel(x.Column().DataIndex("Postal_Address").Text("Address").Width(250))
+                .ColumnModel(x.Column().DataIndex("Email_Address").Text("Email").Width(200))
+                .ColumnModel(x.Column().DataIndex("Phone_Number").Text("Contact").Width(150))
+                .ColumnModel(x.Column().DataIndex("Auth_Status").Text("Status").Width(150)),
+                //.ColumnModel(x.Column().DataIndex("Maker_Id").Text("Added By").Width(150))
+                //.ColumnModel(x.Column().DataIndex("Make_Date").Text("Date Added").Width(190)),
+                //.ColumnModel(x.Column().DataIndex("Update_Id").Text("Updated By").Width(300))
+                //.ColumnModel(x.Column().DataIndex("Update_Date").Text("Last Updated By").Width(300)),
+
+                x.FieldSet()
+                    .WidthSpec("auto")
+                    .Collapsible(true)
+                    .Region(Region.North)
+                    .Height(510)
+                    .Title("Approve Issuer")
+                    .MarginSpec("0 20 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Issuer_Id"),
+                        x.TextField().Name("Issuer_Name").FieldLabel("Issuer").Width(300).FieldStyle("TEXT-TRANSFORM:UPPERCASE").ReadOnly(true),
+                        x.TextField().Name("Postal_Address").FieldLabel("Postal Address").Width(300).FieldStyle("TEXT-TRANSFORM:UPPERCASE").ReadOnly(true),
+                        x.TextField().Name("Email_Address").FieldLabel("Email").Width(300).ReadOnly(true),
+                        x.TextField().Name("Phone_Number").FieldLabel("Phone Number").Width(300).ReadOnly(true)
+
+                        //x.TextField().Name("Maker_Id").FieldLabel("Added By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Make_Date").FieldLabel("Date Added").Width(230).ReadOnly(true),
+                        //x.DateField().Name("Update_Id").FieldLabel("Updated By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Update_Date").FieldLabel("Date Last Updated").Width(230).ReadOnly(true)
+                        )
+                    .Items(
+                    x.Panel()
+                    .WidthSpec("100%")
+                    .Height(40)
+                    .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+                    .Items(
+                    x.Button()
+                            .Text("Approve")
+                            .Width(90)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("ApproveRecord");
+
+                            }).MarginSpec("5 10 10 5"),
+                    x.Button()
+                    .Text("Clear")
+                    .Width(90)
+                    .Icon(Icon.ArrowRefresh)
+                    .OnClientClick("this.up('form').getForm().reset();")
+                    .MarginSpec("5 10 10 5")
+
+                        )
+
+                        )
+                        )
+                 )
+
+
+)
+
+

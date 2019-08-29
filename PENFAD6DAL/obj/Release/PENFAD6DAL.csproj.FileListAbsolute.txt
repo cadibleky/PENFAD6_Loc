@@ -1,0 +1,15 @@
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\PENFAD6DAL.dll.config
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\PENFAD6DAL.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\PENFAD6DAL.pdb
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\Dapper.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\Oracle.ManagedDataAccess.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Release\PENFAD6DAL.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Release\PENFAD6DAL.pdb
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\PENFAD6DAL.dll.config
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\PENFAD6DAL.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\PENFAD6DAL.pdb
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\Dapper.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Release\Oracle.ManagedDataAccess.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Release\PENFAD6DAL.csprojResolveAssemblyReference.cache
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Release\PENFAD6DAL.dll
+E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Release\PENFAD6DAL.pdb

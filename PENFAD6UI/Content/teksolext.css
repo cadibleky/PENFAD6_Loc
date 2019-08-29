@@ -1,0 +1,323 @@
+﻿
+
+
+/*1.  textfields properties*/
+.x-form-text-wrap {
+    display: table-cell;
+    overflow: hidden;
+    height: 100%;
+}
+
+.x-gecko .x-form-text-wrap {
+    display: block;
+    -moz-box-flex: 1;
+    flex: 1;
+}
+
+.x-form-item-body.x-form-text-grow {
+    min-width: inherit;
+    max-width: inherit;
+}
+
+.x-form-text {
+    border: 0;
+    margin: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    display: block;
+    /*background: repeat-x 0 0;*/
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+/*2. -----grid properties*/
+
+
+.x-grid-view {
+    z-index: 1;
+}
+
+.x-grid-body {
+    background: #fff;
+    border-width: 2px 1px 1px;
+    border-style: solid;
+    border-color: #d0d0d0;
+}
+
+.x-grid-item-container {
+    min-height: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.x-grid-empty {
+    padding: 10px;
+    color: grey;
+    background-color: #fff;
+    font: 300 13px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+}
+
+.x-grid-item {
+    color: #404040;
+    font: 300 13px/19px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+    background-color: #fff;
+    font-weight: 500;
+}
+
+.x-grid-item-alt {
+    background-color: #f6f6f6;
+}
+
+.x-grid-item-over {
+    color: #404040;
+    background-color: #eaeff4;
+}
+
+.x-grid-item-focused {
+    outline: 0;
+    color: #404040;
+}
+
+    .x-grid-item-focused .x-grid-cell-inner {
+        z-index: 1;
+    }
+
+        .x-grid-item-focused .x-grid-cell-inner:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            pointer-events: none;
+            border: 1px solid #5fa2dd;
+        }
+
+.x-grid-item-selected {
+    color: #404040;
+    background-color: #ffefbb;
+}
+
+.x-grid-with-row-lines .x-grid-item {
+    border-style: solid;
+    border-width: 1px 0 0;
+    border-color: #e9e9e9;
+}
+
+    .x-grid-with-row-lines .x-grid-item:first-child {
+        border-top-color: #fff;
+    }
+
+    .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
+        border-style: solid;
+        border-color: #dee3e8;
+    }
+
+.x-grid-with-row-lines .x-grid-item-over + .x-grid-item {
+    border-top-style: solid;
+    border-top-color: #dee3e8;
+}
+
+.x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
+    border-style: solid;
+    border-color: #f2e3b2;
+}
+
+.x-grid-with-row-lines .x-grid-item-selected + .x-grid-item {
+    border-top-style: solid;
+    border-top-color: #f2e3b2;
+}
+
+.x-grid-with-row-lines .x-grid-item:last-child {
+    border-bottom-width: 1px;
+}
+
+.x-ie8 .x-grid-with-row-lines .x-grid-item {
+    border-width: 1px 0;
+    margin-top: -1px;
+}
+
+    .x-ie8 .x-grid-with-row-lines .x-grid-item:first-child {
+        margin-top: 0;
+    }
+
+.x-grid-cell-inner {
+    position: relative;
+    text-overflow: ellipsis;
+    padding: 7px 10px 6px;
+}
+
+.x-grid-cell-special {
+    border-color: #e9e9e9;
+    border-style: solid;
+    border-right-width: 1px;
+}
+
+.x-grid-dirty-cell > .x-grid-cell-inner:after {
+    content: "\e602";
+    font: 14px/1 ExtJS;
+    color: #cf4c35;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.x-grid-row .x-grid-cell-selected {
+    color: #404040;
+    background-color: #ffefbb;
+}
+
+.x-grid-with-col-lines .x-grid-cell {
+    border-style: solid;
+    border-color: #e9e9e9;
+    border-width: 0 1px 0 0;
+}
+
+.x-grid-with-col-lines .x-grid-item-over .x-grid-cell {
+    border-color: #dee3e8;
+    border-style: solid;
+}
+
+.x-grid-with-col-lines .x-grid-item-selected .x-grid-cell {
+    border-color: #f2e3b2;
+    border-style: solid;
+}
+
+.x-grid-resize-marker {
+    width: 1px;
+    background-color: #0f0f0f;
+}
+
+.x-grid-drop-indicator {
+    position: absolute;
+    height: 1px;
+    line-height: 0px;
+    background-color: #77bc71;
+    overflow: visible;
+    pointer-events: none;
+}
+
+    .x-grid-drop-indicator .x-grid-drop-indicator-left {
+        position: absolute;
+        top: -8px;
+        left: -12px;
+        background-image: url("/extjs/packages/theme_triton/build/resources/images/grid/dd-insert-arrow-right-png/ext.axd");
+        height: 16px;
+        width: 16px;
+    }
+
+    .x-grid-drop-indicator .x-grid-drop-indicator-right {
+        position: absolute;
+        top: -8px;
+        right: -11px;
+        background-image: url("/extjs/packages/theme_triton/build/resources/images/grid/dd-insert-arrow-left-png/ext.axd");
+        height: 16px;
+        width: 16px;
+    }
+
+.x-col-move-top, .x-col-move-bottom {
+    width: 9px;
+    height: 9px;
+}
+
+.x-col-move-top {
+    background-image: url("/extjs/packages/theme_triton/build/resources/images/grid/col-move-top-png/ext.axd");
+}
+
+.x-col-move-bottom {
+    background-image: url("/extjs/packages/theme_triton/build/resources/images/grid/col-move-bottom-png/ext.axd");
+}
+
+.x-grid-header-ct {
+    border: 1px solid #d0d0d0;
+    border-bottom-color: #fff;
+    background-color: #fff;
+}
+
+.x-accordion-item .x-grid-header-ct {
+    border-width: 0 0 1px !important;
+}
+
+.x-grid-header-ct-hidden {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+}
+
+.x-grid-body {
+    border-top-color: #d0d0d0;
+}
+
+
+
+/*3.--------label propertry*/
+
+.x-form-item-label {
+    overflow: hidden;
+    font-weight: bolder;
+}
+
+.x-form-item.x-form-item-no-label > .x-form-item-label {
+    display: none;
+}
+
+.x-form-item-label, .x-form-item-body {
+    display: table-cell;
+}
+
+.x-ie8 .x-form-fieldcontainer .x-form-item-label-top + .x-form-item-body {
+    display: table-row;
+}
+
+.x-form-item-body {
+    vertical-align: middle;
+    height: 100%;
+}
+
+.x-form-item-label-inner {
+    display: inline-block;
+}
+
+.x-form-item-label-top {
+    display: table-row;
+    height: 1px;
+}
+
+    .x-form-item-label-top > .x-form-item-label-inner {
+        display: table-cell;
+    }
+
+.x-form-item-label-top-side-error:after {
+    display: table-cell;
+    content: '';
+}
+
+.x-form-item-label-right {
+    text-align: right;
+}
+
+.x-form-error-wrap-side {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.x-form-error-wrap-under {
+    display: table-row;
+    height: 1px;
+}
+
+    .x-form-error-wrap-under > .x-form-error-msg {
+        display: table-cell;
+    }
+
+.x-form-error-wrap-under-side-label:before {
+    display: table-cell;
+    content: '';
+    pointer-events: none;
+}

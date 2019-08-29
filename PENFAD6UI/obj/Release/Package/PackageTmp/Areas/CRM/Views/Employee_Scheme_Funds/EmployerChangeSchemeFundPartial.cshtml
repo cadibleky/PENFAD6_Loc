@@ -1,0 +1,499 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+@model IEnumerable<crm_EmployeeSchemeFundRepo>
+
+@{
+
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var x = Html.X();
+    var titleRepo = new setup_TitleRepo();
+    var gender = new setup_GenderRepo();
+    var region = new setup_RegionRepo();
+    var country = new setup_CountryRepo();
+    var identity = new setup_IdentityTypesRepo();
+    var maritalstatus = new setup_MaritalStatusRepo();
+    var employeeType = new setup_EmployeeTypeRepo();
+    var position = new setup_PositionRepo();
+    //var department = new setup_DepartmentRepo();
+    var branch = new setup_BranchRepo();
+    var employer = new crm_EmployeeRepo();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+}
+
+@(x.FormPanel()
+            .ID("changeESF_employer")
+            .Title("Change Employer")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1300)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+.Items(
+
+
+                        x.FieldSet()
+                        .Width(950)
+                        // .Collapsible(true)
+                        .AutoScroll(true).Layout(LayoutType.Column)
+                        .Height(700)
+                        .Title("Change Employer")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                             x.FormPanel()
+                                .ID("changeup_employer")
+                                .AutoScroll(true)
+                                .MarginSpec("0 0 0 0")
+                                //.Width(1400)
+                                .Height(550)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelAlign = LabelAlign.Top;
+                                    fd.MsgTarget = MessageTarget.Side;
+                                })
+
+                        .Items(
+                              x.Button()
+                            .Text("Select Employee")
+                            .Width(200)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.changeemployee_employer.show(this);")
+                            .MarginSpec("5 10 10 10"),
+
+                            x.Hidden().Name("ESF_Id"),
+                            x.Hidden().Name("Cust_No"),
+                            x.Hidden().Name("Scheme_Id").ID("changeemployer_txtscheme_id"),
+                            x.Hidden().Name("Fund_Id"),
+                            x.Hidden().Name("Scheme_Fund_Id"),
+                              x.Hidden().Name("Total_Unit_Balance"), 
+                            x.TextField()
+                            .Name("Surname")
+                            .Width(400)
+                            .FieldLabel("surname")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected."),
+
+                             x.TextField()
+                            .Name("First_Name")
+                            .Width(400)
+                            .FieldLabel("First Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected."),
+
+                              x.TextField()
+                            .Name("Other_Name")
+                            .Width(400)
+                            .FieldLabel("Other Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected."),
+
+                            x.DateField()
+                            .Name("Date_Of_Birth")
+                            .Width(400)
+                            .FieldLabel("Date Of Birth")
+                            .ReadOnly(true)
+                            .MarginSpec("3 0 10 10"),
+
+                             //x.TextField()
+                             //.Name("Employer_Name")
+                             //.Width(400)
+                             //.FieldLabel("Current Employer Name")
+                             //.Editable(false)
+                             //.AllowBlank(false)
+                             //.MarginSpec("3 0 10 10")
+                             //.FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                             //,
+
+                             x.TextField()
+                            .Name("Scheme_Name")
+                            .Width(400)
+                            .FieldLabel("Scheme")
+                            .Editable(false)
+                            .AllowBlank(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected."),
+
+                             x.TextField()
+                            .Name("Fund_Name")
+                            .Width(400)
+                            .FieldLabel("Fund")
+                            .Editable(false)
+                            .AllowBlank(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected.")
+                            ),
+
+                         x.FormPanel()
+                                .ID("changedown_employer")
+                                // .Title("Employee Scheme-Fund Setup")
+                                //.Frame(true)
+                                // .Closable(true)
+                                //.AutoScroll(true)
+                                .MarginSpec("70 0 0 0")
+                                //.Width(1400)
+                                .Height(350)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelAlign = LabelAlign.Top;
+                                    fd.MsgTarget = MessageTarget.Side;
+                                })
+
+                        .Items(
+
+                        x.FieldSet()
+                        .Height(320)
+                        .Width(400)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("10 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                                      x.Button()
+                            .Text("Select New Employer")
+                            .Width(300)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.changeschemeFund_employer.show(this);")
+                            .MarginSpec("35 10 10 10"),
+
+                        x.Hidden().Name("New_Employer_Id").ID("new_employer_Id"),
+
+                            x.TextField()
+                            .FieldLabel("Employer Name")
+                            .ID("changeS_Name_employer")
+                            .Name("New_Employer_Name")
+                            .Width(350)
+                            .ReadOnly(true)
+                            .MarginSpec("3 0 10 10")
+
+                         //    x.TextField()
+                         //.FieldLabel("Fund")
+                         //.Name("New_Fund_Name")
+                         // .Width(350)
+                         //.ReadOnly(true)
+                         // .MarginSpec("3 0 10 10"))
+                         // ),
+                         )
+                         ),
+
+                         x.FieldSet()
+                        //.Height(100)
+                        .Width(820)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("10 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+
+                              x.Button()
+                                .Text("Change Employer")
+                                .Width(250)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Timeout = 12000000;
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Edit";
+                                    de.Click.Confirmation.Message = "Change Employer?";
+                                    de.Click.Url = Url.Action("ChangeRecordemployer");
+
+                                }).MarginSpec("10 10 10 200"),
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(150)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 0")
+
+                             )
+
+                        ),
+
+                                 x.Window()
+                                .ID("changeemployee_employer")
+                                .Title("Employee List")
+                                .Width(1000)
+                                .Height(1000)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.Panel()
+                            .TabMenuHidden(true)
+                            .Title("VIEW EMPLOYEE LIST")
+                            .BodyPadding(6)
+                            .Items(
+                                    x.FieldSet()
+                                                .Title("Search")
+                                                .Width(700)
+                                                .Items(
+                                                        x.Panel()
+                                                            .Layout(LayoutType.HBox)
+                                                            .Items(
+                                                                    x.ComboBox().Name("Employer_Id")
+                                                                                .ID("change_ESF_updemp_cmbEmployerId_employer")
+                                                                                .FieldLabel("Employer Name")
+                                                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                                                .AllowBlank(false)
+                                                                                .QueryMode(DataLoadMode.Local)
+                                                                                .TriggerAction(TriggerAction.All)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+                                                                        x.Button()
+                                                                            .Text("View Employees")
+                                                                            .Icon(Icon.ArrowRefresh)
+                                                                            .MarginSpec("30 0 20 0")
+                                                                            .Width(200)
+                                                                            //.Cls("btnStyle")
+                                                                            .DirectEvents(de =>
+                                                                            {
+                                                                                de.Click.Url = Url.Action("Read6");
+                                                                                de.Click.Success = "onSuccess(App.change_ESF_Edit_employeeGrid_employer, result.data);";
+                                                                                de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.change_ESF_updemp_cmbEmployerId_employer.getValue()", ParameterMode.Raw));
+
+                                                                            })
+
+                                                                )
+                                                    ),
+                                    x.GridPanel()
+                                        .ID("change_ESF_Edit_employeeGrid_employer")
+                                        .Frame(true)
+                                        .WidthSpec("Auto")
+                                        .Height(700)
+                                        .MarginSpec("10 0 0 0")
+                                        .Plugins(
+                                            x.FilterHeader()
+                                        )
+
+                                        .Store(
+                                    x.Store()
+                                        .AutoLoad(false)
+                                        .ID("change_ESF_employeeStore_employer")
+                                    // .DataSource(Model)
+                                    .Model(
+                                        x.Model()
+                                            .Fields(
+                                                x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                                x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Maiden_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Title").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Gender").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("HomeTown").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth_District").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth_City").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth_Region").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Nationality").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Resident_Country").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Nationality").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Country_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Residential_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mobile_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Other_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Other_Email_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Identity_Type").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Identity_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Identity_Issue_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Identity_Expiry_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("SSNIT_NO").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Marital_Status").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Position").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employee_Type").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_First_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Middle_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Last_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Phone_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Birth_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Mother_First_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Middle_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Last_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Maiden_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Birth_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Mother_Phone_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Date_Of_Employment").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Resident_City").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Resident_District").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Resident_Region").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("ESF_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Total_Unit_Balance").Type(ModelFieldType.Float)
+
+
+                                         )
+
+                                    )
+                                    .ServerProxy(
+                                           x.AjaxProxy()
+                                            // .Url(Url.Action("ReadEmployee"))
+                                            .Url(Url.Action("Read6"))
+                                            .Reader(x.JsonReader().RootProperty("data")))
+                                            .Parameters(ps =>
+                                                       ps.Add(new StoreParameter("Employer_Id", "App.change_ESF_updemp_cmbEmployerId_employer.getValue()", ParameterMode.Raw))
+
+                                     )
+                            // .PageSize(10)
+                            )
+                             .BottomBar(
+                                x.PagingToolbar()
+                            )
+                            //.DirectEvents(de =>
+                            //{
+                            //    de.CellClick.Url = Url.Action("DisplayPhoto");
+                            //    de.CellClick.ExtraParams.Add(new Parameter("cust_no", "App.txtCustNo_EmpEdit.getValue()", ParameterMode.Raw));
+
+                            //})
+
+                            //.Listeners(l => l.SelectionChange.Fn = "onSelectionChange")
+                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0])"
+                            + "{App.changeup_employer.getForm().loadRecord(selected[0]);App.changeemployee_employer.hide();"
+                            + "}")
+
+
+                            .ColumnModel(x.Column().DataIndex("Employee_Id").Text("EMPLOYEE ID").Width(100))
+                            .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(200))
+                            .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(200))//First_Name
+                            .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND").Width(100))
+                            .ColumnModel(x.Column().DataIndex("Email_Address").Text("EMAIL ADDRESS").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Mobile_Number").Text("MOBILE NUMBER").Width(150))
+                             .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("M").Width(150))
+
+                            )
+                            ),
+
+
+                                x.Window()
+                                .ID("changeschemeFund_employer")
+                                .Title("Employers List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("changeSFGrid_employer")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("changeSFStore_employer")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("New_Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("New_Employer_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                            //.Url(Url.Action("ReadSF"))
+                                            .Url(Url.Action("FilterESGrid6", "Employee_Scheme_Funds"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Scheme_Id", "App.changeemployer_txtscheme_id.getValue()", ParameterMode.Raw))
+                                                        )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.changedown_employer.getForm().loadRecord(selected[0]); App.changeschemeFund_employer.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("New_Employer_Id").Text("EMPLOYER ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("New_Employer_Name").Text("EMPLOYER NAME").Width(600))
+
+
+         )
+    )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

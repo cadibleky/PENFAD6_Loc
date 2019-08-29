@@ -1,0 +1,103 @@
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\DataTableLibrary.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\DataTableLibrary.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\RICHARD\Desktop\Backups\ppppppppppppppppppp\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\bin\Debug\DataTableLibrary.pdb
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\Users\Kris\Desktop\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\bin\Debug\DataTableLibrary.pdb
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\Users\RICHARD\Desktop\Backups\nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\DataTableLibrary.pdb
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\Users\Kris\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\Users\KRIS\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.CoreCompileInputs.cache
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.CopyComplete
+C:\Users\Kris\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+C:\Users\Scribe\Desktop\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe.config
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.exe
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\PenFad6Starter.pdb
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.dll
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Debug\Dapper.xml
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Form1.resources
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.Properties.Resources.resources
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csproj.GenerateResource.Cache
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.exe
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.pdb
+E:\PENFAD\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Debug\PenFad6Starter.csprojResolveAssemblyReference.cache

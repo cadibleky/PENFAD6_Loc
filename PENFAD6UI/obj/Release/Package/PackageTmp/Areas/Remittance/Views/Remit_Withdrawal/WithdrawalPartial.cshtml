@@ -1,0 +1,493 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.CRM.Employee
+
+
+@model IEnumerable<Remit_PurchaseRepo>
+
+@{
+    var ESF = new crm_EmployerSchemeFundRepo();
+    var scheme = new pfm_SchemeRepo();
+    var fund = new pfm_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+@(x.FormPanel()
+                        .ID("frm_WithdrawalP")
+                        .ColumnWidth(0.4)
+                        .Title("Benefit Request")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1200)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+                                    x.FieldSet()
+                                    .ColumnWidth(0.7)
+                                    .Collapsible(true)
+                                    .Height(750)
+                                    .Width(1000)
+                                    .Frame(true)
+                                    .Title("Benefit Request")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+                                     x.FieldSet()
+                                    .Collapsible(true)
+                                    .Height(400)
+                                    .Width(900)
+                                    .Layout(LayoutType.Column)
+                                    .Title("'Employee Account' Details")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                        .Items(
+                                        x.Hidden().Name("Withdrawal_No"),
+                                        x.Hidden().Name("Scheme_Id"),
+                                        x.Hidden().Name("Fund_Id"),
+
+                                        //x.Hidden().Name("Total_Unit_Balance").ID("Withdrawal_T_UnitB"),
+                                        //x.Hidden().Name("Total_Con_Balance"),
+
+                                        x.Hidden().Name("Scheme_Fund_Id").ID("WithdrawalP_SFID"),
+
+                                         x.Button()
+                                        .Text("Select Employee Account")
+                                        .Width(250)
+                                        .Icon(Icon.ApplicationFormAdd)
+                                        .TabIndex(28)
+                                        .Handler("App.withdrawal_ESF_win.show(this);")
+                                        .MarginSpec("0 800 10 10"),
+
+                                        x.TextField()
+                                        .Name("Employee_Name")
+                                        .Width(450)
+                                        .FieldLabel("Name of Employee")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employee Account' must be selected."),
+
+
+                                        x.TextField()
+                                        .Name("ESF_Id")
+                                        .Width(250)
+                                        .FieldLabel("Employee Account ID")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employee Account' must be selected.")
+                                          .DirectEvents(de =>
+                                          {
+                                              de.Change.Url = Url.Action("GetUPrice");
+                                          })  ,
+
+
+                                        x.TextField()
+                                        .Name("Scheme_Name")
+                                        .Width(450)
+                                        .FieldLabel("Scheme")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                         x.TextField()
+                                        .Name("Fund_Name")
+                                        .Width(250)
+                                        .FieldLabel("Fund")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                        x.TextField()
+                                        .Name("Employee_Con_Balance")
+                                        .Width(180)
+                                        .FieldLabel("Employee Contribution")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10"),
+
+                                        x.TextField()
+                                        .Name("Employer_Con_Balance")
+                                        .Width(170)
+                                        .FieldLabel("Employer Contribution")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10"),
+
+
+                                        x.TextField()
+                                        .Name("Employee_Unit_Balance")
+                                        .Width(170)
+                                        .FieldLabel("Employee Unit")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10"),
+
+                                         x.TextField()
+                                        .Name("Employer_Unit_Balance")
+                                        .Width(170)
+                                        .FieldLabel("Employer Unit")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10"),
+
+                                        x.TextField().Name("Total_Unit_Balance")
+                                        .ID("Withdrawal_T_UnitB")
+                                         .Width(180)
+                                        .FieldLabel("Total Unit Balance")
+                                        .MarginSpec("3 0 5 10").ReadOnly(true),
+
+                                         x.TextField()
+                                        .Name("Total_Con_Balance")
+                                        .Width(170)
+                                        .FieldLabel("Total Contribution")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10"),
+
+                                        x.TextField().Name("Unit_Price")
+                                        .ID("WithdrawalP_UnitP").FieldLabel("Current Unit Price")
+                                         .Width(170)
+                                        .MarginSpec("3 0 5 10").ReadOnly(false)
+                                             .DirectEvents(de =>
+                                             {
+                                                 de.Change.Url = Url.Action("GetUPricePay");
+                                             }),
+
+                                         x.NumberField().DecimalPrecision(2)
+                                        .Name("Total_Benefit").ID("Withdrawal_TotalB")
+                                        .Width(170)
+                                        .FieldLabel("Total Benefit(Amount)")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+
+                                        ),
+
+                                    x.FieldSet()
+                                    .Collapsible(true)
+                                    .Height(280)
+                                    .Width(900)
+                                    .Layout(LayoutType.Column)
+                                    .Title("Benefit Payment Details")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                            x.DateField()
+                            .Name("Trans_Request_Date")
+                            .Width(220)
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .EmptyText("Select  Date")
+                            .FieldLabel("Actual Request Date")
+                            .MarginSpec("3 0 10 10"),
+
+                            x.Hidden().Name("Type").ID("WithdrawalPartial_Type")
+                            //.Width(150).SelectedItems("UNIT").ReadOnly(true).Text("UNIT")
+                            //.FieldLabel("Amount / Unit?")
+                            .MarginSpec("3 0 10 10")
+                              //.Items("AMOUNT","UNIT")
+                              // .Listeners(l => l.Select.Handler = "if (App.WithdrawalPartial_Type.getValue() == 'AMOUNT') {App.WithdrawalPartial_TotalWithdrawal_Display.setFieldLabel('Unit');} else {App.WithdrawalPartial_TotalWithdrawal_Display.setFieldLabel('Amount');}")
+                              .DirectEvents(de =>
+                              {
+
+                                  de.Change.Url = Url.Action("GetUnit_Amount");
+
+                              }),
+
+                            x.NumberField().DecimalPrecision(4).Name("Total_Withdrawal_Temp").ID("WithdrawalPartial_TotalWithdrawal")
+                            .Width(200).AllowBlank(false)
+                            .EmptyText("Enter Withdrawal")
+                            .FieldLabel("Withdrawal-Units")
+                            .MarginSpec("3 0 10 10")
+                             .DirectEvents(de =>
+                             {
+
+                                 de.Change.Url = Url.Action("GetUnit_Amount");
+
+                             }),
+
+
+                            x.NumberField().Name("Total_Withdrawal_Display").ID("WithdrawalPartial_TotalWithdrawal_Display")
+                            .Width(120).AllowBlank(false).FieldLabel(" ").ReadOnly(true).DecimalPrecision(2 ).FieldLabel("Amount")
+                            .MarginSpec("3 0 10 10"),
+
+                             //x.ComboBox().Name("Payment_Mode")
+                             //.FieldLabel("Payment Mode")
+                             //.ID("Benefit_P_Mode")
+                             //.MarginSpec("3 0 10 10").TabIndex(5).Width(300)
+                             //.Editable(false)
+                             //.AllowBlank(false)
+                             //.EmptyText("Select Payment Mode")
+                             //.QueryMode(DataLoadMode.Local)
+                             //.TriggerAction(TriggerAction.All)
+                             //.EmptyText("Select Payment Mode")
+                             //.BlankText("'Receipt Type' is required.").Items("CASH", "CHEQUE")
+
+                             //.Listeners(l => l.Select.Handler = "if (App.Benefit_P_Mode.getValue() == 'CHEQUE') {App.Benefit_Instrument_Number.enable();App.Instrument_Number.clear()} else {App.Benefit_Instrument_Number.disable();}"),
+
+                             //x.TextField()
+                             //.Name("Instrument_No")
+                             //.ID("Benefit_Instrument_Number")
+                             //.Width(300)
+                             //.FieldLabel("Instrument Number")
+                             //.MarginSpec("3 0 10 10")
+                             //.FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                             x.NumberField()
+                            .Name("Tax")
+                            .Width(120)
+                            .AllowBlank(false)
+                            .EmptyText("Tax")
+                            .FieldLabel("Tax(%)")
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                             x.Checkbox().ID("frmWD_Suspense").FieldLabel("Move Balance to Employer")
+                             .MarginSpec("3 0 10 10").LabelAlign(LabelAlign.Right)
+                             .Checked(false),
+
+                              x.TextArea()
+                            .Name("Withdrawal_Reason")
+                            .Width(850)
+                            .AllowBlank(false)
+                            .EmptyText("Enter Reason")
+                            .FieldLabel("Reason for withdrawal")
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                )
+                            ),
+
+                        x.FieldSet()
+                        .Height(80)
+                         .Width(1000)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("10 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Button()
+                                .Text("Submit for Approval")
+                                .Width(250)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Submit";
+                                    de.Click.Confirmation.Message = "Submit Request?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                }).MarginSpec("20 10 0 20"),
+
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(250)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        )
+
+                                 //windows for employees
+                                 .Items(Html.X().Window()
+                                 .ID("withdrawal_ESF_win")
+                                 .Title("Employee Accounts")
+                                .Width(1300)
+                                .Height(720)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                    x.FieldSet()
+                    .Title("Search")
+                    .Width(800)
+                    .Height(100)
+                    .Items(
+                            x.Panel()
+                                .Layout(LayoutType.HBox)
+                                .Items(
+                                        x.ComboBox().Name("Employer_Id")
+                                                .ID("withdrawal_cmbEmployerId")
+                                                .FieldLabel("Employer Name")
+                                                .QueryMode(DataLoadMode.Local)
+                                                .TriggerAction(TriggerAction.All)
+                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                .AllowBlank(false)
+                                                .FieldStyle("text-transform: uppercase")
+                                                .Items(employee.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id)))
+                                                // .Listeners(ls =>
+                                                //              ls.Change.Handler = "App.withdrawal_cmbSFId.clearValue(); App.withdrawal_cmbSFId.getStore().load();")
+                                                ,
+
+                                    //x.ComboBox().Name("Scheme_Fund_Id")
+                                    //       .ID("withdrawal_cmbSFId")
+                                    //       .FieldLabel("Scheme - Fund")
+                                    //       .Editable(false)
+                                    //       .TypeAhead(true)
+                                    //       .QueryMode(DataLoadMode.Local)
+                                    //       .ForceSelection(true)
+                                    //       .TriggerAction(TriggerAction.All)
+                                    //       .DisplayField("name")
+                                    //       .ValueField("id")
+                                    //       .BlankText("Product is required.")
+                                    //       .MarginSpec("0 30 0 10").TabIndex(5).Width(450)
+                                    //       .Store(Html.X().Store()
+                                    //                               .AutoLoad(false)
+                                    //                               .Model(Html.X().Model()
+                                    //                                   .IDProperty("Id")
+                                    //                                   .Fields(
+                                    //                                       new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                    //                                       new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                    //                                   )
+                                    //                               )
+                                    //                               .Proxy(Html.X().AjaxProxy()
+                                    //                                   .Url(Url.Action("FilterESGrid"))
+                                    //                                   .Reader(Html.X().JsonReader().RootProperty("data"))
+                                    //                               )
+                                    //                               .Parameters(ps =>
+                                    //                                   ps.Add(new StoreParameter("Employer_Id", "App.withdrawal_cmbEmployerId.getValue()", ParameterMode.Raw))
+                                    //                               )
+                                    //                               .Listeners(ls =>
+                                    //                                               ls.Load.Handler = @"var combo = App.withdrawal_cmbSFId; 
+                                    //                                                                   combo.setValue(records[0].get(combo.valueField));"
+
+                                    //                               )
+
+                                    //                          ),
+                                    x.Button()
+                                    .Text("View Employee Accounts")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("30 0 5 10")
+                                    .Width(240)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadESchemeFund");
+                                        de.Click.Success = "onSuccess(App.WithdrawalESFGrid, result.data);";
+                                        de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.withdrawal_cmbEmployerId.getValue()", ParameterMode.Raw));
+                                    })
+                                    ),
+
+                                    x.GridPanel()
+                                    .ID("WithdrawalESFGrid")
+                                    .Frame(true)
+                                    .Width(1200)
+                                    .Height(520)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("WithdrawalESFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_ID").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Title").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Schem_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Unit_Balance").Type(ModelFieldType.Float)
+                                            )
+                                       )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    // .Url(Url.Action("ReadEmployeeSchemeFund"))
+                                    .Url(Url.Action("ReadESchemeFund", "Remit_Withdrawal"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Employer_Id", "App.withdrawal_cmbEmployerId.getValue()", ParameterMode.Raw))
+
+                                            )
+                                            //.PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_WithdrawalP.getForm().loadRecord(selected[0]);App.withdrawal_ESF_win.hide(); }")
+                           .ColumnModel(x.Column().DataIndex("Employee_Id").Text("Employee ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("Employee Account").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Other_Name").Text("OTHER NAME").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Date_Of_Birth").Text("SCHEME ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER").Width(200))
+                                            )
+                                            )
+
+                                    )
+                                )
+                     )
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

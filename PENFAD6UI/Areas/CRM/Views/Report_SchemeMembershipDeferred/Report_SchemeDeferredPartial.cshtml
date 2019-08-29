@@ -1,0 +1,202 @@
+﻿@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@{
+    var schemeRepo = new pfm_SchemeRepo();
+
+
+    var x = Html.X();
+
+}
+ 
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+               .ID("Report_SchemeMembershipDeferredPartial_frm_main")
+               .Title("Scheme Membership - Deferred")
+               .Closable(true)
+               .Layout(LayoutType.Border)
+               .Frame(true)
+               .AutoScroll(true)
+               .FieldDefaults(fd =>
+               {
+                   fd.LabelAlign = LabelAlign.Top;
+                   fd.MsgTarget = MessageTarget.Side;
+               })
+               .MarginSpec("10 0 0 10")
+               .Items(Html.X().FormPanel()
+                            .ID("Report_SchemeMembershipDeferredPartial_frm_left_Panel")
+                            .Title("Scheme Membership - Deferred")
+                            .Region(Region.West)
+                            .Split(true)
+                            .Collapsible(true)
+                            .AutoScroll(true)
+                            .Width(350)
+                            .MinWidth(150)
+                            .MaxWidth(420)
+                            .Items(Html.X().FormPanel()
+                                            .ID("Report_SchemeMembershipDeferredPartial_frm_txtFields")
+                                            .Border(true)
+                                            .AutoScroll(true)
+                                            .Width(410)
+                                            .Height(280)
+                                            .Layout(LayoutType.Column)
+                                            .Items(
+                                                    x.Button().Text("Get Scheme").Width(200).MarginSpec("2 0 0 3")
+                                                    .Handler("App.Report_SchemeMembershipDeferredPartial_frm_employeePopup.show(this);"),
+                                                    x.TextField().ID("Report_SchemeMembershipDeferredPartial_txtSchemeId").Name("Scheme_Id").FieldLabel("Scheme Id").Width(320).ReadOnly(false).MarginSpec("2 2 0 5"),
+
+
+                                                    x.TextField().ID("Report_SchemeMembershipDeferredPartial_txtScheme").ReadOnly(true).Name("Scheme_Name").FieldLabel("Scheme Name").Width(320).MarginSpec("2 2 0 5"),
+
+                                                     x.DateField().Name("TB_Date").ID("txt_SchemeAll_Date_DEFERRED")
+                                                                    .FieldLabel("As At (Date)")
+                                                                    .Width(200)
+                                                                    .MarginSpec("2 2 0 5")
+                                                                    .Editable(false)
+
+
+                                                    ),// end items
+
+
+                                Html.X().TreePanel()
+                                        .ID("Report_SchemeMembershipDeferredPartial_frm_left_treepanel_menu")
+                                        //.Border(true)
+                                        .MarginSpec("5 0 10 10")
+                                        .RootVisible(false)
+                                        .Store(
+                                                Html.X().TreeStore()
+                                                    .Proxy(Html.X().AjaxProxy().Url(Url.Action("GetChildren")))
+                                                 )
+                                        .Root(Html.X().Node().NodeID("employee_rep_0").Text("Root"))
+                                        .ViewConfig(Html.X().TreeView().LoadMask(false))
+                                        /////////.Listeners(l => l.Select.Handler = "alert(App.Report_EmployeePartial_frm_left_treepanel_menu.getSelectionModel().getSelectedNode().id);")
+                                        .DirectEvents(de =>
+                                        {
+                                            de.ItemClick.Url = Url.Action("Load_Employee_Report_IFrame");
+                                            de.ItemClick.ExtraParams.Add( new Parameter("containerId", "Report_SchemeMembershipDeferredPartial_panel_right_center_content"));
+
+                                            de.ItemClick.ExtraParams.Add(new StoreParameter("Scheme_Id", "App.Report_SchemeMembershipDeferredPartial_txtSchemeId.getValue()", ParameterMode.Raw));
+
+                                            de.ItemClick.ExtraParams.Add(new StoreParameter("tree_node_id", "record.get('id')", ParameterMode.Raw));
+
+                                        })
+                     ),// end
+
+
+                ///center region starts
+                Html.X().Panel()
+                            .ID("Report_SchemeMembershipDeferredPartial_panel_right_center_content")
+                            //.Title("GL Journal Trans. Posting")
+                            .Region(Region.Center)
+                            .Split(true)
+                            .AutoScroll(true)
+                            .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Employee_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+                                        )
+
+
+    )// end Report_EmployeePartial_frm_left_Panel
+
+
+
+
+    //windows for employees
+    .Items(Html.X().Window()
+        .ID("Report_SchemeMembershipDeferredPartial_frm_employeePopup")
+        .Title("Scheme List")
+        .Width(1300)
+        .Height(700)
+        .AutoScroll(true)
+        .Hidden(true)
+        .Modal(true)
+        .MarginSpec("10 10 0 10")
+        .AutoRender(false)
+        .Collapsible(true)
+        .Maximizable(true)
+        .Loader(Html.X().ComponentLoader()
+                    .Mode(LoadMode.Frame)
+                    .LoadMask(lm => lm.ShowMask = true)
+                )
+        .Items(x.FieldSet()
+                    .Title("Search")
+                    .Width(400)
+                    .Height(100)
+                    .Items(
+                            x.Panel()
+                                .Layout(LayoutType.HBox)
+                                .Items(
+
+                                        x.Button()
+                                                .Text("View Schemes")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("30 0 20 0")
+                                                .Width(160)
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("FilterESGrid");
+                                                    de.Click.Success = "onSuccess(App.Repoert_SchemeMembershipDeferred_SFGrid, result.data);";
+                                                    de.Click.ExtraParams.Add(new Parameter("Scheme_Id", "App.Report_SchemeMembershipDeferredPartial_txtSchemeId.getValue()", ParameterMode.Raw));
+
+                                                })
+                                          ),
+
+                                    x.GridPanel()
+                                    .ID("Repoert_SchemeMembershipDeferred_SFGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("SMembershipDeferredStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme").Type(ModelFieldType.String)
+
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                            //.Url(Url.Action("ReadSF"))
+                                            .Url(Url.Action("FilterESGrid", "Report_SchemeMembershipDeferred"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Scheme_Id", "App.Repoert_SchemeMembershipDeferred_SFGrid.getValue()", ParameterMode.Raw))
+                                                        )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Report_SchemeMembershipDeferredPartial_frm_txtFields.getForm().loadRecord(selected[0]); App.Report_SchemeMembershipDeferredPartial_frm_employeePopup.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(900))
+                                                                   )
+
+                            )//end tax grid panel
+
+
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+
+
+
+// end main
+)

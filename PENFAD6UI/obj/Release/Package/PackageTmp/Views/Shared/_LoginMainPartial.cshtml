@@ -1,0 +1,57 @@
+﻿
+@model PENFAD6DAL.Repository.Security.sec_UserRepo
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+}
+
+@*<h2>Login</h2>*@
+
+@*<section id="loginForm">*@
+
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div style="text-align:center;">
+            <fieldset style="width:100%;">
+                @*<legend></legend>*@
+                <p style="margin: 0cm 0cm 0cm 0cm;">
+                    <img src="~/Content/Images/key_login.jpg" />
+                </p>
+
+                @*<p></p>*@
+                <p style="color:blue;font-size:0.4cm; margin: 1cm 0cm 0cm 0cm;">&nbsp;&nbsp; Enter your username and password to continue</p>
+
+                <div class="mcsh">
+                    <div style="font-size:14px;font-weight:600;">
+                        Username&nbsp;&nbsp;@Html.TextBoxFor(m => m.User_Id, new { style = "font-size:12px;", autocomplete = "off" })
+
+                    </div>
+                    @Html.ValidationMessageFor(m => m.User_Id)
+                </div>
+                <div class="mcsh" style="vertical-align:middle;">
+                    <div style="font-size:14px;font-weight:600;">
+                        &nbsp;Password&nbsp;&nbsp;@Html.PasswordFor(m => m.Password, new { style = "font-size:12px;" })
+                    </div>
+                </div>@Html.ValidationMessageFor(m => m.Password)
+                <div style="vertical-align:middle;">
+                    <div class="mcsh">
+                    </div>@Html.ValidationSummary(true)
+                    <input type="submit" value="Log in"/>
+                </div>
+                <div class="blwbtn" style="align-items:center;">
+
+                </div>
+
+            </fieldset>
+
+        </div>
+    }
+@*</section>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

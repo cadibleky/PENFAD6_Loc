@@ -1,0 +1,41 @@
+﻿
+@{ 
+    Layout = null;
+}
+
+@(Html.X().TreePanel()
+            .ID("leftnav")
+            .Width(300)
+            //.MinWidth(300)
+            //.MaxWidth(300)
+            .AutoScroll(true)
+            .Lines(false)
+            //.UseArrows(true)
+            //.CollapseFirst(false)
+            //.Collapsible(true)
+            .SetAutoScroll(true)
+            .RootVisible(false)
+            .HideHeaders(true)
+            .Animate(false)
+            .Hidden(false)
+            .Store(
+                Html.X().TreeStore()
+                .Proxy(
+                        Html.X().AjaxProxy().Url(Url.Action("GetChildren"))
+                        )
+                    ) // end store
+             .Listeners(l => l.ItemClick.Handler = "Ext.net.Mask.show({msg: 'Loading... Please wait.'})")
+            .DirectEvents(de =>
+            {
+                de.Select.Url = de.Select.Before = "o.url = record.get('url');";// Url.Action("GetMenuUrlLink", "Startup");
+                de.Select.ExtraParams.Add(new Parameter("evtname", "record.get('id')", ParameterMode.Raw));
+                de.Select.Before = "o.url = record.get('url');";
+                de.Select.Timeout = 120000000;
+            })
+
+
+
+
+    )
+
+

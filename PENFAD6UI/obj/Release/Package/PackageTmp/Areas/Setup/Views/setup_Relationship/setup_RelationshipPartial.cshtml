@@ -1,0 +1,137 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+
+@model IEnumerable<setup_RelationshipRepo>
+
+@{
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+        .ID("RelationshipPan")
+        .WidthSpec("auto")
+        .Title("Setup Relationship")
+        .Frame(true)
+        .AutoScroll(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("RelationshipGrid")
+                        .Title("View Relationship List")
+                        .Frame(true)
+                        .Width(600)
+                        .MarginSpec("10 0 0 10")
+                        .Height(500)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("RelationshipStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Relationship_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Relationship_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Make_Date").Type(ModelFieldType.Date)
+                                    //x.ModelField().Name("Update_Id").Type(ModelFieldType.String),
+                                    //x.ModelField().Name("Update_Date").Type(ModelFieldType.Date)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("Relationship_Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Relationship_Name").Text("Relationship").Width(590)),
+                //.ColumnModel(x.Column().DataIndex("Maker_Id").Text("Added By").Width(150))
+                //.ColumnModel(x.Column().DataIndex("Make_Date").Text("Date Added").Width(190)),
+                //.ColumnModel(x.Column().DataIndex("Update_Id").Text("Updated By").Width(300))
+                //.ColumnModel(x.Column().DataIndex("Update_Date").Text("Last Updated By").Width(300)),
+
+                x.FieldSet()
+                    .WidthSpec("auto")
+                    .Collapsible(true)
+                    .Region(Region.North)
+                    .Height(510)
+                    .Title("Add/Edit Relationship")
+                    .MarginSpec("0 20 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Relationship_Id"),
+                        x.TextField().ID("Relationship_Name").Name("Relationship_Name").FieldLabel("Relationship").Width(300).FieldStyle("TEXT-TRANSFORM:UPPERCASE").AllowBlank(false).BlankText("Relationship is required.").AutoFitErrors(true).MarginSpec("5 20 0 20")
+                        //x.TextField().Name("Maker_Id").FieldLabel("Added By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Make_Date").FieldLabel("Date Added").Width(230).ReadOnly(true),
+                        //x.DateField().Name("Update_Id").FieldLabel("Updated By").Width(230).ReadOnly(true),
+                        //x.TextField().Name("Update_Date").FieldLabel("Date Last Updated").Width(230).ReadOnly(true)
+                        )
+                    .Items(
+                    //x.Panel()
+                    //.WidthSpec("100%")
+                    //.Height(40)
+                    //.StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+                    //.Items(
+                    x.Button()
+                            .Text("Save")
+                            .Width(110)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Timeout = 120000;
+
+                            }).MarginSpec("30 10 10 5"),
+                        x.Button()
+                            .Text("Delete")
+                            .Width(110)
+                            .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("30 10 10 5"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("30 10 10 5")
+
+                        
+                        )
+                 )
+
+
+)
+
+

@@ -1,0 +1,201 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+
+@{
+    Layout = null;
+    var X = Html.X();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TekSol Prime5 Banking System</title>
+    @*<title>Ext.NET Examples - ASP.NET (Web Forms + MVC) component framework integrating the cross-browser Sencha Ext JS JavaScript Library.</title>*@
+    
+    <link rel="stylesheet" href="@Url.Content("~/Content/main.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/teksolext.css")" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="@Url.Content("~/resources/js/perfect-scrollbar.min.js")"></script>
+    <script src="@Url.Content("~/resources/js/main.js?4.0.0-beta")"></script>
+
+    @*<script type="text/javascript">
+        Ext.Ajax.timeout = 120000;
+        Ext.net.DirectEvent.timeout = 120000;
+    </script>*@
+
+    <script>
+        $(window).unload(function () {
+            return "Bye now!";
+        });
+    </script>
+
+</head>
+<body>
+
+@(Html.X().ResourceManager())
+
+@(Html.X().Viewport()
+            .ID("Viewp")
+            .WidthSpec("100%")
+            .HeightSpec("100%")
+            //.OverflowX(Overflow.Scroll)
+            //.OverflowY(Overflow.Scroll)
+            .Layout(LayoutType.Border)
+            .Items(
+                    Html.X().Panel()
+                        .Region(Region.North)
+                        //.Title("Prime Sample")
+                        .Collapsible(true)
+                        .Height(50)
+                        .Header(false)
+                        .WidthSpec("90%")
+                        //.MinWidth(175)
+                        //.MaxWidth(400)
+                        .MarginSpec("2 5 2 5")
+                        .Content(@<div>@Html.Partial("_HeaderPartial")</div>),
+
+
+                        //starts west region  moved to GetSubModule.cshtml
+                        Html.X().Panel()
+                                .ID("pn_main_prime")
+                                .Region(Region.West)
+                                .Title("West")
+                                .Width(300)
+                                .MaxWidth(300)
+                                .Header(false)
+                                .Collapsible(true)
+                                .Split(true)
+                                .MinWidth(175)
+                                .MaxWidth(300)
+                                .OverflowY(Overflow.Auto)
+                                .MarginSpec("5 0 5 5")
+                                .Items(X.TreePanel()
+                                            .ID("leftnav_main_prime")
+                                            .Width(300)
+                                            .MinWidth(300)
+                                            .MaxWidth(300)
+                                            .Lines(false)
+                                            .UseArrows(true)
+                                            .CollapseFirst(false)
+                                            //.Height(800)
+                                            
+                                            .RootVisible(false)
+                                            .HideHeaders(true)
+                                            .Animate(false)
+                                            .Hidden(false)
+                                            .TopBar(X.Toolbar()
+                                                    .Cls("left-header")
+                                                    .Items(X.Button()
+                                                            .ID("btn_MainModules")
+                                                            .IconCls("fa fa-cog")
+                                                            .ArrowVisible(false)
+                                                            .ToolTip("Prime 5 Modules")
+                                                            .Handler("#{mnu_prime_main_modules}.reload();")
+                                                            .Menu(X.Menu()
+                                                                   .ID("mnu_prime_main_modules")
+                                                                   .Loader(X.ComponentLoader()
+                                                                           .ID("loader_main1")
+                                                                           //.AutoLoad(false)
+                                                                           .Mode(LoadMode.Component)
+                                                                           .Url(Url.Action("LoadModulesMainMenu", "StartUp"))
+                                                                           .RemoveAll(true)
+                                                                    ) // end componentloader
+                                                                .Items(X.MenuItem())
+
+                                                              ) // ends menu
+
+                                                        )  // end item btnModule
+
+                                                         .Items(Html.X().TextField()
+                                                                    .ID("txt_search_main")
+                                                                    .EnableKeyEvents(true)
+                                                                    .EmptyText("Enter short code")
+                                                                    .Flex(1)
+                                                                    .RemoveClearTrigger(true)
+                                                                    .Triggers(Html.X().FieldTrigger()
+                                                                                .Hidden(true)
+                                                                                .Icon(TriggerIcon.Clear)
+                                                                                )
+                                                                    .Listeners(l =>
+                                                                    {
+                                                                        l.KeyUp.Fn = ("keyUp");
+                                                                        l.KeyUp.Buffer = 500;
+
+                                                                    })
+
+                                                        ) //end textfield
+
+                                                ) // end toolbar
+
+                                         .RootVisible(false)
+                                         .Root(Html.X().Node()
+                                                    .NodeID("root_nave_prime")
+                                                    .Expanded(true)
+                                                    .AllowDrop(false)
+                                                )//end root
+                                         .DirectEvents(de =>
+                                         {
+                                             de.Select.Url = de.Select.Before = "o.url = record.get('url');";// Url.Action("GetMenuUrlLink", "Startup");
+                                                                                                             //de.Select.ExtraParams.Add(new Parameter("evtname", "record.get('id')", ParameterMode.Raw));
+                                                                                                             //de.Select.Before = "o.url = record.get('url');";
+                                                                                                             ////de.Select.ExtraParams.Add(new { containerId = "MainArea" });
+                                         })
+
+
+                                    ), // end treebar and West
+
+
+                    //central region begins
+                    Html.X().TabPanel()
+                            .Region(Region.Center)
+                            .Title("Tab Panel")
+                            .ID("MainArea")
+                            .WidthSpec("auto")
+                            .MarginSpec("0 5 5 0")
+                            .Header(false)
+                            .Items(
+                                    Html.X().Panel()
+                                            .Title("Welcome To PENFAD 6")
+                                            .Layout(LayoutType.Fit)
+
+                                    ), // end Center region item 1
+
+                    X.Panel()
+                    .Title("South")
+                    .Region(Region.South)
+                    .Header(false)
+                    .Split(false)
+                    .MarginSpec("2 5 0 5")
+                    //.Collapsible(true)
+                    .Height(25)
+                    //.BodyPadding(6)
+                    .Content(@<footer class="site-title" role="banner">
+                        <nav class="top-navigation">
+
+                            <div class="content-wrapper main-content clear-fix">
+                                <div class="float-left">
+                                    <p style="color:white; margin:5px 0 5px 5px;" class="float-left">&copy; @DateTime.Now.Year - TEKSOL LTD (PRIME 5)</p>
+                                </div>
+                                @*<span id="spanTimeLeft"></span> seconds left*@
+                            </div>
+
+
+                        </nav>
+                    </footer>
+                            )
+
+
+
+      ) // ends items for viewport
+
+
+
+
+)
+
+
+</body>
+</html>

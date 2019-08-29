@@ -1,0 +1,206 @@
+﻿
+@model PENFAD6DAL.Repository.CRM.Employee.crm_EmployeeBatchLogRepo
+
+@using PENFAD6DAL.Repository.CRM.Employer
+
+@{ 
+    var y = Html.X();
+    var repo_scheme = new crm_EmployerSchemeRepo();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+@(
+
+        Html.X().FormPanel()
+        .ID("pn_employeebatchupload")
+        .Title("Upload Batch Employees")
+        .Closable(true)
+        .Header(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("10 0 0 20")
+        //.Frame(true)
+        //.Border(true)
+        .Width(1000)
+        .AutoScroll(true)
+        .Height(1000)
+        .Items(
+
+
+                y.Panel()
+                .ID("panel1_panel_batch_upload")
+                .Title("Employee Batch Upload")
+                .Border(true)
+                .Width(800)
+                .Border(true)
+                .Height(550)
+                .Items(Html.X().FieldSet()
+                            .ID("fs_uploademployer")
+                            .Layout(LayoutType.Column)
+                            .ColumnWidth(0.5)
+                            .Height(250)
+                            .MarginSpec("0 10 0 10")
+                            .Title("Employer Details")
+                            .FieldDefaults(fd =>
+                            {
+                                fd.LabelAlign = LabelAlign.Top;
+                                fd.MsgTarget = MessageTarget.Side;
+                                fd.LabelWidth = 150;
+                                fd.PreventMark = true;
+                            })
+                            .Items(
+
+                                           y.Button().ID("dfgh").Text("Select Employer Account").Width(300).Icon(Icon.Add).MarginSpec("5 600 20 10").TabIndex(60)
+                                                .Handler("App.win_Employer.show(this)")
+                                           ,
+
+                                     y.TextField().ID("Employer_Id").Name("Employer_Id").FieldLabel("Employer ID").ReadOnly(true).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 10").Width(200)
+                                                .StyleSpec("color:#333; font-size: 20px; font-weight: bold").TabIndex(1),
+
+                                     y.TextField().Name("Employer_name").ID("Employer_name").FieldLabel("Employer Name").MarginSpec("0 10 0 10").Width(480).ReadOnly(true).AllowBlank(false)
+                                                  .StyleSpec("color:#333; font-size: 20px; font-weight: bold").BlankText("Employer name is required.").TabIndex(2),
+
+                                      y.TextField().Name("Scheme_Id").ID("Scheme_Id").FieldLabel("Scheme Id").MarginSpec("0 10 0 10").Width(200).TabIndex(3)
+                                                        .ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                        .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                         .BlankText("Scheme name is required."),
+
+                                     y.TextField().Name("Scheme_Name").ID("Scheme_Name").Width(480).TabIndex(4)
+                                                       .ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                       .FieldLabel("Scheme Name").MarginSpec("0 10 0 10").TabIndex(5)
+                                                       .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                       .BlankText("Scheme Name is required.")
+
+                                         )//combo items ends
+                                )//end fset_uploademployer
+
+                    .Items(y.FieldSet()
+                            //.ColumnWidth(0.55)
+                            .ID("fset_fileupload")
+                            .Collapsible(true)
+                            .Layout(LayoutType.Column)
+                            .HeightSpec("Auto")
+                            .Title("Employee File Upload ")
+                            .MarginSpec("0 10 0 10")
+                            .Items(y.FileUploadField()
+                                            .ID("file_upload1")
+                                            .Width(450)
+                                            .ButtonText("Browse")
+                                            // .Width(250)
+                                            .Icon(Icon.Attach),
+                                    y.Button()
+                                        .Text("Upload").ID("EBP_Upload")
+                                        .Width(150)
+                                        .DirectEvents(dex =>
+                                        {
+                                            dex.Click.Url = Url.Action("UploadNewBatchEmployee");
+                                            dex.Click.Timeout = 12000000;
+                                        })
+                                        .MarginSpec("0 10 20 10")
+                                        .Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Uploading... Please wait.'})"),
+
+                                    y.Button()
+                                    .Width(120)
+                                        .ID("btnclear")
+                                        .Text("Clear")
+                                        .Icon(Icon.ArrowRefresh)
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Click.Timeout = 12000000;
+                                            de.Click.Url = Url.Action("ClearControls");
+                                        })
+                                     ) //file_upload1
+                             .Items(y.Label()
+                                        .ID("lblnotice")
+                                        .Height(100)
+                                        .Text("* Please Not : Do NOT Reassign Employee ID that already exist in Penfad to another (new) employee." +
+                                                Environment.NewLine + "Else two people would be given one scheme account and that will create reconcilliation problems.Thank you")
+                                        )//end lable
+                                   )// end fset_fileupload
+
+                     )// panel1_panel_batch_upload
+
+        .Items(y.Window()
+                .ID("win_Employer")
+                .Icon(Icon.Application)
+                .Title("Employer List")
+                .Width(1000)
+                .Height(500)
+                .Modal(true)
+                .AutoRender(false)
+                //.Collapsible(true)
+                //.BodyStyle("background-color: #fff;")
+                //.BodyPadding(5)
+                //.SetPagePosition(50,50)
+                .Hidden(true)
+                .Items(y.GridPanel()
+                            .ID("employer_grid")
+                            //.Hidden(true)
+                            .Border(true)
+                            .Width(980)
+                            .Height(450)
+
+                            .MarginSpec("10 0 0 10")
+                            .TopBar(Html.X().Toolbar()
+                                        .Items(Html.X().Button()
+                                                    .ID("btn_viewemployers")
+                                                    .Text("View Employer Accounts")
+                                                    .Width(300)
+                                                    .Icon(Icon.ApplicationViewDetail)
+                                                    .DirectEvents(de =>
+                                                    {
+                                                        de.Click.Timeout = 12000000;
+                                                        de.Click.Url = Url.Action("Get_EmployersScheme");
+                                                        de.Click.Success = "onSuccess(App.employer_grid, result.data);";
+                                                        //de.Click.ExtraParams.Add(new { containerId = "panel_majornav" });
+                                                    })
+                                                        //.Handler("#{panel_majornav}.reload();")
+                                                        )//end button
+                                                    )// end topbar
+                            .Store(Html.X().Store()
+                                        .ID("employer_store")
+                                        .AutoLoad(false)
+                                        .Model(Html.X().Model()
+                                                .Fields(
+                                                         new ModelField("Employer_name", ModelFieldType.String),
+                                                          new ModelField("Scheme_Name", ModelFieldType.String),
+                                                         new ModelField("Employer_Id", ModelFieldType.String),
+                                                          new ModelField("Scheme_Id", ModelFieldType.String)
+                                                        )//end fields
+                                                )//end model
+                                                .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                .ServerProxy(Html.X().AjaxProxy()
+                                                                    .Url(Url.Action("Get_EmployersScheme"))
+                                                                )// END SERVER PROXY
+                                                                 //.PageSize(10)
+                                    )//end  store
+
+                            .ColumnModel(
+                                    Html.X().Column().Text("Employer Name").DataIndex("Employer_name").Width(400),
+                                    Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(350),
+                                    Html.X().Column().Text("Employer Id").DataIndex("Employer_Id").Width(200),
+                                   Html.X().Column().Text("Scheme Id").DataIndex("Scheme_Id").Width(100)
+
+                                    )//end columnmodel
+                            .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                            //.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.pn_employeebatchupload.getForm().loadRecord(selected[0]); App.win_Employer.hide(true); App.Scheme_Id.clearValue(); App.Scheme_Id.getStore().load() }")
+                            .Refresh()
+                            .BottomBar(Html.X().PagingToolbar())
+                            .Plugins(y.FilterHeader())
+
+                        )// end grid panel
+
+                    // Html.X().Label().ID("lbllabel")
+
+
+
+                    )
+
+ //end main panel  
+ )

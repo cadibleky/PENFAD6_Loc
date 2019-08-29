@@ -1,0 +1,154 @@
+﻿@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+    @model IEnumerable<pfm_FeesRepo>
+
+    @{
+        var x = Html.X();
+    }
+
+    @(x.FormPanel()
+            .ID("fees")
+            //.ColumnWidth(0.4)
+            .Title("Setup Fees")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1000)
+            .Height(500)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+
+            x.FieldSet()
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1000)
+            .Height(500)
+
+            .Items(
+
+                    x.GridPanel()
+                            .ID("feesGrid")
+                            .Title("View Fee List")
+                            .Frame(true)
+                            .Width(500)
+                            .MarginSpec("10 0 0 10")
+                            .Height(450)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("feesStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Fee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fee_Description").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fee").Type(ModelFieldType.Float)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("Fee_Id").Text("FEE ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fee_Description").Text("FEE DESCRIPTION").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Fee").Text("FEE").Width(150)),
+
+                    x.FieldSet()
+                        .Width(400)
+                        .Collapsible(true)
+                        .Height(460)
+                        .Title("Add/Edit Fees")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+                        .Items(
+                            x.Hidden().Name("Fee_Id"),
+
+                            x.TextField()
+                                .Name("Fee_Description")
+                                .Width(350)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Fee Description")
+                                .AllowBlank(false)
+                                .BlankText("'Fee Description' is required."),
+
+                                x.NumberField().Name("Fee")
+                                .FieldLabel("Maximum Annual Fee Rate/Amount")
+                                .MarginSpec("0 20 8 0").TabIndex(1).Width(200)
+                                .AllowBlank(false)                         
+                                .BlankText("Fee is required."),
+
+                                x.ComboBox().Name("Before_Nav")
+                                .FieldLabel("Before NAV?")
+                                .Items("NO","YES")
+
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save Fees")
+                                .Width(120)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Create Fees";
+                                    de.Click.Confirmation.Message = "Add Fee?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Delete")
+                                .Width(100)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete Fee?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(100)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+        )
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,149 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frm_gl_BankAccountDefault")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("Default Bank Accounts Setup")
+        .Width(1200)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .BodyPadding(5)
+        // .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+                x.FormPanel().ID("frmleft_BankDefault")
+                .Width(1250)
+                 //.Height(400)
+                 .FieldDefaults(fd =>
+                 {
+                     fd.LabelAlign = LabelAlign.Top;
+                     fd.MsgTarget = MessageTarget.Side;
+                 })
+                    .Items(
+                            x.FieldSet()
+                            .Height(280)
+                            .Width(1200)
+                            .Layout(LayoutType.Column)
+                            .Items
+                            (
+
+
+                       x.Hidden().Name("GL_Account_No"),
+                       x.Hidden().Name("Scheme_Fund_Id").ID("AccSFId_BankDefault"),
+                       x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(600).MarginSpec("0 10 0 5").ReadOnly(true),
+                       x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(300).MarginSpec("0 10 0 5").ReadOnly(true),
+                             x.TextField().Name("GL_Account_Name").FieldLabel("Default Bank Account Name").Width(900).FieldStyle("text-transform: uppercase").MarginSpec("0 500 0 5"),
+                             x.TextField().Name("Bank_Account_Number").FieldLabel("Bank Account Number").Width(240).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 5"),
+                             
+                             x.ComboBox().Name("Bank").FieldLabel("Bank Name").Editable(true).Items(GLCRepo.GetBank().Select(d => new ListItem(d.Bank, d.Bank)))
+                                .FieldStyle("text-transform:UPPERCASE")
+                                .AllowBlank(false).Width(360)
+                                .BlankText("Region Name is required.").SetActive(true),
+                           
+                             x.TextField().Name("Bank_Branch").FieldLabel("Bank Branch").Width(300).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 5"),
+                           
+                             x.Button()
+                                            .Text("Save Changes")
+                                            .Width(250)
+                                            .TabIndex(40)
+                                            .Icon(Icon.Add)
+                                            .DirectEvents(de =>
+                                            {
+                                                de.Click.Confirmation.ConfirmRequest = true;
+                                                de.Click.Confirmation.Title = "Save Record";
+                                                de.Click.Confirmation.Message = "Rename Default Bank Account?";
+                                                de.Click.Url = Url.Action("RenameGLAccountRecord");
+                                            }).MarginSpec("30 10 0 5"),
+
+                                          
+
+                                            x.Button()
+                                            .Text("Clear")
+                                            .Width(90)
+                                            .TabIndex(41)
+                                            .Icon(Icon.ArrowRefresh)
+                                            .OnClientClick("this.up('form').getForm().reset();")
+                                            .MarginSpec("30 10 0 5")
+
+                                    )
+                                ),
+
+                
+
+                       x.FieldSet()
+                       .MarginSpec("5 0 0 0")
+                            .Width(1200)
+                            //.Height(300)
+                            .Items
+                            (
+                                  x.GridPanel()
+                                    .ID("GLFAccountGrid_BankDefault")
+                                    .Title("Default Scheme-Fund Bank Accounts")
+                                    .Frame(true)
+                                    .Width(1240)
+                                    .Height(600)
+                                     .MarginSpec("5 0 0 0")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("BDAccSFStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                          )
+                                    )
+                                    .ServerProxy(
+                                   Html.X().AjaxProxy()
+             
+                                                       .Url(Url.Action("FilterSFGridBankDefault"))
+                                  )
+                                    .PageSize(20)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmleft_BankDefault.getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("GL_Account_No").Text("GL ACCOUNT NO.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND NAME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("GL_Account_Name").Text("DEFAULT ACCOUNT NAME").Width(300))
+                    
+
+                    )
+
+           )
+
+)

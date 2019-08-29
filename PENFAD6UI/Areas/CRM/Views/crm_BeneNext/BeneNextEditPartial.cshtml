@@ -1,0 +1,473 @@
+﻿
+
+@using PENFAD6DAL.Repository.Setup.PfmSetup,
+@using PENFAD6DAL.Repository.CRM.Employee,
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+@*@model IEnumerable<crm_BeneNextRepo>*@
+
+@{
+    var SchemeRepo = new pfm_VestingRuleRepo();
+    var RelationRepo = new setup_RelationshipRepo();
+    var FeeRepo = new pfm_FeesRepo();
+    var x = Html.X();
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var titleRepo = new setup_TitleRepo();
+    var gender = new setup_GenderRepo();
+    var region = new setup_RegionRepo();
+    var country = new setup_CountryRepo();
+    var identity = new setup_IdentityTypesRepo();
+    var maritalstatus = new setup_MaritalStatusRepo();
+    var employeeType = new setup_EmployeeTypeRepo();
+    var position = new setup_PositionRepo();
+    //var department = new setup_DepartmentRepo();
+    var branch = new setup_BranchRepo();
+    var employer = new crm_EmployeeRepo();
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+            .ID("ESF")
+            .Title("Update/Delete Beneficiary or Next of Kin")
+             .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(1400)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+
+
+                         .Items(
+                                        x.FieldSet()
+                                        // .Collapsible(true)
+                                        .Layout(LayoutType.Column)
+                                        .Height(1600)
+                                        .Width(1600)
+                                        .MarginSpec("10 0 0 0")
+                                        .Items(
+
+                                            x.FormPanel()
+                                           .ID("BeneNext")
+                                          .AutoScroll(true)
+                                          //.Collapsible(true)
+                                          .Height(900)
+                                          .Width(950)
+                                          // .Title("Details")
+                                          .MarginSpec("0 0 0 0")
+                                          .Defaults(dd =>
+                                          { dd.Add(new Parameter("LabelWidth", "115")); })
+
+
+                                                  .Items(
+                                                x.FieldSet()
+                                                      .Height(100)
+                                                      .Width(900)
+                                                      .Layout(LayoutType.Column)
+                                                      .MarginSpec("10 10 0 10")
+                                                      .Border(true)
+
+
+                                                  .Items(
+                                                   x.Hidden().ID("Cust_No").Name("Cust_No"),
+
+                                                   x.Hidden().Name("Beneficiary_NextOfKin_Id"),
+
+                                                   x.Hidden().Name("Beneficiary_Rate_Temp"),
+
+                                                   x.TextField().Name("Employee_Name")
+                                                   .FieldLabel("Employee Name")
+                                                   .MarginSpec("10 10 10 10").Width(400)
+                                                   .AllowBlank(false)
+                                                   .Editable(false)
+                                                   .BlankText("'Employee Name' is required."),
+
+                                                  x.Button()
+                                                  .Text("Select Employee")
+                                                  .Width(200)
+                                                  .TabIndex(0)
+                                                  .Icon(Icon.ArrowRefresh)
+                                                  .Handler("App.Employee_editbene.show(this);")
+                                                  .MarginSpec("40 10 10 10")
+
+                                                  )
+                                                  ,
+                                                  x.FieldSet()
+                                                  .ID("k2")
+                                                  .Collapsible(true)
+                                                  .Layout(LayoutType.Column)
+                                                  .Height(700)
+                                                  .Width(900)
+                                                  .MarginSpec("0 10 10 10")
+                                                  .Defaults(dd =>
+                                                  {
+                                                      dd.Add(new Parameter("LabelWidth", "150"));
+                                                  })
+                                                  .Items(
+                                                  x.Hidden().Name("Beneficiary_NextOfKin_Id"),
+
+
+                                                   x.TextField().Name("Surname")
+                                                   .FieldLabel("Surname")
+                                                   .MarginSpec("0 20 8 0").TabIndex(1).Width(400)
+                                                   .AllowBlank(false)
+                                                   .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                   .BlankText("Surname is required."),
+
+
+                                                  x.ComboBox().Name("Beneficiary_NextOfKin").ID("Bene_Next")
+                                                  .FieldLabel("Type")
+                                                  .MarginSpec("0 20 8 0").TabIndex(7).Width(400)
+                                                  .AllowBlank(false)
+                                                  .Editable(false)
+                                                  .QueryMode(DataLoadMode.Local)
+                                                  .TriggerAction(TriggerAction.All)
+                                                  .EmptyText("Select a Type")
+                                                  .BlankText("Fee is required.").Items("BENEFICIARY", "NEXT OF KIN")
+                                                   .Listeners(l => l.Select.Handler = "if (App.Bene_Next.getValue() == 'BENEFICIARY') {App.Rate.enable();} else {App.Rate.disable().setValue(0);} "),
+
+
+                                                   x.TextField().Name("First_Name")
+                                                   .FieldLabel("First Name")
+                                                   .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                   .MarginSpec("0 20 8 0").TabIndex(2).Width(400)
+                                                   .AllowBlank(false)
+                                                   .BlankText("First Name is required."),
+
+
+                                                   x.TextField().Name("Phone_Number1")
+                                                   .FieldLabel("Primary Phone Number")
+                                                   .MarginSpec("0 20 8 0").TabIndex(8).Width(400)
+                                                  ,
+
+
+                                                   x.TextField().Name("Other_Name")
+                                                   .FieldLabel("Other Name")
+                                                   .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                   .MarginSpec("0 20 8 0").TabIndex(3).Width(400)
+                                                    ,
+
+                                                    x.TextField().Name("Phone_Number2")
+                                                   .FieldLabel("Secondary Phone Number")
+                                                   .MarginSpec("0 20 8 0").TabIndex(9).Width(400)
+                                                   ,
+
+
+
+                                                   x.TextField().Name("Maiden_Name")
+                                                   .FieldLabel("Maiden Name")
+                                                   .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                   .MarginSpec("0 20 8 0").TabIndex(4).Width(400)
+
+                                               ,
+
+
+                                                   x.TextField().Name("Email_Address")
+                                                   .FieldLabel("Email Address")
+                                                   .MarginSpec("0 20 8 0").TabIndex(10).Width(400)
+                                                  ,
+
+
+                                                   x.DateField().Name("Date_Of_Birth")
+                                                   .FieldLabel("Date of Birth")
+                                                   .MarginSpec("0 20 8 0").TabIndex(5).Width(400)
+                                                   .AllowBlank(false)
+                                                   .Editable(false)
+                                                   .BlankText("Date of Birth is required."),
+
+
+                                                    x.ComboBox().Name("Relationship_Name")
+                                                    .FieldLabel("Relationship")
+                                                    .MarginSpec("0 20 8 0").TabIndex(11).Width(400)
+                                                    .AllowBlank(false)
+                                                    .Editable(false)
+                                                   .QueryMode(DataLoadMode.Local)
+                                                   .TriggerAction(TriggerAction.All)
+                                                   .EmptyText("Select a Relationship")
+                                                    .BlankText("Relationship is required.").Items(RelationRepo.GetRelationshipList().Select(d => new ListItem(d.Relationship_Name, d.Relationship_Name))),
+
+
+
+                                                   x.TextField().Name("Residential_Address")
+                                                   .FieldLabel("Residential Address")
+                                                   .MarginSpec("0 20 8 0").TabIndex(6).Width(400)
+                                                   .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                    ,
+
+
+
+                                                   x.NumberField().Name("Beneficiary_Rate").ID("Rate")
+                                                  .FieldLabel("Beneficiary Rate (%)")
+                                                  .MarginSpec("0 20 8 0").TabIndex(12).Width(250),
+
+
+                                                   x.FieldSet()
+                                                      .Height(100)
+                                                      .Width(800)
+                                                      .MarginSpec("10 10 10 10")
+                                                      .Border(true)
+                                                      .Defaults(dd =>
+                                                      {
+                                                          dd.Add(new Parameter("LabelWidth", "150"));
+                                                      })
+
+                                                  .Items(
+                                                  x.Button()
+                                                  .Text("Update")
+                                                  .Width(200)
+                                                  .TabIndex(12)
+                                                  .Icon(Icon.Add)
+                                                  .DirectEvents(de =>
+                                                  {
+                                                      de.Click.Timeout = 12000000;
+                                                      de.Click.Confirmation.ConfirmRequest = true;
+                                                      de.Click.Confirmation.Title = "Save Record";
+                                                      de.Click.Confirmation.Message = "Are you sure you want to effect changes to Beneficiary / Next of Kin?";
+                                                      de.Click.Url = Url.Action("EditRecord");
+                                                  }).MarginSpec("20 10 0 0"),
+
+                                                   x.Button()
+                                                  .Text("Delete")
+                                                  .Width(200)
+                                                  .TabIndex(12)
+                                                  .Icon(Icon.Add)
+                                                  .DirectEvents(de =>
+                                                  {
+                                                      de.Click.Timeout = 12000000;
+                                                      de.Click.Confirmation.ConfirmRequest = true;
+                                                      de.Click.Confirmation.Title = "Delete Record";
+                                                      de.Click.Confirmation.Message = "Delete Beneficiary / Next of Kin?";
+                                                      de.Click.Url = Url.Action("DeleteRecord");
+                                                  }).MarginSpec("20 10 0 0"),
+
+                                              x.Button()
+                                                  .Text("Clear")
+                                                  .Width(200)
+                                                  .TabIndex(14)
+                                                  .Icon(Icon.ArrowRefresh)
+                                                  .OnClientClick("this.up('form').getForm().reset();")
+                                                  .MarginSpec("20 10 0 0")
+                                                  )
+                                                  )
+                                                  ),
+
+
+                  x.FormPanel()
+                  .ID("BeneNextGrid")
+                       .AutoScroll(true)
+                        // .Collapsible(true)
+                        .Height(900)
+                        .Width(450)
+                        //.Title("Beneficiary / Next of Kin")
+                        .MarginSpec("0 0 0 0")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                              x.GridPanel()
+                            .ID("schemeFeeGrid")
+                            .Title("Beneficiary / Next of Kin List")
+                            .Frame(true)
+                            .Width(430)
+                            .MarginSpec("10 0 0 10")
+                            .Height(800)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("BeneNextStore")
+                            //.DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Beneficiary_NextOfKin").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Beneficiary_NextOfKin_Id").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+                                         x.ModelField().Name("Employee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Beneficiary_NextOfKin_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("FilterBNGrid", "crm_BeneNext"))
+                                                       .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                       .Parameters(ps =>
+                                                       ps.Add(new StoreParameter("Cust_Id", "App.Cust_No.getValue()", ParameterMode.Raw))
+
+                                  )
+
+                            .PageSize(15)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.BeneNext.getForm().loadRecord(selected[0]); } if (App.Bene_Next.getValue() == 'BENEFICIARY') {App.Rate.enable();} else {App.Rate.disable().setValue(0);}")
+                    //.Listeners(t => t.SelectionChange.Handler = "if (App.Bene_Next.getValue() == 'BENEFICIARY') {App.Rate.enable();} else {App.Rate.disable().setValue(0);} ")
+
+                    .ColumnModel(x.Column().DataIndex("Beneficiary_NextOfKin_Id").Text("ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Beneficiary_NextOfKin").Text("TYPE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Name").Text("NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Employee_Name").Text("NAME").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Date_Of_Birth").Text("DOB").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Cust_No").Text("EMPLOYEE ID").Width(0))
+
+
+                 )
+      ),
+
+      ///////////////////////////
+                                 x.Window()
+                                .ID("Employee_editbene")
+                                .Title("Employee List")
+                                .Width(1000)
+                                .Height(1000)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.Panel()
+                            .TabMenuHidden(true)
+                            .Title("VIEW EMPLOYEE LIST")
+                            .BodyPadding(6)
+                            .Items(
+                                    x.FieldSet()
+                                                .Title("Search")
+                                                .Width(700)
+                                                .Items(
+                                                        x.Panel()
+                                                            .Layout(LayoutType.HBox)
+                                                            .Items(
+                                                                    x.ComboBox().Name("Employer_Id")
+                                                                                .ID("change_ESF_updemp_cmbEmployerId_employer_beneedit")
+                                                                                .FieldLabel("Employer Name")
+                                                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                                                .AllowBlank(false)
+                                                                                .QueryMode(DataLoadMode.Local)
+                                                                                .TriggerAction(TriggerAction.All)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+                                                                        x.Button()
+                                                                            .Text("View Employees")
+                                                                            .Icon(Icon.ArrowRefresh)
+                                                                            .MarginSpec("30 0 20 0")
+                                                                            .Width(200)
+                                                                            //.Cls("btnStyle")
+                                                                            .DirectEvents(de =>
+                                                                            {
+                                                                                de.Click.Url = Url.Action("Read5");
+                                                                                de.Click.Success = "onSuccess(App.change_ESF_Edit_employeeGrid_employer_beneedit, result.data);";
+                                                                                de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.change_ESF_updemp_cmbEmployerId_employer_beneedit.getValue()", ParameterMode.Raw));
+
+                                                                            })
+
+                                                                )
+                                                    ),
+                                    x.GridPanel()
+                                        .ID("change_ESF_Edit_employeeGrid_employer_beneedit")
+                                        .Frame(true)
+                                        .WidthSpec("Auto")
+                                        .Height(700)
+                                        .MarginSpec("10 0 0 0")
+                                        .Plugins(
+                                            x.FilterHeader()
+                                        )
+
+                                        .Store(
+                                    x.Store()
+                                        .AutoLoad(false)
+                                        .ID("change_ESF_employeeStore_employer_beneedit")
+                                    // .DataSource(Model)
+                                    .Model(
+                                        x.Model()
+                                            .Fields(
+                                                x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("ESurname").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("EFirst_Name").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("EOther_Name").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("EMaiden_Name").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("EGender").Type(ModelFieldType.String),
+                                                                                     x.ModelField().Name("EDate_Of_Birth").Type(ModelFieldType.Date),
+                                                                                     x.ModelField().Name("Employee_Name").Type(ModelFieldType.String)
+
+                                         )
+
+                                    )
+                                    .ServerProxy(
+                                           x.AjaxProxy()
+                                            // .Url(Url.Action("ReadEmployee"))
+                                            .Url(Url.Action("Read5"))
+                                            .Reader(x.JsonReader().RootProperty("data")))
+                                            .Parameters(ps =>
+                                                       ps.Add(new StoreParameter("Employer_Id", "App.change_ESF_updemp_cmbEmployerId_employer_beneedit.getValue()", ParameterMode.Raw))
+
+                                     )
+                            // .PageSize(10)
+                            )
+                             .BottomBar(
+                                x.PagingToolbar()
+                            )
+                            //.DirectEvents(de =>
+                            //{
+                            //    de.CellClick.Url = Url.Action("DisplayPhoto");
+                            //    de.CellClick.ExtraParams.Add(new Parameter("cust_no", "App.txtCustNo_EmpEdit.getValue()", ParameterMode.Raw));
+
+                            //})
+
+                            //.Listeners(l => l.SelectionChange.Fn = "onSelectionChange")
+                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0])"
+                            + "{App.BeneNext.getForm().loadRecord(selected[0]);App.Employee_editbene.hide();"
+                            + "}")
+
+
+
+                            .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER").Width(150))
+                                                                          .ColumnModel(x.Column().DataIndex("Employee_Id").Text("EMPLOYEE ID").Width(150))
+                                                                          .ColumnModel(x.Column().DataIndex("Employee_Name").Text("Name").Width(150))
+                                                                          .ColumnModel(x.Column().DataIndex("ESurname").Text("SURNAME").Width(200))
+                                                                          .ColumnModel(x.Column().DataIndex("EFirst_Name").Text("FIRST NAME").Width(200))
+                                                                          .ColumnModel(x.Column().DataIndex("EOther_Name").Text("OTHER NAME").Width(200))
+                                                                          .ColumnModel(x.Column().DataIndex("EMaiden_Name").Text("MAIDEN NAME").Width(0))
+                                                                          .ColumnModel(x.Column().DataIndex("EGender").Text("GENDER").Width(80))
+                                                                          .ColumnModel(x.Column().DataIndex("EDate_Of_Birth").Text("DATE OF BIRTH").Width(200))
+                                                                          .DirectEvents(de =>
+                                                                          {
+                                                                              de.SelectionChange.Url = (Url.Action("FilterBNGrid", "crm_BeneNext"));
+                                                                              de.SelectionChange.Success = "onSuccess(App.schemeFeeGrid, result.data);";
+                                                                          })
+
+                            )
+
+                            )
+             
+
+////////////////////////
+
+)
+)

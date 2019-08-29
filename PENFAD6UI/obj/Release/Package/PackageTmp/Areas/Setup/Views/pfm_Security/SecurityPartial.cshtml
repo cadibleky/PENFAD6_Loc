@@ -1,0 +1,149 @@
+﻿@using PENFAD6DAL.Repository.Setup.pfmSetup
+
+    @model IEnumerable<pfm_SecurityRepo>
+
+    @{
+        var x = Html.X();
+    }
+
+            @(x.FormPanel()
+            .ID("security")
+            .ColumnWidth(0.4)
+            .Title("Setup Securities")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(500)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+
+                    x.GridPanel()
+                            .ID("securityGrid")
+                            .Title("View Security List")
+                            .Frame(true)
+                            .Width(500)
+                            .MarginSpec("10 0 0 10")
+                            .Height(450)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                .AutoLoad(true)
+                                .ID("securityStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                .Fields(
+                                        x.ModelField().Name("Security_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Security_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Asset_Class").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("Security_Id").Text("SECURITY ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Security_Name").Text("SECURITY NAME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Asset_Class").Text("ASSET CLASS").Width(250)),
+
+                    x.FieldSet()
+                        .ColumnWidth(0.7)
+                        .Collapsible(true)
+
+                        .Height(460)
+                        .Title("Add/Edit Securities")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Hidden().Name("Security_Id"),
+                            x.TextField()
+                                .Name("Security_Name")
+                                .Width(380)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Security Name")
+                                .AllowBlank(false)
+                                .BlankText("'Security Name' is required."),
+
+                                x.ComboBox().Name("Asset_Class")
+                                .FieldLabel("Asset Class")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(380)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select Asset Class")
+                                .BlankText("Country is required.").Items("MONEY MARKET","T BILL","CORPORATE BOND")
+
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save")
+                                .Width(120)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Add Record";
+                                    de.Click.Confirmation.Message = "Are you sure you want to add Security?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Delete")
+                                .Width(120)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Are you sure you want to delete Security?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(120)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

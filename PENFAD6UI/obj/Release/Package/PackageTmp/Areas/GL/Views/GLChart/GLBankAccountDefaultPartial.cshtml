@@ -1,0 +1,304 @@
+﻿
+
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@model IEnumerable<pfm_Scheme_FundRepo>
+
+@{
+    var x = Html.X();
+    var pfm_schemerepo = new pfm_SchemeRepo();
+    var pfm_fundrepo = new pfm_FundRepo();
+
+    //List<SelectListItem> SchemeFundStatusList = new List<SelectListItem>();
+    //SchemeFundStatusList.Add(new SelectListItem
+    //{
+    //    Text = "ACTIVE",
+    //    Value = "ACTIVE"
+    //});
+    //SchemeFundStatusList.Add(new SelectListItem
+    //{
+    //    Text = "INACTIVE",
+    //    Value = "INACTIVE"
+    //});
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+@(x.FormPanel()
+            .ID("frmColAcc")
+            .WidthSpec("auto")
+            .Title("Setup Bank Account")
+            .Frame(true)
+            .AutoScroll(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1000)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+                x.FieldSet()
+                 .Width(1300)
+                .Height(700)
+                 .Layout(LayoutType.Column)
+                .Items(
+
+                    x.GridPanel()
+                            .ID("coll_SchemeFundGrid")
+                            .Title("View Fund List")
+                            .Frame(true)
+                            .Width(800)
+                            .MarginSpec("10 0 0 10")
+                            .Height(600)
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("coll_SchemeFundStore")
+                            // .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("COL_ID").Type(ModelFieldType.String)
+                                       )
+
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Readsfcol"))
+                                  )
+                    // .PageSize(10)
+
+                    )
+                     .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Plugins(
+                        x.FilterHeader()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(350))
+                    //.ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("Scheme Fund ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("Fund").Width(150))
+                    .ColumnModel(x.Column().DataIndex("GL_Account_Name").Text("ACCOUNT NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("COL_ID").Text("ID").Width(60)),
+
+
+    x.FieldSet()
+        .Width(420)
+        .Collapsible(true)
+        .Region(Region.North)
+        .Height(600)
+        .Title("Add/Edit Collection Account")
+        .MarginSpec("0 20 0 20")
+        .Defaults(dd =>
+        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+        .Items(
+         x.Button()
+            .Text("Select Scheme Account")
+            .Width(300)
+            .TabIndex(60)
+            .Icon(Icon.Add)
+            .MarginSpec("30 10 0 10")
+            .Handler("App.coll_SchemeFund.show(this);App.coll_GLB.clearValue();"),
+
+            x.Hidden().Name("COL_ID"),
+            x.Hidden().Name("Scheme_Fund_Id").ID("collSF_ID")
+            .Listeners(ls =>
+                            ls.Change.Handler = "App.coll_GLB.clearValue(); App.coll_GLB.getStore().load();")
+            ,
+
+            x.ComboBox().Name("Scheme_Id").FieldLabel("Scheme").Items(pfm_schemerepo.GetSchemeList().Select(c => new ListItem(c.Scheme_Name, c.Scheme_Id))).Width(350).Editable(false).MarginSpec("0 20 10 10").ReadOnly(true),
+            x.ComboBox().Name("Fund_Id").FieldLabel("Fund").Items(pfm_fundrepo.GetFundList().Select(c => new ListItem(c.Fund_Name, c.Fund_Id))).Width(350).Editable(false).MarginSpec("0 20 10 10").ReadOnly(true),
+            x.ComboBox().Name("GL_Account_Name").FieldLabel("Bank Account Name").Width(350).Editable(false).MarginSpec("0 20 10 10").ReadOnly(true),
+
+            x.FieldSet()
+                .ID("coll_fscs")
+                .WidthSpec("auto")
+                .Height(100)
+                .StyleSpec("float:left;")
+                .Title("Update Collection Bank Account")
+                .MarginSpec("0 5 0 5")
+                .Defaults(dd =>
+                { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                .Items(
+                       x.ComboBox().Name("GL_Account_No").ID("coll_GLB")
+                                                                    .FieldLabel("GL Bank Account")
+                                                                    .Width(350)
+                                                                    .Editable(false)
+                                                                    .TypeAhead(true)
+                                                                    .QueryMode(DataLoadMode.Local)
+                                                                    .ForceSelection(true)
+                                                                    .TriggerAction(TriggerAction.All)
+                                                                    .DisplayField("name")
+                                                                    .ValueField("id")
+                                                                    .BlankText("GL Bank Account is required.")
+                                                                    .EmptyText("No GL Bank Account Available...")
+                                                                    .ValueNotFoundText("No GL Bank Account Available...").MarginSpec("0 0 0 10")
+                                                                        //  .Listeners(ls =>
+                                                                        //                   ls.Change.Handler = "App.FixedDepositTransPartialAddECIS_GLBalance.clearValue(); App.FixedDepositTransPartialAddECIS_GLBalance.getStore().load();")
+
+                                                                        .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("gId")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "gId" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "gName" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetGLAB"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Scheme_Fund_Id", "App.collSF_ID.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.coll_GLB; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField));"
+
+                                                                        )
+
+                                                                   )
+                    )
+            )
+        .Items(
+        x.Panel()
+        .WidthSpec("100%")
+        .Height(40)
+        .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+        .Items(
+
+
+    x.Button()
+        .Text("Save")
+        .ID("savebtn")
+        // .Hidden(true)
+        .Width(120)
+        .Icon(Icon.Add)
+        .DirectEvents(de =>
+        {
+            de.Click.Confirmation.ConfirmRequest = true;
+            de.Click.Confirmation.Title = "Save";
+            de.Click.Confirmation.Message = "Save Collection Account?";
+            de.Click.Url = Url.Action("SaveDefaultAcc");
+
+        }).MarginSpec("5 10 10 5"),
+
+            x.Button()
+                    .Text("Clear")
+                    .Width(120)
+                    .Icon(Icon.ArrowRefresh)
+                    .OnClientClick("this.up('form').getForm().reset();")
+                    .MarginSpec("5 10 10 5")
+                        ),
+         x.Window()
+                                                .ID("coll_SchemeFund")
+                                                .Icon(Icon.Application)
+                                                .Title("Scheme Fund List")
+                                                .Height(720)
+                                                .Width(800)
+                                                .BodyStyle("background-color: #fff;")
+                                                .BodyPadding(5)
+                                                .Hidden(true)
+                                                .Modal(true)
+                                                .Items(
+                                                    x.GridPanel()
+                                                                .ID("coll_schemeFundGrid")
+                                                                //.Title("View employer List")
+                                                                .Frame(true)
+                                                                .WidthSpec("Auto")
+                                                                .Height(620)
+                                                                .MarginSpec("10 0 0 10")
+                                                                .DockedItems(
+                                                                        x.Toolbar()
+                                                                            .Dock(Dock.Top)
+                                                                            .Items(
+                                                                                x.Button()
+                                                                                    .Text("View Scheme Account")
+                                                                                    .Icon(Icon.ArrowRefresh)
+                                                                                    .MarginSpec("10 0 20 0")
+                                                                                    .Width(240)
+                                                                                    .Cls("btnStyle")
+                                                                                    .DirectEvents(de =>
+                                                                                    {
+                                                                                        de.Click.Timeout = 12000000;
+                                                                                        de.Click.Url = Url.Action("FilterESGrid");
+                                                                                        de.Click.Success = "onSuccess(App.coll_schemeFundGrid, result.data);";
+                                                                                    })
+                                                                            )
+                                                                        )
+                                                                .Store(
+                                                                    x.Store()
+                                                                        .AutoLoad(false)
+                                                                        .ID("colschemeStore")
+                                                                // .DataSource(Model)
+                                                                .Model(
+                                                                    x.Model()
+                                                                        .Fields(
+                                                                            x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                                                             x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                                                            x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                                                            x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                                                            x.ModelField().Name("Fund_Id").Type(ModelFieldType.String)
+
+                                                                            )
+
+                                                                )
+                                                                .ServerProxy(
+                                                                       Html.X().AjaxProxy()
+                                                                       .Url(Url.Action("FilterESGrid"))
+                                                                      )
+                                                        //  .PageSize(10)
+
+                                                        )
+
+                                                        .Plugins(
+                                                            x.FilterHeader()
+                                                        )
+
+                                                           ////.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.SchemeFund.getForm().loadRecord(selected[0]); App.SchemeFund.hide(true); }")
+                                                           //.Listeners(l => l.SelectionChange.Handler = @"if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);
+                                                           //                                                                 App.new_SchemeFund.hide(true);
+                                                           //                                                                 App.new_txtScheme_Id.clearValue();
+                                                           //                                                                 App.new_schemeFundGrid.getStore().load()
+                                                           //                                                                }
+                                                           //                                               ")
+                                                           .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); App.coll_SchemeFund.hide(true);}")
+
+                                                            .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("Scheme Id").Width(0))
+                                                            .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme Name").Width(500))
+                                                            .ColumnModel(x.Column().DataIndex("Fund_Id").Text("Fund Id").Width(0))
+                                                            .ColumnModel(x.Column().DataIndex("Fund_Name").Text("Fund Name").Width(200))
+                                                            .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("id").Width(0))
+
+                                            )
+                    )
+                )
+        )
+
+)
+
+

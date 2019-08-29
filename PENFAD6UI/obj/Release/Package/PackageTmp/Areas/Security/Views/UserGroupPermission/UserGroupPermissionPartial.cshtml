@@ -1,0 +1,270 @@
+﻿
+@model PENFAD6DAL.Repository.Security.sec_UserGroupPermissionRepo
+
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+
+    var onSuccessgroup = function (grid, data)
+    {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+
+    var getTasks = function (button) {
+        var msg = "",
+            selChildren = button.up("treepanel").getChecked();
+
+        Ext.each(selChildren, function (node) {
+            if (msg.length > 0) {
+                msg += "|";
+            }
+
+            msg += node.data.id;
+        });
+
+        App.txtaccessrights.setValue(msg);
+
+    };
+
+</script>
+
+
+
+
+@(Html.X().FormPanel()
+        .ID("frm_grouppermissions")
+        .Title("User Group Permissions")
+        .Width(1000)
+        .BodyPadding(5)
+        //.Collapsible(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .Items(Html.X().Panel()
+                    .ID("panel_forgrids")
+                    .ColumnWidth(0.4)
+                    .Border(true)
+                    .Height(800)
+                    .BodyPadding(5)
+                    .TopBar(Html.X().Toolbar()
+                            .Items(Html.X().Button()
+                                    .ID("btnviewroles")
+                                    .Text("View Roles")
+                                    .Width(200)
+                                    .Icon(Icon.ApplicationViewDetail)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("GetRoles");
+                                        de.Click.Success = "onSuccess(App.rolegrid, result.data);";
+                                    })
+                                    .Handler("#{panel_majornav}.reload();")
+                                )//end button
+                            )// end topbar
+
+                     //begin role grid
+                     .Items(Html.X().GridPanel()
+                                    .ID("rolegrid")
+                                    .Hidden(true)
+                                    .Border(true)
+                                    //.Width(350)
+                                    .Height(350)
+                                    .Store(Html.X().Store()
+                                        .ID("rolestore")
+                                        .AutoLoad(false)
+                                        .Model(Html.X().Model()
+                                            .Fields(
+                                                new ModelField("UserRoleName", ModelFieldType.String),
+                                                new ModelField("UserRoleDesc", ModelFieldType.String),
+                                                new ModelField("UserRoleId", ModelFieldType.String)
+                                                    )//end fields
+                                                )//end model
+                                                .Reader(reader =>
+                                                    reader.Add(Html.X().ArrayReader())
+                                                )//end reader
+                                            )//end  store
+                                    .ColumnModel(
+                                            Html.X().Column().Text("Role").DataIndex("UserRoleName").Flex(1),
+                                            Html.X().Column().Text("Description").DataIndex("UserRoleDesc").Width(150)
+                                            )//end columnmodel
+                                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                                    .DirectEvents(de =>
+                                    {
+                                        de.CellClick.Url = Url.Action("GetGroupsByRoleId");
+                                        de.CellClick.Success = "onSuccessgroup(App.group_grid, result.data);";
+                                    })
+                                  ) //end rolegridpanel
+
+
+
+                     //begin group grid
+                     .Items(Html.X().GridPanel()
+                                    .ID("group_grid")
+                                    .Hidden(true)
+                                    .Title("User Groups For Selected Role")
+                                    .Header(true)
+                                    .Border(true)
+                                    //.Width(350)
+                                    .MarginSpec("10 0 0 0")
+                                    .Height(350)
+                                    //.HeightSpec("auto")
+                                    .BodyPadding(5)
+                                    .Store(Html.X().Store()
+                                            .AutoLoad(false)
+                                            .ID("grpstore")
+                                            .Model(Html.X().Model()
+                                                .Fields(
+                                                        new ModelField("UserGroupName", ModelFieldType.String),
+                                                        new ModelField("UserGroupId", ModelFieldType.String)
+                                                        //new ModelField("UserRoleId", ModelFieldType.String)
+                                                        )//end fields
+                                                    )//end model
+                                                    .Reader(reader =>
+                                                        reader.Add(Html.X().ArrayReader())
+                                                    )//end reader
+                                            )//end  store
+                                    .ColumnModel(
+                                            Html.X().Column().Text("User Group").DataIndex("UserGroupName").Flex(1)
+                                            //Html.X().Column().Text("Description").DataIndex("UserRoleDesc").Width(150)
+                                            )//end columnmodel
+                                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                                    .DirectEvents(de =>
+                                    {
+                                        de.CellClick.Url = Url.Action("Clear_Submodules_TreeNodes");
+                                        //de.CellClick.ExtraParams.Add(new { containerId = "panel_majornav" });
+                                    })
+                                  ) //end rolegridpanel
+
+               )//end panel_forgrids
+
+
+
+         // second column begins
+         .Items(Html.X().Panel()
+                    .ID("panel_rightcolumn")
+                    .Border(true)
+                    .ColumnWidth(0.6)
+                    .Height(800)
+                    //.Title("Select Role And Group")
+                    .Items(Html.X().Panel()
+                                .ID("pn_fset")
+                                .Height(130)
+                                .Items(Html.X().FieldSet()
+                                            //.ID("fsset")
+                                            .Defaults(d =>
+                                            {
+                                                d.Add(new Parameter("LabelWidth", "115"));
+                                            })
+                                            .Items(Html.X().TextField()
+                                                        .ID("UserRoleName")
+                                                        .Name("UserRoleName")
+                                                        .FieldLabel("User Role")
+                                                        .Width(600)
+                                                        .Disable(true)
+                                                    )
+                                           .Items(Html.X().Hidden()
+                                                       .ID("UserRoleId")
+                                                       .Name("UserRoleId")
+                                                   )
+                                           .Items(Html.X().TextField()
+                                                       .ID("UserGroupName")
+                                                       .Name("UserGroupName")
+                                                       .FieldLabel("User Group")
+                                                       .Width(600)
+                                                       .Disable(true)
+                                                   )
+                                           .Items(Html.X().Hidden()
+                                                       .ID("UserGroupId")
+                                                       .Name("UserGroupId")
+                                                   )
+                                           .Items(Html.X().Hidden()
+                                                       .ID("txtmodulecode")
+                                                       .Name("txtmodulecode")
+                                                  )
+                                           .Items(Html.X().Hidden()
+                                                       .ID("txtaccessrights")
+                                                       .Name("txtaccessrights")
+                                                       //.Width(300)
+                                                  )
+
+                                       )//end fset
+
+                                )//end items pn_fset
+
+                    .Items(Html.X().Panel() //formpanel
+                            .ID("formpanel_major_sub_nav")
+                            .Layout(LayoutType.Column)
+                            //.AutoScroll(true)
+                            //.Border(true)
+                            .Items(Html.X().Panel()
+                                        .ID("panel_majornav")
+                                        .Title("Major Modules")
+                                        .ColumnWidth(0.4)
+                                        .Height(670)
+                                        .AutoScroll(true)
+                                        //.HeightSpec("auto")
+                                        .Loader(Html.X().ComponentLoader()
+                                                   .AutoLoad(false)
+                                                   .Url(Url.Action("Load_MajorModuleMenuOnly"))
+                                                   .Mode(LoadMode.Component)
+                                                   .RemoveAll(true)
+                                                   //.DisableCaching(false)
+                                                   .Params(new { containerId = "panel_majornav" })
+                                                  )
+
+                                   )//end panel_majornav 
+                            .Items(Html.X().TreePanel()
+                                    .ID("treepanel_submodules")
+                                    .Title("Sub-Modules")
+                                    .ColumnWidth(0.6)
+                                    .Height(670)
+                                    //.HeightSpec("auto")
+                                    .AutoScroll(true)
+                                    .RootVisible(false)
+                                    //.FolderSort(true)
+                                    .Border(true)
+                                    .Root(Html.X().Node()
+                                            .NodeID("Root")
+                                            .Text("Root")
+                                            .Expanded(true)
+                                            .AllowDrop(false)
+                                            )//end root
+                                    .TopBar(Html.X().Toolbar()
+                                                // .Border(true)
+                                                .Items(Html.X().Button()
+                                                            .ID("btnAplyPermission")
+                                                            .Text("Grant Permission")
+                                                            .Handler("getTasks")
+                                                            .DirectEvents(dpe =>
+                                                            {
+                                                                dpe.Click.Url = Url.Action("Save_Permission_For_UserGroup");
+                                                                //// dpe.Click.ExtraParams.Add(new Parameter ( "access_granted", "getTasks()",  ParameterMode.Auto));
+                                                                //// dpe.Click.ExtraParams.Add(new StoreParameter { Name = "access_granted", Value = "getTasks()", Mode = ParameterMode.Raw });
+                                                            })
+                                                       )
+                                                //Html.X().Button()
+                                                //    .Text("Collapse All")
+                                                //    .Handler("this.up('treepanel').collapseAll();"),
+
+                                                //Html.X().Button()
+                                                //    .Text("Check All")
+                                                //    .Handler("this.up('treepanel').checkAll();")
+
+                                                )// end topbar
+
+                               // .ViewConfig(Html.X().TreeView().LoadMask(true))
+                               )// end treepanel_submodules
+                      )//end formpanel_major_sub_nav
+
+                   )//end 2nd column 
+
+
+
+
+
+
+
+)

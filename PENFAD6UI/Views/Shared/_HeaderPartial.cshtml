@@ -1,0 +1,26 @@
+﻿<header class="site-header" role="banner">
+    <nav class="top-navigation">
+        <div>
+            @*<img src="../../resources/images/pearl.svg" class="float-left" /> &nbsp;*@<h4 style="color:white; margin-left:5px;" class="float-left"><strong>PENSIONS ADMINISTRATION SYSTEM (PENFAD)</strong>
+           &emsp;&emsp;
+             Posting Date:<a style="background-color:Transparent; color:white;font-weight:bold;margin-bottom: 2em;">@DateTime.Now.ToString("dd-MMM-yyyy")</a> &nbsp;</h4>
+        </div>
+
+        @Html.Partial("_CompanyPartial")
+
+        <div class="navigation-bar">
+            <div class="float-right" style="padding-right:15px;">
+                <section id="login">
+                    @Html.Partial("LogoAndSecurityPartialView")
+                </section>
+            </div>
+            @*<div class="float-right">
+                <input type="checkbox" id="menu-button-checkbox" class="menu-button-checkbox" />
+                <label id="menu-button" for="menu-button-checkbox">
+                    <span></span>
+                </label>
+            </div>*@
+        </div>
+
+    </nav>
+</header>

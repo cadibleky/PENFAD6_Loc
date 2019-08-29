@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TekSol PenFad 6n- Pension Fund Admin System</title>
+    @*<title>Ext.NET Examples - ASP.NET (Web Forms + MVC) component framework integrating the cross-browser Sencha Ext JS JavaScript Library.</title>*@
+    <link rel="stylesheet" href="@Url.Content("~/resources/css/main.css?v=1.0.1")" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="@Url.Content("~/resources/js/perfect-scrollbar.min.js")"></script>
+    <script src="@Url.Content("~/resources/js/main.js?4.0.0-beta")"></script>
+</head>
+<body>
+
+    @*@(Html.X().ResourceManager())*@
+
+
+    @RenderPage("~/Views/Shared/_StartUpLayout.cshtml")
+
+
+    @*@Html.X().ResourceManager().Theme(Theme.Triton)*@
+    
+   @* @RenderPage("~/Views/Shared/_Viewport.cshtml")*@
+
+   
+
+</body>
+</html>

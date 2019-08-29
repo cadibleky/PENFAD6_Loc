@@ -1,0 +1,180 @@
+﻿
+@{
+
+    var x = Html.X();
+
+}
+ 
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+               .ID("Report_TBPartial_frm_main_scheme")
+               .Title("FINANCIAL REPORTS-CONSOLIDATED")
+               .Closable(true)
+               .Layout(LayoutType.Border)
+               .Frame(true)
+               .AutoScroll(true)
+               .FieldDefaults(fd =>
+               {
+                   fd.LabelAlign = LabelAlign.Top;
+                   fd.MsgTarget = MessageTarget.Side;
+               })
+               .MarginSpec("10 0 0 10")
+               .Items(Html.X().FormPanel()
+                            .ID("Report_TBPartial_frm_left_Panel_scheme")
+                            .Title("Select Scheme and Year")
+                            .Region(Region.West)
+                            .Split(true)
+                            .Collapsible(true)
+                            .AutoScroll(true)
+                            .Width(410)
+                            .MinWidth(150)
+                            .MaxWidth(410)
+                            .Items(Html.X().FormPanel()
+                                            .ID("Report_TBPartial_frm_txtFields_scheme")
+                                            .Border(true)
+                                            .AutoScroll(true)
+                                            .Width(410)
+                                            .Height(400)
+                                            .Layout(LayoutType.Column)
+                                            .Items(
+                                                      x.Button()
+                                                        .Text("Select Scheme")
+                                                        .Width(250)
+                                                        .Icon(Icon.ApplicationFormAdd)
+                                                        .TabIndex(28)
+                                                        .Handler("App.AccountschemeFund_TB_scheme.show(this);")
+                                                        .MarginSpec("10 10 0 10"),
+
+                                                        x.Hidden().Name("Scheme_Id").ID("AccSFId_TB_scheme"),
+
+                                                        x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(400).MarginSpec("5 10 0 5").ReadOnly(true),
+                                                        //x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(400).MarginSpec("5 100 0 5").ReadOnly(true),
+
+                                                        x.DateField().Name("TB_Date").ID("txt_TB_Date_scheme")
+                                                                    .FieldLabel("Select Date")
+                                                                    .Width(200)
+                                                                    .MarginSpec("0 0 0 5")
+                                                                    .Editable(false)
+                                                                    .AllowBlank(false)
+                                           //x.Button().Text("Preview").Width(130).MarginSpec("30 0 0 10")
+                                           // .DirectEvents(de =>
+                                           // {
+                                           //     de.Click.Url = Url.Action("Load_Employee_Report_IFrame");
+                                           //     de.Click.ExtraParams.Add(new Parameter("containerId", "Report_TBPartial_panel_right_center_content"));
+                                           //     //de.Click.ExtraParams.Add(new StoreParameter("Scheme_Fund_Id", "App.AccSFId_TB.getValue()", ParameterMode.Raw));
+                                           //     //de.Click.ExtraParams.Add(new StoreParameter("TB_Date", "App.datey.getValue()", ParameterMode.Raw));
+                                           // })
+                                           ),// end items
+
+                                                         Html.X().TreePanel()
+                                        .ID("Report_EmployerPartial_frm_left_treepanel_menu_scheme")
+                                        //.Border(true)
+                                        .MarginSpec("5 0 10 10")
+                                        .RootVisible(false)
+                                        .Store(
+                                                Html.X().TreeStore()
+                                                    .Proxy(Html.X().AjaxProxy().Url(Url.Action("GetChildren")))
+                                                 )
+                                        .Root(Html.X().Node().NodeID("employer_rep_0").Text("Root"))
+                                          .Listeners(l => l.ItemClick.Handler = "Ext.net.Mask.show({msg: 'Loading... Please wait.'})")
+                                        .ViewConfig(Html.X().TreeView().LoadMask(false))
+                                         .DirectEvents(de =>
+                                         {
+                                             de.ItemClick.Url = Url.Action("Load_Employer_Report_IFrame");
+                                             de.ItemClick.ExtraParams.Add(new Parameter("containerId", "Report_TBPartial_panel_right_center_content_scheme"));
+
+                                             de.ItemClick.ExtraParams.Add(new StoreParameter("Scheme_Id", "App.AccSFId_TB_scheme.getValue()", ParameterMode.Raw));
+
+                                             de.ItemClick.ExtraParams.Add(new StoreParameter("tree_node_id", "record.get('id')", ParameterMode.Raw));
+                                             // de.ItemClick.ExtraParams.Add(new StoreParameter("TB_Date", "App.txt_TB_Date.getValue()", ParameterMode.Raw));
+                                             de.ItemClick.Timeout = 120000000;
+
+                                         })
+                            ),// end
+
+                ///center region starts
+                Html.X().Panel()
+                            .ID("Report_TBPartial_panel_right_center_content_scheme")
+                            .Region(Region.Center)
+                            .Split(true)
+                            //.AutoScroll(true)
+                            .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Employee_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+                                        ),
+                                x.Window()
+                                .ID("AccountschemeFund_TB_scheme")
+                                .Title("Scheme-Fund List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AccountSFGrid_TB_scheme")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("TBAccountSFStore_scheme")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        //x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String)
+                                            //x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                            //x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Report_TBPartial_frm_main_scheme.getForm().loadRecord(selected[0]); App.AccountschemeFund_TB_scheme.hide(); }")
+                    //.ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(700))
+                   // .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                   //.ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                   //.DirectEvents(de =>
+                   //{
+                   //    de.SelectionChange.Url = (Url.Action("FilterSFGridBank", "GLChart"));
+                   //    de.SelectionChange.Success = "onSuccess(App.AccountSFGrid_TB_scheme, result.data);";
+                   //})
+                   )
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+
+// end main
+)

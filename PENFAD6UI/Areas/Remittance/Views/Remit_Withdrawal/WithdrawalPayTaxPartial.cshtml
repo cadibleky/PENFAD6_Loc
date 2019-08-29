@@ -1,0 +1,418 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_PurchaseRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+                        .ID("frmWithdrawalPayTaxP_Main")
+                        .Title("Pay Tax - Benefit")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1000)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+
+
+                                    x.FieldSet()
+                                    .Height(1200)
+                                    .Width(1600)
+                                    .Frame(true)
+                                    .Layout(LayoutType.Column)
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                     x.FieldSet()
+                                    .MarginSpec("5 0 0 0")
+                                    .Width(800)
+                                    .Height(1100)
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+
+                                    x.Button()
+                                    .Text("View Approved Benefit - Tax")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(280)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadWithdrawalApprove_Tax");
+                                        de.Click.Success = "onSuccess(App.WithdrawalBenefitPayTax_Grid, result.data);";
+                                    }),
+
+                                    x.GridPanel()
+                                    .ID("WithdrawalBenefitPayTax_Grid")
+                                    .Title("List of Approved Benefit Tax")
+                                    .Frame(true)
+                                    // .Width(790)
+                                    .Height(980)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("PayTaxRequestWithStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Withdrawal_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Total_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Unit_Price").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Benefit").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Trans_Request_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Total_Withdrawal").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Tax").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Withdrawal_Reason").Type(ModelFieldType.String)
+                                            )
+                                        )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                              .Url(Url.Action("ReadWithdrawalApprove_Tax"))
+                                              )
+                                            // .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmWithdrawalPayTaxP_Main.getForm().loadRecord(selected[0]);}")
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("EMPLOYEE ACCOUNT ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Employee_Name").Text("EMPLOYEE NAME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND").Width(150))
+                    //.ColumnModel(x.Column().DataIndex("Unit_Price").Text("UNIT PRICE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Tax").Text("TAX AMOUNT").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Trans_Request_Date").Text("REQUEST DATE ").Width(100))
+
+                                                               ),
+
+                                                                  x.FieldSet()
+                                                                    .Height(1100)
+                                                                    .Width(450)
+                                                                   .Layout(LayoutType.Column)
+                                                                    .Title("Benefit Request Details")
+                                                                    .MarginSpec("0 0 0 10")
+                                                                    .Defaults(dd =>
+                                                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                                                      .Items(
+                                                                            x.Hidden().Name("Withdrawal_No"),
+                                                                            x.Hidden().Name("Scheme_Id"),
+                                                                            x.Hidden().Name("Fund_Id"),
+
+                                                                            x.Hidden().Name("Scheme_Fund_Id").ID("wPayTaxSFId")
+                                                                            .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.wPayTax_GLB.clearValue(); App.wPayTax_GLB.getStore().load();"),
+
+
+                                                                             x.TextField()
+                                                                            .Name("ESF_Id")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Employee Account ID")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText("")
+                                                                             .DirectEvents(de =>
+                                                                             {
+                                                                                 de.Change.Url = Url.Action("GetUPriceApprove");
+                                                                             })  ,
+
+                                                                            x.TextField()
+                                                                            .Name("Employee_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Name of Employee")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+
+                                                                            x.TextField()
+                                                                            .Name("Scheme_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Scheme")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+                                                                             x.TextField()
+                                                                            .Name("Fund_Name")
+                                                                            .Width(400)
+                                                                            .FieldLabel("Fund")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                                            .BlankText(""),
+
+                                                                               x.Hidden()
+                                                                               .Name("Employee_Unit_Balance")
+                                                                               .Width(120)
+                                                                               .FieldLabel("Employee Unit")
+                                                                               .ReadOnly(true)
+                                                                               //.AllowBlank(false)
+                                                                               .MarginSpec("3 0 5 10"),
+
+                                                                                x.Hidden()
+                                                                               .Name("Employer_Unit_Balance")
+                                                                               .Width(120)
+                                                                               .FieldLabel("Employer Unit")
+                                                                               .ReadOnly(true)
+                                                                               // .AllowBlank(false)
+                                                                               .MarginSpec("3 0 5 10"),
+
+                                                                                x.Hidden()
+                                                                               .Name("Total_Unit_Balance")
+                                                                               .Width(120)
+                                                                               .FieldLabel("Total Units")
+                                                                               .ReadOnly(true)
+                                                                               //.AllowBlank(false)
+                                                                               .MarginSpec("3 0 5 10"),
+
+                                                                               x.TextField()
+                                                                            .Name("Total_Con_Balance")
+                                                                            .Width(120)
+                                                                            .FieldLabel("Total Con.")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10"),
+
+                                                                            x.TextField().Name("Unit_Price").FieldLabel("Unit Price").MarginSpec("3 0 5 10").ReadOnly(true).Width(120),
+
+
+                                                                             x.TextField()
+                                                                            .Name("Total_Benefit") .Width(120)
+                                                                            .FieldLabel("Total Benefit")
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .MarginSpec("3 0 5 10"),
+
+
+                                                                            x.TextField().Name("Total_Withdrawal_Amount").Width(210).ReadOnly(true).FieldLabel("Withdrawal (Amount)").MarginSpec("3 0 10 10"),
+
+                                                                            x.TextField()
+                                                                            .Name("Tax")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .FieldLabel("Tax")
+                                                                            .MarginSpec("3 0 10 10")
+                                                                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                                                                            x.TextField().Name("Total_Withdrawal_Unit").Width(210).ReadOnly(true).FieldLabel("Total Withdrawal  .(Unit)").MarginSpec("3 0 10 10"),
+
+                                                                            x.DateField()
+                                                                            .Name("Trans_Request_Date")
+                                                                            .Width(170)
+                                                                            .ReadOnly(true)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Request Date")
+                                                                            .MarginSpec("3 0 10 10"),
+
+
+                                                                              x.TextArea()
+                                                                            .Name("Withdrawal_Reason")
+                                                                            .Width(400)
+                                                                            .AllowBlank(false)
+                                                                            .ReadOnly(true)
+                                                                            .FieldLabel("Reason for withdrawal")
+                                                                            .MarginSpec("3 0 10 10"),
+
+                                                                                x.ComboBox().Name("Payment_Mode")
+                                                                                .FieldLabel("Payment Mode")
+                                                                                .ID("Benefit_P_ModeTax")
+                                                                                .MarginSpec("3 0 10 10").TabIndex(5).Width(170)
+                                                                                .Editable(false)
+                                                                                .AllowBlank(false)
+                                                                                .EmptyText("Select Payment Mode")
+                                                                                .QueryMode(DataLoadMode.Local)
+                                                                                .TriggerAction(TriggerAction.All)
+                                                                                .EmptyText("Select Payment Mode")
+                                                                                .BlankText("'Receipt Type' is required.").Items("TRANSFER","CASH", "CHEQUE"),
+
+                                                                                //.Listeners(l => l.Select.Handler = "if (App.Benefit_P_ModeTax.getValue() == 'CHEQUE') {App.Benefit_Instrument_NumberTax.enable();App.Instrument_NumberTax.clear()} else {App.Benefit_Instrument_NumberTax.disable();}"),
+
+                                                                                x.TextField()
+                                                                                .Name("Instrument_No")
+                                                                                .ID("Benefit_Instrument_NumberTax")
+                                                                                .Width(170)
+                                                                                .FieldLabel("Instrument Number")
+                                                                                .MarginSpec("3 0 10 10")
+                                                                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                                                                                  x.DateField()
+                                                                            .Name("Pay_Date_Benefit")
+                                                                            .Width(350)
+                                                                            .AllowBlank(false)
+                                                                            .EmptyText("")
+                                                                            .FieldLabel("Payment Date")
+                                                                            .MarginSpec("3 0 10 10"),
+
+
+                                                                    x.ComboBox().Name("GL_Account_No").ID("wPayTax_GLB")
+                                                                    .FieldLabel("GL Bank Account")
+                                                                    .Width(350)
+                                                                    .Editable(false)
+                                                                    .TypeAhead(true)
+                                                                    .QueryMode(DataLoadMode.Local)
+                                                                    .ForceSelection(true)
+                                                                    .TriggerAction(TriggerAction.All)
+                                                                    .DisplayField("name")
+                                                                    .ValueField("id")
+                                                                    .BlankText("GL Bank Account is required.")
+                                                                    .EmptyText("No GL Bank Account Available...")
+                                                                    .ValueNotFoundText("No GL Bank Account Available...").MarginSpec("15 0 0 10")
+                                                                      .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.wPayTax_GLBalance.clearValue(); App.wPayTax_GLBalance.getStore().load();")
+
+                                                                    .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("TAXdId")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "TAXdId" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "dName" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetGLAB2"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Scheme_Fund_Id", "App.wPayTaxSFId.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.wPayTax_GLB; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField)); App.wPayTax_GLBalance.clearValue(); App.wPayTax_GLBalance.getStore().load();"
+
+                                                                        )
+
+                                                                   )
+                                                            ,
+
+                                            x.ComboBox().Name("GL_Balance").ID("wPayTax_GLBalance")
+                                                .FieldLabel("GL Bank Account Balance")
+                                                .Width(350)
+                                                .Editable(false)
+                                                .ReadOnly(true)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("id")
+                                                .ValueField("name")
+                                                .BlankText("Select GL Bank Account.")
+                                                .ValueNotFoundText("No GL Bank Account...").MarginSpec("0 70 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("TAXmId")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "TAXmId" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "mName" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetGLacc"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("GL_Account_No", "App.wPayTax_GLB.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.wPayTax_GLBalance; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               )
+                                            ,
+
+
+                                                                                x.Button()
+                                                                                .Text("Pay Benefit Tax")
+                                                                                .Width(200)
+                                                                                .Icon(Icon.Add)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Confirmation.ConfirmRequest = true;
+                                                                                    de.Click.Confirmation.Title = "Process";
+                                                                                    de.Click.Confirmation.Message = "Pay Benefit Tax?";
+                                                                                    de.Click.Url = Url.Action("PayTaxRecord");
+
+                                                                                }).MarginSpec("20 10 0 10"),
+
+                                                                                x.Button()
+                                                                                .Text("Cancel")
+                                                                                .Width(100)
+                                                                                .Icon(Icon.ArrowRefresh)
+                                                                                .OnClientClick("this.up('form').getForm().reset();")
+                                                                                .MarginSpec("20 10 0 10")
+
+
+                                                               )
+                     )
+            )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+

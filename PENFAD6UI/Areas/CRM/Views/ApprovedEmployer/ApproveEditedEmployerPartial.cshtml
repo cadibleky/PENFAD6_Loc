@@ -1,0 +1,207 @@
+﻿@using PENFAD6DAL.Repository.Security
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<crm_EmployerRepo>
+
+@{
+      var district = new crm_EmployerRepo();
+    var regions = new setup_RegionRepo();
+    var sectors = new setup_SectorRepo();
+    var x = Html.X();
+}
+
+
+@(x.FormPanel()
+      .ID("approveeditedemployer_employer")
+      .ColumnWidth(0.4)
+      .Title("Approved employer")
+      .Frame(true)
+      .Closable(true)
+      .Layout(LayoutType.Column)
+      .MarginSpec("0 0 0 0")
+      .Width(1000)
+      .Height(760)
+      .AutoScroll(true)
+      .FieldDefaults(fd =>
+      {
+          fd.LabelAlign = LabelAlign.Top;
+          fd.MsgTarget = MessageTarget.Side;
+      })
+      .Items(
+          x.GridPanel()
+              .ID("approveeditedemployer_employerGrid")
+              .Title("View Pending Employer List")
+              .Frame(true)
+              .Width(600)
+              .MarginSpec("10 0 0 10")
+              .Height(760)
+              .Store(
+                  x.Store()
+                      .AutoLoad(true)
+                      .ID("appeditedemployerStore")
+                      .DataSource(Model)
+                      .Model(
+                          x.Model()
+                              .Fields(
+                                    x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Business_Address").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Employer_Postal_Address").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Phone_Number").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Employer_Email_Address").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Web_Site").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Registration_Number").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Registration_Date").Type(ModelFieldType.Date),
+                                  x.ModelField().Name("Contact_Person").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Contact_Number").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Contact_Email").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Employer_Other_Number").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Region_Id").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Region_Name").Type(ModelFieldType.String),
+                                  x.ModelField().Name("District_Id").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Region_Name").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Office_Location").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Ssnit").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Npra_Number").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Tin_No").Type(ModelFieldType.String),
+                                  x.ModelField().Name("Sector_Id").Type(ModelFieldType.String)
+                              )
+                      )
+                      .ServerProxy(
+                          Html.X().AjaxProxy()
+                              .Url(Url.Action("ReadEdited"))
+                      )
+              // .PageSize(10)
+              )
+              .Refresh()
+              .BottomBar(
+                  Html.X().PagingToolbar()
+              )
+              .Plugins(
+                  x.FilterHeader()
+              )
+              .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+              .ColumnModel(x.Column().DataIndex("Employer_Name").Text("Employer Name").Width(300))
+              .ColumnModel(x.Column().DataIndex("Business_Address").Text("Business Address").Width(300))
+              .ColumnModel(x.Column().DataIndex("Contact_Person").Text("Contact Person").Width(300))
+              .ColumnModel(x.Column().DataIndex("Contact_Email").Text("Contact Email").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Phone_Number").Text("Phone Number").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Email_Address").Text("Email Address").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Web_Site").Text("Web Site").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Registration_Number").Text("Registration Number").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Registration_Date").Text("Registration Date").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Contact_Number").Text("Contact Number").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Other_Number").Text("Other Number").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Office_Location").Text("Office Location").Width(300))
+              ////.ColumnModel(x.Column().DataIndex("Sector_Name").Text("Sector Name").Width(300))
+              ////.ColumnModel(x.Column().DataIndex("Region_Name").Text("Region_Name").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Region_Id").Text("Region Id").Width(300))
+              //.ColumnModel(x.Column().DataIndex("Sector_Id").Text("Sector Id").Width(300))
+              .ColumnModel(x.Column().DataIndex("Employer_Id").Width(100)),
+
+                x.FieldSet()
+              .Width(700).Layout(LayoutType.Column)
+              .Collapsible(true)
+              .Height(810)
+              .Title("Approved Edited Employer")
+              .Layout(LayoutType.Column)
+              .MarginSpec("0 5 0 20")
+              .Defaults(dd => { dd.Add(new Parameter("LabelWidth", "115")); })
+              .Items(
+                 x.Hidden().Name("Employer_Id"),
+
+                  x.TextField().Name("Employer_Name").FieldLabel("Employer Name").MarginSpec("0 30 10 10").Width(250).TabIndex(1).ReadOnly(true)
+                      .AllowBlank(false)
+                      .BlankText("Employer Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Business_Address").FieldLabel("Business Address").MarginSpec("0 30 10 10").Width(250).TabIndex(2).ReadOnly(true)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Employer_Postal_Address").FieldLabel("Postal_Address").MarginSpec("0 30 10 10").Width(250).TabIndex(3).ReadOnly(true)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Phone_Number").FieldLabel("Phone Number").MarginSpec("0 30 10 10").Width(250).TabIndex(4).ReadOnly(true),
+                  x.TextField().Name("Employer_Email_Address").FieldLabel("Email Address")
+                      .InputType(Ext.Net.InputType.Email).MarginSpec("0 30 10 10").Width(250).TabIndex(5).ReadOnly(true),
+                  x.TextField().Name("Web_Site").FieldLabel("Web_Site")
+                      .InputType(Ext.Net.InputType.Email).MarginSpec("0 30 10 10").Width(250).TabIndex(6).ReadOnly(true),
+                  x.TextField().Name("Registration_Number").FieldLabel("Registration Number").MarginSpec("0 30 10 10").Width(250).TabIndex(7).ReadOnly(true),
+                  x.DateField().Name("Registration_Date").FieldLabel("Registration Date").MarginSpec("0 30 10 10").Width(250).TabIndex(8).ReadOnly(true),
+                  x.TextField().Name("Contact_Person").FieldLabel("Contact Person").MarginSpec("0 30 10 10").Width(250).TabIndex(9).ReadOnly(true)
+                      .AllowBlank(false)
+                      .BlankText("Contact Person Name is required.").MarginSpec("0 30 10 10").Width(250).TabIndex(10).ReadOnly(true)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Contact_Number").FieldLabel("Contact_Number").MarginSpec("0 30 10 10").Width(250).TabIndex(11).ReadOnly(true)
+                      .AllowBlank(false)
+                      .BlankText("Contact Number is required."),
+                   x.TextField().Name("Contact_Email").FieldLabel("Contact_Email").MarginSpec("0 30 10 10").Width(250).TabIndex(11).ReadOnly(true)
+                      .AllowBlank(false)
+                      .BlankText("Contact Number is required."),
+                  x.TextField().Name("Employer_Other_Number").FieldLabel("Other Number").MarginSpec("0 30 10 10").Width(250).TabIndex(12).ReadOnly(true),
+                  x.ComboBox().Name("Region_Id").FieldLabel("Region").MarginSpec("0 30 10 10").Width(250).TabIndex(13).ReadOnly(true)
+                      .Items(regions.GetRegionList().Select(d => new ListItem(d.Region_Name, d.Region_ID)))
+                      .AllowBlank(false)
+                      .BlankText("Region Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Office_Location").FieldLabel("Office Location").MarginSpec("0 30 10 10").Width(250).TabIndex(14).ReadOnly(true)
+                      .AllowBlank(false)
+                      .BlankText("Office Location Number is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.ComboBox().Name("Sector_Id").FieldLabel("Sector Name").MarginSpec("0 30 10 10").Width(250).TabIndex(15).Items(sectors.GetSectorList().Select(d => new ListItem(d.Sector_Name, d.Sector_Id))).ReadOnly(true)
+                      .AllowBlank(false)
+                      .BlankText("Sector  Name is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.ComboBox().Name("District_Id").FieldLabel("District Name").MarginSpec("0 30 10 10").Width(250).TabIndex(15).Items(district.GetDistrictList().Select(d => new ListItem(d.District_Name, d.District_Id))).ReadOnly(true)
+                      .AllowBlank(false)
+                      .FieldStyle("text-transform:UPPERCASE"),
+                   x.TextField().Name("Tin_No").FieldLabel("T.I.N").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .ReadOnly(true)
+                      .BlankText("T.I.N is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Ssnit").FieldLabel("SSNIT").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .ReadOnly(true)
+                      .BlankText("SSNIT is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+                  x.TextField().Name("Npra_Number").FieldLabel("NPRA Number").MarginSpec("0 30 10 10").Width(250).TabIndex(1)
+                      .ReadOnly(true)
+                      .BlankText("NPRA Numbber is required.")
+                      .FieldStyle("text-transform:UPPERCASE"),
+
+                  x.FieldSet()
+                  .Height(50)
+                  .Width(540)
+                  .MarginSpec("0 30 10 10")
+                  .Items(
+                  x.Button()
+                      .Text("Approved")
+                      .Width(150)
+                      .Icon(Icon.Accept)
+                      .DirectEvents(de =>
+                      {
+                          de.Click.Timeout = 12000000;
+                          de.Click.Confirmation.ConfirmRequest = true;
+                          de.Click.Confirmation.Title = "Approve Record";
+                          de.Click.Confirmation.Message = "Approved Employer?";
+                          de.Click.Url = Url.Action("ApprovedEditedRecord");
+                      }).MarginSpec("10 10 0 0"),
+                  x.Button()
+                      .Text("Disapproved")
+                      .Width(150)
+                      .Icon(Icon.TableDelete)
+                      .DirectEvents(de =>
+                      {
+                          de.Click.Timeout = 12000000;
+                          de.Click.Confirmation.ConfirmRequest = true;
+                          de.Click.Confirmation.Title = "Disapproved Record";
+                          de.Click.Confirmation.Message = "Disapproved Employer?";
+                          de.Click.Url = Url.Action("DisapprovedEditedRecord");
+                      }).MarginSpec("10 10 0 0"),
+                  x.Button()
+                      .Text("Clear")
+                      .Width(150)
+                      .Icon(Icon.Cancel)
+                      .OnClientClick("this.up('form').getForm().reset();")
+                      .MarginSpec("10 10 0 0")
+              )
+      )
+
+      )
+      )

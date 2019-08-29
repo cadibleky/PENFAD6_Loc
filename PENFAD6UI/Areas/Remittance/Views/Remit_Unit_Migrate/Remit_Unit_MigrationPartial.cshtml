@@ -1,0 +1,240 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@{
+    var schemes = new pfm_SchemeRepo();
+  
+    var x = Html.X();
+     int yyyy = Convert.ToInt32(DateTime.Now.Year.ToString());
+    List<SelectListItem> YearList = new List<SelectListItem>();
+    for (int i = yyyy - 10; i <= yyyy + 10; i++)
+    {
+        YearList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+
+}
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };   
+</script>
+
+   @(Html.X().FormPanel()
+        .ID("Remit_Unit_MigrationFormPanel")
+        .Title("Remittance Migration - Units")
+        .Closable(true)
+        .Header(true)
+        .Layout(LayoutType.Column)
+        .Width(1200)
+        .AutoScroll(true)
+        .Height(800)
+        .Items(
+                x.Panel()
+                .ID("panel1_panel_remittancebatch_upload_unit")
+                .Title("Remittance Migration Upload")
+                .Border(true)
+                .Border(true)
+                .Width(1000)
+                .Height(630)
+                .Items(Html.X().FieldSet().Layout(LayoutType.Column)
+                            .MarginSpec("0 10 0 10")
+                            .Title("Employer Details")
+                            .FieldDefaults(fd =>
+                            {
+                                fd.LabelAlign = LabelAlign.Top;
+                                fd.MsgTarget = MessageTarget.Side;
+                                //fd.LabelWidth = 150;
+                                fd.PreventMark = true;
+                            })
+                            .Items(
+                                        x.Hidden().ID("Remit_Unit_Migration_txt_ES_Id").Name("ES_Id"),
+
+                                          x.TextField().ID("Remit_Unit_Migration_Employer_Id").Name("Employer_Id").FieldLabel("Employer ID").ReadOnly(true)
+                                                    .FieldStyle("text-transform: uppercase").MarginSpec("0 30 0 10").Width(300).TabIndex(2)
+                                                    .StyleSpec("color:#333; font-size: 20px; font-weight: bold"),
+
+                                        x.TextField().Name("Employer_Name").ID("Remit_Unit_Migration_Name").FieldLabel("Employer Name").ReadOnly(true)
+                                                      .FieldStyle("text-transform: uppercase").MarginSpec("0 30 0 10").Width(400).TabIndex(1)
+                                                      .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                       .BlankText("Employer name is required."),
+
+                                        x.Button()
+                                          .Text("Select Employer")
+                                                     .Width(140)
+                                                     .TabIndex(60)
+                                                     .Icon(Icon.Add)
+                                                     .MarginSpec("30 10 0 10")
+                                                     .Handler("App.Remit_Unit_Migration_win_Employer_scheme.show(this)"),
+
+                                       x.TextField().Name("Scheme_Id").ID("Remit_Unit_Migration_Scheme_Id").FieldLabel("Scheme ID").MarginSpec("0 30 0 10").Width(300).TabIndex(3)
+                                                        .ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                        .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                         .BlankText("Scheme name is required."),
+
+                                       x.TextField().Name("Scheme_Name").ID("Remit_Unit_Migration_Scheme_Name").Width(540).TabIndex(4)
+                                                       .ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                       .FieldLabel("Scheme Name").MarginSpec("0 30 0 10")
+                                                       .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                       .BlankText("Scheme Name is required."),
+                                        x.ComboBox().Name("For_Month").ID("Remit_Unit_Migration_month").FieldLabel("For Month")
+                                                   .MarginSpec("0 0 0 10").Width(200).TabIndex(5).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                   //.Listeners(ls => ls.Select.Handler = "App.ContributionRemitPartial_txtremittancemonth.clearValue(); App.ComboBoxMonth.getStore().load()")
+                                                    .Items(
+                                                            new ListItem("JANUARY", "1"),
+                                                            new ListItem("FEBRUARY", "2"),
+                                                            new ListItem("MARCH", "3"),
+                                                            new ListItem("APRIL", "4"),
+                                                            new ListItem("MAY", "5"),
+                                                            new ListItem("JUNE", "6"),
+                                                            new ListItem("JULY", "7"),
+                                                            new ListItem("AUGUST", "8"),
+                                                            new ListItem("SEPTEMBER", "9"),
+                                                            new ListItem("OCTOBER", "10"),
+                                                        new ListItem("NOVEMBER", "11"),
+                                                        new ListItem("DECEMBER", "12")
+                                                        )
+                                                  .Editable(false)
+                                                  .AllowBlank(false)
+                                                  .BlankText("Month is required.")
+                                                  .FieldStyle("text-transform:UPPERCASE"),
+                               x.ComboBox().Name("For_Year").ID("Remit_Unit_Migration_year").FieldLabel("For Year")
+                                                 .Editable(false)
+                                                 .   MarginSpec("0 30 0 0").Width(100).TabIndex(6).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                                 .Items(YearList.Select(y => new ListItem(y.Text, y.Value)))
+                                                 .AllowBlank(false).BlankText("Year is required.").FieldStyle("text-transform:UPPERCASE")
+                          
+
+                                    )
+
+                                )
+
+                    .Items(
+                            x.FieldSet()
+                            .Collapsible(true)
+                            .Layout(LayoutType.Column)
+                            .HeightSpec("Auto")
+                            .Title("Remittance File Upload ")
+                            .MarginSpec("0 10 0 10")
+                            .Items(x.FileUploadField()
+                                    .ID("Remit_Unit_Migration_remitfile_upload1")
+                                    .Width(300)
+                                    .Icon(Icon.Attach),
+
+                                    x.Button()
+                                        .Text("Upload")
+                                        .Width(70)
+                                        .DirectEvents(dex =>
+                                        {
+                                            dex.Click.Url = Url.Action("RemitConMigrationUpload");                                         
+                                        })
+                                        .MarginSpec("0 10 20 10"),
+
+                                    x.Button()
+                                        .Text("Clear")
+                                        .Icon(Icon.ArrowRefresh)
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Click.Url = Url.Action("ClearControls");
+                                        })
+                                     )
+                                   )// end fset_fileupload
+
+                     )// panel1_panel_batch_upload
+
+
+            .Items(x.Window()
+                    .ID("Remit_Unit_Migration_win_Employer_scheme")
+                    .Icon(Icon.Application)
+                    .Title("Employer List")
+                    .Width(700)
+                    .Height(600)
+                    .Modal(true)
+                    .AutoRender(false)
+                    .Hidden(true)
+                    .Items(x.GridPanel()
+                                .ID("Remit_Unit_Migration_AddschemeAcct_grid")
+                                .Border(true)
+                                .Height(580)
+                                .WidthSpec("Auto")
+
+                                .MarginSpec("10 0 0 10")
+                                .TopBar(Html.X().Toolbar()
+                                            .Items(Html.X().Button()
+                                                        .Text("View Employers Scheme")
+                                                        .Width(200)
+                                                        .Icon(Icon.ApplicationViewDetail)
+                                                        .DirectEvents(de =>
+                                                        {
+                                                            de.Click.Url = Url.Action("Get_EmployersScheme");
+                                                            de.Click.Success = "onSuccess(App.Remit_Unit_Migration_AddschemeAcct_grid, result.data);";
+                                                        })
+                                                            )//end button
+                                                        )// end topbar
+                                .Store(Html.X().Store()
+                                            .ID("Remit_Unit_Migration_employerscheme_store")
+                                            .AutoLoad(false)
+                                            .Model(Html.X().Model()
+                                                    .Fields(
+                                                           new ModelField("Employer_Name", ModelFieldType.String),
+                                                           new ModelField("Scheme_Name", ModelFieldType.String),
+                                                           new ModelField("Employer_Id", ModelFieldType.String),
+                                                           new ModelField("Scheme_Id", ModelFieldType.String),
+                                                           new ModelField("ES_Id", ModelFieldType.String),
+                                                           new ModelField("DeadLine_Date", ModelFieldType.Date)
+
+                                                            )//end fields
+                                                    )//end model
+                                                    .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                    .ServerProxy(Html.X().AjaxProxy()
+                                                                        .Url(Url.Action("Get_EmployersScheme"))
+                                                                    )// END SERVER PROXY
+                                                    .PageSize(10)
+                                        )//end  store
+
+                                .ColumnModel(
+                                          Html.X().Column().Text("Employer Name").DataIndex("Employer_Name").Width(350),
+                                                Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(250),
+                                                Html.X().Column().Text("Employer Id").DataIndex("Employer_Id").Width(100),
+                                                Html.X().Column().Text("Scheme Id").DataIndex("Scheme_Id").Width(100),
+                                                Html.X().Column().Text("Employer Acct.No.").DataIndex("ES_Id").Width(100),
+                                                Html.X().Column().Text("DeadLine Date").DataIndex("DeadLine_Date").Width(100)
+                                        )//end columnmodel
+                                .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+
+                                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Remit_Unit_MigrationFormPanel.getForm().loadRecord(selected[0]); App.Remit_Unit_Migration_win_Employer_scheme.hide(true);}")
+                                    .DirectEvents(de =>
+                                    {
+                                        //de.SelectionChange.Url = Url.Action("Get_Month_Year_For_Employer_Upload");
+
+                                        de.SelectionChange.ExtraParams.Add(new Parameter()
+                                        {
+                                            Name = "param_employer_scheme_id",
+                                            Value = "App.Remit_Unit_Migration_txt_ES_Id.getValue()",
+                                            Mode = ParameterMode.Raw
+                                        });
+
+                                        de.SelectionChange.ExtraParams.Add(new Parameter()
+                                        {
+                                            Name = "param_scheme_id",
+                                            Value = "App.Remit_Unit_Migration_Scheme_Id.getValue()",
+                                            Mode = ParameterMode.Raw
+                                        });
+                                    })
+                            .Refresh()
+                            .BottomBar(Html.X().PagingToolbar())
+                            .Plugins(x.FilterHeader())
+
+                                 )// end grid panel
+
+                    )// end windows      
+         )
+
+      
+  
+ 

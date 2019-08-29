@@ -1,0 +1,236 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+@model IEnumerable<crm_EmployeeSchemeFundRepo>
+
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var x = Html.X();
+    var employer = new crm_EmployeeRepo();
+}
+
+}
+
+@(x.FormPanel()
+            .ID("frm_EmployeeTransfer")
+            .Title("Transfer Employee")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1300)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+.Items(
+
+
+                        x.FieldSet()
+                        .Width(500)
+                        // .Collapsible(true)
+                        // .AutoScroll(true).Layout(LayoutType.Column)
+                        .Height(800)
+                        .Title("Transfer Employee")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                              x.Button()
+                            .Text("Select Employee")
+                            .Width(200)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.win_employee_transferemployee.show(this);")
+                            .MarginSpec("5 10 10 10"),
+
+                            x.Hidden().Name("ESF_Id"),
+                            x.Hidden().Name("Cust_No"),
+                            x.Hidden().Name("Employer_Id").ID("Employer_Id"),
+
+                            x.TextField()
+                            .Name("Surname")
+                            .Width(400)
+                            .FieldLabel("surname")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected."),
+
+                             x.TextField()
+                            .Name("First_Name")
+                            .Width(400)
+                            .FieldLabel("First Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employee must be selected."),
+
+                              x.TextField()
+                            .Name("Other_Name")
+                            .Width(400)
+                            .FieldLabel("Other Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            ,
+
+                             x.TextField()
+                            .Name("Date_Of_Birth")
+                            .Width(400)
+                            .FieldLabel("Date of Birth")
+                            .ReadOnly(true)
+                             .MarginSpec("3 0 10 10"),
+
+                             x.TextField()
+                            .Name("Employer_Name")
+                            .Width(400)
+                            .FieldLabel("Current Employer Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            ,
+
+                      
+                            x.ComboBox().Name("Employer_Id_New")
+                            .ID("view_cmbEmployerId")
+                            .FieldLabel("Select New Employer")
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All)
+                            .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                            .AllowBlank(false)
+                            .FieldStyle("text-transform: uppercase")
+                            .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id)))
+                            ,
+
+
+                         x.FieldSet()
+                        //.Height(100)
+                        .Width(400)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("50 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+
+                              x.Button()
+                                .Text("Transfer")
+                                .Width(160)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+
+                                    de.Click.Url = Url.Action("EmployeeTransfer");
+
+                                }).MarginSpec("10 10 10 10"),
+                            // .Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Sending Mail... Please wait.'})"),
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(140)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 10")
+
+                             )
+
+                        ),
+
+                                 x.Window()
+                                .ID("win_employee_transferemployee")
+                                .Title("Employee List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+
+
+                                    x.GridPanel()
+                                    .ID("employeetransfer_empGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("employeetransfer_empStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("GetESFEmployeeList"))
+                                            )
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_EmployeeTransfer.getForm().loadRecord(selected[0]); App.win_employee_transferemployee.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Cust_No").Text("EMPLOYEE ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Other_Name").Text("OTHER NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("Scheme ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Email_Address").Text("EMAIL ADDRESS").Width(300)))
+
+
+    )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

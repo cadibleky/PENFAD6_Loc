@@ -1,0 +1,81 @@
+﻿@using PENFAD6DAL.Repository.Setup.PfmSetup,
+@using PENFAD6DAL.Repository.CRM.Employee,
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+
+@model IEnumerable<crm_BeneNextRepo>
+
+@{
+    var SchemeRepo = new pfm_VestingRuleRepo();
+    var RelationRepo = new setup_RelationshipRepo();
+    var FeeRepo = new pfm_FeesRepo();
+    var x = Html.X();
+}
+<script>
+
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+
+</script>
+@(x.FormPanel()
+        .ID("frm_raw")
+        .Title("Upload raw con")
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(600)
+        .AutoScroll(true)
+        .Height(1600)
+        .DockedItems(
+                        x.Toolbar().ID("tlbraw")
+                            .Dock(Dock.Top)
+                            .Border(false)
+                            .Items(
+                                    x.Label()
+                                        .Text("RAW CON UPLOAD")
+                                        .MarginSpec("10 0 0 450")
+                                        .Height(20)
+                                        .StyleSpec("color:#333; font-size: 20px; font-weight: regular")
+                            )
+                        )
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.FieldSet()
+                            .ColumnWidth(0.8)
+                            .Collapsible(true)
+                            .Layout(LayoutType.Column)
+                            .HeightSpec("Auto")
+                            .Title("RAW FILE UPLOAD ")
+                            .MarginSpec("0 0 0 20")
+                            .Defaults(dd =>
+                            {
+                                dd.Add(new Parameter("LabelWidth", "150"));
+                            })
+                        .Items(
+                                x.FileUploadField().ID("Raw_FileUp")
+                                            .EmptyText("Select a file")
+                                            //.ButtonOnly(true)
+                                            .ButtonText("Browse Excel File")
+                                            .MarginSpec("0 10 20 10")
+                                            .Icon(Icon.ImageAdd).Name("BeneNext_FileUp").FieldLabel("").Width(500).TabIndex(41),
+
+                                x.Button()
+                                        .Text("Upload")
+                                        .Width(250)
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Click.Url = Url.Action("RemitConMigrationUpload");
+                                            de.Click.Timeout = 12000000;
+                                        }).MarginSpec("0 10 20 10").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Uploading... Please wait.'})")
+                        )
+    )
+
+)

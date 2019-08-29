@@ -1,0 +1,179 @@
+﻿
+
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@model IEnumerable<pfm_Scheme_FundRepo>
+
+@{
+    var x = Html.X();
+    var pfm_schemerepo = new pfm_SchemeRepo();
+    var pfm_fundrepo = new pfm_FundRepo();
+
+    List<SelectListItem> SchemeFundStatusList = new List<SelectListItem>();
+    SchemeFundStatusList.Add(new SelectListItem
+    {
+        Text = "ACTIVE",
+        Value = "ACTIVE"
+    });
+    SchemeFundStatusList.Add(new SelectListItem
+    {
+        Text = "INACTIVE",
+        Value = "INACTIVE"
+    });
+}
+
+@(x.FormPanel()
+            .ID("SchemeFundPan")
+            .WidthSpec("auto")
+            .Title("Setup scheme Fund")
+            .Frame(true)
+            .AutoScroll(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1000)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+                x.FieldSet()
+                 .Width(1300)
+                .Height(700)
+                 .Layout(LayoutType.Column)
+                .Items(
+
+                    x.GridPanel()
+                            .ID("SchemeFundGrid")
+                            .Title("View Fund List")
+                            .Frame(true)
+                            .Width(800)
+                            .MarginSpec("10 0 0 10")
+                            .Height(600)
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("SchemeFundStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Unit_Price").Type(ModelFieldType.String),
+                                        x.ModelField().Name("NAV").Type(ModelFieldType.String),
+                                        x.ModelField().Name("AUM").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Make_Date").Type(ModelFieldType.Date)
+                                        //x.ModelField().Name("Update_Id").Type(ModelFieldType.String),
+                                        //x.ModelField().Name("Update_Date").Type(ModelFieldType.Date)
+                                        )
+
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+                           // .PageSize(10)
+
+                    )
+                     .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Plugins(
+                        x.FilterHeader()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); App.savebtn.show();}")
+
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(350))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("Scheme Fund ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("Fund").Width(150))
+
+                    .ColumnModel(x.Column().DataIndex("Unit_Price").Text("Unit Price").Width(120))
+                    .ColumnModel(x.Column().DataIndex("NAV").Text("NAV").Width(120))
+                    .ColumnModel(x.Column().DataIndex("AUM").Text("AUM").Width(120)),
+    //.ColumnModel(x.Column().DataIndex("Maker_Id").Text("Added By").Width(150))
+    //.ColumnModel(x.Column().DataIndex("Make_Date").Text("Date Added").Width(190)),
+    //.ColumnModel(x.Column().DataIndex("Update_Id").Text("Updated By").Width(300))
+    //.ColumnModel(x.Column().DataIndex("Update_Date").Text("Last Updated By").Width(300)),
+
+    x.FieldSet()
+        .Width(400)
+        .Collapsible(true)
+        .Region(Region.North)
+        .Height(600)
+        .Title("Add/Edit Fund")
+        .MarginSpec("0 20 0 20")
+        .Defaults(dd =>
+        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+        .Items(
+            x.Hidden().Name("Scheme_Fund_Id"),
+            x.ComboBox().ID("Scheme_Id").Name("Scheme_Id").FieldLabel("Scheme").Items(pfm_schemerepo.GetSchemeList().Select(c => new ListItem(c.Scheme_Name, c.Scheme_Id))).Width(350).Editable(false).MarginSpec("0 20 10 10").ReadOnly(true),
+            x.ComboBox().ID("Fund_Id").Name("Fund_Id").FieldLabel("Fund").Items(pfm_fundrepo.GetFundList().Select(c => new ListItem(c.Fund_Name, c.Fund_Id))).Width(350).Editable(false).MarginSpec("0 20 10 10").ReadOnly(true),
+             x.FieldSet()
+                //.WidthSpec("auto")
+                .ID("fscs")
+                //.Collapsible(true)
+                .WidthSpec("auto")
+                .HeightSpec("auto")
+                .StyleSpec("float:left;")
+                .Title("Update Scheme with NAV")
+                .MarginSpec("0 5 0 5")
+                .Defaults(dd =>
+                { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                .Items(
+                    x.TextField().ID("Unit_Price").Name("Unit_Price").FieldLabel("Unit Price").Width(350).MarginSpec("10 20 10 10").MaskRe("[0-9.]").AllowBlank(false).BlankText("Unit price is required.").AutoFitErrors(true),
+                    x.TextField().ID("NAV").Name("NAV").FieldLabel("Net Asset Value (NAV)").Width(350).MarginSpec("10 20 10 10").MaskRe("[0-9.]").AllowBlank(false).BlankText("Net asset value is required.").AutoFitErrors(true),
+                    x.TextField().ID("AUM").Name("AUM").FieldLabel("Asset Under Management (AUM)").Width(350).MarginSpec("10 20 10 10").MaskRe("[0-9.]").AllowBlank(false).BlankText("Net asset value is required.").AutoFitErrors(true)
+
+                    )
+            //x.ComboBox().ID("Scheme_Fund_Status").Name("Scheme_Fund_Status").FieldLabel("Status").Items(SchemeFundStatusList.Select(c => new ListItem(c.Text, c.Value))).Width(300).Editable(false).MarginSpec("10 30 10 10")
+            //x.TextField().Name("Maker_Id").FieldLabel("Added By").Width(230).ReadOnly(true),
+            //x.TextField().Name("Make_Date").FieldLabel("Date Added").Width(230).ReadOnly(true),
+            //x.DateField().Name("Update_Id").FieldLabel("Updated By").Width(230).ReadOnly(true),
+            //x.TextField().Name("Update_Date").FieldLabel("Date Last Updated").Width(230).ReadOnly(true)
+            )
+        .Items(
+        x.Panel()
+        .WidthSpec("100%")
+        .Height(40)
+        .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+        .Items(
+
+
+    x.Button()
+        .Text("Update")
+        .ID("savebtn")
+        .Hidden(true)
+        .Width(110)
+        .Icon(Icon.Add)
+        .DirectEvents(de =>
+        {
+            de.Click.Url = Url.Action("SaveRecordWithNAV");
+
+        }).MarginSpec("5 10 10 5"),
+
+            x.Button()
+                    .Text("Clear")
+                    .Width(90)
+                    .Icon(Icon.ArrowRefresh)
+                    .OnClientClick("this.up('form').getForm().reset(); App.savebtn.hide();")
+                    .MarginSpec("5 10 10 5")
+                    )
+                    )
+                )
+        )
+
+)
+
+

@@ -1,0 +1,303 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@model IEnumerable<pfm_SchemeFeeRepo>
+
+@{
+    var SchemeRepo = new pfm_VestingRuleRepo();
+    var FeeRepo = new pfm_FeesRepo();
+    var x = Html.X();
+}
+
+<script>
+        var beforeMenu = function (pnl, tab, menu) {
+            menu.items.get(0).setText(tab.title);
+
+            var item = menu.getComponent(5),
+                lastTab = pnl.items.get(pnl.items.getCount() - 1);
+
+            if (tab.id == "customMenuTab") {
+                item.show();
+
+                if (lastTab.isTabMenuVisible()) {
+                    item.setText("Hide Menu for last Tab");
+                    item.handler = function () {
+                        lastTab.hideTabMenu();
+                    };
+                } else {
+                    item.setText("Show Menu for last Tab");
+                    item.handler = function () {
+                        lastTab.showTabMenu();
+                    };
+                }
+            } else {
+                item.hide();
+            }
+        };
+</script>
+
+@(x.TabPanel()
+        .ID("TabPanel3")
+        .Height(1400)
+        .ActiveTabIndex(0)
+        //.Width(400)
+        .Frame(true)
+        .MarginSpec("10 0 0 10")
+        .Items(
+            x.Panel()
+                .TabMenuHidden(true)
+                .Title("View Scheme Fee List")
+                .AutoScroll(true)
+                .BodyPadding(6)
+                .Items(
+                    x.GridPanel()
+                            .ID("schemeFeeGrid")
+                            .Title("View Scheme Fee List")
+                            .Frame(true)
+                            .Width(1400)
+                            .MarginSpec("10 0 0 10")
+                            .Height(600)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("schemeFeeStore")
+                          //  .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fee_Description").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Flat_Or_Rate").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Flat_Or_Rate_Value").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("First_Accrual_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Next_Accrual_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Accrual_Frequency").Type(ModelFieldType.String),
+                                        x.ModelField().Name("First_Apply_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Next_Apply_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Apply_Frequency").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Auth_Status").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fee_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("ReadPending"))
+                                  )
+
+                            .PageSize(15)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.schemeFeeApp.getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fee_Id").Text("SCHEME FEE ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Fee_Description").Text("FEE DESCRIPTION").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Flat_Or_Rate").Text("TYPE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Flat_Or_Rate_Value").Text("VALUE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("First_Accrual_Date").Text("FIRST ACCRUAL DATE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Next_Accrual_Date").Text("NEXT ACCRUAL DATE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Accrual_Frequency").Text("ACCRUAL FREQUENCY").Width(150))
+                    .ColumnModel(x.Column().DataIndex("First_Apply_Date").Text("FIRST APPLY DATE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Next_Apply_Date").Text("NEXT APPLY DATE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Apply_Frequency").Text("APPLY FREQUENCY").Width(150))
+                    ),
+
+            x.Panel()
+                .Title("Approve Scheme Fee")
+                .AutoScroll(true)
+                .Items(
+                    x.FormPanel()
+                            .ID("schemeFeeApp")
+                            .ColumnWidth(0.8)
+                            .Frame(true)
+                            .Layout(LayoutType.Column)
+                            .MarginSpec("20 0 0 20")
+                            .Width(1400)
+                            .Height(1000)
+                            .FieldDefaults(fd =>
+                            {
+                                fd.LabelAlign = LabelAlign.Top;
+                                fd.MsgTarget = MessageTarget.Side;
+                            })
+                            .Items
+                            (
+                                x.FieldSet()
+                                .ID("k2")
+                                .ColumnWidth(0.7)
+                                .Collapsible(true)
+                                .Layout(LayoutType.Column)
+                                .Height(500)
+                                .Width(900)
+                                .Title("Scheme Fee Information ")
+                                .MarginSpec("0 0 0 0")
+                                .Defaults(dd =>
+                                {
+                                    dd.Add(new Parameter("LabelWidth", "150"));
+                                })
+                                .Items(
+                                x.Hidden().Name("Scheme_Fee_Id"),
+
+
+                                x.ComboBox().Name("Scheme_Id")
+                                .FieldLabel("Scheme")
+                                .ReadOnly(true)
+                                .MarginSpec("0 20 8 0").TabIndex(0).Width(400)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .BlankText("Scheme is required.").Items(SchemeRepo.GetSchemeList().Select(d => new ListItem(d.Scheme_Name, d.Scheme_Id))),
+
+                                x.ComboBox().Name("Fee_Id")
+                                .FieldLabel("Fee")
+                                .ReadOnly(true)
+                                .MarginSpec("0 20 8 0").TabIndex(1).Width(400)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .BlankText("Fee is required.").Items(FeeRepo.GetFeesList().Select(d => new ListItem(d.Fee_Description, d.Fee_Id))),
+
+
+                                x.ComboBox().Name("Flat_Or_Rate")
+                                .FieldLabel("Fee Type")
+                                .MarginSpec("0 20 8 0").TabIndex(2).Width(400)
+                                .AllowBlank(false)
+                                .ReadOnly(true)
+                                .Editable(false)
+                                .BlankText("Fee Type is required.").Items("FLAT","RATE"),
+
+                                x.NumberField().Name("Flat_Or_Rate_Value")
+                                .FieldLabel("Annual Value")
+                                .ReadOnly(true)
+                                .MarginSpec("0 20 8 0").TabIndex(3).Width(400)
+                                .AllowBlank(false)
+                                .BlankText("Value is required."),
+
+                                x.DateField().Name("First_Accrual_Date")
+                                .FieldLabel("First Accrual Date")
+                                .MarginSpec("0 20 8 0").TabIndex(4).Width(400)
+                                .AllowBlank(false)
+                                .ReadOnly(true)
+                                .BlankText("First Accrual Date is required."),
+
+                                x.DateField().Name("Next_Accrual_Date")
+                                .FieldLabel("Next Accrual Date")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(400)
+                                .AllowBlank(false)
+                                .ReadOnly(true)
+                                .BlankText("Next Accrual Date is required."),
+
+                                x.DateField().Name("First_Apply_Date")
+                                .FieldLabel("First Apply Date")
+                                .MarginSpec("0 20 8 0").TabIndex(6).Width(400)
+                                .AllowBlank(false)
+                                .ReadOnly(true)
+                                .BlankText("First Apply Date is required."),
+
+                                x.DateField().Name("Next_Apply_Date")
+                                .FieldLabel("Next Apply Date")
+                                .MarginSpec("0 20 8 0").TabIndex(7).Width(400)
+                                .AllowBlank(false)
+                                .ReadOnly(true)
+                                .BlankText("Next Apply Date is required."),
+
+
+                                x.ComboBox().Name("Accrual_Frequency")
+                                .FieldLabel("Accrual Frequency")
+                                .MarginSpec("0 20 8 0").TabIndex(8).Width(400)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .ReadOnly(true)
+                                .BlankText("Accrual Frequency is required.").Items("DAILY","MONTHLY","QUARTERLY"),
+
+
+
+                                x.ComboBox().Name("Apply_Frequency")
+                                .FieldLabel("Apply Frequency")
+                                .MarginSpec("0 20 8 0").TabIndex(9).Width(400)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .ReadOnly(true)
+                                .BlankText("Apply Frequency is required.").Items("DAILY","MONTHLY")
+
+
+                                ),
+                                   x.FieldSet()
+                                    .ColumnWidth(0.7)
+                                    .Height(100)
+                                    .Width(980)
+                                    .MarginSpec("10 10 10 10")
+                                    .Border(true)
+                                    .Defaults(dd =>
+                                    {
+                                        dd.Add(new Parameter("LabelWidth", "150"));
+                                    })
+
+                                .Items(
+                              
+
+                            x.Button()
+                                .Text("Approve")
+                                .Width(120)
+                                .Icon(Icon.Delete)
+                                .TabIndex(10)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Approve Record";
+                                    de.Click.Confirmation.Message = "Approve Scheme Fee?";
+                                    de.Click.Url = Url.Action("ApproveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(120)
+                                .TabIndex(11)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                                )
+
+                        )
+
+                )
+        )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

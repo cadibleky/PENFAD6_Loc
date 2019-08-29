@@ -1,0 +1,155 @@
+﻿
+@using PENFAD6DAL.Repository.Security
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<pfm_FundManagerRepo>
+
+@{
+
+    var x = Html.X();
+
+}
+
+@(x.FormPanel()
+        .ID("fundmanager")
+        .ColumnWidth(0.4)
+        .Title("setup Fund Manager")
+        .Frame(true)
+        .Closable(true)
+        .AutoScroll(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1000)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("fundmanagerGrid")
+                        .Title("View fundmanager List")
+                        .Frame(true)
+                        .Width(800)
+                        .MarginSpec("10 0 0 10")
+                        .Height(770)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("fundmanagerStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Fund_Manager_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Manager").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Contact_Person").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Mobile_Number").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Phone_Number").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Office_Location").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Registration_Number").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Registration_Date").Type(ModelFieldType.Date)
+                                    )
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                                .ColumnModel(x.Column().DataIndex("Fund_Manager_Id").Text("Fund Manager ID").Width(100))
+                                .ColumnModel(x.Column().DataIndex("Fund_Manager").Text("Fund Manager").Width(300))
+                                .ColumnModel(x.Column().DataIndex("Contact_Person").Text("Contact Person").Width(300))
+                                .ColumnModel(x.Column().DataIndex("Mobile_Number").Text("Mobile Number").Width(300))
+                                .ColumnModel(x.Column().DataIndex("Phone_Number").Text("Phone Number").Width(300))
+                                .ColumnModel(x.Column().DataIndex("Office_Location").Text("Office Location").Width(0))
+                                .ColumnModel(x.Column().DataIndex("Postal_Address").Text("Postal Address").Width(0))
+                                .ColumnModel(x.Column().DataIndex("Email_Address").Text("Email Address").Width(0))
+                                .ColumnModel(x.Column().DataIndex("Registration_Number").Text("Registration Number").Width(100))
+                                .ColumnModel(x.Column().DataIndex("Registration_Date").Text("Registration Date").Width(100)),
+                                
+
+                x.FieldSet()
+                    .Width(400)
+                    .Collapsible(true)
+                    .Height(770)
+                    .Title("Add/Edit Fund Manager")
+                    .MarginSpec("0 5 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+              x.Hidden().Name("Fund_Manager_Id"),
+              x.TextField().Name("Fund_Manager").FieldLabel("Fund Manager Name").Width(290)
+                           .AllowBlank(false)
+                           .BlankText("Fund Manager Name is required.")
+                           .FieldStyle("text-transform:UPPERCASE"),
+             x.TextField().Name("Contact_Person").FieldLabel("Contact Person").Width(290)
+             .FieldStyle("text-transform:UPPERCASE"),
+             x.TextField().Name("Mobile_Number").FieldLabel("Mobile Number").Width(290),
+             x.TextField().Name("Phone_Number").FieldLabel("Phone Number").Width(290),
+             x.TextField().Name("Office_Location").FieldLabel("Office Location").Width(290)
+                          .FieldStyle("text-transform:UPPERCASE"),
+             x.TextField().Name("Postal_Address").FieldLabel("Postal_Address").Width(290)
+                          .FieldStyle("text-transform:UPPERCASE"),
+             x.TextField().Name("Email_Address").FieldLabel("Email Address").InputType(Ext.Net.InputType.Email).Width(290)
+               .FieldStyle("text-transform:LOWERCASE"),
+             x.DateField().Name("Registration_Date").FieldLabel("Registration Date").Width(290),
+              x.TextField().Name("Registration_Number").FieldLabel("Registration Number").Width(290)
+                        )
+                    .Items(
+                        x.Button()
+                            .Text("Save")
+                            .Width(100)
+                             .Icon(Icon.ApplicationAdd)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.Message = "Save Fund Manager?";
+
+                            }).MarginSpec("10 10 0 0"),
+
+
+                        x.Button()
+                            .Text("Delete")
+                            .Width(110)
+                             .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Delete Fund Manager?";
+                            }).MarginSpec("10 10 0 0"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                 .Icon(Icon.Cancel)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 0 0")
+
+                        )
+                 )
+
+
+)
+
+
+
+
+
+
+

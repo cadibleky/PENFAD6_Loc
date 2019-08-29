@@ -1,0 +1,147 @@
+﻿
+
+
+
+@using PENFAD6DAL.Repository.Security
+
+@model IEnumerable<sec_UserRepo>
+
+@{
+    var X = Html.X();
+    var repo_user = new sec_UserRepo();
+    var repo_group = new sec_UserGroupRepo();
+    var repo_role = new sec_UserRoleRepo();
+}
+<script>
+        var onComboBoxSelect = function (combo) {
+            var store = combo.up("gridpanel").getStore();
+            store.pageSize = parse(combo.getValue(), 10);
+            store.reload();
+        };
+</script>
+
+
+@(Html.X().FormPanel()
+            .ID("frmuserapprove")
+            .Title("User Account Approval")
+            .Header(false)
+            .Border(true)
+            .Closable(true)
+            .Frame(true)
+            .Height(500)
+            .MarginSpec("0 0 0 10 ")
+            .Layout(LayoutType.Column)
+            .Width(270)
+            //.WidthSpec("auto")
+            .BodyPadding(5)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+            .Items(Html.X().GridPanel()
+                    .Title("Approve User Account")
+                    .ColumnWidth(0.6)
+                    .Height(500)
+                    .Frame(true)
+                    .Border(true)
+                    .Store(Html.X().Store()
+                                .ID("userapprovestore")
+                                .DataSource(Model)
+                                .PageSize(10)
+                                .Model(Html.X().Model()
+                                        .Fields(f =>
+                                        {
+                                            f.Add(Html.X().ModelField().Name("Employee_Name"));
+                                            f.Add(Html.X().ModelField().Name("User_Id"));
+                                            f.Add(Html.X().ModelField().Name("User_Group_Id"));
+                                            f.Add(Html.X().ModelField().Name("User_Group_Name"));
+                                            f.Add(Html.X().ModelField().Name("Email"));
+                                            f.Add(Html.X().ModelField().Name("Password"));
+                                        })
+                                        )// end model
+                                .ServerProxy(
+                                              Html.X().AjaxProxy()
+                                                        .Url(Url.Action("ReadPending"))
+                                            )//end serverproxy
+                            )// end store
+                     .ColumnModel(
+                                    Html.X().Column().Text("Staff Name").DataIndex("Employee_Name").Width(400),
+                                    Html.X().Column().Text("USER ID").DataIndex("User_Id").Width(200),
+                                    Html.X().Column().Text("USER GROUP").DataIndex("User_Group_Name").Width(300),
+                                    Html.X().Column().Text("USER GROUP").DataIndex("Password").Width(300)
+
+                               )// end coloumnmodel
+                     .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                     .SelectionModel(Html.X().RowSelectionModel().Mode(SelectionMode.Single))
+                     .View(Html.X().GridView().StripeRows(true))
+                     .Plugins(Html.X().FilterHeader())
+                     .Refresh()
+                     .BottomBar(
+                                Html.X().PagingToolbar()
+                                    .Items(
+                                            Html.X().Label("Page Size:"),
+                                            Html.X().ComboBox()
+                                                    .Width(80)
+                                                    .Items("5", "10", "15", "20")
+                                                    .SelectedItems("10")
+                                                    .Listeners(l => { l.Select.Fn = "onComboBoxSelect"; })
+                                            )
+                                       .Plugins(Html.X().ProgressBarPager())
+                                ),//end bottombar
+
+                     Html.X().FieldSet()
+                            .ColumnWidth(0.3)
+                            .Title("Create New User Account")
+                            .MarginSpec("0 0 0 10")
+                            .Height(500)
+                            .Defaults(d =>
+                            {
+                                d.Add(new Parameter("LabelWidth", "115"));
+                            })// end defaults
+                           .Items(
+                                    Html.X().Hidden().Name("Password"),
+                                     Html.X().Hidden().Name("Employee_Id"),
+                                     Html.X().Hidden().Name("Email"),
+                                     Html.X().Hidden().Name("MobileNo"),
+                                     Html.X().Hidden().Name("PhoneNo"),
+                                     Html.X().Hidden().Name("User_Group_Id"),
+                                    Html.X().TextField().Name("Employee_Name").FieldLabel("Staff Name").Width(350).AllowBlank(false).BlankText("Staff name is required.").FieldStyle("text-transform:uppercase").Editable(false),
+                                    Html.X().TextField().Name("User_Id").FieldLabel("Enter User ID").Width(350).AllowBlank(false).BlankText("Enter user id").FieldStyle("text-transform:lowercase"),
+
+                                   Html.X().TextField()
+                                                .FieldLabel("User Group")
+                                                .Name("User_Group_Name")
+                                                .ReadOnly(true)
+                                                .Width(350)
+                                  // .ValueNotFoundText("Loading...")
+
+                                  )// end field items
+                            .Items(Html.X().Button()
+                                       .Text("Approve User Account")
+                                       .Width(220)
+                                       .Icon(Icon.UserAdd)
+                                       .DirectEvents(de =>
+                                       {
+                                           de.Click.Url = Url.Action("ApproveUser");
+                                           de.Click.Timeout = 12000000;
+                                       }).MarginSpec("20 10 0 0").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Approving... Please wait.'})"),
+                                     // end save button
+
+                                     Html.X().Button()
+                                            .Text("Clear")
+                                            .Width(85)
+                                            .Icon(Icon.ArrowRefresh)
+                                            .OnClientClick("this.up('form').getForm().reset();")
+                                            .MarginSpec("20 10 0 0")
+                                      )
+
+
+            ) // end of gridpanel
+
+
+
+
+
+//end form tag
+)

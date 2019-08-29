@@ -1,0 +1,160 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@model IEnumerable<pfm_Scheme_FundRepo>
+
+@{
+    var x = Html.X();
+    var pfm_schemerepo = new pfm_SchemeRepo();
+    var pfm_fundrepo = new pfm_FundRepo();
+
+    List<SelectListItem> SchemeFundStatusList = new List<SelectListItem>();
+    SchemeFundStatusList.Add(new SelectListItem
+    {
+        Text = "ACTIVE",
+        Value = "ACTIVE"
+    });
+    SchemeFundStatusList.Add(new SelectListItem
+    {
+        Text = "INACTIVE",
+        Value = "INACTIVE"
+    });
+}
+
+@(x.FormPanel()
+            .ID("SchemeFundPan")
+            .WidthSpec("auto")
+            .Title("Setup scheme Fund")
+            .Frame(true)
+            .AutoScroll(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(600)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+
+                    x.GridPanel()
+                            .ID("SchemeFundGrid")
+                            .Title("View Fund List")
+                            .Frame(true)
+                            .Width(730)
+                            .MarginSpec("10 0 0 10")
+                            .Height(500)
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("SchemeFundStore")
+                            // .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Unit_Price").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fund_Status").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Make_Date").Type(ModelFieldType.Date)
+                                        //x.ModelField().Name("Update_Id").Type(ModelFieldType.String),
+                                        //x.ModelField().Name("Update_Date").Type(ModelFieldType.Date)
+                                        )
+
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+                            .PageSize(10)
+
+                    )
+                     .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Plugins(
+                        x.FilterHeader()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); App.savebtn.hide();}")
+
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("Fund").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("Scheme Fund ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Unit_Price").Text("Unit Price").Width(120)),
+
+
+    x.FieldSet()
+        .WidthSpec("auto")
+        .Collapsible(true)
+        .Region(Region.North)
+        .Height(510)
+        .Title("Add/Edit Fund")
+        .MarginSpec("0 20 0 20")
+        .Defaults(dd =>
+        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+        .Items(
+            x.Hidden().Name("Scheme_Fund_Id"),
+            x.ComboBox().Name("Scheme_Id").FieldLabel("Scheme").Items(pfm_schemerepo.GetSchemeList().Select(c => new ListItem(c.Scheme_Name, c.Scheme_Id))).Width(350).Editable(false).MarginSpec("0 20 10 10").AllowBlank(false).BlankText("Scheme is required.").AutoFitErrors(true),
+            x.ComboBox().ID("Fund_Id").Name("Fund_Id").FieldLabel("Fund").Items(pfm_fundrepo.GetFundList().Select(c => new ListItem(c.Fund_Name, c.Fund_Id))).Width(350).Editable(false).MarginSpec("0 20 10 10").AllowBlank(false).BlankText("Fund is required.").AutoFitErrors(true),
+            x.TextField().ID("Unit_Price").Name("Unit_Price").FieldLabel("Unit Price").Width(350).MarginSpec("0 20 10 10").MaskRe("[0-9.]").AllowBlank(false).BlankText("Unit price is required.").AutoFitErrors(true)
+
+            )
+        .Items(
+        x.Panel()
+        .WidthSpec("100%")
+        .Height(40)
+        .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+        .Items(
+
+
+    x.Button()
+        .Text("Create")
+        .ToolTip("Create scheme fund")
+        .ID("savebtn")
+        .Width(110)
+        .Icon(Icon.Add)
+        .DirectEvents(de =>
+        {
+            de.Click.Confirmation.ConfirmRequest = true;
+            de.Click.Confirmation.Title = "Create  Record";
+            de.Click.Confirmation.Message = "Create  Scheme Fund ?";
+            de.Click.Url = Url.Action("SaveRecord");
+
+        }).MarginSpec("5 10 10 5"),
+            x.Button()
+                .Text("Delete")
+                .Width(110)
+                .Icon(Icon.Delete)
+                .DirectEvents(de =>
+                {
+                    de.Click.Url = Url.Action("DeleteRecord");
+                    de.Click.Confirmation.ConfirmRequest = true;
+                    de.Click.Confirmation.Title = "Delete Record";
+                    de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                    de.Click.Success = "App.savebtn.show()";
+                }).MarginSpec("5 10 10 5"),
+            x.Button()
+                    .Text("Clear")
+                    .Width(90)
+                    .Icon(Icon.ArrowRefresh)
+                    .OnClientClick("this.up('form').getForm().reset(); App.savebtn.show();")
+                    .MarginSpec("5 10 10 5")
+
+            )
+            )
+                 )
+
+
+)
+
+

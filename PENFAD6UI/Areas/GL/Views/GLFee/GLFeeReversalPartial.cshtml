@@ -1,0 +1,240 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+    var onSuccess = function (grid, data)
+        {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frmGLFeeReversal")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("Reverse Fee Payment")
+        .Width(1800)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(800)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+
+    x.FieldSet().Width(1700)
+    .Layout(LayoutType.Column)
+    .Items(
+
+                                 x.DateField().Name("From_Date").FieldLabel("From").Editable(false).MarginSpec("0 0 0 30").LabelAlign(LabelAlign.Top).SelectedDate(DateTime.Now),
+                                 x.DateField().Name("To_Date").FieldLabel("To").Editable(false).MarginSpec("0 0 0 10").LabelAlign(LabelAlign.Top).SelectedDate(DateTime.Now),
+
+                                 x.Button()
+                                .Text("View Fee Payments")
+                                .Width(300)
+                                .Icon(Icon.ArrowRefresh)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Url = Url.Action("ReadGLReversal");
+                                    de.Click.Success = "onSuccess(App.GLFeeReversal_Grid, result.data);";
+
+                                }).MarginSpec("35 700 0 20"),
+
+
+                                    x.GridPanel()
+                                    .ID("GLFeeReversal_Grid")
+                                    .Frame(true)
+                                    .Width(850)
+                                    .Height(610)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("GLFeeReversal_Store")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                   x.ModelField().Name("TID").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Trans_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Apply_Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Paid_Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Apply_Paid").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Narration").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Manager_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Manager").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadGLReversal"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmGLFeeReversal.getForm().loadRecord(selected[0]);}")
+                     .ColumnModel(x.Column().DataIndex("Scheme").Text("SCHEME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Fund").Text("FUND").Width(120))
+                    .ColumnModel(x.Column().DataIndex("Fee_Description").Text("FEE").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Trans_Date").Text("DATE").Width(120))
+                    .ColumnModel(x.Column().DataIndex("Paid_Amount").Text("AMOUNT").Width(120))
+                    .ColumnModel(x.Column().DataIndex("GL_Account_Name").Text("ACCOUNT NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Narration").Text("NARRATION").Width(300))
+                        .DirectEvents(de =>
+                        {
+                            de.SelectionChange.Url = Url.Action("ReadGLApprove2");
+                            de.SelectionChange.Timeout = 12000000;
+                        }),
+
+
+             x.FieldSet()
+                        .Width(500)
+                        .AutoScroll(true).Layout(LayoutType.Column)
+                        .Height(700)
+                        .Title("Approve Fee Payment")
+                         .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                           x.TextField().Name("TID"),
+                            x.Hidden().Name("Scheme_Fund_Id"),
+                             x.Hidden().Name("Fee_Id"),
+                             //.DirectEvents(de =>
+                             // {
+                             //     de.Change.Url = Url.Action("ReadGLApprove2");
+                             //     de.Change.Timeout = 12000000;
+                             // }),
+                              x.Hidden().Name("Fund_Manager_Id").EmptyValue("NA"),
+                               x.Hidden().Name("GL_Account_No"),
+
+
+                            x.TextField()
+                            .Name("Scheme")
+                            .Width(400)
+                            .FieldLabel("Scheme")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .LabelAlign(LabelAlign.Top),
+
+
+                             x.TextField()
+                            .Name("Fund")
+                            .Width(400)
+                            .FieldLabel("Fund ")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .LabelAlign(LabelAlign.Top),
+
+
+                            x.TextField()
+                            .Name("Fee_Description")
+                            .Width(400)
+                            .FieldLabel("Fee")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .LabelAlign(LabelAlign.Top),
+
+
+                                                 x.DateField()
+                                                .Name("Trans_Date")
+                                                .Width(400)
+                                                .FieldLabel("Transaction Date")
+                                                .ReadOnly(true)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                 x.TextField()
+                                                .Name("Paid_Amount")
+                                                .Width(400)
+                                                .FieldLabel("Amount")
+                                                .ReadOnly(true)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                x.TextField()
+                                                .Name("Fund_Manager").ID("GLFeeRev_FMID")
+                                                .Width(400)
+                                                .FieldLabel("Fund Manager")
+                                                .EmptyText("NA")
+                                                .EmptyValue("NA")
+                                                .ReadOnly(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+
+                                                x.TextField()
+                                                .Name("GL_Account_Name")
+                                                .Width(400)
+                                                .FieldLabel("Bank Account")
+                                                .ReadOnly(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                 x.TextField()
+                                                .Name("Narration")
+                                                .Width(400)
+                                                .FieldLabel("Narration")
+                                                .ReadOnly(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                .LabelAlign(LabelAlign.Top)
+                                                 ),
+
+                                x.Button()
+                                .Text("Reverse Fee Payment")
+                                .Width(270)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Reverse";
+                                    de.Click.Confirmation.Message = "Reverse Fee Payment?";
+                                    de.Click.Url = Url.Action("ReverseRecord");
+                                    de.Click.Timeout = 1200000;
+                                }).MarginSpec("10 10 10 200"),
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(150)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 0")
+                                 )
+                              )
+
+                    )
+

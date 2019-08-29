@@ -1,0 +1,154 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+    var onSuccess = function (grid, data)
+        {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frmMigrateMTB")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("Migrate Money Market/ T-Bill / Bond")
+        .Width(1500)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .BodyPadding(5)
+        // .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+
+
+
+                  x.FieldSet()
+                            .Height(200)
+                            .Width(800)
+                            .FieldDefaults(fd =>
+                            {
+                                fd.LabelAlign = LabelAlign.Top;
+                                fd.MsgTarget = MessageTarget.Side;
+                            })
+
+                            //.Layout(LayoutType.Column)
+                            .Items
+                            (
+                        x.Button()
+                        .Text("Select Scheme-Fund")
+                        .Width(200)
+                        .Icon(Icon.ApplicationFormAdd)
+                        .TabIndex(28)
+                        .Handler("App.win_SF_MTB.show(this);")
+                        .MarginSpec("10 1000 0 0")
+                        ,
+
+                            // x.Hidden().Name("GL_Account_No"),
+                            x.Hidden().Name("Scheme_Fund_Id").ID("AccSFId_MTB"),
+                            x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(700).MarginSpec("5 10 0 5").ReadOnly(true),
+                            x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(400).MarginSpec("5 10 0 5").ReadOnly(true)
+                            ),
+
+                                    x.FileUploadField()
+                                            .ID("file_upload_MigrateMTB")
+                                            .Width(300)
+                                            .ButtonText("Browse")
+                                           .MarginSpec("10 10 10 10")
+                                            ,
+                                    x.Button()
+                                        .Text("Upload")
+                                        .Width(150)
+                                        .DirectEvents(dex =>
+                                        {
+                                            dex.Click.Url = Url.Action("UploadMTB");
+                                            dex.Click.Timeout = 12000000;
+                                        }).MarginSpec("10 10 10 10")
+                                        .Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Uploading... Please wait.'})"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(150)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 10")
+                                 ,
+
+
+                              x.Window()
+                                .ID("win_SF_MTB")
+                                .Title("Scheme-Fund List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AccountSFGrid_MTB")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("MTB_AccountSFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmMigrateMTB.getForm().loadRecord(selected[0]); App.win_SF_MTB.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                                       )
+
+
+
+           )
+
+)

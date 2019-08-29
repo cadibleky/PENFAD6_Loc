@@ -1,0 +1,300 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+    var onSuccess = function (grid, data)
+        {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frmGLJournalApprove")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("Approve Journal Transaction")
+        .Width(1200)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+                     x.FieldSet().Width(1800)
+                    .Layout(LayoutType.Column)
+                    .Items(
+
+                       x.Button()
+                                .Text("View pending Journal")
+                                .Width(300)
+                                .Icon(Icon.ArrowRefresh)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Url = Url.Action("ReadGLApprove");
+                                    de.Click.Success = "onSuccess(App.JournalApprove_Grid, result.data);";
+
+                                }).MarginSpec("20 1000 0 20"),
+
+                                    x.GridPanel()
+                                    .ID("JournalApprove_Grid")
+                                    .Frame(true)
+                                    .Width(800)
+                                    .Height(480)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("JournalApprove_Store")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Debit_Gl_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Debit_Gl_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Debit_Gl_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Credit_Gl_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Credit_Gl_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Credit_Gl_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Narration").Type(ModelFieldType.String),
+                                        x.ModelField().Name("TID").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Trans_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Trans_Type").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadGLApprove"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmGLJournalApprove.getForm().loadRecord(selected[0]);}")
+                    .ColumnModel(x.Column().DataIndex("Scheme").Text("SCHEME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Fund").Text("FUND").Width(120))
+                    .ColumnModel(x.Column().DataIndex("Trans_Date").Text("DATE").Width(120))
+                    .ColumnModel(x.Column().DataIndex("Amount").Text("AMOUNT").Width(120))
+                    .ColumnModel(x.Column().DataIndex("Debit_Gl_Name").Text("DEBIT GL ACCOUNT NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Credit_Gl_Name").Text("CREDIT GL ACCOUNT NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Narration").Text("NARRATION").Width(300)),
+
+
+
+
+
+             x.FieldSet()
+                        .Width(900)
+                        .AutoScroll(true).Layout(LayoutType.Column)
+                        .Height(490)
+                        .Title("Approve Journal Transaction")
+                         .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                                x.FormPanel()
+                                .ID("frmJournalDebit_Approve")
+                                .Title("Debit Account")
+                                .AutoScroll(true)
+                                .MarginSpec("0 20 0 0")
+                                .Height(280)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelAlign = LabelAlign.Top;
+                                    fd.MsgTarget = MessageTarget.Side;
+                                })
+
+                        .Items(
+                             x.Hidden().Name("Scheme_Fund_Id"),
+
+
+                            x.TextField()
+                            .Name("Debit_Gl_No")
+                            .Width(400)
+                            .FieldLabel("GL Account No")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                             x.TextField()
+                            .Name("Debit_Gl_Name")
+                            .Width(400)
+                            .FieldLabel("GL Account Name ")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                            x.TextField()
+                            .Name("Debit_Gl_Balance")
+                            .Width(400)
+                            .FieldLabel("GL Account Balance")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+
+
+
+                             ),
+
+                          x.FormPanel()
+                                .ID("frmJournalCredit_Approve")
+                                .Title("Credit Account")
+                                .AutoScroll(true)
+                                .MarginSpec("0 0 0 0")
+                                .Height(280)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelAlign = LabelAlign.Top;
+                                    fd.MsgTarget = MessageTarget.Side;
+                                })
+
+                        .Items(
+
+                            x.TextField()
+                            .Name("Credit_Gl_No")
+                            .Width(400)
+                            .FieldLabel("GL Account No")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                             x.TextField()
+                            .Name("Credit_Gl_Name")
+                            .Width(400)
+                            .FieldLabel("GL Account Name ")
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                            x.TextField()
+                            .Name("Credit_Gl_Balance")
+                            .Width(400)
+                            .FieldLabel("GL Account Balance")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+
+
+                             ),
+
+                                             x.FieldSet()
+                                            .Width(850)
+                                            .AutoScroll(true).Layout(LayoutType.Column)
+                                            .Height(120)
+                                            .Title("Transaction Details")
+                                            .Defaults(dd =>
+                                            { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                            .Items(
+                                                 x.Hidden().Name("TID"),
+
+                                                 x.TextField()
+                                                .Name("Trans_Type")
+                                                .Width(130)
+                                                .FieldLabel("Transaction Type")
+                                                .ReadOnly(true)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                 x.DateField()
+                                                .Name("Trans_Date")
+                                                .Width(130)
+                                                .FieldLabel("Date")
+                                                .ReadOnly(true)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+                                                x.NumberField()
+                                                .Name("Amount")
+                                                .Width(130)
+                                                .FieldLabel("Amount")
+                                                .ReadOnly(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .LabelAlign(LabelAlign.Top),
+
+
+                                                 x.TextField()
+                                                .Name("Narration")
+                                                .Width(360)
+                                                .FieldLabel("Narration")
+                                                .ReadOnly(true)
+                                                .AllowBlank(false)
+                                                .MarginSpec("3 0 10 10")
+                                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                                .LabelAlign(LabelAlign.Top)
+                                                 ),
+
+                                x.Button()
+                                .Text("Approve Journal Transaction")
+                                .Width(270)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Approve Record";
+                                    de.Click.Confirmation.Message = "Approve Journal Transaction?";
+                                    de.Click.Url = Url.Action("ApproveRecord");
+                                    de.Click.Timeout = 120000000;
+
+                                }).MarginSpec("10 10 10 10"),
+
+                                 x.Button()
+                                .Text("Disapprove Journal Transaction")
+                                .Width(270)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Disapprove Record";
+                                    de.Click.Confirmation.Message = "Disapprove Journal Transaction?";
+                                    de.Click.Url = Url.Action("DisapproveRecord");
+                                    de.Click.Timeout = 120000000;
+                                }).MarginSpec("10 10 10 10"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(150)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 10")
+
+
+                                 )
+
+                            )
+
+           )
+
+   )

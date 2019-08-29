@@ -1,0 +1,197 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_Unit_TransferRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+        .ID("frmUnit_TransferApprovePartial")
+        .Title("Employee Units Transfer Approval")
+        .Frame(true)
+        .Closable(true)
+        .AutoScroll(true)
+        .MarginSpec("0 0 0 0")
+        .Width(1600)
+        .Height(1200)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+        .Items(
+
+                x.FieldSet().Width(1500).Height(900)
+                .Layout(LayoutType.Column)
+
+                        .Items
+                            (
+                               x.FieldSet().Width(720).Height(850).Title(" ")
+                                .Items
+                                (
+                                    x.Button()
+                                    .Text("View Pending Unit Transfers")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("30 0 20 0")
+                                    .Width(260)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadPendingUT");
+                                        de.Click.Success = "onSuccess(App.uta_pendingGrid, result.data);";
+                                    }),
+
+                                   x.GridPanel()
+                                    .ID("uta_pendingGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .Height(710)
+                                    .MarginSpec("0 0 0 0")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("uta_PendingStore")
+                                    //.DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("TID").Type(ModelFieldType.Int),
+                                        x.ModelField().Name("From_ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("To_ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Amt").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Amt").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Units").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Units").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Unit_Price").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Purchase_Type").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Reason_Transfer").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Purchase_Log_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("From_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("To_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("For_Month").Type(ModelFieldType.String),
+                                        x.ModelField().Name("For_Year").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Log_Id").Type(ModelFieldType.String)
+                                    )
+                                    )
+                            .ServerProxy(
+                            x.AjaxProxy()
+                            .Url(Url.Action("ReadPendingUT"))
+
+                                        )
+
+                            .PageSize(10)
+                                    )
+                            .BottomBar(
+                            x.PagingToolbar()
+                                        )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmUnit_TransferApprovePartial.getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("Purchase_Type").Text("PURCHASE TYPE").Width(150))
+                    .ColumnModel(x.Column().DataIndex("From_Name").Text("SOURCE NAME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("To_Name").Text("TO DESTINATION NAME").Width(350))
+                    .ColumnModel(x.Column().DataIndex("For_Month").Text("Month").Width(100))
+                    .ColumnModel(x.Column().DataIndex("For_Year").Text("Year").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Employer_Amt").Text("EMPLOYER CONTRIBUTION").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Employee_Amt").Text("EMPLOYEE CONTRIBUTION").Width(150))
+                           ),
+
+                        x.FieldSet().Width(700).Height(850)
+                        .Layout(LayoutType.Column)
+                        .Title("Unit Transfer Details")
+                                .Items
+                                (
+                                    x.Hidden().Name("TID"), 
+                                    x.Hidden().Name("Purchase_Type"),
+                                    x.Hidden().Name("Purchase_Log_Id"),      
+
+                                    x.FieldSet().Title("Source")
+                                    .Items(
+                                    x.TextField().Name("From_ESF_Id").FieldLabel("Employee Account No").ReadOnly(true).Width(150).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("From_Name").FieldLabel("Employee Name").ReadOnly(true).Width(600).MarginSpec("0 5 5 5")
+                                    ),
+                                    x.FieldSet().Title("Destination")
+                                    .Items(
+                                    x.TextField().Name("To_ESF_Id").FieldLabel("Employee Account No").ReadOnly(true).Width(150).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("To_Name").FieldLabel("Employee Name").ReadOnly(true).Width(600).MarginSpec("0 5 5 5")
+                                    ),
+                                    x.TextField().Name("For_Month").FieldLabel("Month").ReadOnly(true).Width(150).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("For_Year").FieldLabel("Year").ReadOnly(true).Width(150).MarginSpec("0 250 5 5"),
+                                    x.TextField().Name("Employer_Amt").FieldLabel("Employer Contribution").ReadOnly(true).Width(150).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("Employee_Amt").FieldLabel("Employee Contribution").ReadOnly(true).Width(150).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("Employer_Units").FieldLabel("Employer Units").ReadOnly(true).Width(140).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("Employee_Units").FieldLabel("Employee Units").ReadOnly(true).Width(140).MarginSpec("0 5 5 5"),
+                                    x.TextField().Name("Unit_Price").FieldLabel("Unit Price").ReadOnly(true).Width(150).MarginSpec("0 5 5 5"),
+                                    x.TextArea().Name("Reason_Transfer").FieldLabel("Reason for Unit Transfer").ReadOnly(true).Width(610).MarginSpec("0 5 10 5"),
+
+                                     x.Button()
+                                    .Text("Approve")
+                                    .Width(100)
+                                    .Icon(Icon.Add)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Confirmation.ConfirmRequest = true;
+                                        de.Click.Confirmation.Title = "Approve Purchase";
+                                        de.Click.Confirmation.Message = "Approve Purchase?";
+                                        de.Click.Url = Url.Action("ApproveRecord");
+
+                                    }).MarginSpec("10 10 0 10"),
+
+                                    x.Button()
+                                    .Text("Disapprove")
+                                    .Width(120)
+                                    .Icon(Icon.Add)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Confirmation.ConfirmRequest = true;
+                                        de.Click.Confirmation.Title = "Disapprove Purchase";
+                                        de.Click.Confirmation.Message = "Disapprove Purchase?";
+                                        de.Click.Url = Url.Action("DisapproveRecord");
+
+                                    }).MarginSpec("10 10 0 10"),
+
+
+                                    x.Button()
+                                    .Text("Cancel")
+                                    .Width(100)
+                                    .Icon(Icon.ArrowRefresh)
+                                    .OnClientClick("this.up('form').getForm().reset();")
+                                    .MarginSpec("10 10 0 10")
+                                    
+                                    )
+
+                    )
+
+
+
+        )
+
+
+)
+
+
+
+
+
+
+
+
+
+
+

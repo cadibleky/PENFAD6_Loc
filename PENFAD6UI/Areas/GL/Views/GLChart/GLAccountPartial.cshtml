@@ -1,0 +1,188 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frm_gl_Account")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("GL Accounts Setup")
+        .Width(1200)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .BodyPadding(5)
+        // .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+                x.FormPanel().ID("frmleft")
+                .Width(1800)
+                 //.Height(400)
+                 .FieldDefaults(fd =>
+                 {
+                     fd.LabelAlign = LabelAlign.Top;
+                     fd.MsgTarget = MessageTarget.Side;
+                 })
+                    .Items(
+                            x.FieldSet()
+                            .Height(130)
+                            .Width(1200)
+                            .Layout(LayoutType.Column)
+                            .Items
+                            (
+
+                                x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(580).MarginSpec("0 0 0 5"),
+                                x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(350).MarginSpec("0 0 0 5"),
+                                x.Hidden().Name("Scheme_Fund_Id").ID("AccSFId"),
+
+                            x.Button()
+                            .Text("Select Scheme-Fund")
+                            .Width(250)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.AccountschemeFund.show(this);")
+                            .MarginSpec("15 10 0 10")
+                            )
+                            ),
+
+
+
+                                x.Window()
+                                .ID("AccountschemeFund")
+                                .Title("Scheme-Fund List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AccountSFGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("AccountSFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_gl_Account.getForm().loadRecord(selected[0]); App.AccountschemeFund.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                    .DirectEvents(de =>
+                    {
+                        de.SelectionChange.Url = (Url.Action("FilterSFGrid", "GLChart"));
+                        de.SelectionChange.Success = "onSuccess(App.GLFAccountGrid, result.data);";
+                    })
+                   ),
+
+                       x.FieldSet()
+                       .MarginSpec("5 0 0 0")
+                            .Width(1200)
+                            //.Height(300)
+                            .Items
+                            (
+                                  x.GridPanel()
+                                    .ID("GLFAccountGrid")
+                                    .Title("GL Scheme-Fund Accounts")
+                                    .Frame(true)
+                                    .Width(1240)
+                                    .Height(600)
+                                     .MarginSpec("5 0 0 0")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("AccSFStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Balance").Type(ModelFieldType.Float)
+                                          )
+                                    )
+                                    .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("FilterSFGrid", "GLChart"))
+                                                       .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                       .Parameters(ps =>
+                                                       ps.Add(new StoreParameter("Scheme_Fund_Id", "App.AccSFId.getValue()", ParameterMode.Raw))
+
+                                  )
+                                    .PageSize(20)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmAccountRight.getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("GL_Account_No").Text("GL ACCOUNT NO.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Con_Name").Text("GL CONTROL NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Memo_Name").Text("GL MEMO NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("GL_Account_Name").Text("GL ACCOUNT NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("GL_Balance").Text("GL ACCOUNT BALANCE").Width(150))
+
+                    )
+
+           )
+
+)

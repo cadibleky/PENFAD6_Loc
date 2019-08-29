@@ -1,0 +1,259 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+
+
+@{
+    var titleRepo = new setup_TitleRepo();
+    var gender = new setup_GenderRepo();
+    var region = new setup_RegionRepo();
+    var country = new setup_CountryRepo();
+    var identity = new setup_IdentityTypesRepo();
+    var maritalstatus = new setup_MaritalStatusRepo();
+    var employeeType = new setup_EmployeeTypeRepo();
+    var position = new setup_PositionRepo();
+    var RelationRepo = new setup_RelationshipRepo();
+    var branch = new setup_BranchRepo();
+    var employer = new crm_EmployeeRepo();
+
+    var x = Html.X();
+
+}
+ 
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+               .ID("Report_EmployeeCertPartial_frm_main")
+               .Title("Employee Certificate")
+               .Closable(true)
+               .Layout(LayoutType.Border)
+               .Frame(true)
+               .AutoScroll(true)
+               .FieldDefaults(fd =>
+               {
+                   fd.LabelAlign = LabelAlign.Top;
+                   fd.MsgTarget = MessageTarget.Side;
+               })
+               .MarginSpec("10 0 0 10")
+               .Items(Html.X().FormPanel()
+                            .ID("Report_EmployeeCertPartial_frm_left_Panel")
+                            .Title("Employee Certificate")
+                            .Region(Region.West)
+                            .Split(true)
+                            .Collapsible(true)
+                            .Width(350)
+                            .AutoScroll(true)
+                            .MinWidth(150)
+                            .MaxWidth(420)
+                            .Items(Html.X().FormPanel()
+                                            .ID("Report_EmployeeCertPartial_frm_txtFields")
+                                            .Border(true)
+                                            .AutoScroll(true)
+                                            .Width(410)
+                                            .Height(240)
+                                            .Layout(LayoutType.Column)
+                                            .Items(
+                                                    x.Button().ID("Report_EmployeeCertPartial_btn_viewCustomer").Text("Get Employee Account").Width(200).MarginSpec("2 0 0 3")
+                                                    .Handler("App.Report_EmployeeCertPartial_frm_employeePopup.show(this);"),
+                                                    x.TextField().ID("Report_EmployeeCertPartial_txtCustomer_No").Name("ESF_Id").FieldLabel("Employee Account No.").Width(320).ReadOnly(false).MarginSpec("2 2 0 5"),  
+                                                    x.TextField().ID("Report_EmployeeCertPartial_txtCustomer_surname").ReadOnly(true).Name("Surname").FieldLabel("SURNAME").Width(320).MarginSpec("2 2 0 5"),
+                                                    x.TextField().ID("Report_EmployeeCertPartial_txtCustomer_Firstname").Name("First_Name").ReadOnly(true).FieldLabel("FIRST NAME").Width(320).MarginSpec("2 2 0 5")
+                                                   // x.TextField().ID("Report_EmployeePartial_txtCustomer_Othername").Name("Other_Name").FieldLabel("OTHER NAME").Width(350).ReadOnly(false).MarginSpec("2 2 0 5")
+                                                ),// end items
+
+
+                                Html.X().TreePanel()
+                                        .ID("Report_EmployeeCertPartial_frm_left_treepanel_menu")
+                                        //.Border(true)
+                                        .MarginSpec("5 0 10 10")
+                                        .RootVisible(false)
+                                        .Store(
+                                                Html.X().TreeStore()
+                                                    .Proxy(Html.X().AjaxProxy().Url(Url.Action("GetChildren")))
+                                                 )
+                                        .Root(Html.X().Node().NodeID("employee_rep_0").Text("Root"))
+                                        .ViewConfig(Html.X().TreeView().LoadMask(false))
+                                        /////////.Listeners(l => l.Select.Handler = "alert(App.Report_EmployeePartial_frm_left_treepanel_menu.getSelectionModel().getSelectedNode().id);")
+                                        .DirectEvents(de =>
+                                        {
+                                            de.ItemClick.Url = Url.Action("Load_Employee_Report_IFrame");
+                                            de.ItemClick.ExtraParams.Add( new Parameter("containerId", "Report_EmployeeCertPartial_panel_right_center_content"));
+
+                                            de.ItemClick.ExtraParams.Add(new StoreParameter("ESF_Id", "App.Report_EmployeeCertPartial_txtCustomer_No.getValue()", ParameterMode.Raw));
+
+                                            de.ItemClick.ExtraParams.Add(new StoreParameter("tree_node_id", "record.get('id')", ParameterMode.Raw));
+
+                                        })
+                     ),// end
+
+
+                   ///center region starts
+                   Html.X().Panel()
+                            .ID("Report_EmployeeCertPartial_panel_right_center_content")
+                            //.Title("GL Journal Trans. Posting")
+                            .Region(Region.Center)
+                            .Split(true)
+                            //.AutoScroll(true)
+                            .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Employee_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+                                        )
+
+
+    )// end Report_EmployeePartial_frm_left_Panel
+
+
+
+
+    //windows for employees
+    .Items(Html.X().Window()
+        .ID("Report_EmployeeCertPartial_frm_employeePopup")
+        .Title("Income GLs")
+        .Width(1300)
+        .Height(700)
+        .AutoScroll(true)
+        .Hidden(true)
+        .Modal(true)
+        .MarginSpec("10 10 0 10")
+        .AutoRender(false)
+        .Collapsible(true)
+        .Maximizable(true)
+        .Loader(Html.X().ComponentLoader()
+                    .Mode(LoadMode.Frame)
+                    .LoadMask(lm => lm.ShowMask = true)
+                )
+        .Items(x.FieldSet()
+                    .Title("Search")
+                    .Width(400)
+                    .Height(100)
+                    .Items(
+                            x.Panel()
+                                .Layout(LayoutType.HBox)
+                                .Items(
+                                        x.ComboBox().Name("Employer_Id")
+                                                .ID("Report_EmployeeCertPartial_cmbEmployerId")
+                                                .FieldLabel("Employer Name")
+                                                .QueryMode(DataLoadMode.Local)
+                                                .TriggerAction(TriggerAction.All)
+                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                .AllowBlank(false)
+                                                .FieldStyle("text-transform: uppercase")
+                                                .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id)))
+                                                 .Listeners(ls =>
+                                                              ls.Change.Handler = "App.Report_EmployeeCertPartial_cmbSFId.clearValue(); App.Report_EmployeeCertPartial_cmbSFId.getStore().load();")
+                                                ,
+                                                
+                                         x.ComboBox().Name("Scheme_Fund_Id")
+                                                .ID("Report_EmployeeCertPartial_cmbSFId")
+                                                .FieldLabel("Scheme - Fund")
+                                                .Editable(false)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("name")
+                                                .ValueField("id")
+                                                .BlankText("Product is required.")
+                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(450)
+                                                .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("Id")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("FilterESGrid"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Employer_Id", "App.Report_EmployeeCertPartial_cmbEmployerId.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.Report_EmployeeCertPartial_cmbSFId; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField));"
+
+                                                                        )
+
+                                                                   ),
+                                        x.Button()
+                                                .Text("View Employees")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("30 0 20 0")
+                                                .Width(160)
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("FilterEmpolyeeSFGrid");
+                                                    de.Click.Success = "onSuccess(App.Repoert_EmployeeCert_SFGrid, result.data);";
+                                                    de.Click.ExtraParams.Add(new Parameter("Scheme_Fund_Id", "App.Report_EmployeeCertPartial_cmbSFId.getValue()", ParameterMode.Raw));
+                                                    de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.Report_EmployeeCertPartial_cmbEmployerId.getValue()", ParameterMode.Raw));
+
+                                                })
+                                          ),
+                                 
+                                    x.GridPanel()
+                                    .ID("Repoert_EmployeeCert_SFGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("SFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                         x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Title").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("First_Name").Type(ModelFieldType.String)
+
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                            //.Url(Url.Action("ReadSF"))
+                                            .Url(Url.Action("FilterEmpolyeeSFGrid", "Report_EmployeeCertificate"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Scheme_Find_Id", "App.Report_EmployeeCertPartial_cmbSFId.getValue()", ParameterMode.Raw))
+                                                        )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Report_EmployeeCertPartial_frm_txtFields.getForm().loadRecord(selected[0]); App.Report_EmployeeCertPartial_frm_employeePopup.hide(); }")
+                     .ColumnModel(x.Column().DataIndex("Employee_Id").Text("EMPLOYEE ID.").Width(100))
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("EMPLOYEE ACCOUNT NUMBER.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Title").Text("TITLE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(400))
+                                                )
+
+                            )//end tax grid panel
+
+
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+
+
+
+// end main
+)

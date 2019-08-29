@@ -1,0 +1,187 @@
+﻿
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+@model IEnumerable<crm_EmployerSchemeRepo>
+
+@{
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+            .ID("ViewES")
+            //.ColumnWidth(0.4)
+            .Title("Employer Scheme View")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(1300)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+                               x.FieldSet()
+                               //.ColumnWidth(0.7)
+                               .Collapsible(true)
+                               .Height(800)
+                               .Width(1500)
+                               .Frame(true)
+                               .Layout(LayoutType.Column)
+                               .Title("View Employer Scheme")
+                               .MarginSpec("0 0 0 10")
+                               .Defaults(dd =>
+                               { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                             .Items(
+                             x.FieldSet()
+                             //.Width()
+                             .Collapsible(true)
+                             .Height(680)
+                             .AutoScroll(true)
+                             .Title("Employer Scheme List")
+                             .MarginSpec("0 0 0 10")
+                             .Defaults(dd =>
+                             { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                 .Items(
+
+                                 x.GridPanel()
+                                 .ID("ViewesGrid")
+                                 .Title("View Employer Scheme")
+                                 .Frame(true)
+                                 .AutoScroll(true)
+                                 .Width(900)
+                                 .MarginSpec("10 0 0 10")
+                                 .Height(600)
+                                    .Plugins(
+                                  x.FilterHeader())
+                                 .Store(
+                                     x.Store()
+                                         .AutoLoad(true)
+                                         .ID("ViewesStore")
+                                 //.DataSource(Model)
+                                 .Model(
+                                     x.Model()
+                                         .Fields(
+                                             x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+                                             x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                             x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                             x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                             x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                             x.ModelField().Name("ES_Status").Type(ModelFieldType.String)
+                                             )
+                                 )
+                                 .ServerProxy(
+                                        Html.X().AjaxProxy()
+                                        .Url(Url.Action("Read"))
+                                       )
+
+                                 .PageSize(10)
+                         )
+                         .Refresh()
+                         .BottomBar(
+                             Html.X().PagingToolbar()
+                         )
+                          .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                         .ColumnModel(x.Column().DataIndex("ES_Id").Text("ES ID").Width(0))
+                         .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                         .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER ID").Width(0))
+                         .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(300))
+                          .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                         .ColumnModel(x.Column().DataIndex("ES_Status").Text("STATUS").Width(100))
+
+                         ),
+
+                         x.FieldSet()
+                        .Width(500)
+                        .Collapsible(true)
+                        .Height(680)
+                        .Title("Employer-Scheme Account Details")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                            x.Hidden().Name("ES_Id"),
+                            x.Hidden().Name("Employer_Id"),
+
+                            x.TextField()
+                            .Name("Employer_Name")
+                            .Width(400)
+                            .FieldLabel("Name of Employer")
+                            .Editable(false)
+                            .ReadOnly(true)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            ,
+
+                             x.TextField()
+                            .Name("Registration_Number")
+                            .Width(400)
+                            .FieldLabel("Registration Number")
+                            .Editable(false)
+                            .ReadOnly(true)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            ,
+
+                             x.TextField()
+                            .Name("Phone_Number")
+                            .Width(400)
+                            .FieldLabel("Phone Number")
+                            .ReadOnly(true)
+                            .MarginSpec("3 0 10 10"),
+
+                            x.TextArea()
+                            .Name("Office_Location")
+                            .Width(400)
+                            .FieldLabel("Office Location")
+                            .Editable(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+
+                            x.ComboBox().Name("Scheme_Name")
+                            .FieldLabel("Scheme Description")
+                            .MarginSpec("3 0 10 10").TabIndex(5).Width(400)
+                            .ReadOnly(true)
+                            .Editable(false)
+                       
+
+
+                            )
+
+
+                            )
+
+
+
+                             
+                     )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

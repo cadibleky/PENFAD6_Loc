@@ -1,0 +1,246 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+  
+}
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frm_gl_BankAccount")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("GL Bank Accounts Setup")
+        .Width(1200)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .BodyPadding(5)
+        // .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+                x.FormPanel().ID("frmleft_Bank")
+                .Width(1250)
+                 //.Height(400)
+                 .FieldDefaults(fd =>
+                 {
+                     fd.LabelAlign = LabelAlign.Top;
+                     fd.MsgTarget = MessageTarget.Side;
+                 })
+                    .Items(
+                            x.FieldSet()
+                            .Height(300)
+                            .Width(1200)
+                            .Layout(LayoutType.Column)
+                            .Items
+                            (
+
+                         x.Button()
+
+                        .Text("Select Scheme-Fund")
+                        .Width(250)
+                        .Icon(Icon.ApplicationFormAdd)
+                        .TabIndex(28)
+                        .Handler("App.AccountschemeFund_Bank.show(this);")
+                        .MarginSpec("10 1000 0 0"),
+                            x.Hidden().Name("GL_Account_No"),
+                            x.Hidden().Name("Scheme_Fund_Id").ID("AccSFId_Bank"),
+                            x.TextField().Name("Scheme_Name").FieldLabel("Scheme").Width(600).MarginSpec("0 10 0 5").ReadOnly(true),
+                            x.TextField().Name("Fund_Name").FieldLabel("Fund").Width(310).MarginSpec("0 10 0 5").ReadOnly(true),
+
+                             x.TextField().Name("GL_Account_Name").FieldLabel("Bank Account Name").Width(930).FieldStyle("text-transform: uppercase").MarginSpec("0 500 0 5"),
+
+                             x.TextField().Name("Bank_Account_Number").FieldLabel("Bank Account Number").Width(250).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 5"),
+
+                             x.ComboBox().Name("Bank").FieldLabel("Bank Name").Editable(false).Items(GLCRepo.GetBank().Select(d => new ListItem(d.Bank, d.Bank)))
+                                .FieldStyle("text-transform:UPPERCASE")
+                                .AllowBlank(false).Width(360)
+                                .BlankText("Region Name is required.").SetActive(true),
+
+                             x.TextField().Name("Bank_Branch").FieldLabel("Bank Branch").Width(300).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 5"),
+
+
+
+
+                             x.Button()
+                                            .Text("Create Bank Account")
+                                            .Width(250)
+                                            .TabIndex(40)
+                                            .Icon(Icon.Add)
+                                            .DirectEvents(de =>
+                                            {
+                                                de.Click.Confirmation.ConfirmRequest = true;
+                                                de.Click.Confirmation.Title = "Create Record";
+                                                de.Click.Confirmation.Message = "Create GL Bank Account?";
+                                                de.Click.Url = Url.Action("SaveGLAccountRecord");
+                                                de.Click.Timeout = 1200000;
+                                            }).MarginSpec("30 10 0 5"),
+
+                                            x.Button()
+                                            .Text("Delete")
+                                            .Width(100)
+                                            .TabIndex(41)
+                                            .Icon(Icon.Delete)
+                                            .MarginSpec("30 10 0 5")
+                                             .DirectEvents(de =>
+                                             {
+                                                 de.Click.Confirmation.ConfirmRequest = true;
+                                                 de.Click.Confirmation.Title = "Delete Record";
+                                                 de.Click.Confirmation.Message = "Delete GL Bank Account?";
+                                                 de.Click.Url = Url.Action("DeleteGLAccountRecord");
+                                                 de.Click.Timeout = 1200000;
+                                             }),
+
+
+                                            x.Button()
+                                            .Text("Clear")
+                                            .Width(90)
+                                            .TabIndex(41)
+                                            .Icon(Icon.ArrowRefresh)
+                                            .OnClientClick("this.up('form').getForm().reset();")
+                                            .MarginSpec("30 10 0 5")
+
+                                    )
+                                ),
+
+
+
+                                x.Window()
+                                .ID("AccountschemeFund_Bank")
+                                .Title("Scheme-Fund List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AccountSFGrid_Bank")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("BankAccountSFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+                                                           )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_gl_BankAccount.getForm().loadRecord(selected[0]); App.AccountschemeFund_Bank.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                    .DirectEvents(de =>
+                    {
+                        de.SelectionChange.Url = (Url.Action("FilterSFGridBank", "GLChart"));
+                        de.SelectionChange.Success = "onSuccess(App.GLFAccountGrid_Bank, result.data);";
+                    })
+                   ),
+
+                       x.FieldSet()
+                       .MarginSpec("5 0 0 0")
+                            .Width(1200)
+                            //.Height(300)
+                            .Items
+                            (
+                                  x.GridPanel()
+                                    .ID("GLFAccountGrid_Bank")
+                                    .Title("GL Scheme-Fund Bank Accounts")
+                                    .Frame(true)
+                                    .Width(1240)
+                                    .Height(600)
+                                     .MarginSpec("5 0 0 0")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("BAccSFStore")
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Memo_Code").Type(ModelFieldType.String),
+                                        x.ModelField().Name("GL_Account_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Bank_Account_Number").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Bank").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Bank_Branch").Type(ModelFieldType.String)
+                                          )
+                                    )
+                                    .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("FilterSFGridBank", "GLChart"))
+                                                       .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                       .Parameters(ps =>
+                                                       ps.Add(new StoreParameter("Scheme_Fund_Id", "App.AccSFId_Bank.getValue()", ParameterMode.Raw))
+
+                                  )
+                                    .PageSize(20)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_gl_BankAccount.getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("GL_Account_No").Text("GL ACCOUNT NO.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Con_Name").Text("GL CONTROL NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Memo_Name").Text("GL MEMO NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("GL_Account_Name").Text("GL ACCOUNT NAME").Width(400))
+                    //.ColumnModel(x.Column().DataIndex("GL_Balance").Text("GL ACCOUNT BALANCE").Width(150))
+
+                    )
+
+           )
+
+)

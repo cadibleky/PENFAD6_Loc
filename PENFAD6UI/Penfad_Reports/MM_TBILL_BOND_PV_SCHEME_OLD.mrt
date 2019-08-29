@@ -1,0 +1,3896 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <con Ref="2" type="Stimulsoft.Report.Dictionary.StiOracleDatabase" isKey="true">
+        <Alias>con</Alias>
+        <ConnectionStringEncrypted>9Di9oW5+MU15C0XQc9yl//ESzYNWa0nIRmQ5BHT4oj/+cJdMTlzTGXph/VjizPXr5CyV72F3wgV5eyEcTQFqB8M6lcPWCXugcgdtnfXMd7veIg==</ConnectionStringEncrypted>
+        <Name>con</Name>
+      </con>
+    </Databases>
+    <DataSources isList="true" count="7">
+      <MM_TBIL Ref="3" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>MM_TBIL</Alias>
+        <Columns isList="true" count="81">
+          <value>INVEST_NO,System.String</value>
+          <value>CONTRACT_NO,System.String</value>
+          <value>SCHEME_FUND_ID,System.String</value>
+          <value>PRODUCT_ID,System.String</value>
+          <value>AMOUNT_INVESTED,System.Decimal</value>
+          <value>DURATION_IN_DAYS,System.Decimal</value>
+          <value>ANNUAL_INT_RATE,System.Decimal</value>
+          <value>DAILY_INT_RATE,System.Decimal</value>
+          <value>START_DATE,System.DateTime</value>
+          <value>MATURITY_DATE,System.DateTime</value>
+          <value>EXPECTED_INT,System.Decimal</value>
+          <value>ISSUR_ID,System.String</value>
+          <value>INTEREST_DAY_BASIC,System.Decimal</value>
+          <value>ROLLOVER_INST_YES_NO,System.String</value>
+          <value>ROLLOVER_INSTRUTION,System.String</value>
+          <value>PRINCIPAL_BAL,System.Decimal</value>
+          <value>INTEREST_BAL,System.Decimal</value>
+          <value>PRINCIPAL_PAID,System.Decimal</value>
+          <value>INTEREST_PAID,System.Decimal</value>
+          <value>LAST_DATE_INT_ACCRUED,System.DateTime</value>
+          <value>ACTUAL_DATE_REDEMPTION,System.DateTime</value>
+          <value>GL_ACCOUNT_NO,System.String</value>
+          <value>REASON_FOR_EDITING,System.String</value>
+          <value>NEWORBF_STATUS,System.String</value>
+          <value>NEW_BF,System.String</value>
+          <value>BF_ACCRUED_INTEREST,System.Decimal</value>
+          <value>PAYMENT_CONFIRMED,System.String</value>
+          <value>AMOUNT_ON_MATURITY,System.Decimal</value>
+          <value>INTEREST_TYPE,System.String</value>
+          <value>TRANS_CUCODE,System.String</value>
+          <value>BASE_CUSCODE,System.String</value>
+          <value>INVEST_STATUS,System.String</value>
+          <value>MAKER_ID,System.String</value>
+          <value>MAKE_DATE,System.DateTime</value>
+          <value>AUTH_STATUS,System.String</value>
+          <value>AUTH_ID,System.String</value>
+          <value>AUTH_DATE,System.DateTime</value>
+          <value>UPDATED_ID,System.String</value>
+          <value>UPDATED_DATE,System.DateTime</value>
+          <value>FUND_MANAGER_ID,System.String</value>
+          <value>COST,System.Decimal</value>
+          <value>CURRENT_YIELD,System.Decimal</value>
+          <value>REPORT_DATE,System.DateTime</value>
+          <value>CUSTODIAN_ID,System.String</value>
+          <value>EXCHANGE_RATE,System.Decimal</value>
+          <value>PRIMARY_OR_SECONDARY,System.String</value>
+          <value>SETTLEMENT_DATE,System.DateTime</value>
+          <value>BOND_QUTN,System.Decimal</value>
+          <value>NEXT_COUPON_DATE_AFTERTRADE,System.DateTime</value>
+          <value>INTEREST_PAYABLE_BAL,System.Decimal</value>
+          <value>BASE_PRINCIPAL,System.Decimal</value>
+          <value>CLASS_ID,System.String</value>
+          <value>BOND_CLASS,System.String</value>
+          <value>INTEREST_ACCRUED,System.Decimal</value>
+          <value>SEC_BUY_SELL,System.String</value>
+          <value>BROKERAGE_FEE,System.Decimal</value>
+          <value>TID,System.String</value>
+          <value>PRODUCT_NAME,System.String</value>
+          <value>NPRA_ASSET_CLASS_NAME,System.String</value>
+          <value>SCHEME_ID,System.String</value>
+          <value>FUND_ID,System.String</value>
+          <value>MARKET_VALUE,System.Decimal</value>
+          <value>FUND_MANAGER,System.String</value>
+          <value>ISSUER_NAME,System.String</value>
+          <value>CURRENT_YEAR,System.Decimal</value>
+          <value>CARRYING_VALUE_YEAR_BEG,System.Decimal</value>
+          <value>INTEREST_YEAR,System.Decimal</value>
+          <value>NO_DAYS_AMORTISED,System.Decimal</value>
+          <value>AMORTISED_COST_YEAR,System.Decimal</value>
+          <value>AMORTISED_COST_DAILY,System.Decimal</value>
+          <value>CARRYING_VALUE_YEAR_END,System.Decimal</value>
+          <value>COUPON_YEAR,System.Decimal</value>
+          <value>AMORTISED_TODATE,System.Decimal</value>
+          <value>PROPORTION,System.Decimal</value>
+          <value>WEIGHTED_AVERAGE,System.Decimal</value>
+          <value>REMAINING_DAY,System.Decimal</value>
+          <value>ACCRUED_MONTH,ACCRUED_MONTH,System.Decimal,_x0028__x0028_MM_TBIL.ANNUAL_INT_RATE_x002F_100_x0029__x002F_12_x0029__x0020__x002A__x0020_MM_TBIL.AMOUNT_INVESTED</value>
+          <value>HOLDING_PEROID_RETURN,HOLDING_PEROID_RETURN,System.Decimal,_x0028__x0028__x0028__x0028_MM_TBIL.ANNUAL_INT_RATE_x002F_100_x0029__x002F_12_x0029__x0020__x0020__x002A__x0020_MM_TBIL.AMOUNT_INVESTED_x0029__x0020__x002B__x0020__x0028_MM_TBIL.AMORTISED_COST_YEAR_x002F_12_x0029__x0029__x0020__x002F__x0020_MM_TBIL.COST</value>
+          <value>holding_weighted_return,holding_weighted_return,System.Decimal,_x0028_MM_TBIL.WEIGHTED_AVERAGE_x0020__x0029__x002A__x000D__x000A__x0028__x0020__x0028__x0028__x0028__x0028_MM_TBIL.ANNUAL_INT_RATE_x002F_100_x0029__x002F_12_x0029__x0020__x0020__x002A__x0020_MM_TBIL.AMOUNT_INVESTED_x0029__x0020__x002B__x0020__x0028_MM_TBIL.AMORTISED_COST_YEAR_x002F_12_x0029__x0029__x0020__x002F__x0020_MM_TBIL.COST_x0029__x000D__x000A_</value>
+          <value>AMORTISED_MARKET_VALUE,AMORTISED_MARKET_VALUE,System.Decimal,_x0028_MM_TBIL.COST_x0020__x002B__x0020_MM_TBIL.AMORTISED_TODATE_x0020__x002B__x0020_MM_TBIL.INTEREST_ACCRUED_x0020__x0029__x0020_-_x0020_MM_TBIL.PRINCIPAL_PAID</value>
+          <value>MONTHLY_AMORTISED,MONTHLY_AMORTISED,System.Decimal,MM_TBIL.AMORTISED_COST_YEAR_x0020__x002F_12</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>MM_TBIL</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:P_SF_ID,_x0022_0302_x0022_,126,1000</value>
+          <value>:P_DATE,,106,10</value>
+        </Parameters>
+        <SqlCommand>SELECT REPORT_INVEST_TRANS_FIX.*,
+  INVEST_PRODUCTS.PRODUCT_NAME,
+  INVEST_NPRA_ASSET_CLASS.NPRA_ASSET_CLASS_NAME,
+  PFM_SCHEME_FUND.SCHEME_ID,
+  PFM_SCHEME_FUND.FUND_ID,
+  REPORT_INVEST_TRANS_FIX.PRINCIPAL_BAL + REPORT_INVEST_TRANS_FIX.INTEREST_ACCRUED AS MARKET_VALUE,
+  PFM_FUND_MANAGER.FUND_MANAGER,
+  SETUP_ISSUER.ISSUER_NAME,
+   REPORT_INVEST_TRANS_FIX.MATURITY_DATE - REPORT_INVEST_TRANS_FIX.REPORT_DATE AS REMAINING_DAY
+FROM REPORT_INVEST_TRANS_FIX
+INNER JOIN INVEST_PRODUCTS
+ON REPORT_INVEST_TRANS_FIX.PRODUCT_ID = INVEST_PRODUCTS.PRODUCT_ID
+INNER JOIN INVEST_NPRA_ASSET_CLASS
+ON INVEST_NPRA_ASSET_CLASS.NPRA_ASSET_CLASS_ID = INVEST_PRODUCTS.NPRA_ASSET_CLASS_ID
+INNER JOIN PFM_SCHEME_FUND
+ON PFM_SCHEME_FUND.SCHEME_FUND_ID = REPORT_INVEST_TRANS_FIX.SCHEME_FUND_ID
+INNER JOIN PFM_SCHEME
+ON PFM_SCHEME.SCHEME_ID = PFM_SCHEME_FUND.SCHEME_ID
+INNER JOIN PFM_FUND
+ON PFM_FUND.FUND_ID = PFM_SCHEME_FUND.FUND_ID
+INNER JOIN PFM_FUND_MANAGER
+ON PFM_FUND_MANAGER.FUND_MANAGER_ID = REPORT_INVEST_TRANS_FIX.FUND_MANAGER_ID
+INNER JOIN SETUP_ISSUER
+ON SETUP_ISSUER.ISSUER_ID               = REPORT_INVEST_TRANS_FIX.ISSUR_ID
+WHERE PFM_SCHEME_FUND.SCHEME_ID    = :P_SF_ID
+AND REPORT_INVEST_TRANS_FIX.REPORT_DATE = :P_DATE
+AND REPORT_INVEST_TRANS_FIX.INVEST_STATUS = 'ACTIVE'
+
+</SqlCommand>
+      </MM_TBIL>
+      <SCHEME_DETAILS Ref="4" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>SCHEME_DETAILS</Alias>
+        <Columns isList="true" count="8">
+          <value>SCHEME_ID,System.String</value>
+          <value>SCHEME_NAME,System.String</value>
+          <value>CUSTODIAN_NAME,System.String</value>
+          <value>CUSTODIAN_ID,System.String</value>
+          <value>EMPLOYER_ID,System.String</value>
+          <value>CUST_NO,System.String</value>
+          <value>TODAY_DATE,System.DateTime</value>
+          <value>NPRA_NUMBER,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>SCHEME_DETAILS</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>:P_SF_ID,_x0022_0302_x0022_,119,100</value>
+        </Parameters>
+        <SqlCommand>SELECT sc.SCHEME_ID, sc.SCHEME_NAME, pfmc.CUSTODIAN_NAME, sc.CUSTODIAN_ID,
+	sc.TODAY_DATE, sc.NPRA_NUMBER, pfmsf.SCHEME_FUND_ID,
+	"C##TEKSOLPENFAD".PFM_FUND.FUND_NAME
+	FROM PFM_SCHEME sc INNER JOIN
+  PFM_CUSTODIAN pfmc ON pfmc.CUSTODIAN_ID = sc.CUSTODIAN_ID INNER JOIN
+  PFM_SCHEME_FUND pfmsf ON sc.SCHEME_ID = pfmsf.SCHEME_ID INNER JOIN
+  "C##TEKSOLPENFAD".PFM_FUND ON "C##TEKSOLPENFAD".PFM_FUND.FUND_ID =
+    pfmsf.FUND_ID
+WHERE pfmsf.SCHEME_ID = :P_SF_ID</SqlCommand>
+      </SCHEME_DETAILS>
+      <EC Ref="5" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>EC</Alias>
+        <Columns isList="true" count="21">
+          <value>PRODUCT_NAME,System.String</value>
+          <value>NPRA_ASSET_CLASS_ID,System.String</value>
+          <value>NPRA_ASSET_CLASS_NAME,System.String</value>
+          <value>MARKET_VALUE,System.Decimal</value>
+          <value>GAIN_LOSS,System.Decimal</value>
+          <value>TID,System.Decimal</value>
+          <value>SCHEME_FUND_ID,System.String</value>
+          <value>PRODUCT_ID,System.String</value>
+          <value>CURRENT_QUANTITY,System.Decimal</value>
+          <value>TOTALCOSTFORCURRENTQTN,System.Decimal</value>
+          <value>CURRENTAVERAGEUNITCOST,System.Decimal</value>
+          <value>TOTALQTNPURCHASEDTODATE,System.Decimal</value>
+          <value>TOTALQTNSOLDTODATE,System.Decimal</value>
+          <value>FUND_MANAGER_ID,System.String</value>
+          <value>REPORT_DATE,System.DateTime</value>
+          <value>MARKET_PRICE,System.Decimal</value>
+          <value>PRODUCT_ID1,System.String</value>
+          <value>ISSUER_NAME,System.String</value>
+          <value>FUND_MANAGER,System.String</value>
+          <value>PROPORTION,System.Decimal</value>
+          <value>WEIGHTED_AVERAGE,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>EC</Name>
+        <NameInSource>Con</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:P_SF_ID,,119,100</value>
+          <value>:P_DATE,,106,10</value>
+        </Parameters>
+        <SqlCommand>SELECT INVEST_PRODUCTS.PRODUCT_NAME,
+	INVEST_PRODUCTS.NPRA_ASSET_CLASS_ID,
+	INVEST_NPRA_ASSET_CLASS.NPRA_ASSET_CLASS_NAME,
+	REPORT_INVEST_EQUITY_BALANCE.CURRENT_QUANTITY  * REPORT_INVEST_EQUITY_BALANCE.MARKET_PRICE                                                        AS MARKET_VALUE,
+	(REPORT_INVEST_EQUITY_BALANCE.CURRENT_QUANTITY * REPORT_INVEST_EQUITY_BALANCE.MARKET_PRICE) - REPORT_INVEST_EQUITY_BALANCE.TOTALCOSTFORCURRENTQTN AS GAIN_LOSS,
+	REPORT_INVEST_EQUITY_BALANCE.*,
+  PFM_FUND_MANAGER.FUND_MANAGER
+FROM INVEST_PRODUCTS
+INNER JOIN INVEST_NPRA_ASSET_CLASS
+ON INVEST_NPRA_ASSET_CLASS.NPRA_ASSET_CLASS_ID = INVEST_PRODUCTS.NPRA_ASSET_CLASS_ID
+INNER JOIN REPORT_INVEST_EQUITY_BALANCE
+ON REPORT_INVEST_EQUITY_BALANCE.PRODUCT_ID = INVEST_PRODUCTS.PRODUCT_ID
+INNER JOIN PFM_FUND_MANAGER
+ON PFM_FUND_MANAGER.FUND_MANAGER_ID                             = REPORT_INVEST_EQUITY_BALANCE.FUND_MANAGER_ID
+WHERE SUBSTR(REPORT_INVEST_EQUITY_BALANCE.SCHEME_FUND_ID, 0, 2) = :P_SF_ID
+AND REPORT_INVEST_EQUITY_BALANCE.REPORT_DATE                    = :P_DATE
+AND REPORT_INVEST_EQUITY_BALANCE.CURRENT_QUANTITY               &gt; 0</SqlCommand>
+      </EC>
+      <cash Ref="6" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>cash</Alias>
+        <Columns isList="true" count="5">
+          <value>TID,System.String</value>
+          <value>SCHEME_FUND_ID,System.String</value>
+          <value>REPORT_DATE,System.String</value>
+          <value>ACCOUNT_NAME,System.String</value>
+          <value>CASH_BALANCE,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>cash</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:P_SF_ID,,119,100</value>
+          <value>:P_DATE,,106,10</value>
+        </Parameters>
+        <SqlCommand>SELECT REPORT_CASH_BANK.TID,
+	REPORT_CASH_BANK.SCHEME_FUND_ID,
+	REPORT_CASH_BANK.REPORT_DATE,
+	REPORT_CASH_BANK.ACCOUNT_NAME,
+	REPORT_CASH_BANK.CASH_BALANCE
+	FROM REPORT_CASH_BANK
+where SUBSTR(REPORT_CASH_BANK.SCHEME_FUND_ID,0,2) = :P_SF_ID
+AND 	REPORT_CASH_BANK.REPORT_DATE = :P_DATE</SqlCommand>
+      </cash>
+      <SUMMARY Ref="7" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>SUMMARY</Alias>
+        <Columns isList="true" count="9">
+          <value>TID,System.String</value>
+          <value>REPORT_DATE,System.DateTime</value>
+          <value>ASSET_CLASS,System.String</value>
+          <value>FACE_VALUE,System.Decimal</value>
+          <value>GAIN_LOSS,System.Decimal</value>
+          <value>MARKET_VALUE,System.Decimal</value>
+          <value>SCHEME_FUND_ID,System.String</value>
+          <value>MAKER_ID,System.String</value>
+          <value>PERCENTAGE,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>SUMMARY</Name>
+        <NameInSource>CON</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:P_SF_ID,,119,100</value>
+          <value>:P_DATE,,106,10</value>
+          <value>:P_USER,,119,100</value>
+        </Parameters>
+        <SqlCommand>SELECT REPORT_FUND_SUMMARY_SCHEME.TID,
+	REPORT_FUND_SUMMARY_SCHEME.REPORT_DATE,
+	REPORT_FUND_SUMMARY_SCHEME.ASSET_CLASS,
+	REPORT_FUND_SUMMARY_SCHEME.FACE_VALUE,
+	REPORT_FUND_SUMMARY_SCHEME.GAIN_LOSS,
+	REPORT_FUND_SUMMARY_SCHEME.MARKET_VALUE,
+	REPORT_FUND_SUMMARY_SCHEME.SCHEME_ID,
+	REPORT_FUND_SUMMARY_SCHEME.MAKER_ID,
+	REPORT_FUND_SUMMARY_SCHEME.PERCENTAGE
+	FROM REPORT_FUND_SUMMARY_SCHEME
+	where REPORT_FUND_SUMMARY_SCHEME.SCHEME_ID = :P_SF_ID
+	AND 	REPORT_FUND_SUMMARY_SCHEME.REPORT_DATE = :P_DATE
+	AND 	REPORT_FUND_SUMMARY_SCHEME.MAKER_ID = :P_USER</SqlCommand>
+      </SUMMARY>
+      <COMP Ref="8" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>COMP</Alias>
+        <Columns isList="true" count="10">
+          <value>COMPANY_NAME,System.String</value>
+          <value>SMTP,System.String</value>
+          <value>PORT,System.Decimal</value>
+          <value>EMAIL_FROM,System.String</value>
+          <value>EMAIL_PASSWORD,System.String</value>
+          <value>WEBSITE_ADDRESS,System.String</value>
+          <value>POSTAL_ADDRESS,System.String</value>
+          <value>TELEPHONE_NUMBER,System.String</value>
+          <value>LOCATION,System.String</value>
+          <value>LOGO,System.Byte[]</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>COMP</Name>
+        <NameInSource>CON</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>SELECT SETUP_COMPANY.COMPANY_NAME,
+	SETUP_COMPANY.SMTP,
+	SETUP_COMPANY.PORT,
+	SETUP_COMPANY.EMAIL_FROM,
+	SETUP_COMPANY.EMAIL_PASSWORD,
+	SETUP_COMPANY.WEBSITE_ADDRESS,
+	SETUP_COMPANY.POSTAL_ADDRESS,
+	SETUP_COMPANY.TELEPHONE_NUMBER,
+	SETUP_COMPANY.LOCATION,
+	SETUP_COMPANY.logo
+	FROM SETUP_COMPANY</SqlCommand>
+      </COMP>
+      <RECEIVABLES Ref="9" type="Stimulsoft.Report.Dictionary.StiOracleSource" isKey="true">
+        <Alias>RECEIVABLES</Alias>
+        <Columns isList="true" count="81">
+          <value>INVEST_NO,System.String</value>
+          <value>CONTRACT_NO,System.String</value>
+          <value>SCHEME_FUND_ID,System.String</value>
+          <value>PRODUCT_ID,System.String</value>
+          <value>AMOUNT_INVESTED,System.Decimal</value>
+          <value>DURATION_IN_DAYS,System.Decimal</value>
+          <value>ANNUAL_INT_RATE,System.Decimal</value>
+          <value>DAILY_INT_RATE,System.Decimal</value>
+          <value>START_DATE,System.DateTime</value>
+          <value>MATURITY_DATE,System.DateTime</value>
+          <value>EXPECTED_INT,System.Decimal</value>
+          <value>ISSUR_ID,System.String</value>
+          <value>INTEREST_DAY_BASIC,System.Decimal</value>
+          <value>ROLLOVER_INST_YES_NO,System.String</value>
+          <value>ROLLOVER_INSTRUTION,System.String</value>
+          <value>PRINCIPAL_BAL,System.Decimal</value>
+          <value>INTEREST_BAL,System.Decimal</value>
+          <value>PRINCIPAL_PAID,System.Decimal</value>
+          <value>INTEREST_PAID,System.Decimal</value>
+          <value>LAST_DATE_INT_ACCRUED,System.DateTime</value>
+          <value>ACTUAL_DATE_REDEMPTION,System.DateTime</value>
+          <value>GL_ACCOUNT_NO,System.String</value>
+          <value>REASON_FOR_EDITING,System.String</value>
+          <value>NEWORBF_STATUS,System.String</value>
+          <value>NEW_BF,System.String</value>
+          <value>BF_ACCRUED_INTEREST,System.Decimal</value>
+          <value>PAYMENT_CONFIRMED,System.String</value>
+          <value>AMOUNT_ON_MATURITY,System.Decimal</value>
+          <value>INTEREST_TYPE,System.String</value>
+          <value>TRANS_CUCODE,System.String</value>
+          <value>BASE_CUSCODE,System.String</value>
+          <value>INVEST_STATUS,System.String</value>
+          <value>MAKER_ID,System.String</value>
+          <value>MAKE_DATE,System.DateTime</value>
+          <value>AUTH_STATUS,System.String</value>
+          <value>AUTH_ID,System.String</value>
+          <value>AUTH_DATE,System.DateTime</value>
+          <value>UPDATED_ID,System.String</value>
+          <value>UPDATED_DATE,System.DateTime</value>
+          <value>FUND_MANAGER_ID,System.String</value>
+          <value>COST,System.Decimal</value>
+          <value>CURRENT_YIELD,System.Decimal</value>
+          <value>REPORT_DATE,System.DateTime</value>
+          <value>CUSTODIAN_ID,System.String</value>
+          <value>EXCHANGE_RATE,System.Decimal</value>
+          <value>PRIMARY_OR_SECONDARY,System.String</value>
+          <value>SETTLEMENT_DATE,System.DateTime</value>
+          <value>BOND_QUTN,System.Decimal</value>
+          <value>NEXT_COUPON_DATE_AFTERTRADE,System.DateTime</value>
+          <value>INTEREST_PAYABLE_BAL,System.Decimal</value>
+          <value>BASE_PRINCIPAL,System.Decimal</value>
+          <value>CLASS_ID,System.String</value>
+          <value>BOND_CLASS,System.String</value>
+          <value>INTEREST_ACCRUED,System.Decimal</value>
+          <value>SEC_BUY_SELL,System.String</value>
+          <value>BROKERAGE_FEE,System.Decimal</value>
+          <value>TID,System.String</value>
+          <value>PRODUCT_NAME,System.String</value>
+          <value>NPRA_ASSET_CLASS_NAME,System.String</value>
+          <value>SCHEME_ID,System.String</value>
+          <value>FUND_ID,System.String</value>
+          <value>MARKET_VALUE,System.Decimal</value>
+          <value>FUND_MANAGER,System.String</value>
+          <value>ISSUER_NAME,System.String</value>
+          <value>CURRENT_YEAR,System.Decimal</value>
+          <value>CARRYING_VALUE_YEAR_BEG,System.Decimal</value>
+          <value>INTEREST_YEAR,System.Decimal</value>
+          <value>NO_DAYS_AMORTISED,System.Decimal</value>
+          <value>AMORTISED_COST_YEAR,System.Decimal</value>
+          <value>AMORTISED_COST_DAILY,System.Decimal</value>
+          <value>CARRYING_VALUE_YEAR_END,System.Decimal</value>
+          <value>COUPON_YEAR,System.Decimal</value>
+          <value>AMORTISED_TODATE,System.Decimal</value>
+          <value>PROPORTION,System.Decimal</value>
+          <value>WEIGHTED_AVERAGE,System.Decimal</value>
+          <value>REMAINING_DAY,System.Decimal</value>
+          <value>ACCRUED_MONTH,ACCRUED_MONTH,System.Decimal,_x0028__x0028_RECEIVABLES.ANNUAL_INT_RATE_x002F_100_x0029__x002F_12_x0029__x0020__x002A__x0020_RECEIVABLES.AMOUNT_INVESTED</value>
+          <value>HOLDING_PERIOD_RETURN,HOLDING_PERIOD_RETURN,System.Decimal,_x0028__x0028__x0028__x0028_RECEIVABLES.ANNUAL_INT_RATE_x002F_100_x0029__x002F_12_x0029__x0020__x0020__x002A__x0020_RECEIVABLES.AMOUNT_INVESTED_x0029__x0020__x002B__x0020__x0028_RECEIVABLES.AMORTISED_COST_YEAR_x002F_12_x0029__x0029__x0020__x002F__x0020_RECEIVABLES.COST</value>
+          <value>holding_weighted_return,holding_weighted_return,System.Decimal,_x0028_RECEIVABLES.WEIGHTED_AVERAGE_x0020__x0029__x002A__x000D__x000A__x0028__x0020__x0028__x0028__x0028__x0028_RECEIVABLES.ANNUAL_INT_RATE_x002F_100_x0029__x002F_12_x0029__x0020__x0020__x002A__x0020_RECEIVABLES.AMOUNT_INVESTED_x0029__x0020__x002B__x0020__x0028_RECEIVABLES.AMORTISED_COST_YEAR_x002F_12_x0029__x0029__x0020__x002F__x0020_RECEIVABLES.COST_x0029_</value>
+          <value>AMORTISED_MARKET_VALUE,AMORTISED_MARKET_VALUE,System.Decimal,_x0028_RECEIVABLES.COST_x0020__x002B__x0020_RECEIVABLES.AMORTISED_TODATE_x0020__x002B__x0020_RECEIVABLES.INTEREST_ACCRUED_x0020__x0029__x0020_-_x0020_RECEIVABLES.PRINCIPAL_PAID</value>
+          <value>MONTHLY_AMORTISED,MONTHLY_AMORTISED,System.Decimal,RECEIVABLES.AMORTISED_COST_YEAR_x0020__x002F_12</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>RECEIVABLES</Name>
+        <NameInSource>con</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:P_SF_ID,,119,100</value>
+          <value>:P_DATE,,106,0</value>
+        </Parameters>
+        <SqlCommand>SELECT REPORT_INVEST_TRANS_FIX.*,
+  INVEST_PRODUCTS.PRODUCT_NAME,
+  INVEST_NPRA_ASSET_CLASS.NPRA_ASSET_CLASS_NAME,
+  PFM_SCHEME_FUND.SCHEME_ID,
+  PFM_SCHEME_FUND.FUND_ID,
+  REPORT_INVEST_TRANS_FIX.PRINCIPAL_BAL + REPORT_INVEST_TRANS_FIX.INTEREST_ACCRUED AS MARKET_VALUE,
+  PFM_FUND_MANAGER.FUND_MANAGER,
+  SETUP_ISSUER.ISSUER_NAME,
+REPORT_INVEST_TRANS_FIX.MATURITY_DATE - REPORT_INVEST_TRANS_FIX.REPORT_DATE AS REMAINING_DAY
+FROM REPORT_INVEST_TRANS_FIX
+INNER JOIN INVEST_PRODUCTS
+ON REPORT_INVEST_TRANS_FIX.PRODUCT_ID = INVEST_PRODUCTS.PRODUCT_ID
+INNER JOIN INVEST_NPRA_ASSET_CLASS
+ON INVEST_NPRA_ASSET_CLASS.NPRA_ASSET_CLASS_ID = INVEST_PRODUCTS.NPRA_ASSET_CLASS_ID
+INNER JOIN PFM_SCHEME_FUND
+ON PFM_SCHEME_FUND.SCHEME_FUND_ID = REPORT_INVEST_TRANS_FIX.SCHEME_FUND_ID
+INNER JOIN PFM_SCHEME
+ON PFM_SCHEME.SCHEME_ID = PFM_SCHEME_FUND.SCHEME_ID
+INNER JOIN PFM_FUND
+ON PFM_FUND.FUND_ID = PFM_SCHEME_FUND.FUND_ID
+INNER JOIN PFM_FUND_MANAGER
+ON PFM_FUND_MANAGER.FUND_MANAGER_ID = REPORT_INVEST_TRANS_FIX.FUND_MANAGER_ID
+INNER JOIN SETUP_ISSUER
+ON SETUP_ISSUER.ISSUER_ID               = REPORT_INVEST_TRANS_FIX.ISSUR_ID
+WHERE PFM_SCHEME_FUND.SCHEME_ID    = :P_SF_ID
+AND REPORT_INVEST_TRANS_FIX.REPORT_DATE = :P_DATE
+AND REPORT_INVEST_TRANS_FIX.INVEST_STATUS = 'MATURED'</SqlCommand>
+      </RECEIVABLES>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="2">
+      <value>,todate,todate,,System.String,,False,False,False,False</value>
+      <value>,formdate,formdate,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="10" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="19">
+        <ReportTitleBand1 Ref="11" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.2,21.6,1.8</ClientRectangle>
+          <Components isList="true" count="13">
+            <Text2 Ref="12" type="Text" isKey="true">
+              <Border>Bottom;[31:73:125];2;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.6,20.2,0.2</ClientRectangle>
+              <ComponentStyle>ReportName</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,11.25,Regular,Point,False,0</Font>
+              <Guid>f2c7d45c9fa34004ba1848d12fefd4f2</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>INVESTMENT REPORT (PORTFOLIO VALUATION), SCHEME LEVEL</Text>
+              <TextBrush>Navy</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text4 Ref="13" type="Text" isKey="true">
+              <Border>All;Black;1;None;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0.3,0.9,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8</Font>
+              <Guid>0449a42e0fb54e7197f8b9bc03ced2f7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>NAME OF SCHEME:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text5 Ref="14" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0.9,6.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8,Bold</Font>
+              <Guid>5a8b79ba8cf8411790021fb8b0d11555</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>{SCHEME_DETAILS.SCHEME_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="15" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text7 Ref="16" type="Text" isKey="true">
+              <Border>All;Black;1;None;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>17.6,1,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8</Font>
+              <Guid>dbb8886756aa4cec9cac89723cd706a3</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>SCHEME ID:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
+            <Text10 Ref="17" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.5,1,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8,Bold</Font>
+              <Guid>fb7b5fe86aa1410bbddc606675d232ad</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>{SCHEME_DETAILS.NPRA_NUMBER}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="18" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+            <Text20 Ref="19" type="Text" isKey="true">
+              <Border>All;Black;1;None;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0.3,1.3,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8</Font>
+              <Guid>29e3da47df8e45cb8da9d7c025a3b2ba</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>NAME OF CUSTODIAN:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text20>
+            <Text21 Ref="20" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,1.3,6.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8,Bold</Font>
+              <Guid>55f6b592328a4619b4962de5f47a0b6b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>{SCHEME_DETAILS.CUSTODIAN_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="21" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text21>
+            <Text22 Ref="22" type="Text" isKey="true">
+              <Border>All;Black;1;None;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>17.6,1.4,0.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8</Font>
+              <Guid>17442781e12f4a3cb37fa614989ebcaf</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>DATE:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text22>
+            <Text23 Ref="23" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.5,1.4,1.5,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8,Bold</Font>
+              <Guid>e1d41d5ab36a451a92206ef7301b9990</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>{MM_TBIL.REPORT_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="24" type="DateFormat" isKey="true">
+                <StringFormat>D</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text23>
+            <Text38 Ref="25" type="Text" isKey="true">
+              <Border>All;White;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>9,0,3.1,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,12.75,Bold</Font>
+              <Guid>14e4dd7111ea4534a94a7d02639322f3</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>{COMP.COMPANY_NAME}</Text>
+              <TextBrush>Red</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text38>
+            <Text39 Ref="26" type="Text" isKey="true">
+              <Border>All;White;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>9,0.4,3.1,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,9.75,Bold| Italic</Font>
+              <Guid>4775b0e26bec465994dec83e2bb53704</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text39</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Text>{COMP.WEBSITE_ADDRESS}</Text>
+              <TextBrush>Red</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text39>
+            <Image1 Ref="27" type="Image" isKey="true">
+              <AspectRatio>True</AspectRatio>
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0.3,0,3.1,0.7</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DataColumn>COMP.LOGO</DataColumn>
+              <Guid>064e0fdadb1d43c39f444d5e73af7ce6</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image1</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Stretch>True</Stretch>
+            </Image1>
+            <Image2 Ref="28" type="Image" isKey="true">
+              <AspectRatio>True</AspectRatio>
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>16.8,0.1,3.1,0.7</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DataColumn>COMP.LOGO</DataColumn>
+              <Guid>a3bf877b862642218170669d24c1a262</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image2</Name>
+              <Page isRef="10" />
+              <Parent isRef="11" />
+              <Stretch>True</Stretch>
+            </Image2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand1</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </ReportTitleBand1>
+        <GroupHeaderBand10 Ref="29" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,2.4,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text336 Ref="30" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,7.5,0.2</ClientRectangle>
+              <ComponentStyle>MF_TopHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold,Point,False,0</Font>
+              <Guid>2b76e743281f4a7d980a02233ddd3619</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text336</Name>
+              <Page isRef="10" />
+              <Parent isRef="29" />
+              <Text>{MM_TBIL.NPRA_ASSET_CLASS_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text336>
+          </Components>
+          <Condition>{MM_TBIL.NPRA_ASSET_CLASS_NAME}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>a3ee0e8907b04c5ea4b825c5ec4ca3be</Guid>
+          <Name>GroupHeaderBand10</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupHeaderBand10>
+        <HeaderBand6 Ref="31" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3,21.6,0.4</ClientRectangle>
+          <Components isList="true" count="22">
+            <Text337 Ref="32" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>1.4,0,1.6,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>f7cd00c02ec442269e2d6e16dc615a1f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text337</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>ISSUER</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text337>
+            <Text338 Ref="33" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>3.8,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>b38773da8ebe47a1a46223d1e03922be</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text338</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>DATE OF
+INVESTMENT</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text338>
+            <Text339 Ref="34" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>4.6,0,0.7,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>9c5cbc64566e41cfa83234ee856b3c6b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text339</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>MATURITY
+DATE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text339>
+            <Text340 Ref="35" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>5.3,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>ca2a1fc884394be09861e9eed464c0e8</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text340</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>REMAINING DAYS
+TO MATURITY</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text340>
+            <Text341 Ref="36" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>6.8,0,0.7,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>9dd3707d68084e3e9665960a0a88ad40</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text341</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>EIR/
+CURRENT YIELD</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text341>
+            <Text342 Ref="37" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>7.5,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>3be9da3f541c4e01abcddaa8fc80f38a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text342</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>ACCRUED
+INTEREST</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text342>
+            <Text343 Ref="38" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0,0,1.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>ec68dde1115b4229bf7ff62e3816eb5a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text343</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>ASSET CLASS</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text343>
+            <Text344 Ref="39" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>3,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>6ff3839acb094ca395a269b269bc9b9b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text344</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>ISIN/
+CERTIFICATE 
+NO.</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text344>
+            <Text345 Ref="40" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>10.7,0,0.9,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>a2cf0922d60f46e88a09d8672b463443</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text345</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>MARKET
+VALUE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text345>
+            <Text346 Ref="41" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>14.3,0,1,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>16da04234a254924ad4e8b172d274772</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text346</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>PORTFOLIO 
+WEIGHT PER 
+SUB ASSET CLASS</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text346>
+            <Text347 Ref="42" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>16.3,0,1,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>6898430e0aaa49938961d0a7e4303ce2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text347</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>SETTLEMENT
+DATE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text347>
+            <Text348 Ref="43" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>17.3,0,1,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>0276be9a49084471a475f960dc996bc3</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text348</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>BROKERAGE
+FEE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text348>
+            <Text349 Ref="44" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>6.1,0,0.7,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>c1dad8c274fe48dfaf84c5d462d384cf</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text349</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>RATE OF
+RETURN /
+COUPON RATE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text349>
+            <Text350 Ref="45" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>8.3,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>607f3248dbf949a88cbac650f06af169</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text350</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>INTEREST
+PAID</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text350>
+            <Text351 Ref="46" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>9.1,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>8b07a6fd7f8e45eb80c804cfc80c813b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text351</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>FACE
+VALUE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text351>
+            <Text352 Ref="47" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>9.9,0,0.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>50e04ce1c02049f29044f05545ff155a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text352</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>AMOUNT
+INVESTED</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text352>
+            <Text353 Ref="48" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>11.6,0,0.9,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>fb977094bead4894afd2ab0aab544249</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text353</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>AMORTISED
+PER MONTH</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="49" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text353>
+            <Text354 Ref="50" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>12.5,0,0.9,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>2695767d746e478fb12f25510649131b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text354</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>ACCRUED INT
+PER MONTH</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text354>
+            <Text355 Ref="51" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>13.4,0,0.9,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>d4b49056428f4d789f03518f3c8abd0b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text355</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>HOLDING
+PERIOD RETURN</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text355>
+            <Text356 Ref="52" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>15.3,0,1,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>7efb7170e0054b1b8f2c783cffeaa204</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text356</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>HOLDING PERIOD
+RETURN (WEIGHTED)</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text356>
+            <Text357 Ref="53" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>18.3,0,1.9,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>8165aed0549946e8acaeaee18c0b659f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text357</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>FUND MANAGER</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text357>
+            <Text8 Ref="54" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>20.2,0,1.3,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>519fb026b259409cb905a9de7bdb2889</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="10" />
+              <Parent isRef="31" />
+              <Text>NEXT COUPON
+PAYMENT DATE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text8>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>9a47d22ee4fe428ab2dcd9a187e78381</Guid>
+          <Name>HeaderBand6</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </HeaderBand6>
+        <DataBand10 Ref="55" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,3.8,21.6,0.3</ClientRectangle>
+          <Components isList="true" count="22">
+            <Text359 Ref="56" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.4,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>81dffe57640546c8b2553563cbd0eaf8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text359</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.PRODUCT_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="57" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text359>
+            <Text360 Ref="58" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.4,0,1.6,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>2705ddb34fd644fb898ca1d75763ec8f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text360</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.ISSUER_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text360>
+            <Text361 Ref="59" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.8,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>181bc8788bfa452e8db2c343f920a7cc</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text361</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.START_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="60" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text361>
+            <Text362 Ref="61" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,0,0.7,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>aaa59763032d47038f4cf0edf1a50c0b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text362</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.MATURITY_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="62" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text362>
+            <Text363 Ref="63" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0,0.7,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>54f8106b5abe435f814a85e7b38f39e5</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text363</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.ANNUAL_INT_RATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="64" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text363>
+            <Text364 Ref="65" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.8,0,0.7,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>deae4f961fe647118117f557a6a7d67e</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text364</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.CURRENT_YIELD}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="66" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text364>
+            <Text365 Ref="67" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.5,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>896659566d184ab5b53146b638e987e9</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text365</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.INTEREST_ACCRUED}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="68" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text365>
+            <Text366 Ref="69" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>ff55f13ad93a43a3b0f10395c3b53e66</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text366</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.CONTRACT_NO}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text366>
+            <Text367 Ref="70" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.7,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1682d0aaca2f42139ca238dbc93f0813</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text367</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.AMORTISED_MARKET_VALUE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="71" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text367>
+            <Text368 Ref="72" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>5df3d01f014a4f569bed204950812ca4</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text368</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.PROPORTION}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="73" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text368>
+            <Text369 Ref="74" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>16.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>57f8a1f907df4a3e9fa8fb6aa26fad2e</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text369</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.SETTLEMENT_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="75" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text369>
+            <Text370 Ref="76" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>17.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>977161f1fdb448c4ac17f2d49faf3f95</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text370</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.BROKERAGE_FEE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="77" type="NumberFormat" isKey="true">
+                <DecimalDigits>4</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text370>
+            <Text371 Ref="78" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.3,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>5a19c2cc208843d6aa3a91f70af129e7</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text371</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.REMAINING_DAY}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="79" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseGroupSeparator>False</UseGroupSeparator>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text371>
+            <Text372 Ref="80" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.3,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>0b8df85e968d499d94cd34b36acd13b3</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text372</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.INTEREST_PAID}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="81" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text372>
+            <Text373 Ref="82" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.1,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>ef8a23963082415280128c897a9ca645</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text373</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.AMOUNT_INVESTED}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="83" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text373>
+            <Text374 Ref="84" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.9,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>31351a3cb5964b9db3c6a56662faaa82</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text374</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.COST}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="85" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text374>
+            <Text375 Ref="86" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.6,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>bb1aa29aaf944d7a8e3d17b9fb2e13dc</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text375</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.MONTHLY_AMORTISED}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="87" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text375>
+            <Text376 Ref="88" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.5,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>504986499b3d48a9b01ced6bd1ae2081</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text376</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.ACCRUED_MONTH}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="89" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text376>
+            <Text377 Ref="90" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.4,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>96fcaac42eff4a24962fc353df008470</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text377</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.HOLDING_PEROID_RETURN}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="91" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text377>
+            <Text378 Ref="92" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>41c73273387f43fca653fba48d33083b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text378</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.holding_weighted_return}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="93" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text378>
+            <Text379 Ref="94" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.3,0,1.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>b19890119bad4d34bd92744049af0081</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text379</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.FUND_MANAGER}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text379>
+            <Text9 Ref="95" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>20.2,0,1.3,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>618dfd7b931a4839885fafb464ff871c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="10" />
+              <Parent isRef="55" />
+              <Text>{MM_TBIL.NEXT_COUPON_DATE_AFTERTRADE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="96" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text9>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>MM_TBIL</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>d33f565dc621460c93dd9f95f9a00a6e</Guid>
+          <Name>DataBand10</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>PRODUCT_ID</value>
+          </Sort>
+        </DataBand10>
+        <GroupFooterBand10 Ref="97" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4.5,21.6,0.3</ClientRectangle>
+          <Components isList="true" count="13">
+            <Text381 Ref="98" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,7.5,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>8f71b5a52ea940ae99756d818b9ab492</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text381</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text381>
+            <Text382 Ref="99" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.5,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>57d14f6f7c0643c685719966adee6fa1</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text382</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.INTEREST_ACCRUED)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="100" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text382>
+            <Text383 Ref="101" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.3,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1bf9d3e974ed40a2abf925eb25cb7534</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text383</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.INTEREST_PAID)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="102" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text383>
+            <Text384 Ref="103" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.1,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>063eb38b31804e349c008c26bb92c3bd</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text384</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.AMOUNT_INVESTED)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="104" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text384>
+            <Text385 Ref="105" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.9,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>629b4dd77b004c4ebe09d646b49f618d</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text385</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(MM_TBIL.COST)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="106" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text385>
+            <Text386 Ref="107" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.7,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>9bd3af51bb164e368df1e880cc98b06d</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text386</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.AMORTISED_MARKET_VALUE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="108" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text386>
+            <Text387 Ref="109" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.6,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>a865d49a7d4443ea8c37b2942fe99450</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text387</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.MONTHLY_AMORTISED)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="110" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text387>
+            <Text388 Ref="111" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.5,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>2fa06b819e7d4fdf8cfe192d8bee1caf</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text388</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.ACCRUED_MONTH)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="112" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text388>
+            <Text389 Ref="113" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.4,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>079e866ac6ea45ee8501e76245601420</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text389</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="114" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text389>
+            <Text390 Ref="115" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.3,0,1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>24e57c3b29a54870a0c9e49e39aceebc</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text390</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.PROPORTION)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="116" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text390>
+            <Text391 Ref="117" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>17.3,0,1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>d0be3f77735d42fcb61b674a284f86b1</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text391</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <Text>{Sum(DataBand10,MM_TBIL.BROKERAGE_FEE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="118" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text391>
+            <Text392 Ref="119" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.3,0,2,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>e2c40bd9c43a4d76b565c8a20f7171e8</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text392</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="120" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text392>
+            <Text393 Ref="121" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.3,0,3.2,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>5d6572101003403bb72dd69647b65ce7</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text393</Name>
+              <Page isRef="10" />
+              <Parent isRef="97" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="122" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text393>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>e3030f3d752348dca77644bbb28e4aa1</Guid>
+          <Name>GroupFooterBand10</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupFooterBand10>
+        <GroupHeaderBand12 Ref="123" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.2,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text430 Ref="124" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,7.5,0.2</ClientRectangle>
+              <ComponentStyle>MF_TopHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold,Point,False,0</Font>
+              <Guid>99bf94d349f54eefadf643f04b60708f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text430</Name>
+              <Page isRef="10" />
+              <Parent isRef="123" />
+              <Text>RECEIVABLES</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text430>
+          </Components>
+          <Condition>{RECEIVABLES.NPRA_ASSET_CLASS_NAME}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>6d539e15a65049dc8a1c52abce42b302</Guid>
+          <Name>GroupHeaderBand12</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupHeaderBand12>
+        <DataBand12 Ref="125" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,5.8,21.6,0.3</ClientRectangle>
+          <Components isList="true" count="21">
+            <Text431 Ref="126" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.4,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>c5ecdc58869e463abc4a931a985cb9a8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text431</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.PRODUCT_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="127" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text431>
+            <Text432 Ref="128" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.4,0,1.6,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>79e16116556a4535be66406e17cba39e</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text432</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.ISSUER_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text432>
+            <Text433 Ref="129" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.8,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>7dee1737149741b3bdaa1b87468b6230</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text433</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.START_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="130" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text433>
+            <Text434 Ref="131" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,0,0.7,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>e4903e15ddaf4621a980c4a5486305a2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text434</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.MATURITY_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="132" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text434>
+            <Text435 Ref="133" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0,0.7,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>529b7cf0db62401b806646b133f0792f</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text435</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.ANNUAL_INT_RATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="134" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text435>
+            <Text436 Ref="135" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.8,0,0.7,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>9c18d4cca846404ea635bea3ec1708b2</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text436</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.CURRENT_YIELD}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="136" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text436>
+            <Text437 Ref="137" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.5,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>73cadc1e997a4f2fa3f8655fdfeb1ac0</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text437</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.INTEREST_ACCRUED}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="138" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text437>
+            <Text438 Ref="139" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>f3224d8e77ae4430b0dcb6ad5d80c8bb</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text438</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.CONTRACT_NO}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text438>
+            <Text439 Ref="140" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.7,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>72cdca1070294e93a33646206baf6a0f</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text439</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.AMORTISED_MARKET_VALUE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="141" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text439>
+            <Text440 Ref="142" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>c16f78e7b500447a8d4674209e65114a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text440</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.PROPORTION}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="143" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text440>
+            <Text441 Ref="144" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>16.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>17a29ac62aa74039a36e607de835d9d8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text441</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.SETTLEMENT_DATE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="145" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text441>
+            <Text442 Ref="146" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>17.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>c9051d53339e4e26a5a238c33fcc1f61</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text442</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.BROKERAGE_FEE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="147" type="NumberFormat" isKey="true">
+                <DecimalDigits>4</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text442>
+            <Text443 Ref="148" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.3,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>29326c20f9184ac19dd85215a5d8564a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text443</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.REMAINING_DAY}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="149" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseGroupSeparator>False</UseGroupSeparator>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text443>
+            <Text444 Ref="150" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.3,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>cf74ada3a60b4b4c9a36ad5a8d82a4de</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text444</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.INTEREST_PAID}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="151" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text444>
+            <Text445 Ref="152" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.1,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>20d6b30d4d98410aaefff1b283525343</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text445</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.AMOUNT_INVESTED}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="153" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text445>
+            <Text446 Ref="154" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.9,0,0.8,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1b3b26885e014ebfb288a03d080f6ce6</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text446</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.COST}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="155" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text446>
+            <Text447 Ref="156" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.6,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>f61c726101f24d07b7789e109c46f467</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text447</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.MONTHLY_AMORTISED}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="157" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text447>
+            <Text448 Ref="158" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.5,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>8f5acd6bdc844c23b7ff6f80180ea35a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text448</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.ACCRUED_MONTH}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="159" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text448>
+            <Text449 Ref="160" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.4,0,0.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>c6e1d1df792a4391af69d1c30797b718</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text449</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.HOLDING_PERIOD_RETURN}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="161" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text449>
+            <Text450 Ref="162" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.3,0,1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>0012f8f37029439e924ecdf6d9064e5e</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text450</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.holding_weighted_return}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="163" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text450>
+            <Text451 Ref="164" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.3,0,1.9,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>0d37775886a3405bb53a08a14603c536</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text451</Name>
+              <Page isRef="10" />
+              <Parent isRef="125" />
+              <Text>{RECEIVABLES.FUND_MANAGER}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text451>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>RECEIVABLES</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>bca8aa9acd6c49ad8d68d0b9e76efccb</Guid>
+          <Name>DataBand12</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>PRODUCT_ID</value>
+          </Sort>
+        </DataBand12>
+        <GroupFooterBand12 Ref="165" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,6.5,21.6,0.3</ClientRectangle>
+          <Components isList="true" count="13">
+            <Text453 Ref="166" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,7.5,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>37e5781bd51f42afbe51b643d195c9d6</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text453</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text453>
+            <Text454 Ref="167" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.5,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>14a91aeb1dfc441b84ad8084a2c6b17b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text454</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.INTEREST_ACCRUED)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="168" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text454>
+            <Text455 Ref="169" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.3,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>89b64bb5f54341339f913e446c716f6b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text455</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.INTEREST_PAID)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="170" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text455>
+            <Text456 Ref="171" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.1,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>b0c6239439244af58c91cc2af571a440</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text456</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.AMOUNT_INVESTED)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="172" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text456>
+            <Text457 Ref="173" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.9,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>dcfdfdb455254b4c89ceefc2f1dd84fc</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text457</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.COST)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="174" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text457>
+            <Text458 Ref="175" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.7,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>f4d674c0a7884868a7f843ec7670171c</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text458</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.AMORTISED_MARKET_VALUE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="176" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text458>
+            <Text459 Ref="177" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.6,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>03620936773642c88d8e7ab4fc2af435</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text459</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.MONTHLY_AMORTISED)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="178" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text459>
+            <Text460 Ref="179" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.5,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>eba1f71f62574b519cc7dcbae8d7db26</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text460</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.ACCRUED_MONTH)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="180" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text460>
+            <Text461 Ref="181" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.4,0,0.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1daf5cd3308546a096e2dd1ca7a69861</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text461</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="182" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text461>
+            <Text462 Ref="183" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.3,0,1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1eb48aa7a7664c30b737de214b739246</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text462</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.PROPORTION)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="184" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text462>
+            <Text463 Ref="185" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>17.3,0,1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>2230763308d54a92a7b309d296fdc0ea</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text463</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <Text>{Sum(DataBand12,RECEIVABLES.BROKERAGE_FEE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="186" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text463>
+            <Text464 Ref="187" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.3,0,2,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>0dce63ef094448bbba42793bd9c5fedb</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text464</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="188" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text464>
+            <Text465 Ref="189" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.3,0,1.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>349cb4fe720e4fcd818c697bbeee118f</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text465</Name>
+              <Page isRef="10" />
+              <Parent isRef="165" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="190" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text465>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>22cc32ae042b4ca785cfc62d4a6a2eaa</Guid>
+          <Name>GroupFooterBand12</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupFooterBand12>
+        <GroupHeaderBand2 Ref="191" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,7.2,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text62 Ref="192" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,10.4,0.2</ClientRectangle>
+              <ComponentStyle>MF_TopHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold,Point,False,0</Font>
+              <Guid>8d3d350eb1394f02961ae8f38f89974d</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text62</Name>
+              <Page isRef="10" />
+              <Parent isRef="191" />
+              <Text>{EC.NPRA_ASSET_CLASS_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Text62>
+          </Components>
+          <Condition>{EC.NPRA_ASSET_CLASS_NAME}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>f8ce70c060904dc2b87563331a10f14b</Guid>
+          <Name>GroupHeaderBand2</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupHeaderBand2>
+        <HeaderBand2 Ref="193" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,7.8,21.6,0.4</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text55 Ref="194" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>3.1,0.1,1.1,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>ded4e763414e4f9aa8db6d574f09af82</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text55</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>TOTAL CURRENT 
+UNIT QUANTITY</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text55>
+            <Text56 Ref="195" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>5.4,0.1,1.1,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>bf36b9c805324ff3bc5b837bbbca19c7</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text56</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>CURRENT AVERAGE 
+UNIT COST</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text56>
+            <Text57 Ref="196" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0,0.1,3.1,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>6b24e19aec4446e8b89a1dc9275e24e8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text57</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>ASSET CLASS</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text57>
+            <Text58 Ref="197" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>4.2,0.1,1.2,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>8c84f19cd7334ec7916b2a6a7e4ecad8</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text58</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>TOTAL CURRENT COST 
+OF INVESTMENT</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text58>
+            <Text60 Ref="198" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>10.7,0.1,1.3,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>e6c6006cc13b473f8ca40630179d5dbc</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text60</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>UNREALISED
+GAIN / LOSS</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text60>
+            <Text61 Ref="199" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>9.1,0.1,1.6,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>ce30126d2d3d4b8bba6b8e2af83b24ce</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text61</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>MARKET
+VALUE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text61>
+            <Text91 Ref="200" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>12,0.1,2,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>83be44643a7848c0a822604069c84d20</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text91</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>FUND MANAGER</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text91>
+            <Text193 Ref="201" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>7.9,0.1,1.2,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>e96edcbbb93e44aa8e1b09310eeb51dc</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text193</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>PORTFOLIO 
+WEIGHT PER 
+SUB ASSET CLASS</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text193>
+            <Text1 Ref="202" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>6.5,0.1,1.4,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7,Bold</Font>
+              <Guid>cce548c941e74d61ba8a3dd6fdc609be</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="10" />
+              <Parent isRef="193" />
+              <Text>PRICE PER SHARE/UNIT
+AT REPORTING DATE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>33c75ff39f7f4635a905eb749d723f16</Guid>
+          <Name>HeaderBand2</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </HeaderBand2>
+        <DataBand2 Ref="203" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,8.6,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text63 Ref="204" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.2,0,1.2,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>06a310e542da41afb26ad7c49115c48e</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text63</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.TOTALCOSTFORCURRENTQTN}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="205" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text63>
+            <Text64 Ref="206" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3.1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>3c8050f1657745349d7eea11ebc51d15</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text64</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.PRODUCT_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="207" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text64>
+            <Text65 Ref="208" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.1,0,1.1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>880fa8f196c0439c8ac16917c3b69cba</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text65</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.CURRENT_QUANTITY}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text65>
+            <Text66 Ref="209" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.4,0,1.1,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>3aa9465416ad4a4ea3916636707cddab</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text66</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.CURRENTAVERAGEUNITCOST}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="210" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text66>
+            <Text67 Ref="211" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.5,0,1.4,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1b4ce4514ecd48bc873ee2e5d37c9f36</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text67</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.MARKET_PRICE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="212" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text67>
+            <Text68 Ref="213" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.1,0,1.6,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>bc0118d7119440a18effee25b30dfe65</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text68</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.MARKET_VALUE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="214" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text68>
+            <Text69 Ref="215" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.7,0,1.3,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>a8551c92bdef48289419c5f2096e3d40</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text69</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.GAIN_LOSS}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="216" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text69>
+            <Text92 Ref="217" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12,0,2,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>8f3097cec7894cfcb1a4ae20893db9c7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text92</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.FUND_MANAGER}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="218" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text92>
+            <Text195 Ref="219" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.9,0,1.2,0.3</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>a913735df1794635a64ab6e014cc207e</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text195</Name>
+              <Page isRef="10" />
+              <Parent isRef="203" />
+              <Text>{EC.PROPORTION}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="220" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text195>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>EC</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>f49c7bc6ac2a4520be847c548a24ad8c</Guid>
+          <Name>DataBand2</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>PRODUCT_ID</value>
+          </Sort>
+        </DataBand2>
+        <GroupFooterBand2 Ref="221" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.2,21.6,0.3</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text70 Ref="222" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.1,0,1.1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>099c5320f9ff4e5e91ab4fc4ce77629a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text70</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="223" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text70>
+            <Text71 Ref="224" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3.1,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>e206bea5f472419285b309ac71ca8bda</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text71</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <Text>Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text71>
+            <Text72 Ref="225" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.2,0,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>b1674fd1c1ed4faaa1f972c22142c465</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text72</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <Text>{Sum(DataBand2,EC.TOTALCOSTFORCURRENTQTN)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="226" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text72>
+            <Text73 Ref="227" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.4,0,1.1,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>e30043d80267401d8349b3fb0e2ee438</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text73</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="228" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text73>
+            <Text74 Ref="229" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.5,0,1.4,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>1d67e895c927411584faee3a55f0bbfe</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text74</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="230" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text74>
+            <Text75 Ref="231" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.1,0,1.6,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>7baede6d8a614adfbe9c150673941072</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text75</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <Text>{Sum(DataBand2,EC.MARKET_VALUE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="232" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text75>
+            <Text76 Ref="233" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.7,0,1.3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>09a0570796b54643b1bf61a677d7d7bb</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text76</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <Text>{Sum(DataBand2,EC.GAIN_LOSS)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="234" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text76>
+            <Text93 Ref="235" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12,0,2,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>e05e98a009384e9e8387ceff400f3b3a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text93</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="236" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text93>
+            <Text6 Ref="237" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.9,0,1.2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,7,Bold</Font>
+              <Guid>75c454fed77c41df9e4a1abac2fe272a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="10" />
+              <Parent isRef="221" />
+              <Text>{Sum(DataBand2,EC.PROPORTION)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="238" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text6>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>d61e0421b1f74121a499cddfd39baac1</Guid>
+          <Name>GroupFooterBand2</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupFooterBand2>
+        <GroupHeaderBand3 Ref="239" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.9,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text3 Ref="240" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,10.4,0.2</ClientRectangle>
+              <ComponentStyle>MF_TopHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold,Point,False,0</Font>
+              <Guid>0907a26bad2d46a49d685f885b2048eb</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="10" />
+              <Parent isRef="239" />
+              <Text>CASH</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>1460a74b7573458dba5c88b79cba2ac9</Guid>
+          <Name>GroupHeaderBand3</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupHeaderBand3>
+        <HeaderBand3 Ref="241" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,10.5,21.6,0.4</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text52 Ref="242" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>7.7,0,2.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>a23340ba5ad8434b854d5da30cb5baad</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text52</Name>
+              <Page isRef="10" />
+              <Parent isRef="241" />
+              <Text>CASH BALANCE</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text52>
+            <Text43 Ref="243" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>[224:224:224]</Brush>
+              <ClientRectangle>0,0,7.7,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,7.5,Bold</Font>
+              <Guid>862abbcdbe2d491d85395fe4cabeaff4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text43</Name>
+              <Page isRef="10" />
+              <Parent isRef="241" />
+              <Text>BANK ACCOUNT NAME</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text43>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>77b0ce31564d47f7a635ab65476c9587</Guid>
+          <Name>HeaderBand3</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </HeaderBand3>
+        <DataBand3 Ref="244" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,11.3,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text77 Ref="245" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,7.7,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>37d206d8683443ad94642376ad06879b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text77</Name>
+              <Page isRef="10" />
+              <Parent isRef="244" />
+              <Text>{cash.ACCOUNT_NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="246" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text77>
+            <Text82 Ref="247" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.7,0,2.9,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>d1df5efe1cec4e9f8ad31100e70c7c4f</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text82</Name>
+              <Page isRef="10" />
+              <Parent isRef="244" />
+              <Text>{cash.CASH_BALANCE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="248" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text82>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>cash</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>01f139adc92d4c40871361d7c9da3939</Guid>
+          <Name>DataBand3</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+        <GroupFooterBand3 Ref="249" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,11.9,21.6,0.6</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text84 Ref="250" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,7.7,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>e2bec51bfd4e4cf8b9026f4980133f4e</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text84</Name>
+              <Page isRef="10" />
+              <Parent isRef="249" />
+              <Text>Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text84>
+            <Text89 Ref="251" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.7,0,2.9,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>69ac45d1bb7a4393ad039d6c82b18b34</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text89</Name>
+              <Page isRef="10" />
+              <Parent isRef="249" />
+              <Text>{Sum(DataBand3,cash.CASH_BALANCE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="252" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text89>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>20771636ad7942f8ad4b2298da0d0196</Guid>
+          <Name>GroupFooterBand3</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupFooterBand3>
+        <GroupHeaderBand4 Ref="253" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,12.9,21.6,0.5</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text79 Ref="254" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.1,0,10.4,0.2</ClientRectangle>
+              <ComponentStyle>MF_TopHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12,Bold,Point,False,0</Font>
+              <Guid>e90f2563960b4a44af1a849e798623d7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text79</Name>
+              <Page isRef="10" />
+              <Parent isRef="253" />
+              <Text>SUMMARY</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text79>
+            <Text83 Ref="255" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.3,3,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>57c686980d7a4e709adc4e46828935b4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text83</Name>
+              <Page isRef="10" />
+              <Parent isRef="253" />
+              <Text>ASSET CLASS</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="256" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text83>
+            <Text85 Ref="257" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,0.3,2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>5ed16b915d53437f812af811b82cdb59</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text85</Name>
+              <Page isRef="10" />
+              <Parent isRef="253" />
+              <Text>TOTAL ASSET (GHC)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="258" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text85>
+            <Text86 Ref="259" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5,0.3,0.8,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>7a7935665cb8412a8d4116d23b99fcc8</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text86</Name>
+              <Page isRef="10" />
+              <Parent isRef="253" />
+              <Text>%</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="260" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text86>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>870e8ba17eeb4e7c90b48022bf965617</Guid>
+          <Name>GroupHeaderBand4</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupHeaderBand4>
+        <DataBand4 Ref="261" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,13.8,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text49 Ref="262" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>ca9426f12c79442589a623d84af75cba</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text49</Name>
+              <Page isRef="10" />
+              <Parent isRef="261" />
+              <Text>{SUMMARY.ASSET_CLASS}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="263" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text49>
+            <Text53 Ref="264" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,0,2,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>2ab51f027d6f469fba4c693d6bea08c7</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text53</Name>
+              <Page isRef="10" />
+              <Parent isRef="261" />
+              <Text>{SUMMARY.MARKET_VALUE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="265" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text53>
+            <Text80 Ref="266" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5,0,0.8,0.2</ClientRectangle>
+              <ComponentStyle>Statement_Det1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+              <Guid>35cd77826439419b8707cd2c5dfd2873</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text80</Name>
+              <Page isRef="10" />
+              <Parent isRef="261" />
+              <Text>{SUMMARY.PERCENTAGE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="267" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </Text80>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>SUMMARY</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>d756f523d2b84184aedd9e2e51a7b6bb</Guid>
+          <Name>DataBand4</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>ASSET_CLASS</value>
+          </Sort>
+        </DataBand4>
+        <GroupFooterBand4 Ref="268" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,14.4,21.6,0.2</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text54 Ref="269" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3,0.2</ClientRectangle>
+              <ComponentStyle>toho b</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+              <Guid>44fcb858181240ab9f66fab024fe1494</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text54</Name>
+              <Page isRef="10" />
+              <Parent isRef="268" />
+              <Text>Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text54>
+            <Text78 Ref="270" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,0,2,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>6ca824a73c4c492389cd56f90c47a6cb</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text78</Name>
+              <Page isRef="10" />
+              <Parent isRef="268" />
+              <Text>{Sum(DataBand4,SUMMARY.MARKET_VALUE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="271" type="CustomFormat" isKey="true">
+                <StringFormat>###,###,###,###.00</StringFormat>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text78>
+            <Text81 Ref="272" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5,0,0.8,0.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Segoe UI,8.25,Bold</Font>
+              <Guid>20323ade90af4d8dbb51ef28d2b93753</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text81</Name>
+              <Page isRef="10" />
+              <Parent isRef="268" />
+              <Text>{Sum(DataBand4,SUMMARY.PERCENTAGE)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="273" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Totals</Type>
+            </Text81>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>4402b2313627492e99f91b9585009872</Guid>
+          <Name>GroupFooterBand4</Name>
+          <Page isRef="10" />
+          <Parent isRef="10" />
+        </GroupFooterBand4>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>897bb37d0ef249fa96e8de10651e95e1</Guid>
+      <Margins>0.2,0.2,0.2,0.2</Margins>
+      <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>8.5</PageHeight>
+      <PageWidth>22</PageWidth>
+      <PaperSize>Letter</PaperSize>
+      <Report isRef="0" />
+      <Watermark Ref="274" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="275" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>8/15/2019 9:37:36 PM</ReportChanged>
+  <ReportCreated>7/28/2016 2:56:39 PM</ReportCreated>
+  <ReportFile>E:\PENFAD\PENFAD6_Loc\PENFAD6UI\Penfad_Reports\MM_TBILL_BOND_PV_SCHEME.mrt</ReportFile>
+  <ReportGuid>f73cc718c8d14e6689bffad0b03ca45c</ReportGuid>
+  <ReportImage isNull="true" />
+  <ReportName>Report</ReportName>
+  <ReportUnit>Inches</ReportUnit>
+  <ReportVersion>2016.2.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="31">
+    <CompanyName Ref="276" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Navy;2;Solid;False;4;Navy</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>CompanyName</Name>
+      <TextBrush>Navy</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </CompanyName>
+    <ReportName Ref="277" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Bottom;[31:73:125];2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,11.25,Regular,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>ReportName</Name>
+      <TextBrush>Navy</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </ReportName>
+    <PageHeaderss Ref="278" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>[224:224:224]</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>PageHeaderss</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </PageHeaderss>
+    <BodyText Ref="279" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>EmptyBrush</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <Name>BodyText</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </BodyText>
+    <PageFooterss Ref="280" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>PageFooterss</Name>
+      <TextBrush>Black</TextBrush>
+    </PageFooterss>
+    <Header_Details Ref="281" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>Header_Details</Name>
+      <TextBrush>Black</TextBrush>
+    </Header_Details>
+    <Bodytext_naration Ref="282" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,6.75,Regular,Point,False,0</Font>
+      <Name>Bodytext_naration</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </Bodytext_naration>
+    <RunningTotal Ref="283" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9,Regular,Point,False,0</Font>
+      <Name>RunningTotal</Name>
+      <TextBrush>Black</TextBrush>
+    </RunningTotal>
+    <FRunningTotal_B Ref="284" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Bold,Point,False,0</Font>
+      <Name>FRunningTotal_B</Name>
+      <TextBrush>Black</TextBrush>
+    </FRunningTotal_B>
+    <CompanyGL Ref="285" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,18,Regular,Point,False,0</Font>
+      <Name>CompanyGL</Name>
+      <TextBrush>Navy</TextBrush>
+    </CompanyGL>
+    <GLBalances Ref="286" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>GLBalances</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </GLBalances>
+    <GLTotals Ref="287" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;EmptyBrush</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Bold,Point,False,0</Font>
+      <HorAlignment>Right</HorAlignment>
+      <Name>GLTotals</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </GLTotals>
+    <GroupHeader Ref="288" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>EmptyBrush</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>GroupHeader</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GroupHeader>
+    <GroupTotal Ref="289" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9,Bold,Point,False,0</Font>
+      <Name>GroupTotal</Name>
+      <TextBrush>Black</TextBrush>
+    </GroupTotal>
+    <GLTotaltext Ref="290" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,8.25,Regular,Point,False,0</Font>
+      <Name>GLTotaltext</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GLTotaltext>
+    <GroupTotaltext Ref="291" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9,Regular,Point,False,0</Font>
+      <Name>GroupTotaltext</Name>
+      <TextBrush>DarkBlue</TextBrush>
+    </GroupTotaltext>
+    <BodytextPNL Ref="292" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Verdana,9.75,Regular,Point,False,0</Font>
+      <Name>BodytextPNL</Name>
+      <TextBrush>Black</TextBrush>
+    </BodytextPNL>
+    <header_red Ref="293" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>header_red</Name>
+      <TextBrush>Red</TextBrush>
+    </header_red>
+    <Body_Tahoma_black Ref="294" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>Body_Tahoma_black</Name>
+      <TextBrush>Black</TextBrush>
+    </Body_Tahoma_black>
+    <MF_TopHeader Ref="295" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Times New Roman,12,Bold,Point,False,0</Font>
+      <Name>MF_TopHeader</Name>
+      <TextBrush>Black</TextBrush>
+    </MF_TopHeader>
+    <Bog_Body_Tahoma Ref="296" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9,Regular,Point,False,0</Font>
+      <Name>Bog_Body_Tahoma</Name>
+      <TextBrush>Black</TextBrush>
+    </Bog_Body_Tahoma>
+    <MF_TopHeader_2 Ref="297" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Times New Roman,9.75,Bold,Point,False,0</Font>
+      <Name>MF_TopHeader_2</Name>
+      <TextBrush>Black</TextBrush>
+    </MF_TopHeader_2>
+    <CompanySmaller Ref="298" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>WhiteSmoke</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,11.25,Bold,Point,False,0</Font>
+      <Name>CompanySmaller</Name>
+      <TextBrush>Black</TextBrush>
+    </CompanySmaller>
+    <hearder_small Ref="299" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>WhiteSmoke</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>hearder_small</Name>
+      <TextBrush>Black</TextBrush>
+    </hearder_small>
+    <Statement_Header Ref="300" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>Statement_Header</Name>
+      <TextBrush>Black</TextBrush>
+    </Statement_Header>
+    <Statement_Det1 Ref="301" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Segoe UI,8.25,Regular,Point,False,0</Font>
+      <Name>Statement_Det1</Name>
+      <TextBrush>Black</TextBrush>
+    </Statement_Det1>
+    <totaltahoma Ref="302" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Beige</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Regular,Point,False,0</Font>
+      <Name>totaltahoma</Name>
+      <TextBrush>Black</TextBrush>
+    </totaltahoma>
+    <tahoma_x0020_no_x0020_border Ref="303" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,9.75,Regular,Point,False,0</Font>
+      <Name>tahoma no border</Name>
+      <TextBrush>Black</TextBrush>
+    </tahoma_x0020_no_x0020_border>
+    <toho_x0020_b Ref="304" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>All;Black;1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Tahoma,8.25,Bold,Point,False,0</Font>
+      <Name>toho b</Name>
+      <TextBrush>Black</TextBrush>
+    </toho_x0020_b>
+    <header_Line Ref="305" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Arial,9.75,Bold| Underline,Point,False,0</Font>
+      <Name>header_Line</Name>
+      <TextBrush>Black</TextBrush>
+    </header_Line>
+    <Style1 Ref="306" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Conditions isList="true" count="0" />
+      <Font>Calibri,9,Regular,Point,False,0</Font>
+      <Name>Style1</Name>
+      <TextBrush>Black</TextBrush>
+    </Style1>
+  </Styles>
+</StiSerializer>

@@ -1,0 +1,225 @@
+﻿
+
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@model IEnumerable<crm_EmployerSchemeFundRepo>
+
+@{
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+            .ID("ES")
+            .ColumnWidth(0.4)
+            .Title("Employer Account Close")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1000)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+                        x.FieldSet()
+                        .ColumnWidth(0.7)
+                        .Collapsible(true)
+                        .Height(650)
+                        .Width(1200)
+                        .Frame(true)
+                        .Layout(LayoutType.Column)
+                        .Title("Close Employer Account")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                         .Items(
+                         x.FieldSet()
+                        .ColumnWidth(0.6)
+                        .Collapsible(true)
+                        .Height(580)
+                        .AutoScroll(true)
+                        .Title("Employer Account List")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                            x.GridPanel()
+                            .ID("esGrid")
+                            .Title("View Employer Account")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            //.Width(1150)
+                            .MarginSpec("10 0 0 10")
+                            .Height(480)
+                               .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("esStore")
+                            //.DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                       x.ModelField().Name("EMSF_Id").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("EMSF_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("ReadES_NotClosed"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                     .ColumnModel(x.Column().DataIndex("EMSF_Id").Text("ES ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER ID").Width(0))
+                     .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND").Width(200))
+                    .ColumnModel(x.Column().DataIndex("EMSF_Status").Text("STATUS").Width(100))
+                            ),
+
+                         x.FieldSet()
+                        .ColumnWidth(0.4)
+                        .Collapsible(true)
+                        .Height(580)
+                        //.Layout(LayoutType.Column)
+                        .Title("Employer Account Details")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                            x.Hidden().Name("EMSF_Id"),
+                            x.Hidden().Name("Employer_Id"),
+
+                            x.TextField()
+                            .Name("Employer_Name")
+                            .Width(400)
+                            .FieldLabel("Employer Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employer must be selected."),
+
+
+
+                            x.ComboBox().Name("Scheme_Name")
+                            .FieldLabel("Scheme")
+                            .MarginSpec("0 10 10 10").TabIndex(5).Width(400)
+                            .AllowBlank(false)
+                            .ReadOnly(true),
+
+                             x.ComboBox().Name("Fund_Name")
+                            .FieldLabel("Fund")
+                            .MarginSpec("0 10 10 10").TabIndex(5).Width(400)
+                            .AllowBlank(false)
+                            .ReadOnly(true),
+
+
+                        x.FieldSet()
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("100 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+
+                        .Items(
+                            x.Button()
+                                .Text("Close Employer Account")
+                                .Width(380)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Close Record";
+                                    de.Click.Confirmation.Message = "Close Employer Account?";
+                                    de.Click.Url = Url.Action("CloseRecord");
+
+                                }).MarginSpec("20 10 0 0"),
+
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(380)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+
+
+
+                            )
+
+
+                       )
+            )
+        )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,153 @@
+﻿@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+    @model IEnumerable<pfm_VestingRuleRepo>
+
+    @{
+        var sheme = new pfm_VestingRuleRepo();
+        var x = Html.X();
+    }
+
+
+    @(x.FormPanel()     
+            .ID("vestingRule")
+            .ColumnWidth(0.4)
+            .Title("Setup Vesting Rule")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1000)
+            .Height(500)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+               // fd.LabelStyle = "color:blue;";
+            })
+            .Items(
+                    x.GridPanel()
+                            .ID("securityGrid")
+                            .Title("View Vesting Rule List")
+                            .Frame(true)
+                            .Width(500)
+                            .MarginSpec("10 0 0 10")
+                            .Height(450)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                            x.Store()
+                                    .AutoLoad(true)
+                                    .ID("vestingRuleStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Vesting_Rule_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Vesting_Rule").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("Vesting_Rule_Id").Text("VESTING RULE ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Vesting_Rule").Text("VESTING RULE").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0)),
+
+                    x.FieldSet()
+                       .WidthSpec("auto")
+                        .Collapsible(true)
+
+                        .Height(460)
+                        .Title("Add/Edit Vesting Rule")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Hidden().Name("Vesting_Rule_Id"),                      
+                            x.TextArea()
+                                .Name("Vesting_Rule")
+                                .Width(400)
+                                .Height(200)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Vesting Rule")
+                                .AllowBlank(false)
+                                .BlankText("'Vesting Rule' is required."),
+
+                                x.ComboBox().Name("Scheme_Id")
+                                .FieldLabel("Scheme Name")                                                          
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(400)
+                                .AllowBlank(false)
+                               .Editable(false)
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select a Scheme")
+                                .BlankText("Scheme is required.").Items(sheme.GetSchemeList().Select(d => new ListItem(d.Scheme_Name, d.Scheme_Id)))
+
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save")
+                                .Width(120)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Add Record";
+                                    de.Click.Confirmation.Message = "Save Vesting Rule?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Delete")
+                                .Width(120)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete Vesting Rule?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(120)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

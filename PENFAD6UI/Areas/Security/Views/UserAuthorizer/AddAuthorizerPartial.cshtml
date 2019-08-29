@@ -1,0 +1,347 @@
+﻿
+
+
+
+@model PENFAD6DAL.Repository.Security.sec_AuthorizerRepo 
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.Security
+@using PENFAD6DAL.Repository.Setup.InvestSetup
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@*@using PRIME5DAL.Repository.AccountingMIS.GL*@
+
+
+@{
+    var X = Html.X();
+   
+    var repo_user = new sec_UserRepo();
+
+
+}
+
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+
+
+
+
+</script>
+
+
+<style>
+    .lableStyle {
+        color: #darkblue;
+    }
+</style>
+
+
+
+@(Html.X().FormPanel()
+                                .ID("frm_AddAuthorizerPartial")
+                                .Closable(true)
+                                .Title("User Details")
+                                .WidthSpec("auto")
+                                .HeightSpec("auto")
+                                .BodyPadding(5)
+                                //.Collapsible(true)
+                                .Layout(LayoutType.Column)
+                                .FieldDefaults(fd =>
+                                {
+                                    fd.LabelWidth = 115;
+                                    fd.LabelStyle = "font-weight: bolder";
+                                    //fd.LabelStyle = "font-size: 14px;font-weight: bolder";
+                                })
+                                //.AutoScroll(true)
+                                .Items(Html.X().Panel()
+                                            .ID("panel_for_gl_grid")
+                                            .ColumnWidth(0.4)
+                                            .Border(true)
+                                            .Height(680)
+                                            .Title("User Details")
+                                            .MarginSpec("10 0 0 10")
+                                            .AutoScroll(true)
+                                            .BodyPadding(5)
+                                .Items(Html.X().GridPanel()
+                                                            .ID("Authorizer_grid")
+                                                            //.Hidden(true)
+                                                            .Region(Region.West)
+                                                            //.Split(true)
+                                                            .Border(true)
+                                                            //.Frame(true)
+                                                            //.Width(350)
+                                                            .Cls("gridFont")
+                                                            .Height(600)
+                                                        //.HeightSpec("auto")
+                                                        .TopBar(Html.X().Toolbar()
+                                           .Items(Html.X().Button()
+                                                                                .ID("btn_viewAuthorizer")
+                                                                                .Text("View Authorizer")
+                                                                                .Width(200)
+                                                                                .Icon(Icon.ApplicationViewDetail)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Url = Url.Action("ReadAuthorizer");
+                                                                                   de.Click.Success = "onSuccess(App.Authorizer_grid, result.data);";
+                                                                                   /// de.Click.ExtraParams.Add(new Parameter("User_Id", "App.cmd_User_for_gl.getValue()", ParameterMode.Raw));
+                                                                                })))
+                                                            .Store(Html.X().Store()
+                                                                .ID("authorizerstore")
+                                                                .AutoLoad(false)
+                                                                .Model(Html.X().Model()
+                                                                    .Fields(
+
+                                                                            new ModelField("Full_Name", ModelFieldType.String),
+                                                                            new ModelField("Authority_Level", ModelFieldType.String),
+                                                                            new ModelField("With_Drawal_Authority", ModelFieldType.String),
+                                                                            new ModelField("Vocher_Petty_Cash_Authority", ModelFieldType.String),
+                                                                            new ModelField("Batch_Deposit_Authority", ModelFieldType.String),
+                                                                            new ModelField("With_Drawal_Limit", ModelFieldType.Float),
+                                                                            new ModelField("Vocher_petty_Limit", ModelFieldType.Float),
+                                                                            new ModelField("Vocher_Major_Limit", ModelFieldType.Float),
+                                                                            new ModelField("Approve_Fixed_Income", ModelFieldType.String),
+                                                                            new ModelField("Fixed_Income_Limit", ModelFieldType.Float),
+                                                                            new ModelField("Approve_Equity", ModelFieldType.String),
+                                                                            new ModelField("Equity_Limit", ModelFieldType.Float),
+                                                                            new ModelField("User_Id", ModelFieldType.String)
+
+                                                                            )//end fields
+                                                                        )//end model
+                                                                        .Reader(reader => reader.Add(Html.X().ArrayReader()))//end reader
+                                                                        .ServerProxy(
+                                                                                    Html.X().AjaxProxy()
+                                                                                            .Url(Url.Action("ReadAuthorizer"))
+                                                                                    )//end serverproxy
+                                                                    )//end  store
+                                                            .ColumnModel(
+
+                                                                   Html.X().Column().Text("Authorizer Name").DataIndex("Full_Name").Width(350),
+                                                                     Html.X().Column().Text("Authorizer Type").DataIndex("Authority_Level").Width(300),
+                                                                     Html.X().Column().Text("User Id").DataIndex("User_Id").Width(200),
+                                                                      Html.X().Column().Text(" Authorizer WithDrawal ").DataIndex("With_Drawal_Authority").Width(300),
+                                                                      Html.X().Column().Text("WithDrawal Limit").DataIndex("With_Drawal_Limit").Width(300),
+                                                                       Html.X().Column().Text("Authorizer Office Expenses ").DataIndex("Vocher_Petty_Cash_Authority").Width(300),
+                                                                        Html.X().Column().Text("Authorizer Withdrawal limit").DataIndex("With_Drawal_Limit").Width(300),
+                                                                        Html.X().Column().Text("Approve Fixed Income").DataIndex("Approve_Fixed_Income").Width(300),
+                                                                         Html.X().Column().Text("Fixed Income Limit").DataIndex("Fixed_Income_Limit").Width(300),
+                                                                          Html.X().Column().Text("Approve Equity").DataIndex("Approve_Equity").Width(300),
+                                                                           Html.X().Column().Text("Equity_Limit").DataIndex("Equity_Limit").Width(300)
+
+
+                                                                          
+
+
+                                                                    /////Html.X().Column().Text("Back Period Entry").DataIndex("AllowBack_PeriodEntry").Width(150)
+                                                                    )//end columnmodel
+                                                            .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);};")
+                                                            .Plugins(Html.X().FilterHeader())
+                                                            .Refresh()
+                                                            .BottomBar(
+                                                                    Html.X().PagingToolbar()
+                                                                    //.Items(
+                                                                    //        Html.X().Label("Page Size:"),
+                                                                    //        Html.X().ComboBox()
+                                                                    //                .Width(80)
+                                                                    //                .Items("5", "10", "15", "20")
+                                                                    //                .SelectedItems("10")
+                                                                    //                .Listeners(l => { l.Select.Fn = "onComboBoxSelect"; })
+                                                                    //        )
+                                                                    //    .Plugins(Html.X().ProgressBarPager())
+                                                                    )
+                                                          //.DirectEvents(de =>
+                                                          //{
+                                                          //    de.CellClick.Url = Url.Action("GetGroupsByRoleId");
+                                                          //    de.CellClick.Success = "onSuccessgroup(App.group_grid, result.data);";
+                                                          //})
+                                                          ) //end rolegridpanel
+                                         )//end panel_forgrids
+                                          // second column begins
+
+                                 .Items(Html.X().Panel()
+                                            .ID("panel_rightcolumn_Authorizerdetails")
+                                            .Border(true)
+                                            .ColumnWidth(0.4)
+                                            .AutoScroll(true)
+                                            //.Title("GL Properties")
+                                            .Height(680)
+                                            .MarginSpec("10 0 0 0")
+                                            .ButtonAlign(Alignment.Left)
+                                            .Buttons(
+                                                        X.Button().ID("btnSave").Text("Create Authorizer").Icon(Icon.ApplicationAdd).Width(200)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Url = Url.Action("CreateAuthorizer");
+                                                                }),
+                                                          X.Button().ID("btnDelete").Text("Delete Authorizer").Icon(Icon.Delete).Width(200)
+                                                                .DirectEvents(de =>
+                                                                {
+                                                                    de.Click.Url = Url.Action("DeleteRecord");
+                                                                }),
+                                                     X.Button()
+                                                          .Text("Clear Screen")
+                                                            .Width(150)
+                                                           .Icon(Icon.ArrowRefresh)
+                                                          .OnClientClick("this.up('form').getForm().reset();")
+                                                    // .MarginSpec("10 0 0 0")
+
+                                                           )
+
+                                            .Items(Html.X().FieldSet().Layout(LayoutType.Column)
+                                                        .ID("fs_parent1")
+                                                         .MarginSpec("0 10 0 10")
+                                                        .Title("User Details")
+                                                        .Collapsible(true)
+                                                        .Defaults(d =>
+                                                        {
+                                                            d.Add(new Parameter("LabelWidth", "115"));
+                                                        })
+                                                        //.Height(130)
+                                                        .Items(
+                                                                  //Html.X().TextField().ID("User_Id").Name("User_Id").FieldLabel("User Id.").Width(400).ReadOnly(true),
+                                                                  //  Html.X().TextField().ID("User_Name").Name("User_Name").FieldLabel("Authorizer Name").Width(500).ReadOnly(true)
+
+                                                                  Html.X().ComboBox().Name("User_Id")
+                                                                      .FieldLabel("Authorizer Name")
+                                                                     .MarginSpec("0 30 10 10").TabIndex(1).Width(500)
+                                                                     .AllowBlank(false).Editable(false)
+                                                                     .FieldStyle("text-transform: uppercase")
+                                                                      .BlankText("User Name is required.").Items(repo_user.GetUser_List().Select(d => new ListItem(d.Full_Name , d.UserId)))
+                                                                 )//end items fs_parent1
+                                                    )//end fs_parent1
+                                           .Items(Html.X().FieldSet().Layout(LayoutType.Column)
+                                                        .ID("fs_parentAuthorizer")
+                                                      .MarginSpec("0 10 0 10")
+                                                        .Title("Authorizer Details")
+                                                        //.Disable(true)
+                                                        .Collapsible(true)
+                                                          //.Collapsed(true)
+                                                          //.Defaults(d =>
+                                                          //{
+                                                          //    d.Add(new Parameter("LabelWidth", "115"));
+                                                          //})
+                                                          //.Height(130)
+                                                          .FieldDefaults(d =>
+                                                          {
+                                                              d.LabelAlign = LabelAlign.Top;
+                                                              d.MsgTarget = MessageTarget.Side;
+                                                              d.LabelWidth = 150;
+                                                              d.PreventMark = true;
+                                                          })
+
+                                                        .Items
+                                                        (
+                                                                Html.X().ComboBox().Name("Authority_Level").FieldLabel("Authority Type")
+                                                                        .EmptyText("Select  Authority Type")
+                                                                       .MarginSpec("0 30 10 10").Width(250).TabIndex(1).Listeners(ls => ls.Select.Handler = "App.ComboBoxInvest.clearValue(); App.ComboBoxAuthType.getStore().load()")
+                                                                     .Items(
+                                                                               new ListItem("GLOBAL"),
+                                                                                  new ListItem("BRANCH")
+
+                                                                             )
+                                                                                 .Editable(false)
+                                                                                 .AllowBlank(false)
+                                                                                 .BlankText("Authority Type is required.")
+                                                                                 .FieldStyle("text-transform:UPPERCASE"),
+                                                               Html.X().ComboBox().Name("With_Drawal_Authority").FieldLabel("Authorizer Withdrawal")
+                                                                              .MarginSpec("0 30 10 10").Width(250).TabIndex(2).Listeners(ls => ls.Select.Handler = "App.ComboBoxAdw.clearValue(); App.ComboBoxAuthd.getStore().load()")
+                                                                               .EmptyText("Select  Authority Withdrawal")
+                                                                              .Items(
+                                                                                new ListItem("YES"),
+                                                                                 new ListItem("NO")
+
+                                                                                     )
+                                                                                   .Editable(false)
+                                                                                   .AllowBlank(false)
+                                                                                   .BlankText("Authorizer Withdrawal is required.")
+                                                                                    .FieldStyle("text-transform:UPPERCASE"),
+
+                                                                      Html.X().TextField().ID("frmAuthWithdrawal_Limit").Name("With_Drawal_Limit")
+                                                                .FieldLabel("Withdrawal Limit").MarginSpec("0 30 10 10").Width(250).TabIndex(3)
+                                                                 .MarginSpec("0 30 0 10"),
+
+                                                                 Html.X().ComboBox().Name("Vocher_Petty_Cash_Authority").FieldLabel("Authozire Office Expenses")
+                                                                           .EmptyText("Select Authozire Office Expenses")
+                                                                              .MarginSpec("0 30 10 10").Width(250).TabIndex(4).Listeners(ls => ls.Select.Handler = "App.ComboBoxAof.clearValue(); App.ComboBoxAuthd.getStore().load()")
+                                                                              .Items(
+                                                                                new ListItem("YES"),
+                                                                                 new ListItem("NO")
+
+                                                                                     )
+                                                                                   .Editable(false)
+                                                                                   .AllowBlank(false)
+                                                                                   .BlankText("Authozire Office Expenses is required.")
+                                                                                    .FieldStyle("text-transform:UPPERCASE"),
+                                                                       Html.X().TextField().ID("frmVocher_petty_Limit").Name("Vocher_petty_Limit")
+                                                                .FieldLabel("Office Expense Approval Limit").MarginSpec("0 30 10 10").Width(250).TabIndex(5)
+                                                                 .MarginSpec("0 30 0 10"),
+                                                                  Html.X().ComboBox().Name("Batch_Deposit_Authority").FieldLabel("Authorizer Mobile Banking Transaction")
+                                                                            .EmptyText("Select Authorizer Mobile Banking Transaction")
+                                                                              .MarginSpec("0 30 10 10").Width(250).TabIndex(6).Listeners(ls => ls.Select.Handler = "App.ComboBoxAb.clearValue(); App.ComboBoxAuthbm.getStore().load()")
+                                                                              .Items(
+                                                                                new ListItem("YES"),
+                                                                                 new ListItem("NO")
+
+                                                                                     )
+                                                                                   .Editable(false)
+                                                                                   .AllowBlank(false)
+                                                                                   .BlankText("Authorizer Mobile Banking Transaction is required.")
+                                                                                    .FieldStyle("text-transform:UPPERCASE"),
+
+                                                                   Html.X().ComboBox().Name("Approve_Fixed_Income").FieldLabel("Approve Fixed Income Transaction")
+                                                                                  .EmptyText("Select Approve Fixed Income Transaction")
+                                                                                 .MarginSpec("0 30 10 10").Width(250).TabIndex(7).Listeners(ls => ls.Select.Handler = "App.ComboBoxAf.clearValue(); App.ComboBoxAf.getStore().load()")
+                                                                              .Items(
+                                                                                new ListItem("YES"),
+                                                                                 new ListItem("NO")
+
+                                                                                     )
+                                                                                   .Editable(false)
+                                                                                   .AllowBlank(false)
+                                                                                   .BlankText("Authorizer Mobile Banking Transaction is required.")
+                                                                                    .FieldStyle("text-transform:UPPERCASE"),
+
+                                                         Html.X().TextField().ID("frmFixed_Income_Limit").Name("Fixed_Income_Limit")
+                                                                .FieldLabel("Fixed Income Approval Limit").MarginSpec("0 30 10 10").Width(250).TabIndex(8)
+                                                                 .MarginSpec("0 30 0 10"),
+
+                                                                  Html.X().NumberField ().ID("frmFixedNo_Of_Time_Can_Approve").Name("No_Of_Time_Can_Approve")
+                                                                .FieldLabel("No.Of Time  Person Can Approve").MarginSpec("0 30 10 10").Width(250).TabIndex(9)
+                                                                 .MarginSpec("0 30 0 10"),
+
+                                                                   Html.X().ComboBox().Name("Approve_Equity").FieldLabel("Approve Equity Transaction")
+                                                                             .EmptyText("Select Approve Equity Transaction")
+                                                                              .MarginSpec("0 30 10 10").Width(250).TabIndex(10).Listeners(ls => ls.Select.Handler = "App.ComboBoxAf.clearValue(); App.ComboBoxAf.getStore().load()")
+                                                                              .Items(
+                                                                                new ListItem("YES"),
+                                                                                 new ListItem("NO")
+
+                                                                                     )
+                                                                                   .Editable(false)
+                                                                                   .AllowBlank(false)
+                                                                                   .BlankText("Authorizer Mobile Banking Transaction is required.")
+                                                                                    .FieldStyle("text-transform:UPPERCASE"),
+
+                                                                  Html.X().TextField().ID("forEquity_Limit").Name("Equity_Limit")
+                                                                .FieldLabel("Equity Approve Limit").MarginSpec("0 30 10 10").Width(250).TabIndex(11)
+                                                                 .MarginSpec("0 30 0 10")
+
+
+                                                                         )//end button
+
+                                                ))//end items fs_parent4
+)//end fs_parent3
+
+)
+
+
+
+
+
+
+
+
+

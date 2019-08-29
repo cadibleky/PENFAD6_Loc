@@ -1,0 +1,316 @@
+﻿@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@*@model IEnumerable<remit_BankSchemeFundRepo>*@
+
+@{
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+            .ID("frmBankSF")
+            .Title("Bank-SchemeFund Setup")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1200)
+            .Height(1300)
+            .Layout(LayoutType.Column)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+           .Items(
+                x.FieldSet()
+                .MarginSpec("0 0 0 0")
+                .Width(800)
+                .Defaults(dd =>
+                { dd.Add(new Parameter("LabelWidth", "115")); })
+                  .Items(
+                         x.Button()
+                        .Text("View Bank-SchemeFund")
+                        .Icon(Icon.ArrowRefresh)
+                        .MarginSpec("5 0 5 10")
+                        .Width(240)
+                        .DirectEvents(de =>
+                        {
+                            de.Click.Url = Url.Action("Read");
+                            de.Click.Success = "onSuccess(App.BankSFGrid, result.data);";
+                        }),
+
+                         x.GridPanel()
+                        .ID("BankSFGrid")
+                        .Title("Bank-SchemeFund List")
+                        .Frame(true)
+                        .Width(800)
+                        .MarginSpec("10 0 0 10")
+                        .Height(670)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("BankSFStore")
+                        //.DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Bank_RefNo").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Actual_Bank_Acct_No").Type(ModelFieldType.String),
+                                    x.ModelField().Name("GL_Account_No").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Actual_Bank_Acct_Name").Type(ModelFieldType.String)
+
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                 .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]);  App.savebtn.hide();}")
+
+                //.ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(400))
+                .ColumnModel(x.Column().DataIndex("Fund_Name").Text("Fund").Width(200))
+                .ColumnModel(x.Column().DataIndex("Actual_Bank_Acct_No").Text("Actual Bank Account No").Width(200))
+                .ColumnModel(x.Column().DataIndex("Actual_Bank_Acct_Name").Text("Account Name").Width(400))
+
+),
+                        x.FieldSet()
+                        .Width(480)
+                        .Height(700)
+                        .Title("Create Bank-SchemeFund")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                            x.Button()
+                            .Text("Select Scheme-Fund")
+                            .Width(200)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.wndSF.show(this);")
+                            .MarginSpec("35 10 10 10")
+                            ,
+
+                            x.Hidden().Name("Scheme_Fund_Id").ID("txtBankSF_SFID")
+                              .Listeners(ls =>
+                              ls.Change.Handler = "App.cboBankSF_GLANO.clearValue(); App.cboBankSF_GLANO.getStore().load();"),
+                            x.Hidden().Name("Scheme_Id"),
+                            x.Hidden().Name("Fund_Id"),
+                             x.Hidden().Name("Bank_RefNo"),
+
+                            x.TextField()
+                            .Name("Scheme_Name")
+                            .Width(400)
+                            .FieldLabel("Scheme")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 0 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Scheme-Fund must be selected."),
+
+                             x.TextField()
+                            .Name("Fund_Name")
+                            .Width(400)
+                            .FieldLabel("Fund")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 0 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Scheme-Fund must be selected."),
+
+
+                            x.ComboBox().Name("GL_Account_No").ID("cboBankSF_GLANO")
+                                                .FieldLabel("GL Account Name")
+                                                .Width(400)
+                                                .Editable(false)
+                                                .TypeAhead(true)
+                                                .QueryMode(DataLoadMode.Local)
+                                                .ForceSelection(true)
+                                                .TriggerAction(TriggerAction.All)
+                                                .DisplayField("name")
+                                                .ValueField("id")
+                                                .BlankText("GL Account is required.")
+                                                .EmptyText("No GL Account Available...")
+                                                .ValueNotFoundText("No GL Account Available...").MarginSpec("30 0 0 10")
+                                                .Store(Html.X().Store()
+                                                    .AutoLoad(false)
+                                                    .Model(Html.X().Model()
+                                                        .IDProperty("Id")
+                                                        .Fields(
+                                                            new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                                            new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                                        )
+                                                    )
+                                                    .Proxy(Html.X().AjaxProxy()
+                                                        .Url(Url.Action("GetGLAB"))
+                                                        .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                    )
+                                                    .Parameters(ps =>
+                                                        ps.Add(new StoreParameter("Scheme_Fund_Id", "App.txtBankSF_SFID.getValue()", ParameterMode.Raw))
+                                                    )
+                                                    .Listeners(ls =>
+                                                                    ls.Load.Handler = @"var combo = App.cboBankSF_GLANO; 
+                                                                                        combo.setValue(records[0].get(combo.valueField));"
+
+                                                    )
+                                               )
+                                        ,
+
+                             x.TextField()
+                            .Name("Actual_Bank_Acct_Name")
+                            .Width(400)
+                            .FieldLabel("Actual Bank Accout Name")
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 0 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                             x.TextField()
+                            .Name("Actual_Bank_Acct_No")
+                            .Width(400)
+                            .FieldLabel("Actual Bank Account No")
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 0 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                              x.ComboBox().Name("Custodian_Id")
+                            .FieldLabel("Custodian")
+                            .MarginSpec("3 0 10 10").TabIndex(5).Width(400)
+                            .AllowBlank(false)
+                            .Editable(false)
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All)
+                            .EmptyText("Select Custodian")
+                            .BlankText("Custodian is required.").Items(scheme.GetCustodianList().Select(d => new ListItem(d.Custodian_Name, d.Custodian_Id))),
+
+
+                            x.Button()
+                                .Text("Save Bank-SchemeFund")
+                                .Width(300)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Save Record";
+                                    de.Click.Confirmation.Message = "Create Bank-SchemeFund?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                }).MarginSpec("50 0 0 10"),
+
+                              x.Button()
+                                .Text("Delete")
+                                .Width(145)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete Bank-SchemeFund?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+
+                                }).MarginSpec("10 0 0 10"),
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(145)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 0 0 10")
+
+                                    ),
+
+
+                                x.Window()
+                                .ID("wndSF")
+                                .Title("Scheme-Fund List")
+                                .Width(1000)
+                                .Height(500)
+
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("AddBankSFGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("empStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                             )
+
+                                            )
+                                            .ServerProxy(
+                                                   Html.X().AjaxProxy()
+                                                   .Url(Url.Action("ReadSF"))
+                                                  )
+                                            .PageSize(10)
+
+                                    )
+                                     .BottomBar(
+                                        Html.X().PagingToolbar()
+                                    )
+                                    .Plugins(
+                                        x.FilterHeader()
+                                    )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frmBankSF.getForm().loadRecord(selected[0]); App.wndSF.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+                                        )
+                                    )
+
+                 )
+)

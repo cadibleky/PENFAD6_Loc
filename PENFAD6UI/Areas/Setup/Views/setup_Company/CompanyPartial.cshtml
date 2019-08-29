@@ -1,0 +1,239 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+    @model IEnumerable<setup_CompanyRepo>
+
+    @{
+        var company = new setup_CompanyRepo();
+        var x = Html.X();
+    }
+
+    @(x.FormPanel()
+            .ID("frmCompany")
+            .ColumnWidth(0.4)
+            .AutoScroll(true)
+            .Title("Setup Company")
+            .Frame(true)
+            .Closable(true)
+            // .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(2500)
+            // .Height(600)
+            //.FieldDefaults(fd =>
+            //{
+            //    fd.LabelAlign = LabelAlign.Top;
+            //    fd.MsgTarget = MessageTarget.Side;
+            //    // fd.LabelStyle = "color:blue;";
+            //})
+            .Items(
+                    x.GridPanel()
+                            .ID("CompanyGrid")
+                            .Title("Company List")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            .Width(800)
+                            .MarginSpec("10 0 0 10")
+                            .Height(200)
+                            .Plugins(
+                            x.FilterHeader())
+                            .Store(
+                            x.Store()
+                                    .AutoLoad(true)
+                                    .ID("CompanyStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("SMTP").Type(ModelFieldType.String),
+                                        x.ModelField().Name("PORT").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("EMAIL_FROM").Type(ModelFieldType.String),
+                                        x.ModelField().Name("EMAIL_PASSWORD").Type(ModelFieldType.String),
+                                        x.ModelField().Name("COMPANY_NAME").Type(ModelFieldType.String),
+                                        x.ModelField().Name("WEBSITE_ADDRESS").Type(ModelFieldType.String),
+                                        x.ModelField().Name("POSTAL_ADDRESS").Type(ModelFieldType.String),
+                                        x.ModelField().Name("TELEPHONE_NUMBER").Type(ModelFieldType.String),
+                                        x.ModelField().Name("LOCATION").Type(ModelFieldType.String),
+                                        x.ModelField().Name("SMS_NAME").Type(ModelFieldType.String),
+                                        x.ModelField().Name("SMS_ID").Type(ModelFieldType.String),
+                                        x.ModelField().Name("SMS_PASSWORD").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+
+                    .DirectEvents(de =>
+                    {
+                        de.CellClick.Url = Url.Action("DisplayPhoto");
+                        de.CellClick.ExtraParams.Add(new Parameter("COMPANY_NAME", "App.txtCompany_EmpEdit.getValue()", ParameterMode.Raw));
+
+                    })
+
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); } ")
+                    .ColumnModel(x.Column().DataIndex("COMPANY_NAME").Text("COMPANY").Width(600)),
+
+
+                    x.FieldSet()
+                        .Width(800)
+                        .Collapsible(true)
+
+                        .Height(800)
+                        .Title("Edit Company")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+
+                                x.TextField()
+                                .Name("COMPANY_NAME").ID("txtCompany_EmpEdit")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Company Name")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("SMTP")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("SMTP")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("PORT")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Port")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("EMAIL_FROM")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Email")
+                                .AllowBlank(false),
+
+                                 x.TextField()
+                                .Name("EMAIL_PASSWORD")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("EMAIL PASSWORD")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("WEBSITE_ADDRESS")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Website Address")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("POSTAL_ADDRESS")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Postal Address")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("TELEPHONE_NUMBER")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Telephone")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("LOCATION")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Location")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("SMS_NAME")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("SMS Name")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("SMS_ID")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("SMS ID")
+                                .AllowBlank(false),
+
+                                x.TextField()
+                                .Name("SMS_PASSWORD")
+                                .Width(600)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("SMS PASSWORD")
+                                .AllowBlank(false)
+                                ,
+
+                               x.FieldSet()
+                                .ID("empEdit_fset_picture_1")
+                                .Title("Logo")
+                                .Layout(LayoutType.VBox)
+                                .MarginSpec("0 20 0 10")
+                                .Width(600)
+                                .HeightSpec("auto")
+                                .Items(
+                        Html.X().Image()
+                                        .ID("empEdit_pic1_company")
+                                        .Frame(true)
+                                        .Border(true)
+                                        .Width(100).MarginSpec("0 0 10 0")
+                                        .Height(100),
+
+                                    Html.X().FileUploadField()
+                                                    .ID("empEdit_btnloadfile_company")
+                                                    .Width(350)
+                                                    .Icon(Icon.DiskUpload)
+                                                    .ButtonText("Upload Logo")
+                                                    .DisableKeyFilter(true)
+                                                    .EmptyText("Select file")
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Change.Timeout = 12000000;
+                                        de.Change.Url = Url.Action("SavePhoto");
+                                    })
+                                    )
+                                    )
+
+                        .Items(
+                            x.Button()
+                                .Text("Update Company")
+                                .Width(500)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Update";
+                                    de.Click.Confirmation.Message = "Update Company?";
+                                    de.Click.Url = Url.Action("UpdateRecord");
+                                }).MarginSpec("20 10 0 10")
+
+
+
+                       )
+                   )
+                )
+
+
+
+
+
+
+
+
+
+
+
+

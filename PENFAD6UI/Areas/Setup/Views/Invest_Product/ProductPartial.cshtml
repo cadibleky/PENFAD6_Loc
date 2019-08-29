@@ -1,0 +1,217 @@
+﻿@using PENFAD6DAL.Repository.Setup.InvestSetup
+
+    @model IEnumerable<Invest_ProductRepo>
+
+    @{
+        var product = new Invest_ProductRepo();
+        var x = Html.X();
+    }
+
+
+    @(x.FormPanel()
+            .ID("frmProduct")
+            .ColumnWidth(0.4)
+            .AutoScroll(true)
+            .Title("Setup Products")
+            .Frame(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(600)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+                // fd.LabelStyle = "color:blue;";
+            })
+            .Items(
+                    x.GridPanel()
+                            .ID("productGrid")
+                            .Title("Products List")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            .Width(800)
+                            .MarginSpec("10 0 0 10")
+                            .Height(550)
+                            .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                            x.Store()
+                                    .AutoLoad(true)
+                                    .ID("productStore")
+                            .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Product_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Class_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Description").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Product_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("NPRA_Asset_Class_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("NPRA_Asset_Class_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Equity_CIS_Unit_Price").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Listed").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Record_Status").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Bond_Class").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Fix_Floating").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("Read"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); } ")
+                    .ColumnModel(x.Column().DataIndex("Product_Id").Text("PRODUCT ID").Width(100))
+                    // .ColumnModel(x.Column().DataIndex("Class_Id").Text("PRODUCT ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Description").Text("ASSET TYPE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Product_Name").Text("PRODUCT NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("NPRA_Asset_Class_Name").Text("NPRA ASSET CLASS").Width(200))
+                    // .ColumnModel(x.Column().DataIndex("Equity_CIS_Unit_Price").Text("UNIT PRICE").Width(100))
+                     .ColumnModel(x.Column().DataIndex("Fix_Floating").Text("FIX/FLOATING?").Width(0))
+                    .ColumnModel(x.Column().DataIndex("NPRA_Asset_Class_Id").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Record_Status").Text("STATUS").Width(100)),
+
+                    x.FieldSet()
+                        .Width(450)
+                        .Collapsible(true)
+
+                        .Height(560)
+                        .Title("Add/Edit Product")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Hidden().Name("Product_Id"),
+
+
+                                x.TextField()
+                                .Name("Product_Name")
+                                .Width(350)
+                                .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                .FieldLabel("Product Name")
+                                .AllowBlank(false),
+
+                                 x.ComboBox().ID("ProductP_txtClassId").Name("Class_Id")
+                                .FieldLabel("Asset Type")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select a Asset Type")
+                               .Items(product.GetAssetTypeList().Select(d => new ListItem(d.Description, d.Class_Id)))
+                                .DirectEvents(de =>
+                                {
+                                    de.Change.Url = Url.Action("gclasscode");
+                                }),
+
+                                //
+                                x.ComboBox().ID("txt_Bond_Type").Name("Bond_Class")
+                                .FieldLabel("Bond Type")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .SetHidden(true)
+                                .EmptyText("Select Bond Type")
+                                .Items("GOG BOND","CORPORATE BOND","NA"),
+
+                                   x.ComboBox().ID("txt_FIX_float").Name("Fix_Floating")
+                                .FieldLabel("Fix/Floating?")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .SetHidden(true)
+                                .EmptyText("Select")
+                                .Items("FIXED", "FLOATING", "NA"),
+
+                                x.ComboBox().ID("ProductP_txtClass_Id").Name("NPRA_Asset_Class_Id")
+                                .FieldLabel("NPRA Asset Class")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select a NPRA Asset Class")
+                                .Items(product.GetAssetList().Select(d => new ListItem(d.NPRA_Asset_Class_Name, d.NPRA_Asset_Class_Id))),
+
+
+                                  x.NumberField().ID("ProductP_UnitPrice")
+                                .Name("Equity_CIS_Unit_Price")
+                                .Width(350)
+                                .FieldLabel("Unit Price")
+                                .AllowBlank(false),
+
+                                 x.ComboBox().Name("Listed").ID("ProductP_Listed")
+                                .FieldLabel("Listed?")
+                                .MarginSpec("0 20 8 0").TabIndex(5).Width(350)
+                                .AllowBlank(false)
+                                .Editable(false)
+                                .Text("NO")
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .EmptyText("Select")
+                                .Items("YES", "NO")
+
+                            )
+                        .Items(
+                            x.Button()
+                                .Text("Save")
+                                .Width(120)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Add Record";
+                                    de.Click.Confirmation.Message = "Create Product?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+
+                            x.Button()
+                                .Text("Delete")
+                                .Width(120)
+                                .Icon(Icon.Delete)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Delete Record";
+                                    de.Click.Confirmation.Message = "Delete Product?";
+                                    de.Click.Url = Url.Action("DeleteRecord");
+                                }).MarginSpec("20 10 0 0"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset(); ")
+                                .MarginSpec("20 10 0 0")
+                        )
+                )
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

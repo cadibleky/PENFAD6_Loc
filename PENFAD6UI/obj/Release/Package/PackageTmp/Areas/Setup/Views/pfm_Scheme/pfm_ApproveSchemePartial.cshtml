@@ -1,0 +1,164 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@model IEnumerable<pfm_SchemeRepo>
+
+@{
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+        .ID("ApproveSchemePan")
+        .WidthSpec("auto")
+        .Title("Approve Scheme")
+        .Frame(true)
+        .AutoScroll(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("ApproveSchemeGrid")
+                        .Title("View Scheme Approval List")
+                        .Frame(true)
+                        .Width(700)
+                        .MarginSpec("10 0 0 10")
+                        .Height(500)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("ApproveSchemeStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("NPRA_Number").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Tier_Type").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Tier").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Custodian_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Custodian_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Salary_Rate").Type(ModelFieldType.Float),
+                                    x.ModelField().Name("First_Deadline_Date").Type(ModelFieldType.Date),
+                                    x.ModelField().Name("Surcharge_Grace_Period").Type(ModelFieldType.Int),
+                                    x.ModelField().Name("Monthly_Penal_Rate").Type(ModelFieldType.Float),
+                                    x.ModelField().Name("Scheme_Status").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Make_Date").Type(ModelFieldType.Date),
+                                    x.ModelField().Name("Pricing_Type").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Start_Date").Type(ModelFieldType.Date)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("ReadUnApproved"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); App.Scheme_Status.show(); App.Scheme_Name.setReadOnly(true); }")
+
+                .ColumnModel(x.Column().DataIndex("Scheme_Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("Scheme").Width(220))
+                .ColumnModel(x.Column().DataIndex("NPRA_Number").Text("NPRA Number").Width(220))
+                .ColumnModel(x.Column().DataIndex("Tier_Type").Text("Tier Type").Width(150))
+                .ColumnModel(x.Column().DataIndex("Custodian_Name").Text("Custodian").Width(250)),
+                //.ColumnModel(x.Column().DataIndex("Salary_Rate").Text("Sal Rate").Width(150))
+                //.ColumnModel(x.Column().DataIndex("First_Submit_Day").Text("Final Submission Day").Width(150))
+                //.ColumnModel(x.Column().DataIndex("Surcharge_Grace_Period").Text("Grace Period").Width(150))
+                //.ColumnModel(x.Column().DataIndex("Monthly_Penal_Rate").Text("Monthly Penal Rate").Width(150)),
+                //.ColumnModel(x.Column().DataIndex("Update_Id").Text("Updated By").Width(300))
+                //.ColumnModel(x.Column().DataIndex("Update_Date").Text("Last Updated By").Width(300)),
+
+                x.FieldSet()
+                    //.WidthSpec("auto")
+                    .Collapsible(true)
+                    .Layout(LayoutType.Column)
+                    .Width(615)
+                    .Height(510)
+                    .Title("Add/Edit Scheme")
+                    .MarginSpec("0 20 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Scheme_Id"),
+                        x.TextField().Name("Scheme_Name").FieldLabel("Scheme Name").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        x.TextField().Name("NPRA_Number").FieldLabel("NPRA Number").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        x.TextField().Name("Tier_Type").FieldLabel("Tier Type").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        //x.TextField().Name("Tier").FieldLabel("Tier").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        x.TextField().Name("Custodian_Name").FieldLabel("Custodian").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        x.TextField().Name("Salary_Rate").FieldLabel("Salary Contribution Rate").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        x.DateField().ReadOnly(true).Name("First_Deadline_Date").FieldLabel("First Deadline Date").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 30 10 10").ReadOnly(true),
+                        x.TextField().Name("Surcharge_Grace_Period").FieldLabel("Grace Period").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("5 30 5 10").ReadOnly(true),
+                        x.TextField().Name("Monthly_Penal_Rate").FieldLabel("Monthly Penal Rate").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("5 30 5 10").ReadOnly(true),
+                        x.DateField().ReadOnly(true).Name("Start_Date").FieldLabel("Start Date").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("5 30 5 10").ReadOnly(true),
+                        x.TextField().Name("Pricing_Type").FieldLabel("Pricing Type").Width(250).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("5 30 5 10").ReadOnly(true)
+                    
+
+                        )
+                    .Items(
+                    x.Panel()
+                    .WidthSpec("100%")
+                    .Height(40)
+                    .StyleSpec("position: absolute; bottom: 0; left: 10;")
+
+                    .Items(
+                    x.Button()
+                            .Text("Approve")
+                            .Width(120)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Approve  Record";
+                                de.Click.Confirmation.Message = "Approve Scheme ?";
+                                de.Click.Url = Url.Action("ApproveRecord");
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("5 10 10 5"),
+
+                     x.Button()
+                            .Text("Disapprove")
+                            .Width(150)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Disapprove  Record";
+                                de.Click.Confirmation.Message = "Disapprove Scheme ?";
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("5 10 10 5"),
+
+                    x.Button()
+                    .Text("Clear")
+                    .Width(90)
+                    .Icon(Icon.ArrowRefresh)
+                    .OnClientClick("this.up('form').getForm().reset();")
+                    .MarginSpec("5 10 10 5")
+
+
+                    )
+               )
+         )
+  )
+
+
+

@@ -1,0 +1,639 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+@model IEnumerable<crm_EmployeeRepo>
+
+@{
+    var titleRepo = new setup_TitleRepo();
+    var gender = new setup_GenderRepo();
+    var region = new setup_RegionRepo();
+    var country = new setup_CountryRepo();
+    var identity = new setup_IdentityTypesRepo();
+    var maritalstatus = new setup_MaritalStatusRepo();
+    var employeeType = new setup_EmployeeTypeRepo();
+    var position = new setup_PositionRepo();
+    //var department = new setup_DepartmentRepo();
+    var branch = new setup_BranchRepo();
+    var employer = new crm_EmployeeRepo();
+
+    var x = Html.X();
+
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+        .ID("empEditingApprove")
+        //.ColumnWidth(0.85)
+        .Title("Approve Editing Employee")
+        .Frame(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1300)
+        .AutoScroll(true)
+        .Height(2200)
+
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.TabPanel()
+                    .ID("empEditingApprove_TabPanel2")
+                    .Height(2200)
+                    .ActiveTabIndex(0)
+                    .Width(1200)
+                    .Frame(true)
+                    .MarginSpec("10 0 0 10")
+
+                    .Items(
+                        x.Panel()
+                            .TabMenuHidden(true)
+                            .Title("VIEW EMPLOYEE LIST")
+                            .BodyPadding(6)
+                            .Items(
+
+                                        x.FieldSet()
+                                                // .Title("Search")
+                                                .Width(700)
+                                                .Items(
+                                                        x.Panel()
+                                                            .Layout(LayoutType.HBox)
+                                                            .Items(
+                                                                        //x.ComboBox().Name("Employer_Id")
+                                                                        //            .ID("empEditingApprove_cmbEmployerId")
+                                                                        //            .FieldLabel("Employer Name")
+                                                                        //            .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                                        //            .AllowBlank(false)
+                                                                        //            .FieldStyle("text-transform: uppercase")
+                                                                        //            .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+                                                                        x.Button()
+                                                                                .Text("View Edited Employees")
+                                                                                .Icon(Icon.ArrowRefresh)
+                                                                                .MarginSpec("30 0 20 0")
+                                                                                .Width(250)
+                                                                                // .Cls("btnStyle")
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Timeout = 12000000;
+                                                                                    de.Click.Url = Url.Action("Read");
+                                                                                    de.Click.Success = "onSuccess(App.empEditingApprove_employeeGrid, result.data);";
+                                                                                    // de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.empEditingApprove_cmbEmployerId.getValue()", ParameterMode.Raw));
+
+                                                                                })
+
+                                                    //)
+                                                    )
+                                                    ),
+                                    x.GridPanel()
+                                        .ID("empEditingApprove_employeeGrid")
+                                        .Frame(true)
+                                        .WidthSpec("Auto")
+                                        //.Height(600)
+                                        .MarginSpec("10 0 0 0")
+                                        .Plugins(
+                                            x.FilterHeader()
+                                        )
+
+                                        .Store(
+                                    x.Store()
+                                        .AutoLoad(false)
+                                        .ID("empEditingApprove_employeeStore")
+
+                                    .DataSource(Model)
+                                    .Model(
+                                        x.Model()
+                                            .Fields(
+                                                x.ModelField().Name("Cust_No").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                                x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Maiden_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Title").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Gender").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("HomeTown").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth_District").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth_City").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Town_Of_Birth_Region").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Nationality").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Resident_Country").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Nationality").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Country_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Residential_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mobile_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Other_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Other_Email_Address").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Identity_Type").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Identity_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Identity_Issue_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Identity_Expiry_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("SSNIT_NO").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Marital_Status").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Position").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Employee_Type").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_First_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Middle_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Last_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Phone_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Father_Birth_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Mother_First_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Middle_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Last_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Maiden_Name").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Mother_Birth_Date").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Mother_Phone_Number").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Date_Of_Employment").Type(ModelFieldType.Date),
+                                                x.ModelField().Name("Resident_City").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Resident_District").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Resident_Region").Type(ModelFieldType.String)
+                                               //  x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String)
+                                         )
+
+                                    )
+                                    .ServerProxy(
+                                           x.AjaxProxy()
+                                            .Url(Url.Action("Read"))
+                                            .Reader(x.JsonReader().RootProperty("data")))
+                            //.Parameters(ps =>
+                            //           ps.Add(new StoreParameter("Employer_Id", "App.empEditingApprove_cmbEmployerId.getValue()", ParameterMode.Raw))
+
+                            // )
+                            // .PageSize(10)
+                            )
+                             .BottomBar(
+                                x.PagingToolbar()
+                            )
+                            .DirectEvents(de =>
+                            {
+                                de.CellClick.Url = Url.Action("DisplayPhoto");
+                                de.CellClick.ExtraParams.Add(new Parameter("cust_no", "App.Cust_No_AppEdit.getValue()", ParameterMode.Raw));
+
+                            })
+
+                            //.Listeners(l => l.SelectionChange.Fn = "onSelectionChange")
+                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0])"
+                            + "{App.empEditingApprove_employee.getForm().loadRecord(selected[0]);"
+                            + "}")
+
+                             .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER").Width(200))
+                            .ColumnModel(x.Column().DataIndex("SSNIT_NO").Text("SSNIT NUMBER").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(200))
+                            .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Email_Address").Text("EMAIL ADDRESS").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Employee_Type").Text("EMPLOYEE TYPE").Width(200))
+                            .ColumnModel(x.Column().DataIndex("Mobile_Number").Text("MOBILE NUMBER").Width(150))
+
+
+                            ),
+
+                        x.Panel()
+                            .Title("EMPLOYEE BASIC INFORMATION")
+                            .Items(
+                                x.FormPanel()
+                                        .ID("empEditingApprove_employee")
+                                        .WidthSpec("Auto")
+                                        //.ColumnWidth(0.8)
+                                        //.Frame(true)
+                                        .Layout(LayoutType.Column)
+                                        .MarginSpec("20 0 0 20")
+                                        //.Height(2000)
+                                        .FieldDefaults(fd =>
+                                        {
+                                            fd.LabelAlign = LabelAlign.Top;
+                                            fd.MsgTarget = MessageTarget.Side;
+                                        })
+                                        .Items
+                                        ( x.Hidden().Name("Employer_Id"),
+                                             //x.FieldSet()
+                                             //           //.WidthSpec("Auto")
+                                             //           //.HeightSpec("Auto")
+                                             //           .ColumnWidth(0.95)
+                                             //           .Collapsible(true)
+                                             //           .Layout(LayoutType.Column)
+                                             //           .HeightSpec("Auto")
+                                             //           .Title("EMPLOYER DETAILS ")
+                                             //           .MarginSpec("0 0 0 20")
+                                             //           .Defaults(dd =>
+                                             //           {
+                                             //               dd.Add(new Parameter("LabelWidth", "150"));
+                                             //           })
+                                             //       .Items(
+
+                                             //               x.Hidden().Name("Employer_Id"),
+                                             //               x.Hidden().Name("Contact_Person"),
+                                             //               x.TextField().Name("Employer_Name")
+                                             //                           .ID("empEditingApprove_intro")
+                                             //                           .ReadOnly(true)
+                                             //                           .FieldStyle("text-transform: uppercase")
+                                             //                           .FieldLabel("Employer Name").MarginSpec("0 10 0 10").Width(450).TabIndex(59)
+                                             //                           .AllowBlank(false)
+                                             //                           .StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                             //                           .BlankText("Employer name is required."),
+                                             //                x.TextField().Name("Scheme_Name")
+                                             //                                   .ID("empEditingApprove__schemeName")
+                                             //                                   .ReadOnly(true)
+                                             //                                   .FieldStyle("text-transform: uppercase")
+                                             //                                   .FieldLabel("Employer Scheme").MarginSpec("0 10 0 10").Width(450).TabIndex(59)
+                                             //                                   .AllowBlank(false)
+                                             //                                   .StyleSpec("color:#333; font-size: 20px; font-weight: bold")
+                                             //                                   .BlankText("Employer name is required.")
+                                             //               ),
+
+                                             x.FieldSet()
+                                                        .ColumnWidth(0.95)
+                                                        .Collapsible(true)
+                                                        .Layout(LayoutType.Column)
+                                                        .HeightSpec("Auto")
+                                                        //.Height(440)
+                                                        .Title("EMPLOYEE BASIC INFORMATION ")
+                                                        .MarginSpec("0 0 0 20")
+                                                        .Defaults(dd =>
+                                                        {
+                                                            dd.Add(new Parameter("LabelWidth", "150"));
+                                                        })
+                                                    .Items(
+
+                                                                x.Hidden().Name("Cust_No").ID("Cust_No_AppEdit"),
+                                                                x.TextField().Name("Employee_Id")
+                                                                             // .ID("txtEmployeeId")
+                                                                             .FieldLabel("Employee Id").MarginSpec("0 30 0 10").Width(270).TabIndex(1)
+                                                                             .ReadOnly(true),
+                                                                x.TextField().Name("Surname")
+                                                                                //.ID("txtSurname")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Surname").MarginSpec("0 30 0 10").Width(270).TabIndex(1)
+                                                                                .ReadOnly(true),
+                                                                //.FieldStyle = "text-transform: uppercase;",
+                                                                x.TextField().Name("First_Name").ReadOnly(true)
+                                                                                // .ID("txtFirstName")
+                                                                                .FieldLabel("First Name")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(2),
+                                                                x.TextField().Name("Other_Name").ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Other Name").MarginSpec("0 30 0 10").Width(270).TabIndex(3),
+                                                                x.TextField().Name("Maiden_Name")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Maiden Name").MarginSpec("0 30 0 10").Width(270).TabIndex(4),
+                                                                x.ComboBox().Name("Title")
+                                                                                .FieldLabel("Title")
+                                                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(270)
+                                                                                .ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .Items(titleRepo.GetTitleList().Select(d => new ListItem(d.Title, d.Title))),
+                                                                x.ComboBox().Name("Gender")
+                                                                                .FieldLabel("Gender")
+                                                                                .MarginSpec("0 30 0 10").TabIndex(6).Width(270)
+                                                                                .Editable(false).ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .Items(gender.GetGenderList().Select(d => new ListItem(d.Gender, d.Gender))),
+                                                                x.DateField().Name("Date_Of_Birth")
+                                                                                .FieldLabel("Date of Birth").TabIndex(7)
+                                                                                .ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .MarginSpec("0 30 0 10").Width(270),
+                                                                x.TextField().Name("HomeTown").ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Home Town").TabIndex(8).MarginSpec("0 30 0 10").Width(270),
+                                                                x.TextField().Name("Town_Of_Birth").ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Town of Birth").MarginSpec("0 30 0 10").Width(270).TabIndex(9),
+                                                                x.TextField().Name("Town_Of_Birth_District").ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("District of Birth").MarginSpec("0 30 0 10").Width(270).TabIndex(9),
+                                                                x.TextField().Name("Town_Of_Birth_City").ReadOnly(true)
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("City of Birth").MarginSpec("0 30 0 10").Width(270).TabIndex(9),
+                                                                x.ComboBox().Name("Town_Of_Birth_Region")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Region of Birth")
+                                                                                .Editable(false).ReadOnly(true)
+                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(10).Items(region.GetRegionList().Select(d => new ListItem(d.Region_Name, d.Region_ID))),
+                                                                x.ComboBox().Name("Nationality")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Nationality")
+                                                                                .ReadOnly(true)
+                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(11).Items(country.GetCountryList().Select(d => new ListItem(d.Nationality, d.Nationality))),
+                                                                x.TextField().Name("SSNIT_NO")
+                                                                                // .ID("txtSSNIT")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Social Security Number")
+                                                                                .ReadOnly(true)
+                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(12),
+                                                                x.ComboBox().Name("Marital_Status")
+                                                                                .FieldLabel("Marital Status")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .ReadOnly(true).TabIndex(13)
+                                                                                .MarginSpec("0 30 0 10").Width(270).Items(maritalstatus.GetMaritalstatusList().Select(d => new ListItem(d.Marital_Status, d.Marital_Status))),
+                                                                x.ComboBox().Name("Position").ReadOnly(true).FieldStyle("text-transform: uppercase").FieldLabel("Position").MarginSpec("0 30 0 10").Width(270).TabIndex(16).Items(position.GetPositionList().Select(d => new ListItem(d.Position_Name, d.Position_Name))),
+                                                                x.ComboBox().Name("Employee_Type").ReadOnly(true).FieldStyle("text-transform: uppercase").FieldLabel("Employee Type").MarginSpec("0 30 0 10").Width(270).TabIndex(17).Items(employeeType.GetEmployeeTypeList().Select(d => new ListItem(d.Employee_Type, d.Employee_Type))),
+                                                                x.DateField().Name("Date_Of_Employment").FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Date of Employment").ReadOnly(true)
+                                                                                .TabIndex(18).Width(300).MarginSpec("0 30 0 10").Width(270)
+
+                                                    ),
+                                                        x.FieldSet()
+                                                                .ColumnWidth(0.95)
+                                                                .Collapsible(true)
+                                                                .Layout(LayoutType.Column)
+                                                                .HeightSpec("Auto")
+                                                                .Title("CONTACT DETAILS ")
+                                                                .MarginSpec("0 0 0 20")
+                                                                .Defaults(dd =>
+                                                                {
+                                                                    dd.Add(new Parameter("LabelWidth", "150"));
+                                                                })
+                                                            .Items(
+                                                                    x.TextArea().Name("Postal_Address").ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                                                    .FieldLabel("Postal Address").MarginSpec("0 30 0 10").Width(270).TabIndex(19),
+                                                                    x.TextArea().Name("Residential_Address").ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                                                    .FieldLabel("Residential Address").MarginSpec("0 30 0 10").Width(270).TabIndex(20),
+                                                                    x.ComboBox().Name("Resident_Country").ReadOnly(true)
+                                                                                    .FieldStyle("text-transform: uppercase")
+                                                                                    .FieldLabel("Country of Residence")
+                                                                                    .Editable(false)
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(11).Items(country.GetCountryList().Select(d => new ListItem(d.Country_Name, d.Country_Name))),
+                                                                    x.TextField().Name("Resident_City").ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                                                    .FieldLabel("City of Residence")
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(21),
+                                                                    x.TextField().Name("Resident_District").FieldStyle("text-transform: uppercase")
+                                                                                    .AllowBlank(false).ReadOnly(true)
+                                                                                    .BlankText("District of residence is required.")
+                                                                                    .FieldLabel("District of Residence")
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(21),
+                                                                    x.ComboBox().Name("Resident_Region").FieldStyle("text-transform: uppercase")
+                                                                                    .ReadOnly(true)
+                                                                                    .Editable(false)
+                                                                                    .FieldLabel("Region of Residence")
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(21).Items(region.GetRegionList().Select(d => new ListItem(d.Region_Name, d.Region_ID))),
+                                                                    x.TextField().Name("Mobile_Number").FieldStyle("text-transform: uppercase")
+                                                                                    .ReadOnly(true)
+                                                                                    .FieldLabel("Primary Phone Number")
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(21),
+                                                                    x.TextField().Name("Other_Number").ReadOnly(true).FieldStyle("text-transform: uppercase")
+                                                                                    .FieldLabel("Secondary Phone Number")
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(22),
+                                                                    x.TextField().Name("Email_Address").ReadOnly(true)
+                                                                                    .FieldLabel("Primary Email Address")
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(23)
+                                                                                    .InputType(Ext.Net.InputType.Email),
+                                                                    x.TextField().Name("Other_Email_Address").ReadOnly(true)
+                                                                                    .FieldLabel("Secondary Email Address")
+                                                                                    .InputType(Ext.Net.InputType.Email)
+                                                                                    .MarginSpec("0 30 0 10").Width(270).TabIndex(24)
+                                                                    ),
+                                                        x.FieldSet()
+                                                                .ColumnWidth(0.95)
+                                                                .Collapsible(true)
+                                                                .Layout(LayoutType.Column)
+                                                                .HeightSpec("Auto")
+                                                                .Title("PARENT/GUARDIAN DETAILS ")
+                                                                .MarginSpec("0 0 0 20")
+                                                                .Defaults(dd =>
+                                                                {
+                                                                    dd.Add(new Parameter("LabelWidth", "150"));
+                                                                })
+                                                            .Items(
+                                                                    x.FieldSet()
+                                                                            .ColumnWidth(0.95)
+                                                                            .Collapsible(true)
+                                                                            .Layout(LayoutType.Column)
+                                                                            .HeightSpec("Auto")
+                                                                            .Title("FATHER'S DETAILS ")
+                                                                            .MarginSpec("0 0 0 20")
+                                                                            .Defaults(dd =>
+                                                                            {
+                                                                                dd.Add(new Parameter("LabelWidth", "150"));
+                                                                            })
+                                                                        .Items(
+                                                                                x.TextField().Name("Father_First_Name").FieldStyle("text-transform: uppercase").ReadOnly(true)
+                                                                                                .FieldLabel("Father's First Name").MarginSpec("0 30 0 10").Width(270).TabIndex(18),
+                                                                                x.TextField().ReadOnly(true).Name("Father_Middle_Name").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Father's Middle Name").MarginSpec("0 30 0 10").Width(270).TabIndex(19),
+                                                                                x.TextField().ReadOnly(true).Name("Father_Last_Name").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Father's Last Name")
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(20),
+                                                                                x.DateField().ReadOnly(true).Name("Father_Birth_Date").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Father's Date Of Birth")
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(21),
+                                                                                x.TextField().ReadOnly(true).Name("Father_Phone_Number")
+                                                                                                .FieldLabel("Father's Phone Number")
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(22)
+                                                                                                .InputType(Ext.Net.InputType.Email)
+
+                                                                               ),
+                                                                         x.FieldSet()
+                                                                            .ColumnWidth(0.95)
+                                                                            .Collapsible(true)
+                                                                            .Layout(LayoutType.Column)
+                                                                            .HeightSpec("Auto")
+                                                                            .Title("MOTHER'S DETAILS ")
+                                                                            .MarginSpec("0 0 0 20")
+                                                                            .Defaults(dd =>
+                                                                            {
+                                                                                dd.Add(new Parameter("LabelWidth", "150"));
+                                                                            })
+                                                                        .Items(
+                                                                                x.TextField().ReadOnly(true).Name("Mother_First_Name").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Mother's First Name").MarginSpec("0 30 0 10").Width(270).TabIndex(18),
+                                                                                x.TextField().ReadOnly(true).Name("Mother_Middle_Name").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Mother's Middle Name").MarginSpec("0 30 0 10").Width(270).TabIndex(19),
+                                                                                x.TextField().ReadOnly(true).Name("Mother_Last_Name").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Mother's Last Name")
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(20),
+                                                                                 x.TextField().ReadOnly(true).Name("Mother_Maiden_Name")
+                                                                                                .FieldLabel("Mother's Maiden Name")
+                                                                                                .InputType(Ext.Net.InputType.Email)
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(23),
+                                                                                x.DateField().ReadOnly(true).Name("Mother_Birth_Date").FieldStyle("text-transform: uppercase")
+                                                                                                .FieldLabel("Mother's Date Of Birth")
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(21),
+                                                                                x.TextField().ReadOnly(true).Name("Mother_Phone_Number")
+                                                                                                .FieldLabel("Mother's Phone Number")
+                                                                                                .MarginSpec("0 30 0 10").Width(270).TabIndex(22)
+                                                                                                .InputType(Ext.Net.InputType.Email)
+
+                                                                               )
+                                                                    ),
+                                                        x.FieldSet()
+                                                            .ColumnWidth(0.95)
+                                                            .Collapsible(true)
+                                                            .Layout(LayoutType.Column)
+                                                            .HeightSpec("Auto")
+                                                            //.Height(190)
+                                                            .Title("VALID MEANS OF IDENTIFICATION ")
+                                                            .MarginSpec("0 0 0 20")
+                                                            .Defaults(dd =>
+                                                            {
+                                                                dd.Add(new Parameter("LabelWidth", "150"));
+                                                            })
+                                                        .Items(
+
+                                                                x.ComboBox().ReadOnly(true).Name("Identity_Type")
+                                                                                .FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Identity Type").MarginSpec("0 30 0 10").Width(270).TabIndex(24).Items(identity.GetIdentityTypeList().Select(d => new ListItem(d.Identity_Type, d.Identity_Type_Id))),
+                                                                x.TextField().ReadOnly(true).Name("Identity_Number").FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Identity Number").MarginSpec("0 30 0 10").Width(270).TabIndex(25),
+                                                                x.DateField().ReadOnly(true).Name("Identity_Issue_Date").FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Identity Issue Date").MarginSpec("0 30 0 10").Width(270).TabIndex(26),
+                                                                x.DateField().ReadOnly(true).Name("Identity_Expiry_Date").FieldStyle("text-transform: uppercase")
+                                                                                .FieldLabel("Identity Expiry Date").MarginSpec("0 30 0 10").Width(270).TabIndex(27)
+                                                                ),
+
+                                                         x.FieldSet()
+                                                        .ColumnWidth(0.94)
+                                                         .Collapsible(true)
+                                                         .Layout(LayoutType.Column)
+                                                         .HeightSpec("Auto")
+                                                         //.Collapsed(true)
+                                                         .Title("Image Data")
+                                                         .MarginSpec("0 0 0 20")
+                                                         .Defaults(dd =>
+                                                         {
+                                                             dd.Add(new Parameter("LabelWidth", "150"));
+                                                         })
+                                                                 .Items
+                                                                 (
+                                                                         x.Panel()
+                                                                             .Width(1350)
+                                                                             .Layout(LayoutType.HBox)
+                                                                             .Items
+                                                                             (
+                                                                                     Html.X().FormPanel()
+                                                                                             .ID("empAppEdit_Imagepanel")
+                                                                                             .Layout(LayoutType.Column)
+                                                                                             .Width(900)
+                                                                                             .Height(500)
+                                                                                             .Margin(20)
+                                                                                             .Items
+                                                                                             (x.FieldSet()
+                                                                                                     .ID("empAppEdit_fset_picture_1")
+                                                                                                     .Title("Picture <span style='color:red;'>*</span>")
+                                                                                                     .Layout(LayoutType.VBox)
+                                                                                                     .MarginSpec("0 20 0 10")
+                                                                                                     .HeightSpec("auto")
+                                                                                                     .Items(
+                                                                                                             Html.X().Image()
+                                                                                                                             .ID("empAppEdit_pic1")
+                                                                                                                             .Frame(true)
+                                                                                                                             .Border(true)
+                                                                                                                             .Width(350).MarginSpec("0 0 10 0")
+                                                                                                                             .Height(350)
+
+                                                                                                             //Html.X().FileUploadField()
+                                                                                                             //                .ID("empAppNew_btnloadfile")
+                                                                                                             //                .Width(350)
+                                                                                                             //                .Icon(Icon.DiskUpload)
+                                                                                                             //                .ButtonText("Upload File")
+                                                                                                             //                .DisableKeyFilter(true)
+                                                                                                             //                .EmptyText("Select file")
+                                                                                                             //                .DirectEvents(de =>
+                                                                                                             //                {
+                                                                                                             //                    de.Change.Url = Url.Action("SavePhoto");
+                                                                                                             //                })
+
+                                                                                                             ))
+                                                                                             .Items(x.FieldSet()
+                                                                                                     .ID("empAppEdit_fset_signature_1")
+                                                                                                     .Title("ID Card <span style='color:red;'>*</span>")
+                                                                                                     .Layout(LayoutType.VBox)
+                                                                                                     .HeightSpec("auto")
+                                                                                                     .Items(
+                                                                                                             Html.X().Image()
+                                                                                                                     .ID("empAppEdit_pic2")
+                                                                                                                     .Border(true)
+                                                                                                                     .Width(350).MarginSpec("0 0 10 0")
+                                                                                                                     .Height(350)
+                                                                                                           //Html.X().FileUploadField()
+                                                                                                           //             .ID("empAppNew_btnloadfile2")
+                                                                                                           //             .Width(350)
+                                                                                                           //             .Icon(Icon.DiskUpload)
+                                                                                                           //             .ButtonText("Upload File")
+                                                                                                           //             .DisableKeyFilter(true)
+                                                                                                           //             .EmptyText("Select file")
+                                                                                                           //             .DirectEvents(de =>
+                                                                                                           //             {
+                                                                                                           //                 de.Change.Url = Url.Action("SavePhoto");
+                                                                                                           //             })
+                                                                                                           ))
+
+                                                                                              .Items(Html.X().Button()
+                                                                                                     .ID("empAppEdit_btn1").Hidden(true)
+                                                                                                     .Text("View").MarginSpec("0 0 0 10")
+                                                                                                     .Width(100)
+                                                                                                     .DirectClickAction("SavePhoto", "AddNewIndividualKYC"))
+
+                                                                                         //.ImageUrl("")
+                                                                                         )
+                                                                                     ),
+
+                                                            x.Panel()
+                                                            .ColumnWidth(0.7)
+                                                            .HeightSpec("Auto")
+                                                            //.Height(70)
+                                                            .MarginSpec("10 0 0 20")
+                                                            .Border(false)
+                                                            .Defaults(dd =>
+                                                            {
+                                                                dd.Add(new Parameter("LabelWidth", "150"));
+                                                            })
+                                                        .Items(
+
+                                                                x.Button()
+                                                                            .Text("Approve Employee Update")
+                                                                            .Width(250)
+                                                                            .TabIndex(28)
+                                                                            .Icon(Icon.Add)
+                                                                            .DirectEvents(de =>
+                                                                            {
+                                                                                de.Click.Timeout = 12000000;
+                                                                                de.Click.Url = Url.Action("ApproveEditingEmployee");
+                                                                       
+                                                                            }).MarginSpec("20 10 20 0").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Processing... Please wait.'})"),
+
+                                                                 x.Button()
+                                                                            .Text("Disapprove Employee  Update")
+                                                                            .Width(250)
+                                                                            .TabIndex(28)
+                                                                            .Icon(Icon.Add)
+                                                                            .DirectEvents(de =>
+                                                                            {
+                                                                                de.Click.Timeout = 12000000;
+                                                                                de.Click.Url = Url.Action("DisAppDeleteRecord");
+                                                                  
+                                                                            }).MarginSpec("20 10 20 0").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Processing... Please wait.'})"),
+
+
+                                                                        x.Button()
+                                                                            .Text("Clear Screen")
+                                                                            .Width(200)
+                                                                            .TabIndex(30)
+                                                                            .Icon(Icon.ArrowRefresh)
+                                                                            .OnClientClick("this.up('form').getForm().reset();")
+                                                                            .MarginSpec("20 0 20 10")
+                                                                )
+
+
+
+                                    )
+                        )
+                )
+        )
+)

@@ -1,0 +1,111 @@
+﻿
+@{
+
+    var x = Html.X();
+
+}
+ 
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+			   .ID("Report_EmployeeRePartial_frm_main")
+			   .Title("Retirement List")
+			   .Closable(true)
+			   .Layout(LayoutType.Border)
+			   .Frame(true)
+			   .AutoScroll(true)
+			   .FieldDefaults(fd =>
+			   {
+				   fd.LabelAlign = LabelAlign.Top;
+				   fd.MsgTarget = MessageTarget.Side;
+			   })
+			   .MarginSpec("10 0 0 10")
+			   .Items(Html.X().FormPanel()
+							.ID("Report_EmployeeRePartial_frm_left_Panel")
+							.Title("Select Year")
+							.Region(Region.West)
+							.Split(true)
+							.Collapsible(true)
+							.AutoScroll(true)
+							.Width(270)
+							.MinWidth(150)
+							.MaxWidth(270)
+							.Items(Html.X().FormPanel()
+											.ID("Report_EmployeeRePartial_frm_txtFields")
+											.Border(true)
+											.AutoScroll(true)
+											.Width(270)
+											.Height(240)
+											.Layout(LayoutType.Column)
+											.Items(
+													 x.ComboBox().ID("Report_EmployeeRePartial_Year").Name("Year").FieldLabel("Select Year.").Width(120).Editable(false).MarginSpec("2 5 10 10")
+													 .Items("2015",
+															"2016",
+															"2017",
+															"2018",
+															"2019",
+															"2020",
+															"2021",
+															"2022",
+															"2023",
+															"2024",
+															"2025",
+															"2026",
+															"2027",
+															"2028",
+															"2029",
+															"2030",															
+															"2031",
+															"2032",
+															"2032",
+															"2033",
+															"2034",
+															"2035",
+															"2036",
+															"2037",
+															"2038",
+															"2039",
+															"2040",
+															"2041",
+															"2042",
+															"2043",
+															"2044",
+															"2045"
+															),
+													 x.Button().Text("GO").Width(80).MarginSpec("34 0 0 0")
+													  .DirectEvents(de =>
+													  {
+														  de.Click.Url = Url.Action("Load_Employee_Report_IFrame");
+														  de.Click.ExtraParams.Add( new Parameter("containerId", "Report_EmployeeRePartial_panel_right_center_content"));
+														  de.Click.ExtraParams.Add(new StoreParameter("Year", "App.Report_EmployeeRePartial_Year.getValue()", ParameterMode.Raw));
+
+													  })
+										   )// end items
+
+							),// end
+
+				   ///center region starts
+				   Html.X().Panel()
+							.ID("Report_EmployeeRePartial_panel_right_center_content")
+							//.Title("GL Journal Trans. Posting")
+							.Region(Region.Center)
+							.Split(true)
+							//.AutoScroll(true)
+							.Loader(Html.X().ComponentLoader()
+											.Url(Url.Action("Load_Employee_Report"))
+											.Mode(LoadMode.Frame)
+											.LoadMask(lm => lm.ShowMask = true)
+										)
+
+
+	)// end CASA_IC_Product_Partial_win_search_tax_gls
+
+
+
+// end main
+)

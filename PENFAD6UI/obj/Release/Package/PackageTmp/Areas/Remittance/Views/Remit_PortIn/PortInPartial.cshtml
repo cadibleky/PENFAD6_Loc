@@ -1,0 +1,462 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.CRM.Employee
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+
+@*@model IEnumerable<Remit_PurchaseRepo>*@
+
+@{
+    var ESF = new crm_EmployerSchemeFundRepo();
+    var scheme = new pfm_SchemeRepo();
+    var fund = new pfm_FundRepo();
+    var employee = new crm_EmployeeRepo();
+    var trustee = new setup_TrusteeRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+@(x.FormPanel()
+                        .ID("frm_PortInP")
+                        .ColumnWidth(0.4)
+                        .Title("Porting In")
+                        .Frame(true)
+                        .Closable(true)
+                        .AutoScroll(true)
+                        .MarginSpec("0 0 0 0")
+                        .Width(1200)
+                        .Height(1200)
+                        .FieldDefaults(fd =>
+                        {
+                            fd.LabelAlign = LabelAlign.Top;
+                            fd.MsgTarget = MessageTarget.Side;
+                        })
+                        .Items(
+                                    x.FieldSet()
+                                    .ColumnWidth(0.7)
+                                    .Collapsible(true)
+                                    .Height(650)
+                                    .Width(1000)
+                                    .Frame(true)
+                                    .Title("Porting In")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                    .Items(
+                                     x.FieldSet()
+                                    .Collapsible(true)
+                                    .Height(300)
+                                    .Width(900)
+                                    .Layout(LayoutType.Column)
+                                    .Title("'Employee Account' Details")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                                        .Items(
+                                        x.Hidden().Name("PortIn_No"),
+                                        x.Hidden().Name("Scheme_Id"),
+                                        x.Hidden().Name("Fund_Id"),
+
+
+                                        x.Hidden().Name("Scheme_Fund_Id").ID("PortInP_SFID")
+                                         .Listeners(ls =>
+                                                                                       ls.Change.Handler = "App.wPortIn_GLB.clearValue(); App.wPortIn_GLB.getStore().load();"),
+
+
+                                         x.Button()
+                                        .Text("Select Employee Account")
+                                        .Width(250)
+                                        .Icon(Icon.ApplicationFormAdd)
+                                        .TabIndex(28)
+                                        .Handler("App.PortIn_ESF_win.show(this);")
+                                        .MarginSpec("0 800 10 10"),
+
+                                        x.TextField()
+                                        .Name("Employee_Name")
+                                        .Width(450)
+                                        .FieldLabel("Name of Employee")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employee Account' must be selected."),
+
+
+                                        x.TextField()
+                                        .Name("ESF_Id")
+                                        .Width(250)
+                                        .FieldLabel("Employee Account ID")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employee Account' must be selected.")
+                                          .DirectEvents(de =>
+                                          {
+                                              de.Change.Url = Url.Action("GetUPrice");
+                                          })  ,
+
+
+                                        x.TextField()
+                                        .Name("Scheme_Name")
+                                        .Width(450)
+                                        .FieldLabel("Scheme")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                         x.TextField()
+                                        .Name("Fund_Name")
+                                        .Width(250)
+                                        .FieldLabel("Fund")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("3 0 5 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Employer Scheme' must be selected."),
+
+                                        x.NumberField().Name("Unit_Price")
+                                        .ID("PortInP_UnitP").FieldLabel("Current Unit Price")
+                                         .Width(170)
+                                        .MarginSpec("3 0 5 10")
+                                        .DirectEvents(de =>
+                                        {
+
+                                            de.Change.Url = Url.Action("All_GetUnit_Amount");
+
+                                        })
+
+
+
+
+
+                                        ),
+
+                                    x.FieldSet()
+                                    .Collapsible(true)
+                                    .Height(260)
+                                    .Width(900)
+                                    .Layout(LayoutType.Column)
+                                    .Title("Porting-In Details")
+                                    .MarginSpec("0 0 0 10")
+                                    .Defaults(dd =>
+                                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                            x.DateField()
+                            .Name("Trans_Date")
+                            .Width(220)
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .EmptyText("Select  Date")
+                            .FieldLabel("Actual Date")
+                            .MarginSpec("3 0 10 10"),
+
+
+                            x.NumberField().DecimalPrecision(2).Name("Employee_Amount").ID("Employee_PortInPartial_TotalPortIn")
+                            .Width(150).AllowBlank(false)
+                            .EmptyText("Enter Amount")
+                            .FieldLabel("Employee Amount")
+                            .MarginSpec("3 0 10 10")
+                             .DirectEvents(de =>
+                             {
+
+                                 de.Change.Url = Url.Action("Employee_GetUnit_Amount");
+
+                             }),
+
+
+                            x.NumberField().Name("Employee_Unit_Purchased").ID("Employee_PortInPartial_TotalPortIn_Display")
+                            .Width(150).AllowBlank(false).FieldLabel("Employee Unit").ReadOnly(true)
+                            .MarginSpec("3 0 10 10"),
+
+                             x.NumberField().DecimalPrecision(2).Name("Employer_Amount").ID("Employer_PortInPartial_TotalPortIn")
+                            .Width(150).AllowBlank(false)
+                            .EmptyText("Enter Amount")
+                            .FieldLabel("Employer Amount")
+                            .MarginSpec("3 0 10 10")
+                             .DirectEvents(de =>
+                             {
+
+                                 de.Change.Url = Url.Action("Employer_GetUnit_Amount");
+
+                             }),
+
+
+                            x.NumberField().Name("Employer_Unit_Purchased").ID("Employer_PortInPartial_TotalPortIn_Display")
+                            .Width(150).AllowBlank(false).FieldLabel("Employer Unit").ReadOnly(true)
+                            .MarginSpec("3 0 10 10"),
+
+
+                             x.ComboBox().Name("Previous_Trustee")
+                             .FieldLabel("Previous Trustee")
+                             .MarginSpec("3 0 10 10").TabIndex(5).Width(640)
+                             .Editable(false)
+                             .AllowBlank(false)
+                             .EmptyText("Select Previous Trustee")
+                             .QueryMode(DataLoadMode.Local)
+                             .TriggerAction(TriggerAction.All)
+                             .EmptyText("Select Trustee")
+                             .Items(trustee.GetTrusteeList().Select(c => new ListItem(c.Trustee_Name, c.Trustee_Id)))
+                             ,
+                               x.ComboBox().Name("GL_Account_No").ID("wPortIn_GLB")
+                                                                    .FieldLabel("Receiving Bank Account")
+                                                                    .Width(640)
+                                                                    .Editable(false)
+                                                                    .TypeAhead(true)
+                                                                    .QueryMode(DataLoadMode.Local)
+                                                                    .ForceSelection(true)
+                                                                    .TriggerAction(TriggerAction.All)
+                                                                    .DisplayField("name")
+                                                                    .ValueField("id")
+                                                                    .BlankText("Bank Account is required.")
+                                                                    .EmptyText("No Bank Account Available...")
+                                                                    .ValueNotFoundText("No Bank Account Available...").MarginSpec("15 0 0 10")
+                                                                    //.Listeners(ls =>
+                                                                    //                 ls.Change.Handler = "App.wPay_GLBalance.clearValue(); App.wPay_GLBalance.getStore().load();")
+
+                                                                    .Store(Html.X().Store()
+                                                                        .AutoLoad(false)
+                                                                        .Model(Html.X().Model()
+                                                                            .IDProperty("gId")
+                                                                            .Fields(
+                                                                                new ModelField("id", ModelFieldType.String) { Mapping = "gId" },
+                                                                                new ModelField("name", ModelFieldType.String) { Mapping = "gName" }
+                                                                            )
+                                                                        )
+                                                                        .Proxy(Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetGLAB"))
+                                                                            .Reader(Html.X().JsonReader().RootProperty("data"))
+                                                                        )
+                                                                        .Parameters(ps =>
+                                                                            ps.Add(new StoreParameter("Scheme_Fund_Id", "App.PortInP_SFID.getValue()", ParameterMode.Raw))
+                                                                        )
+                                                                        .Listeners(ls =>
+                                                                                        ls.Load.Handler = @"var combo = App.wPortIn_GLB; 
+                                                                                                            combo.setValue(records[0].get(combo.valueField));"
+
+                                                                        )
+
+                                                                   )
+
+
+
+
+                                )
+                            ),
+
+                        x.FieldSet()
+                        .Height(80)
+                         .Width(1000)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("10 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Button()
+                                .Text("Submit for Approval")
+                                .Width(250)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Submit";
+                                    de.Click.Confirmation.Message = "Submit Porting In?";
+                                    de.Click.Url = Url.Action("SaveRecord_Port");
+
+                                }).MarginSpec("20 10 0 20"),
+
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(250)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+                        )
+
+                                 //windows for employees
+                                 .Items(Html.X().Window()
+                                 .ID("PortIn_ESF_win")
+                                 .Title("Employee Accounts")
+                                .Width(1300)
+                                .Height(720)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                    x.FieldSet()
+                    .Title("Search")
+                    .Width(800)
+                    .Height(100)
+                    .Items(
+                            x.Panel()
+                                .Layout(LayoutType.HBox)
+                                .Items(
+                                        x.ComboBox().Name("Employer_Id")
+                                                .ID("PortIn_cmbEmployerId")
+                                                .FieldLabel("Employer Name")
+                                                .QueryMode(DataLoadMode.Local)
+                                                .TriggerAction(TriggerAction.All)
+                                                .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                .AllowBlank(false)
+                                                .FieldStyle("text-transform: uppercase")
+                                                .Items(employee.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id)))
+                                                // .Listeners(ls =>
+                                                //              ls.Change.Handler = "App.withdrawal_cmbSFId.clearValue(); App.withdrawal_cmbSFId.getStore().load();")
+                                                ,
+
+                                    //x.ComboBox().Name("Scheme_Fund_Id")
+                                    //       .ID("withdrawal_cmbSFId")
+                                    //       .FieldLabel("Scheme - Fund")
+                                    //       .Editable(false)
+                                    //       .TypeAhead(true)
+                                    //       .QueryMode(DataLoadMode.Local)
+                                    //       .ForceSelection(true)
+                                    //       .TriggerAction(TriggerAction.All)
+                                    //       .DisplayField("name")
+                                    //       .ValueField("id")
+                                    //       .BlankText("Product is required.")
+                                    //       .MarginSpec("0 30 0 10").TabIndex(5).Width(450)
+                                    //       .Store(Html.X().Store()
+                                    //                               .AutoLoad(false)
+                                    //                               .Model(Html.X().Model()
+                                    //                                   .IDProperty("Id")
+                                    //                                   .Fields(
+                                    //                                       new ModelField("id", ModelFieldType.String) { Mapping = "Id" },
+                                    //                                       new ModelField("name", ModelFieldType.String) { Mapping = "Name" }
+                                    //                                   )
+                                    //                               )
+                                    //                               .Proxy(Html.X().AjaxProxy()
+                                    //                                   .Url(Url.Action("FilterESGrid"))
+                                    //                                   .Reader(Html.X().JsonReader().RootProperty("data"))
+                                    //                               )
+                                    //                               .Parameters(ps =>
+                                    //                                   ps.Add(new StoreParameter("Employer_Id", "App.withdrawal_cmbEmployerId.getValue()", ParameterMode.Raw))
+                                    //                               )
+                                    //                               .Listeners(ls =>
+                                    //                                               ls.Load.Handler = @"var combo = App.withdrawal_cmbSFId; 
+                                    //                                                                   combo.setValue(records[0].get(combo.valueField));"
+
+                                    //                               )
+
+                                    //                          ),
+                                    x.Button()
+                                    .Text("View Employee Accounts")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .MarginSpec("30 0 5 10")
+                                    .Width(240)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ReadESchemeFund");
+                                        de.Click.Success = "onSuccess(App.PortInESFGrid, result.data);";
+                                        de.Click.ExtraParams.Add(new Parameter("Employer_Id", "App.PortIn_cmbEmployerId.getValue()", ParameterMode.Raw));
+                                    })
+                                    ),
+
+                                    x.GridPanel()
+                                    .ID("PortInESFGrid")
+                                    .Frame(true)
+                                    .Width(1200)
+                                    .Height(520)
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("PortInESFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Employee_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ESF_ID").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Title").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("First_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Other_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Date_Of_Birth").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Schem_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employee_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employee_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Employer_Unit_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Con_Balance").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Total_Unit_Balance").Type(ModelFieldType.Float)
+                                            )
+                                       )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    // .Url(Url.Action("ReadEmployeeSchemeFund"))
+                                    .Url(Url.Action("ReadESchemeFund", "Remit_PortIn"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Employer_Id", "App.PortIn_cmbEmployerId.getValue()", ParameterMode.Raw))
+
+                                            )
+                                            //.PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_PortInP.getForm().loadRecord(selected[0]);App.PortIn_ESF_win.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Employee_Id").Text("Employee ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("ESF_Id").Text("Employee Account").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Surname").Text("SURNAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("First_Name").Text("FIRST NAME").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Other_Name").Text("OTHER NAME").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Date_Of_Birth").Text("SCHEME ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND NAME").Width(200))
+                                            )
+                                            )
+
+                                    )
+                                )
+                     )
+            
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

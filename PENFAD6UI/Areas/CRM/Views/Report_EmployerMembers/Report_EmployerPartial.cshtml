@@ -1,0 +1,196 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+
+
+@{
+    var titleRepo = new setup_TitleRepo();
+    var gender = new setup_GenderRepo();
+    var region = new setup_RegionRepo();
+    var country = new setup_CountryRepo();
+    var identity = new setup_IdentityTypesRepo();
+    var maritalstatus = new setup_MaritalStatusRepo();
+    var employeeType = new setup_EmployeeTypeRepo();
+    var position = new setup_PositionRepo();
+    var RelationRepo = new setup_RelationshipRepo();
+    var branch = new setup_BranchRepo();
+    var employer = new crm_EmployeeRepo();
+
+    var x = Html.X();
+
+}
+
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+               .ID("Report_EmployerMembersPartial_frm_main")
+               .Title("Employer - Members")
+               .Closable(true)
+               .Layout(LayoutType.Border)
+               .Frame(true)
+               .AutoScroll(true)
+               .FieldDefaults(fd =>
+               {
+                   fd.LabelAlign = LabelAlign.Top;
+                   fd.MsgTarget = MessageTarget.Side;
+               })
+               .MarginSpec("10 0 0 10")
+               .Items(Html.X().FormPanel()
+                            .ID("Report_EmployerMembersPartial_frm_left_Panel")
+                            .Title("Employer Members")
+                            .Region(Region.West)
+                            .Split(true)
+                            .Collapsible(true)
+                            .AutoScroll(true)
+                            .Width(350)
+                            .MinWidth(150)
+                            .MaxWidth(420)
+                            .Items(Html.X().FormPanel()
+                                            .ID("Report_EmployerMembersPartial_frm_txtFields")
+                                            .Border(true)
+                                            .AutoScroll(true)
+                                            .Width(410)
+                                            .Height(240)
+                                            .Layout(LayoutType.Column)
+                                            .Items(
+                                                    x.Button().ID("Report_EmployerMembersPartial_btn_viewCustomer").Text("Get Employer Account").Width(200).MarginSpec("2 0 0 3")
+                                                                .Handler("App.Report_EmployerMembersPartial_win_employer_scheme_popup.show(this);"),
+                                                    x.TextField().ID("Report_EmployerMembersPartial_txtES_Id").Name("ES_Id").FieldLabel("Employer Acct. No.").Width(320).ReadOnly(true).MarginSpec("2 2 0 5"),
+
+                                                    x.TextField().ID("Report_EmployerMembersPartial_txtEmployer_Name").ReadOnly(true).Name("Employer_Name").FieldLabel("Employer Name").Width(320).MarginSpec("2 2 0 5"),
+
+                                                    x.TextField().ID("Report_EmployerMembersPartial_txtScheme_Name").ReadOnly(true).Name("Scheme_Name").FieldLabel("SCHEME NAME").Width(320).MarginSpec("2 2 0 5")
+                                                 ,x.Hidden().Name("Sheme_Id").Width(350).ReadOnly(false).MarginSpec("2 2 0 5")
+                                                ),// end items
+
+
+                                Html.X().TreePanel()
+                                        .ID("Report_EmployerMembersPartial_frm_left_treepanel_menu")
+                                        //.Border(true)
+                                        .MarginSpec("5 0 10 10")
+                                        .RootVisible(false)
+                                        .Store(
+                                                Html.X().TreeStore()
+                                                    .Proxy(Html.X().AjaxProxy().Url(Url.Action("GetChildren")))
+                                                 )
+                                        .Root(Html.X().Node().NodeID("employer_rep_0").Text("Root"))
+                                        .ViewConfig(Html.X().TreeView().LoadMask(false))
+                                        .Listeners(l => l.ItemClick.Handler = "Ext.net.Mask.show({msg: 'Loading... Please wait.'})")
+                                         .DirectEvents(de =>
+                                         {
+                                             de.ItemClick.Url = Url.Action("Load_Employer_Report_IFrame");
+                                             de.ItemClick.ExtraParams.Add(new Parameter("containerId", "Report_EmployerMembersPartial_panel_right_center_content"));
+
+                                             de.ItemClick.ExtraParams.Add(new StoreParameter("es_id", "App.Report_EmployerMembersPartial_txtES_Id.getValue()", ParameterMode.Raw));
+
+                                             de.ItemClick.ExtraParams.Add(new StoreParameter("tree_node_id", "record.get('id')", ParameterMode.Raw));
+                                             de.ItemClick.Timeout = 120000000;
+
+                                         })
+                     ),// end
+
+
+                   ///center region starts
+                   Html.X().Panel()
+                            .ID("Report_EmployerMembersPartial_panel_right_center_content")
+                            //.Title("GL Journal Trans. Posting")
+                            .Region(Region.Center)
+                            .Split(true)
+                            //.AutoScroll(true)
+                            .Loader(Html.X().ComponentLoader()
+                                            .Url(Url.Action("Load_Employer_Report"))
+                                            .Mode(LoadMode.Frame)
+                                            .LoadMask(lm => lm.ShowMask = true)
+
+                                        )
+
+
+    )// end Report_EmployerPartial_frm_left_Panel
+
+
+
+
+    //windows for employees
+    .Items(Html.X().Window()
+                .ID("Report_EmployerMembersPartial_win_employer_scheme_popup")
+                .Title("'Employer-Scheme Account' List")
+                .Width(1100)
+                .Height(720)
+                .X(0)
+                .Y(0)
+                .Modal(true)
+                .AutoRender(false)
+                .Collapsible(true)
+                .Maximizable(true)
+                .Hidden(true)
+                .Loader(x.ComponentLoader()
+                            .Mode(LoadMode.Frame)
+                            .LoadMask(lm => lm.ShowMask = true)
+                        )
+                .Items(x.FieldSet()
+                            .MarginSpec("0 0 0 0")
+                            .Defaults(dd =>
+                            { dd.Add(new Parameter("LabelWidth", "115"));
+                            })
+                .Items( x.Button()
+                            .Text("View Employer-Scheme Accounts")
+                            .Icon(Icon.ArrowRefresh)
+                            .MarginSpec("5 0 5 10")
+                            .Width(240)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("ReadEmployerScheme");
+                                de.Click.Success = "onSuccess(App.ReceiptempGridMembers, result.data);";
+                            }),
+
+                    x.GridPanel()
+                        .ID("ReceiptempGridMembers")
+                        .Frame(true)
+                        .Width(1050)
+                        .Height(620)
+                        .MarginSpec("0 0 0 10")
+                        .Plugins(
+                                 x.FilterHeader()
+                                )
+                    .Store(
+                            x.Store()
+                            .AutoLoad(true)
+                            .ID("ReceiptempStoreMembers")
+                            // .DataSource(Model)
+                            .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String)
+
+                                            )// end fields
+                                )// end model
+                            .ServerProxy(
+                                        x.AjaxProxy()
+                                        .Url(Url.Action("ReadEmployerScheme"))
+                                        )
+                            .PageSize(10)
+                            )// end store
+                .BottomBar(x.PagingToolbar())
+                .Refresh()
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Report_EmployerMembersPartial_frm_txtFields.getForm().loadRecord(selected[0]);App.Report_EmployerMembersPartial_win_employer_scheme_popup.hide();}")
+                .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYEE ID").Width(0))
+                .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(450))
+                .ColumnModel(x.Column().DataIndex("ES_Id").Text("ES ID").Width(100))
+                .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME NAME").Width(600))
+                                        )
+                )
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+     // end main
+)

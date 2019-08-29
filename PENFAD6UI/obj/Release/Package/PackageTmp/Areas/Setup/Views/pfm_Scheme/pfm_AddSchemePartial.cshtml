@@ -1,0 +1,154 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@model IEnumerable<pfm_SchemeRepo>
+
+@{
+    var x = Html.X();
+    var schemerepo = new pfm_SchemeRepo();
+
+    List<SelectListItem> TierTypeList = new List<SelectListItem>();
+    TierTypeList.Add(new SelectListItem
+    {
+        Text = "TIER TYPE 1",
+        Value = "TIER TYPE 1"
+    });
+    TierTypeList.Add(new SelectListItem
+    {
+        Text = "TIER TYPE 2",
+        Value = "TIER TYPE 2"
+    });
+    TierTypeList.Add(new SelectListItem
+    {
+        Text = "TIER TYPE 3",
+        Value = "TIER TYPE 3"
+    });
+
+    List<SelectListItem> TierList = new List<SelectListItem>();
+    TierList.Add(new SelectListItem
+    {
+        Text = "TIER 2",
+        Value = "TIER 2"
+    });
+    TierList.Add(new SelectListItem
+    {
+        Text = "TIER 3",
+        Value = "TIER 3"
+    });
+    //TierList.Add(new SelectListItem
+    //{
+    //    Text = "PERSONAL PENSION",
+    //    Value = "PERSONAL PENSION"
+    //});
+    List<SelectListItem> SchemeStatusList = new List<SelectListItem>();
+    SchemeStatusList.Add(new SelectListItem
+    {
+        Text = "ACTIVE",
+        Value = "ACTIVE"
+    });
+    SchemeStatusList.Add(new SelectListItem
+    {
+        Text = "INACTIVE",
+        Value = "INACTIVE"
+    });
+
+    List<SelectListItem> SubmissionDayList = new List<SelectListItem>();
+    for (int i = 1; i <= 30; i++)
+    {
+        SubmissionDayList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+    List<SelectListItem> GracePeriodList = new List<SelectListItem>();
+    for (int i = 0; i <= 30; i++)
+    {
+        GracePeriodList.Add(new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        });
+    }
+}
+
+@(x.FormPanel()
+            .ID("AddSchemePan")
+            .WidthSpec("auto")
+            .Title("Add Scheme")
+            .Frame(true)
+            .AutoScroll(true)
+            .Closable(true)
+            .Layout(LayoutType.Column)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(600)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+             
+                x.FieldSet()
+                    //.WidthSpec("auto")
+                    //.ID("fs")
+                    .Collapsible(true)
+                    .Layout(LayoutType.Column)
+                    .Width(815)
+                    .Height(510)
+                     .StyleSpec("float:left;")
+                    .Title("Add Scheme")
+                    .MarginSpec("0 20 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Scheme_Id"),
+                       // x.Hidden().Name("Today_Date").Text("01 - 01 - 2000"),
+                        x.Hidden().Name("Next_Deadline_Date"),
+                        x.TextField().ID("Scheme_Name").Name("Scheme_Name").FieldLabel("Scheme Name").Width(350).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Scheme name is required.").AutoFitErrors(true),
+                        x.TextField().Name("NPRA_Number").FieldLabel("NPRA Number").Width(350).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("0 30 10 10"),
+                        x.ComboBox().Name("Tier_Type").FieldLabel("Tier Type").Editable(false).Width(350).Items(TierList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Tier type is required.").AutoFitErrors(true),
+                        x.ComboBox().Name("Custodian_Id").FieldLabel("Custodian").Items(schemerepo.GetCustodianList().Select(c => new ListItem(c.Custodian_Name, c.Custodian_Id))).Width(350).Editable(false).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Custodian is required.").AutoFitErrors(true),
+
+                        x.TextField().Name("Salary_Rate").FieldLabel("Salary Contribution Rate").Width(350).MarginSpec("0 30 10 10").MaskRe("[0-9.]"),
+                        x.DateField().Name("First_Deadline_Date").FieldLabel("First Deadline Date").Editable(false).Width(350).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Submition day is required.").AutoFitErrors(true),
+                        x.ComboBox().Name("Surcharge_Grace_Period").FieldLabel("Grace Period").Editable(false).Width(350).Items(GracePeriodList.Select(d => new ListItem(d.Text, d.Value))).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Grace period is required.").AutoFitErrors(true),
+                        x.TextField().Name("Monthly_Penal_Rate").FieldLabel("Surcharge Rate").Width(350).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Penal rate is required.").AutoFitErrors(true).MaskRe("[0-9.]"),
+                        x.DateField().Name("Start_Date").FieldLabel("Start Date").Editable(false).Width(350).MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Start Date is required.").AutoFitErrors(true),
+                        x.ComboBox().Name("Pricing_Type").FieldLabel("Pricing Type").Editable(false).Width(350).Items("AUTO","MANUAL").MarginSpec("0 30 10 10").AllowBlank(false).BlankText("Pricing Type is required.").AutoFitErrors(true)
+                       
+                        )
+                    .Items(
+                    x.Panel()
+                    .WidthSpec("100%")
+                    .Height(40)
+                    .StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+                    .Items(
+                        x.Button()
+                            .Text("Save")
+                            .Width(90)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("AddSaveRecord");
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("5 10 10 5"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset(); App.Scheme_Name.setReadOnly(false)")
+                                .MarginSpec("5 10 10 5")
+
+                        )
+                        )
+                 )
+                 )
+
+
+
+

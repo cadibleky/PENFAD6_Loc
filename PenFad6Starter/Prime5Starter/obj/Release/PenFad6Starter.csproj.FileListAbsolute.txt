@@ -1,0 +1,12 @@
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Release\PenFad6Starter.csprojResolveAssemblyReference.cache
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Release\PenFad6Starter.Form1.resources
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Release\PenFad6Starter.Properties.Resources.resources
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Release\PenFad6Starter.csproj.GenerateResource.Cache
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Release\PenFad6Starter.exe.config
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Release\PenFad6Starter.exe
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Release\PenFad6Starter.pdb
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Release\Dapper.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Release\Oracle.ManagedDataAccess.dll
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\bin\Release\Dapper.xml
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Release\PenFad6Starter.exe
+C:\Users\KRIS\Desktop\PENFAD6_Loc\PenFad6Starter\Prime5Starter\obj\Release\PenFad6Starter.pdb

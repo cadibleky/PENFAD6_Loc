@@ -1,0 +1,267 @@
+﻿@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_ReceiptRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var ReceiptRepo = new Remit_ReceiptRepo();
+    var x = Html.X();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(x.FormPanel()
+            .ID("Reversereceipt")
+            .ColumnWidth(0.4)
+            .Title("Payment Reversal")
+            .Frame(true)
+            .Layout(LayoutType.Column)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1200)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+
+
+            x.FieldSet()
+            .Frame(true)
+            .Layout(LayoutType.Column)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1400)
+            .Height(1200)
+
+            .Items(
+
+                 x.FieldSet()
+                        .MarginSpec("0 0 0 0")
+                        .Width(800)
+                        .Height(750)
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+
+                                     x.FieldSet()
+                                     .MarginSpec("5 0 0 0")
+                                     .Layout(LayoutType.Column)
+                                     .Items(
+
+                                     x.ComboBox().Name("Employer_Id").FieldLabel("Employer").MarginSpec("15 0 5 10").Width(300).Items(ReceiptRepo.GetEmployersList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+                                     x.DateField().Name("From_Date").FieldLabel("From").MarginSpec("15 0 5 10"),
+                                     x.DateField().Name("To_Date").FieldLabel("To").MarginSpec("15 0 5 10"),
+
+                                     x.Button()
+                                    .Text("Search")
+                                    .Icon(Icon.Find)
+                                    .MarginSpec("5 0 5 10")
+                                    .Width(100)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("FilterERDGrid");
+                                        de.Click.Success = "onSuccess(App.ReverseResGrid, result.data);";
+                                    })
+                                    ),
+
+                            x.GridPanel()
+                            .ID("ReverseResGrid")
+                            .Title("View Payment")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            .Width(800)
+                            .MarginSpec("10 0 0 10")
+                            .Height(580)
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("RreceiptStore")
+                            // .DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                     x.ModelField().Name("Receipt_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Actual_Receipt_Date").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("Trans_Amount").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("Narration").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Narration_System").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Payment_Mode").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Instrument_No").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Auth_Status").Type(ModelFieldType.String),
+                                         x.ModelField().Name("Con_Log_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Receipt_Status").Type(ModelFieldType.String)
+                                        )
+                                    )
+                                .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("FilterERDGrid"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                   .ColumnModel(x.Column().DataIndex("Receipt_Id").Text("RECEIPT ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(250))
+                    .ColumnModel(x.Column().DataIndex("Actual_Receipt_Date").Text("DATE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Trans_Amount").Text("AMOUNT").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Narration").Text("NARRATION").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Payment_Mode").Text("PAYMENT MODE").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Instrument_No").Text("INSTRUMENT NUMBER").Width(150))
+                    ),
+
+                        x.FieldSet()
+                        .Height(750)
+                        .Width(400)
+                        .Frame(true)
+                        .Layout(LayoutType.Column)
+                        .Title("Payment Details")
+                        .MarginSpec("5 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                         .Items(
+
+                                        x.Hidden().Name("Receipt_Id"),
+                                        x.Hidden().Name("ES_Id"),
+                                        x.Hidden().Name("Scheme_Id"),
+
+                                        x.TextField()
+                                        .Name("Employer_Name")
+                                        .Width(300)
+                                        .FieldLabel("Name of Employer")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("0 0 0 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Receipt' must be selected."),
+
+                                         x.TextField()
+                                        .Name("Scheme_Name")
+                                        .Width(300)
+                                        .FieldLabel("Scheme")
+                                        .Editable(false)
+                                        .AllowBlank(false)
+                                        .MarginSpec("0 0 0 10")
+                                        .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                                        .BlankText("'Receipt' must be selected."),
+
+
+                            x.DateField()
+                            .Name("Actual_Receipt_Date")
+                            .Width(300)
+                            .Editable(false)
+                            .ReadOnly(true)
+                            .FieldLabel("Actual Payment Date")
+                            .MarginSpec("0 0 0 10"),
+
+                            x.ComboBox().Name("Payment_Mode")
+                            .FieldLabel("Payment Mode")
+                            .MarginSpec("0 0 0 10").TabIndex(5).Width(300)
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .ReadOnly(true)
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All),
+
+
+                            x.TextField()
+                            .Name("Instrument_No")
+                            .Width(300)
+                            .ReadOnly(true)
+                            .FieldLabel("Instrument Number")
+                            .MarginSpec("0 0 0 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                             x.NumberField()
+                            .Name("Trans_Amount")
+                            .Width(300)
+                            .ReadOnly(true)
+                            .AllowBlank(false)
+                            .FieldLabel("Amount")
+                            .MarginSpec("0 0 0 10"),
+
+                            x.TextArea()
+                            .Name("Narration")
+                            .Width(300)
+                            .ReadOnly(true)
+                            .FieldLabel("Narration")
+                            .MarginSpec("0 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                             x.TextArea()
+                            .Name("Reverse_Reason")
+                            .Width(300)
+                            .FieldLabel("Reason for reversal")
+                            .MarginSpec("0 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+
+                               x.Button()
+                                .Text("Reverse Payment")
+                                .Width(200)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Reverse Record";
+                                    de.Click.Confirmation.Message = "Reverse Payment?";
+                                    de.Click.Url = Url.Action("ReverseRecord");
+
+                                }).MarginSpec("10 10 0 10"),
+
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(100)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 0 0")
+
+
+
+     )
+     )
+    )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

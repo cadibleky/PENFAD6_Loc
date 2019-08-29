@@ -1,0 +1,141 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+@model IEnumerable<setup_IdentityTypesRepo>
+
+@{
+  
+    var x = Html.X();
+
+}
+
+
+
+@(x.FormPanel()
+        .ID("IdentityType")
+        .ColumnWidth(0.6)
+        .Title("setup Identity Type")
+        .Frame(true)
+        .Closable(true)
+        .Border(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(850)
+        .Height(550)
+
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("identityGrid")
+                        .Title("View Identity Type List")
+                        .Frame(true)
+                        .Width(510)
+                        .MarginSpec("10 0 0 10")
+                        .Height(500)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("identityStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+
+                                    x.ModelField().Name("Identity_Type_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Identity_Type").Type(ModelFieldType.String)
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                .ColumnModel(x.Column().DataIndex("Identity_Type_Id").Text("IdentityType Id").Width(0))
+                .ColumnModel(x.Column().DataIndex("Identity_Type").Text("Identity Type").Width(500)),
+
+                x.FieldSet()
+                          //.ColumnWidth(0.4)
+                            .Collapsible(true)
+                            .WidthSpec("auto")
+                            .Height(510)
+                    .Title("Add/Edit Identity Type")
+                    .MarginSpec("0 0 0 10")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Identity_Type_Id"),
+
+                        x.TextField().Name("Identity_Type").FieldLabel("Identity Type").Width(230)
+                        .FieldStyle("text-transform:UPPERCASE")
+                         .AllowBlank(false)
+                        .BlankText("Identity Type is required.").SetActive(true)
+                        )
+                    .Items(
+                       x.Button()
+                            .Text("Save")
+                            .Width(110)
+                             .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.Message = "Are you sure you want to Save?";
+
+                            }).MarginSpec("70 10 0 0"),
+
+
+                        x.Button()
+                            .Text("Delete")
+                            .Width(110)
+                             .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                            }).MarginSpec("70 10 0 0"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                 .Icon(Icon.Cancel)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("70 10 0 0")
+
+                        )
+                 )
+
+
+)
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

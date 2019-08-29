@@ -1,0 +1,231 @@
+﻿
+
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+@model IEnumerable<crm_EmployerSchemeRepo>
+
+@{
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+            .ID("ApproveES")
+            //.ColumnWidth(0.4)
+            .Title("Employer Scheme Approve")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1600)
+            .Height(1000)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+                        x.FieldSet()
+                        // .ColumnWidth(0.7)
+                        .Collapsible(true)
+                        .Height(650)
+                        .Width(1500)
+                        .Frame(true)
+                        .Layout(LayoutType.Column)
+                        .Title("Approve Employer Scheme")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                         .Items(
+                         x.FieldSet()
+                        // .ColumnWidth(0.6)
+                        .Collapsible(true)
+                        .Height(580)
+                        .AutoScroll(true)
+                        .Title("Employer Scheme List - Pending")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                            x.GridPanel()
+                            .ID("ApproveesGrid")
+                            .Title("View Employer Scheme - Pending")
+                            .Frame(true)
+                            .AutoScroll(true)
+                            .Width(850)
+                            .MarginSpec("10 0 0 10")
+                            .Height(480)
+                               .Plugins(
+                             x.FilterHeader())
+                            .Store(
+                                x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ApproveesStore")
+                            //.DataSource(Model)
+                            .Model(
+                                x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("ES_Status").Type(ModelFieldType.String)
+                                        )
+                            )
+                            .ServerProxy(
+                                   Html.X().AjaxProxy()
+                                   .Url(Url.Action("ReadESPending"))
+                                  )
+
+                            .PageSize(10)
+                    )
+                    .Refresh()
+                    .BottomBar(
+                        Html.X().PagingToolbar()
+                    )
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                    .ColumnModel(x.Column().DataIndex("ES_Id").Text("ES ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(300))
+                     .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(370))
+                    .ColumnModel(x.Column().DataIndex("ES_Status").Text("STATUS").Width(100))
+
+
+                            ),
+
+                         x.FieldSet()
+                        .Width(480)
+                        .Collapsible(true)
+                        .Height(580)
+                        //.Layout(LayoutType.Column)
+                        .Title("Employer Scheme Details")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+                            x.Hidden().Name("ES_Id"),
+                            x.Hidden().Name("Scheme_Id"),
+                            x.Hidden().Name("Employer_Id"),
+
+                            x.TextField()
+                            .Name("Employer_Name")
+                            .Width(400)
+                            .FieldLabel("Employer Name")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("0 10 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employer must be selected."),
+
+                            // x.TextField()
+                            //.Name("Registration_Number")
+                            //.Width(400)
+                            //.FieldLabel("Registration Number")
+                            //.Editable(false)
+                            //.AllowBlank(false)
+                            //.MarginSpec("0 10 10 10")
+                            //.FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            //.BlankText("Employer must be selected."),
+
+                            // x.TextField()
+                            //.Name("Phone_Number")
+                            //.Width(400)
+                            //.FieldLabel("Phone Number")
+                            //.ReadOnly(true)
+                            //.MarginSpec("0 10 10 10"),
+
+                            x.ComboBox().Name("Scheme_Name")
+                            .FieldLabel("Scheme Description")
+                            .MarginSpec("0 10 10 10").TabIndex(5).Width(400)
+                            .AllowBlank(false)
+                            .ReadOnly(true),
+
+
+                            //x.FieldSet()
+                            //.Layout(LayoutType.Column)
+                            //.MarginSpec("100 10 10 10")
+                            //.Defaults(dd =>
+                            //{ dd.Add(new Parameter("LabelWidth", "115")); })
+
+
+                            //.Items(
+                            x.Button()
+                                .Text("Approve Employer Account")
+                                .Width(250)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Approve Record";
+                                    de.Click.Confirmation.Message = "Approve Employer Scheme Account?";
+                                    de.Click.Url = Url.Action("ApproveRecord");
+
+                                }).MarginSpec("100 10 0 0"),
+
+
+                            x.Button()
+                                .Text("Cancel")
+                                .Width(150)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("100 10 0 0")
+
+
+
+                            //)
+
+
+                       )
+            )
+        )
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

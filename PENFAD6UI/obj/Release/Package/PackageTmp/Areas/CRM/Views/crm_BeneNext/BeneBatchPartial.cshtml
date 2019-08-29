@@ -1,0 +1,83 @@
+﻿@using PENFAD6DAL.Repository.Setup.PfmSetup,
+@using PENFAD6DAL.Repository.CRM.Employee,
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+
+
+@model IEnumerable<crm_BeneNextRepo>
+
+@{
+    var SchemeRepo = new pfm_VestingRuleRepo();
+    var RelationRepo = new setup_RelationshipRepo();
+    var FeeRepo = new pfm_FeesRepo();
+    var x = Html.X();
+}
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+@(x.FormPanel()
+        .ID("employeeBatch")
+        .Title("Upload Batch Employees")
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(600)
+        .AutoScroll(true)
+        .Height(1600)
+        .DockedItems(
+                        x.Toolbar().ID("tlbBene")
+                            .Dock(Dock.Top)
+                            .Border(false)
+                            .Items(
+                                    x.Label().ID("lblBeneBatch")
+                                        .Text("ADD NEW BATCH - BENEFICIARIES")
+                                        .MarginSpec("10 0 0 450")
+                                        .Height(20)
+                                        .StyleSpec("color:#333; font-size: 20px; font-weight: regular")
+                            )
+                        )
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.FieldSet().ID("fdsBeneFileUpload")
+                            .ColumnWidth(0.8)
+                            .Collapsible(true)
+                            .Layout(LayoutType.Column)
+                            .HeightSpec("Auto")
+                            .Title("BENEFICIARIES FILE UPLOAD ")
+                            .MarginSpec("0 0 0 20")
+                            .Defaults(dd =>
+                            {
+                                dd.Add(new Parameter("LabelWidth", "150"));
+                            })
+                        .Items(
+                                x.FileUploadField().ID("BeneNext_FileUp")
+                                            .EmptyText("Select a file")
+                                            //.ButtonOnly(true)
+                                            .FieldLabel("Photo")
+                                            .ButtonText("Browse to locate Excel File")                                        
+                                            .MarginSpec("0 10 20 10")
+                                            .Icon(Icon.ImageAdd).Name("BeneNext_FileUp").FieldLabel("").Width(500).TabIndex(41),
+                                
+                                x.Button().ID("btnBeneUpload")
+                                        .Text("Upload Beneficiaries")
+                                        .Width(250)
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Click.Timeout = 12000000;
+                                            de.Click.Url = Url.Action("BeneBatchUpload");
+
+                                        }).MarginSpec("0 10 20 10")
+                        )
+    )
+
+)

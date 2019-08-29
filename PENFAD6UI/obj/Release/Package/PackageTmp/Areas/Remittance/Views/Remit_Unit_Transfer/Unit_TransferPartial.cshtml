@@ -1,0 +1,562 @@
+﻿
+@using PENFAD6DAL.Repository.Remittance.Contribution
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.CRM.Employer
+
+
+@model IEnumerable<Remit_Unit_TransferRepo>
+
+@{
+    var ES = new crm_EmployerSchemeRepo();
+    var scheme = new pfm_SchemeRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+<script>
+
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(x.FormPanel()
+.ID("frmUnit_TransferPartial")
+.Title("Employee Units Transfer")
+.Frame(true)
+.Closable(true)
+.AutoScroll(true)
+.MarginSpec("0 0 0 0")
+.Width(1000)
+.Height(1200)
+.FieldDefaults(fd =>
+{
+    fd.LabelAlign = LabelAlign.Top;
+    fd.MsgTarget = MessageTarget.Side;
+})
+.Items(
+                                x.FormPanel().ID("frm_SF_Top")
+                                .Width(1480)
+                                .Title("Scheme Fund Details")
+                                .MarginSpec("5 10 10 10")
+                                .Layout(LayoutType.Column)
+                                .Items
+                                    (
+                                    x.Button()
+                                    .Text("Select Scheme-Fund")
+                                    .Width(280)
+                                    .Icon(Icon.ApplicationFormAdd)
+                                    .TabIndex(28)
+                                    .Handler("App.ut_schemeFund.show(this);")
+                                    .MarginSpec("30 35 0 40"),
+
+                                    x.TextField().Name("Scheme_Fund_Id").ID("ut_Add_SF_ID").ReadOnly(true).FieldLabel("Scheme-Fund ID").Width(150).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("Scheme_Name").ReadOnly(true).FieldLabel("Scheme").Width(600).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("Fund_Name").ReadOnly(true).FieldLabel("Fund").Width(300).MarginSpec("0 0 0 5")
+
+                                    ),
+
+                        x.FieldSet()
+                        .Title("Transfer Details")
+                        .Height(290)
+                        .Width(1480)
+                        .Collapsible(true)
+                        .Frame(true)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("5 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+
+                                x.FormPanel().ID("frm_From_left")
+                                .Width(700)
+                                .Title("Source")
+                                .MarginSpec("0 10 0 10")
+                                 .Layout(LayoutType.Column)
+                                .Items
+                                    (
+                                    x.Button()
+                                    .Text("Select Employee Account")
+                                    .Width(280)
+                                    .Icon(Icon.ApplicationFormAdd)
+                                    .TabIndex(28)
+                                    .Handler("App.win_Unit_TransferPartial_ESF_From.show(this);")
+                                    .MarginSpec("30 35 0 10"),
+
+                                    x.TextField().Name("From_ESF_Id").ReadOnly(true).FieldLabel("Employee Account No.").Width(150).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("From_Surname").ReadOnly(true).FieldLabel("Surname").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("From_First_Name").ReadOnly(true).FieldLabel("First Name").Width(300).MarginSpec("0 0 0 20"),
+                                    x.DateField().Name("From_Date_Of_Birth").ReadOnly(true).FieldLabel("Date Of Birth").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("From_SSNIT_No").ReadOnly(true).FieldLabel("SSNIT").Width(300).MarginSpec("0 0 0 20")
+
+                                    ),
+
+                                x.FormPanel().ID("frm_To_right")
+                                .Width(700)
+                                .Title("Destination")
+                                .Layout(LayoutType.Column)
+                                .Items
+                                    (
+                                    x.Button()
+                                    .Text("Select Employee Account")
+                                    .Width(280)
+                                    .Icon(Icon.ApplicationFormAdd)
+                                    .TabIndex(28)
+                                    .Handler("App.win_Unit_TransferPartial_ESF_To.show(this);")
+                                    .MarginSpec("30 35 0 10"),
+
+                                    x.TextField().Name("To_ESF_Id").ReadOnly(true).FieldLabel("Employee Account No.").Width(150).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("To_Surname").ReadOnly(true).FieldLabel("Surname").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("To_First_Name").ReadOnly(true).FieldLabel("First Name").Width(300).MarginSpec("0 0 0 20"),
+                                    x.DateField().Name("To_Date_Of_Birth").ReadOnly(true).FieldLabel("Date Of Birth").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("To_SSNIT_No").ReadOnly(true).FieldLabel("SSNIT").Width(300).MarginSpec("0 0 0 20")
+                                    )
+                                ),
+
+                        x.FieldSet()
+                        .Title("Purchase Details")
+                        .Collapsible(true)
+                        .Height(250)
+                        .Width(1480)
+                        .Frame(true)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("5 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+                        .Items
+                            (
+                                x.FormPanel().ID("frm_purchase_down")
+                                .Width(1480)
+                                .Layout(LayoutType.Column)
+                                .MarginSpec("5 10 0 10")
+                                .Items
+                                    (
+                                    x.Button()
+                                    .Text("Select Purchase")
+                                    .Width(280)
+                                    .Icon(Icon.ApplicationFormAdd)
+                                    .TabIndex(28)
+                                    .Handler("App.ut_Purchase_win.show(this);")
+                                    .MarginSpec("10 1000 20 30"),
+
+                                    x.Hidden().Name("Con_Log_Id"),
+                                    x.Hidden().Name("Purchase_Type"),
+                                    x.TextField().Name("Purchase_Log_Id").ReadOnly(true).FieldLabel("Purchase ID").Width(300).MarginSpec("0 0 0 30"),
+                                    x.TextField().Name("For_Month").ReadOnly(true).FieldLabel("Remittance Month").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("For_Year").ReadOnly(true).FieldLabel("Remittance Year").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("Unit_Price").ReadOnly(true).FieldLabel("Unit Price").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("Employer_Amt").ReadOnly(true).FieldLabel("Employer Contribution").Width(300).MarginSpec("0 0 0 30"),
+                                    x.TextField().Name("Employee_Amt").ReadOnly(true).FieldLabel("Employee Contribution").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("Employer_Units").ReadOnly(true).FieldLabel("Employer Units").Width(300).MarginSpec("0 0 0 10"),
+                                    x.TextField().Name("Employee_Units").ReadOnly(true).FieldLabel("Employee Units").Width(300).MarginSpec("0 0 0 10")
+                                    )
+                                ),
+
+                  x.FieldSet()
+                  .Collapsible(true)
+                  .Title("Reason for transfer")
+                  .Height(150)
+                  .Width(1480)
+                  .MarginSpec("15 10 0 10")
+
+                       .Items(
+                             x.TextArea().Name("Reason_Transfer")
+                             .Width(800)
+                            // .Height(200)
+                             .MarginSpec("5 10 0 30")
+                                ),
+                  
+
+                  x.FieldSet()
+                  .Height(50)
+                  .Width(1480)
+                  .MarginSpec("15 10 0 10")
+
+                           .Items(
+                          x.Button()
+                          .Text("Transfer Units")
+                          .Width(250)
+                          .Icon(Icon.ApplicationAdd)
+                          .DirectEvents(de =>
+                          {
+                              //de.Click.Confirmation.ConfirmRequest = true;
+                              de.Click.Confirmation.Title = "Save Record";
+                              de.Click.Confirmation.Message = "Transfer Employee Units?";
+                              de.Click.Url = Url.Action("SaveRecord");
+                          }).MarginSpec("10 10 0 20").Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Processing........ Please wait....'})"),
+
+                          x.Button()
+                          .Text("Clear")
+                          .Width(150)
+                          .Icon(Icon.Cancel)
+                          .OnClientClick("this.up('form').getForm().reset();")
+                          .MarginSpec("10 10 0 0")
+              )
+
+
+        //windows for employees - From
+        .Items(Html.X().Window()
+        .ID("win_Unit_TransferPartial_ESF_From")
+        .Title("Employee List")
+        .Width(1300)
+        .Height(700)
+        .AutoScroll(true)
+        .Hidden(true)
+        .Modal(true)
+        .MarginSpec("10 10 0 10")
+        .AutoRender(false)
+        .Collapsible(true)
+        .Maximizable(true)
+        .Loader(Html.X().ComponentLoader()
+                    .Mode(LoadMode.Frame)
+                    .LoadMask(lm => lm.ShowMask = true)
+                )
+                    .Items(x.FieldSet()
+                    .Title("Search")
+                    .Width(400)
+                    .Height(100)
+                    .Items(
+                            x.Panel()
+                                .Layout(LayoutType.HBox)
+                                .Items(
+
+                                                x.Button()
+                                                .Text("View Employees")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("30 0 20 0")
+                                                .Width(350)
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("FilterEmpolyeeSFGrid");
+                                                    de.Click.Success = "onSuccess(App.UnitT_Employee_SFGrid, result.data);";
+                                                    de.Click.ExtraParams.Add(new Parameter("Scheme_Fund_Id", "App.ut_Add_SF_ID.getValue()", ParameterMode.Raw));
+
+                                                })
+                                          ),
+
+                                    x.GridPanel()
+                                    .ID("UnitT_Employee_SFGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("SFStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("From_ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("From_Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("From_Date_Of_Birth").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("From_First_Name").Type(ModelFieldType.String)
+
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                            .Url(Url.Action("FilterEmpolyeeSFGrid", "Remit_Unit_Transfer"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Scheme_Find_Id", "App.ut_Add_SF_ID.getValue()", ParameterMode.Raw))
+                                                        )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_From_left.getForm().loadRecord(selected[0]); App.win_Unit_TransferPartial_ESF_From.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("From_ESF_Id").Text("EMPLOYEE ACCOUNT NUMBER.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("From_Surname").Text("SURNAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("From_First_Name").Text("FIRST NAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("From_Date_Of_Birth").Text("DATE OF BIRTH").Width(200))
+                                                )
+                           )
+                  )
+
+        //windows for employees - To
+        .Items(Html.X().Window()
+        .ID("win_Unit_TransferPartial_ESF_To")
+        .Title("Employee List")
+        .Width(1300)
+        .Height(700)
+        .AutoScroll(true)
+        .Hidden(true)
+        .Modal(true)
+        .MarginSpec("10 10 0 10")
+        .AutoRender(false)
+        .Collapsible(true)
+        .Maximizable(true)
+        .Loader(Html.X().ComponentLoader()
+                    .Mode(LoadMode.Frame)
+                    .LoadMask(lm => lm.ShowMask = true)
+                )
+        .Items(x.FieldSet()
+                    .Title("Search")
+                    .Width(400)
+                    .Height(100)
+                    .Items(
+                            x.Panel()
+                                .Layout(LayoutType.HBox)
+                                .Items(
+
+                                                x.Button()
+                                                .Text("View Employees")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("30 0 20 0")
+                                                .Width(350)
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("FilterEmpolyeeSFGrid");
+                                                    de.Click.Success = "onSuccess(App.UnitT_Employee_SFGrid_To, result.data);";
+                                                    de.Click.ExtraParams.Add(new Parameter("Scheme_Fund_Id", "App.ut_Add_SF_ID.getValue()", ParameterMode.Raw));
+                                                })
+                                          ),
+
+                                    x.GridPanel()
+                                    .ID("UnitT_Employee_SFGrid_To")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("SFStore_To")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("To_ESF_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("To_Surname").Type(ModelFieldType.String),
+                                        x.ModelField().Name("To_Date_Of_Birth").Type(ModelFieldType.Date),
+                                        x.ModelField().Name("To_First_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                           .Url(Url.Action("FilterEmpolyeeSFGrid", "Remit_Unit_Transfer"))
+                                                              .Reader(Html.X().JsonReader().RootProperty("data")))
+                                                              .Parameters(ps =>
+                                                              ps.Add(new StoreParameter("Scheme_Find_Id", "App.ut_Add_SF_ID.getValue()", ParameterMode.Raw))
+                                                        )
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_To_right.getForm().loadRecord(selected[0]); App.win_Unit_TransferPartial_ESF_To.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("To_ESF_Id").Text("EMPLOYEE ACCOUNT NUMBER.").Width(200))
+                    .ColumnModel(x.Column().DataIndex("To_Surname").Text("SURNAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("To_First_Name").Text("FIRST NAME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("To_Date_Of_Birth").Text("DATE OF BIRTH").Width(200))
+                                                )
+                           )
+                  ),
+
+                    x.Window()
+                    .ID("ut_schemeFund")
+                    .Title("Scheme-Fund List")
+                    .Width(1000)
+                    .Height(700)
+                    .X(0)
+                    .Y(0)
+                    .Modal(true)
+                    .AutoRender(false)
+                    .Collapsible(true)
+                    .Maximizable(true)
+                    .Hidden(true)
+                    .Loader(x.ComponentLoader()
+                    .Mode(LoadMode.Frame)
+                    .LoadMask(lm => lm.ShowMask = true)
+                             )
+                    .Items(
+
+                     x.FieldSet()
+                    .Title("Search")
+                    .Width(400)
+                    .Height(100)
+                                    .Items(
+                                     x.Panel()
+                                    .Layout(LayoutType.HBox)
+                                    .Items(
+                                                x.Button()
+                                                .Text("View Scheme Fund")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("30 0 20 0")
+                                                .Width(350)
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("ReadSF");
+                                                    de.Click.Success = "onSuccess(App.ut_SFGrid, result.data);";
+
+                                                })
+
+                                          ),
+
+                                    x.GridPanel()
+                                    .ID("ut_SFGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ut_SFStore")
+                                    //.DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadSF"))
+
+                                                )
+
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_SF_Top.getForm().loadRecord(selected[0]);App.frm_From_left.getForm().reset();App.frm_To_right.getForm().reset(); App.frm_purchase_down.getForm().reset(); App.ut_schemeFund.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                    .ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+
+                    )
+
+                   ) ,
+
+                    x.Window()
+                    .ID("ut_Purchase_win")
+                    .Title("Unit Purchase List")
+                    .Width(1000)
+                    .Height(700)
+                    .X(0)
+                    .Y(0)
+                    .Modal(true)
+                    .AutoRender(false)
+                    .Collapsible(true)
+                    .Maximizable(true)
+                    .Hidden(true)
+                    .Loader(x.ComponentLoader()
+                    .Mode(LoadMode.Frame)
+                    .LoadMask(lm => lm.ShowMask = true)
+                       )
+                    .Items(x.FieldSet()
+                    .Title("Search")
+                    .Width(400)
+                    .Height(100)
+                    .Items(
+
+                                     x.Panel()
+                                    .Layout(LayoutType.HBox)
+                                    .Items(
+   
+                                                x.Button()
+                                                .Text("View Unit Purchases")
+                                                .Icon(Icon.ArrowRefresh)
+                                                .MarginSpec("30 0 20 0")
+                                                .Width(350)
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Url = Url.Action("ReadPurchases");
+                                                    de.Click.Success = "onSuccess(App.ut_UnitPurchaseGrid, result.data);";
+
+                                                })
+
+                                          ),
+
+                                    x.GridPanel()
+                                    .ID("ut_UnitPurchaseGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("ut_UnitPurchaseStore")
+                                    //.DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Purchase_Log_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Con_Log_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("For_Month").Type(ModelFieldType.Float),
+                                        x.ModelField().Name("For_Year").Type(ModelFieldType.Float)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                       .Url(Url.Action("ReadPurchases"))
+                                      //.Url(Url.Action("ReadPurchases", "Remit_Unit_Transfer"))
+                                      //                           .Reader(Html.X().JsonReader().RootProperty("data")))
+                                      //                           .Parameters(ps =>
+                                      //                           ps.Add(new StoreParameter("Employer_Id", "App.unit_TranferPartial_cmbEmployerId.getValue()", ParameterMode.Raw))
+                                                                 )
+                                      .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.frm_purchase_down.getForm().loadRecord(selected[0]);App.ut_Purchase_win.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("SCHEME-FUND ID").Width(150))
+                    .ColumnModel(x.Column().DataIndex("Purchase_Log_Id").Text("PURCHASE ID").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Con_Log_Id").Text("REMITTANCE ID").Width(200))
+                    .ColumnModel(x.Column().DataIndex("For_Month").Text("MONTH").Width(100))
+                    .ColumnModel(x.Column().DataIndex("For_Year").Text("YEAR").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Purchase_Type").Text("PURCHASE TYPE").Width(150))
+
+             )
+
+            )
+
+        )
+
+
+)
+
+
+
+
+
+
+
+
+
+
+

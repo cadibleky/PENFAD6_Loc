@@ -1,0 +1,17 @@
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\Prime5Starter.exe.config
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\Prime5Starter.exe
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\Prime5Starter.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\obj\Debug\Prime5Starter.csprojResolveAssemblyReference.cache
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\obj\Debug\Prime5Starter.Form1.resources
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\obj\Debug\Prime5Starter.Properties.Resources.resources
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\obj\Debug\Prime5Starter.csproj.GenerateResource.Cache
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\obj\Debug\Prime5Starter.exe
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\obj\Debug\Prime5Starter.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\Dapper.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\Dapper.xml
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\DataTableLibrary.dll
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PRIME\Prime5Starter\Prime5Starter\bin\Debug\DataTableLibrary.pdb
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\bin\Debug\Prime5Starter.exe.config
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\Prime5Starter.exe
+C:\AMENYODATA\PROJECTS\FINANCIAL SERVICES\PENFAD\PenFad6Starter\Prime5Starter\obj\Debug\Prime5Starter.pdb

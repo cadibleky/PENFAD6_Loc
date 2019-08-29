@@ -1,0 +1,986 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B90E7ED0-F674-4846-8EAD-0FEC85F58C79}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PENFAD6UI</RootNamespace>
+    <AssemblyName>PENFAD6UI</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50-rc2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EASendMail20, Version=7.3.1.2, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PENFAD6DAL\bin\Release\EASendMail20.dll</HintPath>
+    </Reference>
+    <Reference Include="Ext.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2e12ce3d0176cd87, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ext.NET.MVC5.4.0.0\lib\net46\Ext.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ext.Net.Utilities, Version=2.5.0.0, Culture=neutral, PublicKeyToken=2c34ac34702a3c23, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ext.NET.Utilities.2.5.0\lib\Ext.Net.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.1.24160419\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.0.0-rc-556\lib\net45\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.2.0.0-rc-704\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.PeriodicBatching, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.0.0-rc-707\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.RollingFile.2.0.0-rc-703\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Seq, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Seq.2.0.0-rc-46\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stimulsoft.Base, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Controls, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Database, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Design, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Report, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Report.Design, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Report.Mobile, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Report.MobileDesign, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Report.Mvc, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="Stimulsoft.Report.MvcMobile, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Transformer.NET, Version=2.1.1.22883, Culture=neutral, PublicKeyToken=e274d618e7c603a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Transformer.NET.2.1.1\lib\net35\Transformer.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ExtNetConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\AddNewEmployeeController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\ApproveEditingEmployeeController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\ApprovePendingEmployeeController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeeBatchEditController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeeDownloadStatementController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeeSMSStatementController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeeEmailStatementController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeePasswordController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\crm_BeneNextController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\crm_ViewEmployeesController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\ApproveNewEmployeeBatchUploadController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\BeneficiaryBatchUploadController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeeSchemeBatchUploadController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\EmployeeBatchUploadController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_DailyUnitPriceController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_DailyFeesController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_EmployeeStatementSpecificController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_Monthly_Schedule_DefaultersController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_Monthly_Schedule_SchemePaidController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_Monthly_Schedule_SchemeArrearsController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_Monthly_Schedule_SchemeController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeEmployerEnrolledController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeInvestmentReceiptController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeEmployerController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_Monthly_ScheduleController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipAgeController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipListBeneController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipListController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipSalaryController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipUnclaimedController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipDeferredPController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipPortOutController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipPortInController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipWithdrawalController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipExittedController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipEnrolledController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipAllController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipDeferredController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeMembershipController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_SchemeBenefitController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_EmployerMembersBenController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_EmployerMembersController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_SchemeStatementController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_SchemeSummaryController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_EmployerBenController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_EmployeeBenController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_EmployeeRetirementController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_EmployeeCertificateController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_EmployeeStatementController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Report_EmployeeActiveController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\UpdateEmployeeController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\ApprovedEmployerController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\EmployerBatchUploadController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\EmployerController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Employer_SchemesController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employees\Employee_Scheme_FundsController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_EmployerActiveController.cs" />
+    <Compile Include="Areas\CRM\Controllers\Employer\Report_EmployerStatementController.cs" />
+    <Compile Include="Areas\CRM\CRMAreaRegistration.cs" />
+    <Compile Include="Areas\GL\Controllers\GLInitialController.cs" />
+    <Compile Include="Areas\GL\Controllers\GLFeeController.cs" />
+    <Compile Include="Areas\GL\Controllers\GLJournalController.cs" />
+    <Compile Include="Areas\GL\Controllers\GLChartController.cs" />
+    <Compile Include="Areas\GL\Controllers\GLConsolidatedController.cs" />
+    <Compile Include="Areas\GL\Controllers\Report_Ledger_AccountConsolidatedController.cs" />
+    <Compile Include="Areas\GL\Controllers\Report_YearlyTB_schemeController.cs" />
+    <Compile Include="Areas\GL\Controllers\Report_YearlyTBController.cs" />
+    <Compile Include="Areas\GL\Controllers\Report_Ledger_AccountController.cs" />
+    <Compile Include="Areas\GL\GLAreaRegistration.cs" />
+    <Compile Include="Areas\Investment\Controllers\Bond\ReverseBondController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Bond\ApproveBondController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Bond\BondController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Equity_CIS\Equity_CIS.cs" />
+    <Compile Include="Areas\Investment\Controllers\Equity_CIS\Equity_CIS_Sell.cs" />
+    <Compile Include="Areas\Investment\Controllers\Equity_CIS\LoadUnitPriceController.cs" />
+    <Compile Include="Areas\Investment\Controllers\MigratePortfolio\MigratePortfolioController.cs" />
+    <Compile Include="Areas\Investment\Controllers\PortFixedIncome\RolloverFixed_InCome_TransactionController.cs" />
+    <Compile Include="Areas\Investment\Controllers\PortFixedIncome\ReceiptController.cs" />
+    <Compile Include="Areas\Investment\Controllers\PortFixedIncome\DisinvestFixed_InCome_TransactionController.cs" />
+    <Compile Include="Areas\Investment\Controllers\PortFixedIncome\ApproveFixed_InCome_TransactionController.cs" />
+    <Compile Include="Areas\Investment\Controllers\PortFixedIncome\FixedIncome_TransactionController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\SchemeIM_ReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\SchemeCM_ReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\SchemeDashboard.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\FMReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\Dashboard.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\SchemeReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\SchemeSP_ReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\SP_ReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\CM_ReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\IM_ReportsController.cs" />
+    <Compile Include="Areas\Investment\Controllers\Reports\ReportsController.cs" />
+    <Compile Include="Areas\Investment\InvestmentAreaRegistration.cs" />
+    <Compile Include="Areas\Remittance\Controllers\BatchPortOut\BatchPortOut.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\PayAdviceRemit_ContributionController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\DeleteRemit_ContributionController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\ApprovedRemit_ContributionController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_ContributionSURCHARGEUpLoad_LogController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_ContributionTPFAUpLoad_LogController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_ContributionBackUpLoad_LogController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_ContributionSupUpLoad_LogController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_ContributionInitialUpLoad_LogController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_Con_Employer_MigrateController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_Con_MigrateRawController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_Con_Sup_MigrateController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_Unit_MigrateController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Contribution\Remit_Con_MigrateController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Unit_Change\Remit_Unit_ChangeController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Withdrawal\Remit_PortInController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Withdrawal\Remit_PortOutController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Withdrawal\Remit_WithdrawalToEmployerController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Withdrawal\Remit_WithdrawalController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Unit_Transfer\Remit_Unit_TransferController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Purchase\Remit_PurchaseController.cs" />
+    <Compile Include="Areas\Remittance\Controllers\Receipt\Remit_ReceiptController.cs" />
+    <Compile Include="Areas\Remittance\RemittanceAreaRegistration.cs" />
+    <Compile Include="Areas\Security\Controllers\SecurityController.cs" />
+    <Compile Include="Areas\Security\Controllers\UserAuthorizerController.cs" />
+    <Compile Include="Areas\Security\Controllers\UserController.cs" />
+    <Compile Include="Areas\Security\Controllers\UserGroupController.cs" />
+    <Compile Include="Areas\Security\Controllers\UserGroupPermissionController.cs" />
+    <Compile Include="Areas\Security\Controllers\UserRoleController.cs" />
+    <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
+    <Compile Include="Areas\Setup\Controllers\InvestSetup\setup_CurrencyController.cs" />
+    <Compile Include="Areas\Setup\Controllers\InvestSetup\Invest_NPRAAssetController.cs" />
+    <Compile Include="Areas\Setup\Controllers\InvestSetup\Invest_AuthorizersController.cs" />
+    <Compile Include="Areas\Setup\Controllers\InvestSetup\Invest_ProductController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_CustodianController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_FeesController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_FundController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_FundManagerController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_SchemeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_SchemeFMFeeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_SchemeFeeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_Scheme_FundController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_Scheme_Fund_ManagerController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_SecurityController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PfmSetup\pfm_Vesting_RuleController.cs" />
+    <Compile Include="Areas\Setup\Controllers\RemitSetup\Bank_Scheme_FundsController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_CompanyController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_BankController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_CountryController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_DistrictController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_EmployeeTypeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_GenderController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_IdentityTypeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_IssuerController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_MaritalStatusController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_RegionController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_RelationshipController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_SectorController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_SatffController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SystemSetup\setup_TitleController.cs" />
+    <Compile Include="Areas\Setup\Controllers\Utilities\EndOfDayBackController.cs" />
+    <Compile Include="Areas\Setup\Controllers\Utilities\EndOfYearController.cs" />
+    <Compile Include="Areas\Setup\Controllers\Utilities\EndOfDayController.cs" />
+    <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
+    <Compile Include="Controllers\StartUp\StartUpController.cs" />
+    <Compile Include="fonts\ViewImageIDTemp.ashx.cs">
+      <DependentUpon>ViewImageIDTemp.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessorLogo\ImageProcessorLogo.ashx.cs">
+      <DependentUpon>ImageProcessorLogo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessorLogo\ViewImageIDProcessorLogo.ashx.cs">
+      <DependentUpon>ViewImageIDProcessorLogo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessorLogo\ViewImageIDTempLogo.ashx.cs">
+      <DependentUpon>ViewImageIDTempLogo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessorLogo\ViewImageProcessorLogo.ashx.cs">
+      <DependentUpon>ViewImageProcessorLogo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessorLogo\ViewImageTempLogo.ashx.cs">
+      <DependentUpon>ViewImageTempLogo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessor\ImageProcessor.ashx.cs">
+      <DependentUpon>ImageProcessor.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessor\ViewImageIDProcessor.ashx.cs">
+      <DependentUpon>ViewImageIDProcessor.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessor\ViewImageIDTemp.ashx.cs">
+      <DependentUpon>ViewImageIDTemp.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessor\ViewImageProcessor.ashx.cs">
+      <DependentUpon>ViewImageProcessor.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessor\ViewImageTemp.ashx.cs">
+      <DependentUpon>ViewImageTemp.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExtNetModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ExtDotNet.cs" />
+    <Compile Include="Sms\InfoBipSms.cs" />
+    <Compile Include="Sms\Output.cs" />
+    <Compile Include="Sms\Request.cs" />
+    <Compile Include="Sms\Volley.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Ext.NET.Utilities\BREAKING_CHANGES.txt" />
+    <Content Include="App_Readme\Ext.NET.Utilities\LICENSE.txt" />
+    <Content Include="App_Readme\Ext.NET.Utilities\README.txt" />
+    <Content Include="App_Readme\Transformer.NET\LICENSE.txt" />
+    <Content Include="App_Readme\Transformer.NET\README.txt" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\examples.css" />
+    <Content Include="Content\Images\key_login.jpg" />
+    <Content Include="Content\Images\PENFAD 1.jpg" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\main_original.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\teksolext.css" />
+    <Content Include="Content\XObjects.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="resources\css\examples.css" />
+    <Content Include="resources\css\main.css" />
+    <Content Include="resources\fonts\fontawesome-webfont.svg" />
+    <Content Include="resources\fonts\LICENSE_TITILLIUMTEXT.txt" />
+    <Content Include="resources\fonts\OpenSans-Italic-webfont.svg" />
+    <Content Include="resources\fonts\OpenSans-Light-webfont.svg" />
+    <Content Include="resources\fonts\OpenSans-Regular-webfont.svg" />
+    <Content Include="resources\fonts\OpenSans-Semibold-webfont.svg" />
+    <Content Include="resources\fonts\TitilliumText25L003-webfont.svg" />
+    <Content Include="resources\fonts\TitilliumText25L005-webfont.svg" />
+    <Content Include="resources\icons\application.png" />
+    <Content Include="resources\icons\application_double.png" />
+    <Content Include="resources\icons\application_error.png" />
+    <Content Include="resources\icons\application_form.png" />
+    <Content Include="resources\icons\application_go.png" />
+    <Content Include="resources\icons\application_side_tree.png" />
+    <Content Include="resources\icons\application_view_columns.png" />
+    <Content Include="resources\icons\application_view_detail.png" />
+    <Content Include="resources\icons\application_view_tile.png" />
+    <Content Include="resources\icons\arrow_refresh.png" />
+    <Content Include="resources\icons\asterisk_orange.png" />
+    <Content Include="resources\icons\brick.png" />
+    <Content Include="resources\icons\button.png" />
+    <Content Include="resources\icons\buttons.png" />
+    <Content Include="resources\icons\calendar.png" />
+    <Content Include="resources\icons\clock.png" />
+    <Content Include="resources\icons\cog.png" />
+    <Content Include="resources\icons\color_swatch.png" />
+    <Content Include="resources\icons\comments.png" />
+    <Content Include="resources\icons\comment_add.png" />
+    <Content Include="resources\icons\compress.png" />
+    <Content Include="resources\icons\css.png" />
+    <Content Include="resources\icons\cup_black.png" />
+    <Content Include="resources\icons\desktop.png" />
+    <Content Include="resources\icons\docs.svg" />
+    <Content Include="resources\icons\download.svg" />
+    <Content Include="resources\icons\editor.png" />
+    <Content Include="resources\icons\emoticon_smile.png" />
+    <Content Include="resources\icons\hourglass.png" />
+    <Content Include="resources\icons\information.png" />
+    <Content Include="resources\icons\keyboard.png" />
+    <Content Include="resources\icons\layout.png" />
+    <Content Include="resources\icons\lightning.png" />
+    <Content Include="resources\icons\link.png" />
+    <Content Include="resources\icons\page_white_code.png" />
+    <Content Include="resources\icons\page_white_csharp.png" />
+    <Content Include="resources\icons\pencil.png" />
+    <Content Include="resources\icons\plugin.png" />
+    <Content Include="resources\icons\script.png" />
+    <Content Include="resources\icons\script_code_red.png" />
+    <Content Include="resources\icons\shape_square_select.png" />
+    <Content Include="resources\icons\support.svg" />
+    <Content Include="resources\icons\tab.png" />
+    <Content Include="resources\icons\table_multiple.png" />
+    <Content Include="resources\icons\tabpanel.png" />
+    <Content Include="resources\icons\textfield_rename.png" />
+    <Content Include="resources\icons\toolbar.png" />
+    <Content Include="resources\icons\viewport.png" />
+    <Content Include="resources\icons\wand.png" />
+    <Content Include="resources\icons\wrench.png" />
+    <Content Include="resources\images\404.png" />
+    <Content Include="resources\images\banner-2-small.png" />
+    <Content Include="resources\images\bg-main.png" />
+    <Content Include="resources\images\bg.gif" />
+    <Content Include="resources\images\bgnoise.png" />
+    <Content Include="resources\images\black10.png" />
+    <Content Include="resources\images\button-bg-30tall.png" />
+    <Content Include="resources\images\collapse-all.gif" />
+    <Content Include="resources\images\commentlogo.png" />
+    <Content Include="resources\images\coolite.png" />
+    <Content Include="resources\images\ee-ad-bg.png" />
+    <Content Include="resources\images\ee-ad-content.png" />
+    <Content Include="resources\images\ee-ad-store-bg.png" />
+    <Content Include="resources\images\expand-all.gif" />
+    <Content Include="resources\images\ext.net-logo.png" />
+    <Content Include="resources\images\extdotnet-logo.svg" />
+    <Content Include="resources\images\extdotnet4-rc-bg.jpg" />
+    <Content Include="resources\images\extdotnet4-rc.svg" />
+    <Content Include="resources\images\ext_net_badge.gif" />
+    <Content Include="resources\images\ext_net_logo_small.gif" />
+    <Content Include="resources\images\grey.png" />
+    <Content Include="resources\images\grid-badge-bg.png" />
+    <Content Include="resources\images\grid.png" />
+    <Content Include="resources\images\group-expand-sprite.gif" />
+    <Content Include="resources\images\icon-briefcase.png" />
+    <Content Include="resources\images\icon-download.png" />
+    <Content Include="resources\images\item-hd4.gif" />
+    <Content Include="resources\images\layout-browser-hd-bg.gif" />
+    <Content Include="resources\images\loading.gif" />
+    <Content Include="resources\images\loading32.gif" />
+    <Content Include="resources\images\logo.png" />
+    <Content Include="resources\images\new.gif" />
+    <Content Include="resources\images\newgray.gif" />
+    <Content Include="resources\images\noimage.gif" />
+    <Content Include="resources\images\noimage.png" />
+    <Content Include="resources\images\pearl.svg" />
+    <Content Include="resources\images\sample-over.gif" />
+    <Content Include="resources\images\screenshot.png" />
+    <Content Include="resources\images\title-background.png" />
+    <Content Include="resources\images\titlebar-badge-bg.png" />
+    <Content Include="resources\images\titlebar-bg.jpg" />
+    <Content Include="resources\images\titlebar-logo-bg.jpg" />
+    <Content Include="resources\images\welcome-bullet.png" />
+    <Content Include="resources\images\welcome-screens.png" />
+    <Content Include="resources\images\z_1.png" />
+    <Content Include="resources\images\z_bgimage.jpg" />
+    <Content Include="resources\js\examples.js" />
+    <Content Include="resources\js\main.js" />
+    <Content Include="resources\js\perfect-scrollbar.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="resources\fonts\fontawesome-webfont.eot" />
+    <Content Include="resources\fonts\fontawesome-webfont.ttf" />
+    <Content Include="resources\fonts\fontawesome-webfont.woff" />
+    <Content Include="resources\fonts\fontawesome-webfont.woff2" />
+    <Content Include="resources\fonts\OpenSans-Italic-webfont.eot" />
+    <Content Include="resources\fonts\OpenSans-Italic-webfont.ttf" />
+    <Content Include="resources\fonts\OpenSans-Italic-webfont.woff" />
+    <Content Include="resources\fonts\OpenSans-Light-webfont.eot" />
+    <Content Include="resources\fonts\OpenSans-Light-webfont.ttf" />
+    <Content Include="resources\fonts\OpenSans-Light-webfont.woff" />
+    <Content Include="resources\fonts\OpenSans-Regular-webfont.eot" />
+    <Content Include="resources\fonts\OpenSans-Regular-webfont.ttf" />
+    <Content Include="resources\fonts\OpenSans-Regular-webfont.woff" />
+    <Content Include="resources\fonts\OpenSans-Semibold-webfont.eot" />
+    <Content Include="resources\fonts\OpenSans-Semibold-webfont.ttf" />
+    <Content Include="resources\fonts\OpenSans-Semibold-webfont.woff" />
+    <Content Include="resources\fonts\TitilliumText25L003-webfont.eot" />
+    <Content Include="resources\fonts\TitilliumText25L003-webfont.ttf" />
+    <Content Include="resources\fonts\TitilliumText25L003-webfont.woff" />
+    <Content Include="resources\fonts\TitilliumText25L005-webfont.eot" />
+    <Content Include="resources\fonts\TitilliumText25L005-webfont.ttf" />
+    <Content Include="resources\fonts\TitilliumText25L005-webfont.woff" />
+    <Content Include="App_Readme\Ext.NET\README.md" />
+    <Content Include="App_Readme\Ext.NET\LICENSE" />
+    <Content Include="App_Readme\Ext.NET\CHANGELOG.md" />
+    <Content Include="Areas\Security\Views\web.config" />
+    <Content Include="Areas\Setup\Views\web.config" />
+    <Content Include="Areas\Security\Views\User\UserPartial.cshtml" />
+    <Content Include="Areas\Security\Views\UserGroup\UserGroupPartial.cshtml" />
+    <Content Include="Areas\Security\Views\UserGroupPermission\UserGroupPermissionPartial.cshtml" />
+    <Content Include="Areas\Security\Views\UserRole\UserRolePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\web.config" />
+    <Content Include="Areas\CRM\Views\ApproveEditingEmployee\ApproveEditingEmployeePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\ApprovePendingEmployee\ApprovePendingEmployeePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\UpdateEmployee\UpdateEmployeePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\web.config" />
+    <Content Include="Areas\Setup\Views\pfm_Custodian\CustodianPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Fees\FeesPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Fund\pfm_FundPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_FundManager\FundManagerPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme_Fund\pfm_SchemeFundPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme_Fund_Manager\pfm_ApproveSchemeFundManagerPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme_Fund_Manager\pfm_SchemeFundManagerPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_SchemeFee\SchemeFeeApprovePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_SchemeFee\SchemeFeePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Security\SecurityPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Vesting_Rule\VestingRulePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Branch\BranchPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Gender\GenderPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_IdentityType\IdentityPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Issuer\setup_ApproveIssuerPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Issuer\setup_IssuerPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_MaritalStatus\MaritalStatuspartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Position\PositionPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Region\RegionPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Relationship\setup_RelationshipPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Sector\setup_SectorPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\ApprovedRemit_Contribution\ApproveContributionPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Receipt\ReceiptApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Receipt\ReceiptPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer_Schemes\EmployerSchemeApprovePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer_Schemes\EmployerSchemePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer_Schemes\Index.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployeeSchemeFundApprovePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployeeSchemeFundPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\Index.cshtml" />
+    <Content Include="resources\Excelfiles\EXCEL1.xlsx" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployeeSchemeFundActivatePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployeeSchemeFundClosePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployeeSchemeFundViewPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer_Schemes\EmployerSchemeActivatePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer_Schemes\EmployerSchemeClosePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer_Schemes\EmployerSchemeViewPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Vesting_Rule\Index.cshtml" />
+    <Content Include="Areas\CRM\Views\ApprovedEmployer\ApproveEditedEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\ApprovedEmployer\ApproveNewEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer\AddEditEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer\AddNewEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer\AddViewEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\crm_BeneNext\BeneBatchPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\crm_BeneNext\BeneNextEditPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\crm_BeneNext\BeneNextPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\crm_ViewEmployees\ViewEmployeePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_EmployeeType\EmployeeTypePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_District\Districtpartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Country\CountryPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Setup\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Title\setup_TitlePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\CRM\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeBatchUpload\EmployeeBatchPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\ApproveNewEmployeeBatchUpload\EmployeeBatchUploadApprovalPartial.cshtml" />
+    <Content Include="Areas\GL\Views\web.config" />
+    <Content Include="Areas\GL\Views\GLChart\GLChartCreatePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\AddNewEmployee\AddNewEmployeePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Receipt\ReverseReceiptApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Receipt\ReverseReceiptPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Purchase\PurchaseApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Purchase\PurchasePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Purchase\ReversePurchasePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLChart\GLAccountPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\Invest_Product\ProductPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_ContributionInitialUpLoad_Log\ContributionRemitPartial.cshtml" />
+    <Content Include="Areas\Security\Views\UserAuthorizer\AddAuthorizerPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme_Fund\pfm_SchemeFundNAVUnitPricingPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme\pfm_AddSchemePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme\pfm_ApproveSchemePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme\pfm_EditSchemePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme\pfm_ReassignSchemeCustodianPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme\pfm_SchemePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_Scheme\pfm_ViewSchemePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Investment\Views\ApproveFixed_InCome_Transaction\ApproveFixedIncomeTransPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\FixedIncome_Transaction\FixedDepositTransPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Equity_CIS\Equity_CISApprovePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Equity_CIS\Equity_CISPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\Bank_Scheme_Funds\BankSchemeFundPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Equity_CIS_Sell\Equity_CIS_SellApprovePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Equity_CIS_Sell\Equity_CIS_SellPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeStatement\Report_EmployeeStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeStatement\Report_EmployeePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerStatement\Report_EmployerStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerStatement\Report_EmployerPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Unit_Transfer\Unit_TransferPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Unit_Transfer\Unit_TransferApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Remittance\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_Migrate\Remit_Con_MigrationPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Unit_Migrate\Remit_Unit_MigrationPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\BeneficiaryBatchUpload\BeneBatchPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Withdrawal\WithdrawalApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Withdrawal\WithdrawalPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Withdrawal\ReverseWithdrawalPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Withdrawal\WithdrawalPayPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_Employer_Migrate\Remit_Con_Employer_MigrationPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployerBatchUpload\EmployerBatchPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserApprovePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Staff\setup_StaffPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserDropPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_Sup_Migrate\Remit_Con_Sup_MigrationPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\Invest_NPRAAsset\NPRAAssetPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeRetirement\Report_EmployeeRePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeRetirement\Report_EmployeeRetirementPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\Invest_Authorizers\AuthorizerPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_ContributionSupUpLoad_Log\ContributionRemit_SupPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLChart\GLBankAccountPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLChart\GLBankAccountDefaultPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLJournal\GLJournalCreatePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLJournal\GLJournalApprovePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLJournal\GLJournalReversalPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Bank\BankPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\EndOfDay\EODPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Bond\BondPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\ApproveBond\ApproveBondPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserResetPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserSuspendPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserActivatePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Bond\SecBondPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\ApproveBond\ApproveSecBondPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeActive\Report_EmployeeActPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeActive\Report_EmployeeActivePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\DeleteRemit_Contribution\DeleteContributionPartial.cshtml" />
+    <Content Include="ImageProcessor\ImageProcessor.ashx" />
+    <Content Include="ImageProcessor\ViewImageProcessor.ashx" />
+    <Content Include="ImageProcessor\ViewImageIDProcessor.ashx" />
+    <Content Include="ImageProcessor\ViewImageTemp.ashx" />
+    <Content Include="fonts\ViewImageIDTemp.ashx" />
+    <Content Include="ImageProcessor\ViewImageIDTemp.ashx" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeCertificate\Report_EmployeeCertificatePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeCertificate\Report_EmployeeCertPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeSchemeBatchUpload\EmployeeSchemeBatchPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Staff\setup_DropStaffPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLChart\GLExpenseAccountPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\EndOfYear\EOYPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_Sup_Migrate\Remit_Con_BPay_MigrationPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLInitial\GLInitialApprovePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLInitial\GLInitialCreatePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLInitial\GLInitialReversalPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeePassword\EmployeePasswordPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeePassword\EmployeePasswordIndiPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeEmailStatement\EmployeeEmailStatementIndiPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeEmailStatement\EmployeeEmailStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\MigratePortfolio\MigrateMM_TBill_BondPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_Employer_Migrate\Remit_BP_Employer_MigrationPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer\AddDeleteEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\UpdateEmployee\DeleteEmployeePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\UpdateEmployee\DeleteEmployeeBatchPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeDownloadStatement\EmployeeDownloadStatementIndiPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeDownloadStatement\EmployeeDownloadStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeBen\Report_EmployeeBenPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeBen\Report_EmployeeBPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\MigratePortfolio\MigrateECPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerBen\Report_EmployerBPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerBen\Report_EmployerBenPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeBatchEdit\EmployeeBatchEditPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\UpdateEmployee\EmployeeStatusPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\DeleteRemit_Contribution\DeleteContributionBatchPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Withdrawal\WithdrawalPayTaxPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeSummary\Report_SchemeSummaryPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeSummary\Report_SchemeSPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\PayAdviceRemit_Contribution\PayAdvicePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\DisinvestFixed_InCome_Transaction\DisinvestFixedIncomeTransPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\LoadUnitPrice\LoadUnitPricePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Reports\ReportPVPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Reports\ReportPVStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\RolloverFixed_InCome_Transaction\RolloverFixedIncomeTransPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLChart\GLBankAccountDefaultPartial_OLD.cshtml" />
+    <Content Include="Areas\Setup\Views\pfm_SchemeFMFee\SchemeFMFeePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptPartial_Bonds.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptMaturityPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptMaturityPartial_Bonds.cshtml" />
+    <Content Include="Areas\Investment\Views\Bond\SellSecBondPartialold.cshtml" />
+    <Content Include="Areas\Investment\Views\ReverseBond\ReverseBondPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\ReverseBond\ReverseSecBondPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Equity_CIS\Equity_CISReversePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortIn\PortInApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortIn\PortInPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortOut\PortOutApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortOut\PortOutPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortOut\PortOutPayPartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_Ledger_Account\Report_LedgerPartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_Ledger_Account\Report_LedgerAccountPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptReversePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptReversePartial_Bonds.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Withdrawal\WithdrawalReversePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\EndOfDayBack\EODBackPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLFee\GLFeeApprovePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLFee\GLFeeCreatePartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLFee\GLFeeReversalPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Equity_CIS_Sell\Equity_CIS_SellReversePartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_YearlyTB\Report_YearlyTBPartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_YearlyTB\Report_TBPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserReassignPartial.cshtml" />
+    <Content Include="Areas\Security\Views\User\UserViewPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployeeChangeSchemeFundPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Unit_Transfer\Unit_MergePartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Currency\CurrencyPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_MigrateRaw\Remit_Con_MigrationRawPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Con_MigrateRaw\Remit_Emp_MigrationRawPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeBenefit\Report_SchemeBenefitPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeBenefit\Report_SchemePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembership\Report_SchemeMembershipPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembership\Report_SchemePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipDeferred\Report_SchemeMembershipDeferredPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipDeferred\Report_SchemeDeferredPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_ContributionBackUpLoad_Log\ContributionRemit_BackPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortIn\PortInReversePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_PortOut\PortOutReversePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeEmployer\Report_SchemeEmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeEmployer\Report_SchemePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptInterestPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptDisinvestPartial_Bonds.cshtml" />
+    <Content Include="Areas\CRM\Views\Employee_Scheme_Funds\EmployerChangeSchemeFundPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeInvestmentReceipt\Report_SchemeInvestmentReceiptPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeInvestmentReceipt\Report_SchemeInvestmentRePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Unit_Change\Unit_ChangeApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Unit_Change\Unit_ChangePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\IM_Reports\ReportIMPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\IM_Reports\ReportIMStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\CM_Reports\ReportCMPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\CM_Reports\ReportCMStatementPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\BatchPortOut\BatchPortOut.cshtml" />
+    <Content Include="Areas\Remittance\Views\BatchPortOut\BatchPortOut_Reverse.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule\Report_Monthly_SchedulePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule\Report_MSPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Employer\AddEditEmployerStatusPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipAll\Report_SchemeMembershipAllPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipAll\Report_SchemeAllPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_DailyFees\Report_DailyFeesPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_DailyFees\Report_DFPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipEnrolled\Report_SchemeEnrolledPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipEnrolled\Report_SchemeMembershipEnrolledPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipExitted\Report_SchemeExittedPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipExitted\Report_SchemeMembershipExittedPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipAge\Report_SchemeAgePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipAge\Report_SchemeMembershipAgePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_WithdrawalToEmployer\WithdrawalApprovePartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_WithdrawalToEmployer\WithdrawalPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_WithdrawalToEmployer\WithdrawalReversePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SP_Reports\ReportSPPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SP_Reports\ReportSPStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_DailyUnitPrice\Report_DailyUnitPricePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_DailyUnitPrice\Report_DUPPartial.cshtml" />
+    <Content Include="Areas\Setup\Views\setup_Company\CompanyPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeEmployerEnrolled\Report_SchemeEmployerEnrolledPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeEmployerEnrolled\Report_SchemePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_Scheme\Report_Monthly_SchedulePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_Scheme\Report_MSPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeSMSStatement\EmployeeSMSStatementIndiPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeSMSStatement\EmployeeSMSStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_Defaulters\Report_Monthly_SchedulePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_Defaulters\Report_MSPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipWithdrawal\Report_SchemeWithdrawalPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipWithdrawal\Report_SchemeMembershipWithdrawalPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipPortIn\Report_SchemeMembershipPortInPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipPortIn\Report_SchemePortInPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipPortOut\Report_SchemeMembershipPortOutPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipPortOut\Report_SchemePortOutPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipDeferredP\Report_SchemeDeferredPPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipDeferredP\Report_SchemeMembershipDeferredPPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipUnclaimed\Report_SchemeUnclaimedPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipUnclaimed\Report_SchemeMembershipUnclaimedPartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_YearlyTB_Scheme\Report_TBPartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_YearlyTB_Scheme\Report_YearlyTBPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptAccruedPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Receipt\ReceiptAccruedPartial_Bonds.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeStatement\Report_SchemePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeStatement\Report_SchemeStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipSalary\Report_SchemeSalaryPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipSalary\Report_SchemeMembershipSalaryPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeReports\ReportPVPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeReports\ReportPVStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\FMReports\ReportPVPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\FMReports\ReportPVStatementPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_Receipt\SendReceiptPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_ContributionTPFAUpLoad_Log\ContributionRemit_TPFAPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeStatementSpecific\Report_EmployeePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployeeStatementSpecific\Report_EmployeeStatementPartial.cshtml" />
+    <Content Include="Areas\Remittance\Views\Remit_ContributionSURCHARGEUpLoad_Log\ContributionRemit_SURCHARGEPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\EmployeeDownloadStatement\EmployeeDownloadStatementActivePartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Dashboard\ReportDBPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Dashboard\ReportDBStatementPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_SchemeArrears\Report_Monthly_SchedulePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_SchemeArrears\Report_MSPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_SchemePaid\Report_Monthly_SchedulePartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_Monthly_Schedule_SchemePaid\Report_MSPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Bond\SellSecBondPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\Bond\SellReversePartial_Bonds.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerMembers\Report_EmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerMembers\Report_EmployerMembersPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerMembersBen\Report_EmployerMembersPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_EmployerMembersBen\Report_EmployerPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipList\Report_SchemeMembershipListPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipList\Report_SchemeListPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipListBene\Report_SchemeListPartial.cshtml" />
+    <Content Include="Areas\CRM\Views\Report_SchemeMembershipListBene\Report_SchemeMembershipListPartial.cshtml" />
+    <Content Include="Areas\GL\Views\GLConsolidated\GLConsolidated.cshtml" />
+    <Content Include="Areas\GL\Views\Report_Ledger_AccountConsolidated\Report_LedgerAccountPartial.cshtml" />
+    <Content Include="Areas\GL\Views\Report_Ledger_AccountConsolidated\Report_LedgerPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeDashboard\ReportDBPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeDashboard\ReportDBStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeCM_Reports\ReportCMPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeCM_Reports\ReportCMStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeSP_Reports\ReportSPPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeSP_Reports\ReportSPStatementPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeIM_Reports\ReportIMPartial.cshtml" />
+    <Content Include="Areas\Investment\Views\SchemeIM_Reports\ReportIMStatementPartial.cshtml" />
+    <Content Include="ImageProcessorLogo\ImageProcessorLogo.ashx" />
+    <Content Include="ImageProcessorLogo\ViewImageIDProcessorLogo.ashx" />
+    <Content Include="ImageProcessorLogo\ViewImageIDTempLogo.ashx" />
+    <Content Include="ImageProcessorLogo\ViewImageTempLogo.ashx" />
+    <Content Include="ImageProcessorLogo\ViewImageProcessorLogo.ashx" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\PENFAD.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\StartUp\GetSubModule.cshtml" />
+    <Content Include="Views\StartUp\Index.cshtml" />
+    <Content Include="Views\Shared\_StartUpLayout.cshtml" />
+    <Content Include="Views\Shared\LoginLayout.cshtml" />
+    <Content Include="Views\Shared\LogoAndSecurityPartialView.cshtml" />
+    <Content Include="Views\Shared\_CompanyPartial.cshtml" />
+    <Content Include="Views\Shared\_HeaderPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginMainPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\StartUp\Login.cshtml" />
+    <Content Include="Views\Shared\Report_ActivePartial.cshtml" />
+    <Content Include="Views\StartUp\UserChangePasswordPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Start\App_Data\" />
+    <Folder Include="Areas\GL\Views\Shared\" />
+    <Folder Include="Penfad_Reports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PENFAD6DAL\PENFAD6DAL.csproj">
+      <Project>{85b0cef1-30ad-45c7-a1ea-bc3367f657a5}</Project>
+      <Name>PENFAD6DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>28188</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:28188/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

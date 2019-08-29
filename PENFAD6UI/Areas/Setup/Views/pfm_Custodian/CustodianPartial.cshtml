@@ -1,0 +1,157 @@
+﻿
+
+@using PENFAD6DAL.Repository.Security
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+@using PENFAD6DAL.Repository.Setup.SystemSetup
+@model IEnumerable<pfm_CustodianRepo>
+
+@{
+
+    var x = Html.X();
+
+}
+
+@(x.FormPanel()
+        .ID("custodian")
+        //.ColumnWidth(0.4)
+        .Title("setup Custodian")
+        .Frame(true)
+        .Closable(true)
+        .AutoScroll(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+         .Width(1000)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("custodianGrid")
+                        .Title("View custodian List")
+                        .Frame(true)
+                        .Width(700)
+                        .MarginSpec("10 0 0 10")
+                        .Height(740)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("custodianStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Custodian_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Custodian_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Contact_Person").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Mobile_Number").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Office_Location").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Postal_Address").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Email_Address").Type(ModelFieldType.String),
+                                     x.ModelField().Name("Registration_Date").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Registration_Number").Type(ModelFieldType.String)
+                                   
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                              .ColumnModel(x.Column().DataIndex("Custodian_Id").Text("Custodian ID").Width(100))
+                              .ColumnModel(x.Column().DataIndex("Custodian_Name").Text("Custodian Name").Width(300))
+                              .ColumnModel(x.Column().DataIndex("Contact_Person").Text("Contact Person").Width(300))
+                              .ColumnModel(x.Column().DataIndex("Mobile_Number").Text("Mobile Number").Width(100))
+                              .ColumnModel(x.Column().DataIndex("Office_Location").Text("Office Location").Width(300))
+                              .ColumnModel(x.Column().DataIndex("Postal_Address").Text("Postal Address").Width(300))
+                              .ColumnModel(x.Column().DataIndex("Email_Address").Text("Email Address").Width(150))
+                              .ColumnModel(x.Column().DataIndex("Registration_Date").Text("Registration Date").Width(100))
+                              .ColumnModel(x.Column().DataIndex("Registration_Number").Text("Registration Number").Width(150))
+                             ,
+
+                x.FieldSet()
+                  //  .ColumnWidth(0.65)
+                    .Collapsible(true)
+                    .Height(750)
+                    .Title("Add/Edit Custodian")
+                    .MarginSpec("0 5 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+              x.Hidden().Name("Custodian_Id"),
+               x.TextField().Name("Custodian_Name").FieldLabel("Custodian Name").MarginSpec("0 30 10 10").Width(290).TabIndex(1)
+                           .AllowBlank(false)
+                           .BlankText("Custodian Name is required.")
+                           .FieldStyle("text-transform:UPPERCASE"),
+               x.TextField().Name("Contact_Person").FieldLabel("Contact Person").MarginSpec("0 30 10 10").Width(290).TabIndex(2)
+                           .FieldStyle("text-transform:UPPERCASE"),
+               x.TextField().Name("Mobile_Number").FieldLabel("Mobile Number").MarginSpec("0 30 10 10").Width(290).TabIndex(3)
+                              .AllowBlank(false)
+                           .BlankText("Mobile Number is required."),
+               x.TextField().Name("Office_Location").FieldLabel("Office Location").MarginSpec("0 30 10 10").Width(290).TabIndex(4)
+                            .FieldStyle("text-transform:UPPERCASE"),
+               x.TextField().Name("Postal_Address").FieldLabel("Postal Address").MarginSpec("0 30 10 10").Width(290).TabIndex(5)
+                            .FieldStyle("text-transform:UPPERCASE"),
+               x.TextField().Name("Email_Address").FieldLabel("Email Address").InputType(Ext.Net.InputType.Email).MarginSpec("0 30 10 10").Width(290).TabIndex(6)
+                          .FieldStyle("text-transform:LowerCASE"),
+               x.DateField().Name("Registration_Date").FieldLabel("Registration Date").MarginSpec("0 30 10 10").Width(290).TabIndex(7),
+               x.TextField().Name("Registration_Number").FieldLabel("Registration Number").MarginSpec("0 30 10 10").Width(290).TabIndex(8).FieldStyle("text-transform:UPPERCASE")
+                        )
+                    .Items(
+                        x.Button()
+                            .Text("Save")
+                            .Width(100)
+                             .Icon(Icon.ApplicationAdd)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Confirmation.Message = "Are you sure you want to Save?";
+
+                            }).MarginSpec("10 10 0 0"),
+
+
+                        x.Button()
+                            .Text("Delete")
+                            .Width(110)
+                             .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                            }).MarginSpec("10 10 0 0"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                 .Icon(Icon.Cancel)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 0 0")
+
+                        )
+                 )
+
+
+)
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+﻿
+@using PENFAD6DAL.Repository.GL
+
+
+@{
+    var x = Html.X();
+    var GLCRepo = new GLAccountRepo();
+}
+<script>
+
+    var onSuccess = function (grid, data)
+        {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frmLUP")
+        .AutoScroll(true)
+        .Closable(true)
+        .Title("Upload Daily Equity Unit Price")
+        .Width(1500)
+        .Frame(true)
+        .AutoScroll(true)
+        .Height(750)
+        .BodyPadding(5)
+        // .Layout(LayoutType.Column)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelStyle = "font-weight: bolder";
+        })
+        .Items(
+
+
+
+                  x.FieldSet()
+                            .Height(250)
+                            .Width(800)
+                            .Title("Upload Equity Unit Prices")
+                            .FieldDefaults(fd =>
+                            {
+                                fd.LabelAlign = LabelAlign.Top;
+                                fd.MsgTarget = MessageTarget.Side;
+                            })
+
+                            //.Layout(LayoutType.Column)
+                            .Items
+                            (
+                                    x.DateField()
+                                     .Name("E_Unit_Date")
+                                            .FieldLabel("Unit Prices Date")
+                                            .Width(400)
+                                           .MarginSpec("10 10 20 10")
+                                            ,
+                                   x.FileUploadField()
+                                            .ID("file_upload_UP_EC")
+                                            .Width(400)
+                                            .ButtonText("Browse")
+                                           .MarginSpec("10 10 10 10")
+                                            ,
+                                    x.Button()
+                                        .Text("Upload Unit Prices")
+                                        .Width(250)
+                                        .DirectEvents(dex =>
+                                        {
+                                            dex.Click.Url = Url.Action("UploadUP");
+                                            dex.Click.Timeout = 12000000;
+                                        }).MarginSpec("10 10 10 10")
+                                        .Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Uploading... Please wait.'})"),
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(130)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("10 10 10 10")
+
+
+
+                           )
+           )
+
+)

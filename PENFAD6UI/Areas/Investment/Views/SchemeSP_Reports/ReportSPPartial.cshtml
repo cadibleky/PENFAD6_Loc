@@ -1,0 +1,187 @@
+﻿@using PENFAD6DAL.Repository.Setup.SystemSetup
+@using PENFAD6DAL.Repository.CRM.Employee
+
+
+
+@{
+    var titleRepo = new setup_TitleRepo();
+    var gender = new setup_GenderRepo();
+    var region = new setup_RegionRepo();
+    var country = new setup_CountryRepo();
+    var identity = new setup_IdentityTypesRepo();
+    var maritalstatus = new setup_MaritalStatusRepo();
+    var employeeType = new setup_EmployeeTypeRepo();
+    var position = new setup_PositionRepo();
+    var RelationRepo = new setup_RelationshipRepo();
+    var branch = new setup_BranchRepo();
+    var employer = new crm_EmployeeRepo();
+
+    var x = Html.X();
+
+}
+ 
+<script>
+        var onSuccess = function (grid, data) {
+            grid.show();
+            grid.getStore().loadData(data);
+        };
+</script>
+
+@(Html.X().FormPanel()
+                       .ID("Report_SSP_frm_main")
+                       .Title("Security Purchases")
+                       .Closable(true)
+                       .Layout(LayoutType.Border)
+                       .Frame(true)
+                       .AutoScroll(true)
+                       .FieldDefaults(fd =>
+                       {
+                           fd.LabelAlign = LabelAlign.Top;
+                           fd.MsgTarget = MessageTarget.Side;
+                       })
+                       .MarginSpec("10 0 0 10")
+                       .Items(Html.X().FormPanel()
+                                    .ID("Report_SSP_frm_left_Panel")
+                                    .Title("Security Purchases")
+                                    .Region(Region.West)
+                                    .Split(true)
+                                    .Collapsible(true)
+                                    .AutoScroll(true)
+                                    .Width(350)
+                                    .MinWidth(150)
+                                    .MaxWidth(420)
+                                    .Items(Html.X().FormPanel()
+                                                    .ID("Report_SSP_frm_txtFields")
+                                                    .Border(true)
+                                                    .AutoScroll(true)
+                                                    .Width(410)
+                                                    .Height(400)
+                                                    .Layout(LayoutType.Column)
+                                                    .Items(
+                                                            x.Button().Text("Get Scheme").Width(200).MarginSpec("2 0 0 3")
+                                                            .Handler("App.Report_SSP_frm_employeePopup.show(this);"),
+                                                            x.TextField().ID("Report_SSP_SFID").Name("Scheme_Id").FieldLabel("Scheme No.").Width(320).ReadOnly(false).MarginSpec("2 2 0 5"),
+                                                            x.TextField().ID("Report_SSP_SFNAME").ReadOnly(true).Name("Scheme_Name").FieldLabel("Scheme").Width(320).MarginSpec("2 2 0 5"),
+                                                            //x.TextField().Name("Fund_Name").ReadOnly(true).FieldLabel("Fund").Width(320).MarginSpec("2 2 0 5"),
+                                                            x.DateField().ID("Report_SSP_Report_Date").Name("Report_Date").FieldLabel("Date(From)").Width(200).ReadOnly(false).MarginSpec("2 2 0 5"),
+                                                            x.DateField().ID("Report_SSP_Report_Date2").Name("Report_Date2").FieldLabel("Date(To)").Width(200).ReadOnly(false).MarginSpec("2 2 0 5")
+
+                                                            ),// end items
+
+
+                                        Html.X().TreePanel()
+                                                .ID("Report_SSP_frm_left_treepanel_menu")
+                                                //.Border(true)
+                                                .MarginSpec("5 0 10 10")
+                                                .RootVisible(false)
+                                                .Store(
+                                                        Html.X().TreeStore()
+                                                            .Proxy(Html.X().AjaxProxy().Url(Url.Action("GetChildren")))
+                                                         )
+                                                .Root(Html.X().Node().NodeID("employee_rep_0_SP").Text("Root"))
+                                                .ViewConfig(Html.X().TreeView().LoadMask(false))
+                                                .Listeners(l => l.ItemClick.Handler = "Ext.net.Mask.show({msg: 'Loading... Please wait.'})")
+                                                /////////.Listeners(l => l.Select.Handler = "alert(App.Report_EmployeePartial_frm_left_treepanel_menu.getSelectionModel().getSelectedNode().id);")
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.ItemClick.Url = Url.Action("Load_Employee_Report_IFrame");
+                                                    de.ItemClick.ExtraParams.Add(new Parameter("containerId", "Report_SSP_panel_right_center_content"));
+
+                                                    de.ItemClick.ExtraParams.Add(new StoreParameter("Scheme_Id", "App.Report_SSP_SFID.getValue()", ParameterMode.Raw));
+
+                                                    de.ItemClick.ExtraParams.Add(new StoreParameter("tree_node_id", "record.get('id')", ParameterMode.Raw));
+
+                                                })
+                             ),// end
+
+
+                ///center region starts
+                Html.X().Panel()
+                                    .ID("Report_SSP_panel_right_center_content")
+                                    //.Title("GL Journal Trans. Posting")
+                                    .Region(Region.Center)
+                                    .Split(true)
+                                    .AutoScroll(true)
+                                    .Loader(Html.X().ComponentLoader()
+                                                    .Url(Url.Action("Load_Report"))
+                                                    .Mode(LoadMode.Frame)
+                                                    .LoadMask(lm => lm.ShowMask = true)
+                                                )
+
+
+            )// end Report_EmployeePartial_frm_left_Panel
+
+
+
+
+            //windows for Scheme Account
+            .Items(
+            Html.X().Window()
+                .ID("Report_SSP_frm_employeePopup")
+                                        .Title("Scheme List")
+                                        .Width(1000)
+                                        .Height(500)
+                                        .X(0)
+                                        .Y(0)
+                                        .Modal(true)
+                                        .AutoRender(false)
+                                        .Collapsible(true)
+                                        .Maximizable(true)
+                                        .Hidden(true)
+                                        .Loader(x.ComponentLoader()
+                                        .Mode(LoadMode.Frame)
+                                        .LoadMask(lm => lm.ShowMask = true)
+                                               )
+                                            .Items(
+                                            x.GridPanel()
+                                            .ID("SSPSFGrid")
+                                            .Frame(true)
+                                            .WidthSpec("Auto")
+                                            .HeightSpec("Auto")
+                                            .MarginSpec("10 0 0 10")
+                                            .Plugins(
+                                            x.FilterHeader()
+                                                )
+                                            .Store(
+                                            x.Store()
+                                            .AutoLoad(true)
+                                            .ID("SSPSFStore")
+                                            // .DataSource(Model)
+                                            .Model(
+                                            x.Model()
+                                            .Fields(
+                                                //x.ModelField().Name("Scheme_Fund_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+                                                x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String)
+                                                    //x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                                    // x.ModelField().Name("Fund_Name").Type(ModelFieldType.String)
+                                                    )
+                                                    )
+                                            .ServerProxy(
+                                            x.AjaxProxy()
+                                                    .Url(Url.Action("ReadSF"))
+                                           )
+                                            // .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.Report_SSP_frm_main.getForm().loadRecord(selected[0]);App.Report_SSP_frm_employeePopup.hide(); }")
+                    //.ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text(" ID").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(400))
+                            //.ColumnModel(x.Column().DataIndex("Fund_Id").Text("FUND ID").Width(0))
+                            //.ColumnModel(x.Column().DataIndex("Fund_Name").Text("FUND ").Width(400))
+
+
+                            )//end tax grid panel
+
+
+
+    )// end CASA_IC_Product_Partial_win_search_tax_gls
+
+
+
+// end main
+)

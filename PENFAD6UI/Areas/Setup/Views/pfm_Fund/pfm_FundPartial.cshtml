@@ -1,0 +1,132 @@
+﻿
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@model IEnumerable<pfm_FundRepo>
+
+@{
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+        .ID("FundPan")
+        .WidthSpec("auto")
+        .Title("Setup Fund")
+        .Frame(true)
+        .AutoScroll(true)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .MarginSpec("0 0 0 0")
+        .Width(1400)
+        .Height(600)
+        .FieldDefaults(fd =>
+        {
+            fd.LabelAlign = LabelAlign.Top;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+
+        .Items(
+
+                x.GridPanel()
+                        .ID("FundGrid")
+                        .Title("View Fund List")
+                        .Frame(true)
+                        .Width(600)
+                        .MarginSpec("10 0 0 10")
+                        .Height(500)
+                        .Store(
+                            x.Store()
+                                .AutoLoad(true)
+                                .ID("FundStore")
+                        .DataSource(Model)
+                        .Model(
+                            x.Model()
+                                .Fields(
+                                    x.ModelField().Name("Fund_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Name").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Fund_Description").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Maker_Id").Type(ModelFieldType.String),
+                                    x.ModelField().Name("Make_Date").Type(ModelFieldType.Date)
+
+                                    )
+
+                        )
+                        .ServerProxy(
+                               Html.X().AjaxProxy()
+                               .Url(Url.Action("Read"))
+                              )
+                        .PageSize(10)
+                )
+                 .BottomBar(
+                    Html.X().PagingToolbar()
+                )
+                .Plugins(
+                    x.FilterHeader()
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                .Listeners(l => l.BeforeItemClick.Handler = "if (App.pfmFund_FundId.getValue() == '01') {App.btnDelete.disable(); App.pfmFund_FundName.disable(); App.pfmFund_FundDescription.disable();} else {App.btnDelete.enable();  App.pfmFund_FundName.enable(); App.pfmFund_FundDescription.enable();}")
+
+                .ColumnModel(x.Column().DataIndex("Fund_Name").Text("Fund").Width(290))
+                .ColumnModel(x.Column().DataIndex("Fund_Id").Text("Fund ID").Width(150))
+                .ColumnModel(x.Column().DataIndex("Fund_Description").Text("Description").Width(300)),
+
+
+                x.FieldSet()
+                    .WidthSpec("auto")
+                    .Collapsible(true)
+                    .Region(Region.North)
+                    .Height(510)
+                    .Title("Add/Edit Fund")
+                    .MarginSpec("0 20 0 20")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                    .Items(
+                        x.Hidden().Name("Fund_Id").ID("pfmFund_FundId"),
+                        x.TextField().Name("Fund_Name").ID("pfmFund_FundName").FieldLabel("Fund Name").Width(300).FieldStyle("TEXT-TRANSFORM:UPPERCASE").AllowBlank(false).BlankText("Fund name is required.").AutoFitErrors(true).MarginSpec("0 20 0 20"),
+                        x.TextArea().Name("Fund_Description").ID("pfmFund_FundDescription").FieldLabel("Fund Description").Width(300).FieldStyle("TEXT-TRANSFORM:UPPERCASE").MarginSpec("10 20 0 20")
+
+                        )
+                    //.Items(
+                    //x.Panel()
+                    //.WidthSpec("100%")
+                    //.Height(40)
+                    //.StyleSpec("position: absolute; bottom: 0; left: 0;")
+
+                    .Items(
+                    x.Button()
+                            .Text("Save")
+                            .Width(110)
+                            .Icon(Icon.Add)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("SaveRecord");
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("30 10 10 5"),
+                        x.Button()
+                            .Text("Delete").ID("btnDelete")
+                            .Width(110)
+                            .Icon(Icon.Delete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteRecord");
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.Title = "Delete Record";
+                                de.Click.Confirmation.Message = "Are you sure you want to delete?";
+                                de.Click.Timeout = 120000;
+                            }).MarginSpec("30 10 10 5"),
+                        x.Button()
+                                .Text("Clear")
+                                .Width(90)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("30 10 10 5")
+
+                        
+                        )
+                 )
+
+
+)
+
+

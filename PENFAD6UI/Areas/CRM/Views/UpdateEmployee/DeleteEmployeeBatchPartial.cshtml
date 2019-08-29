@@ -1,0 +1,262 @@
+﻿
+@using PENFAD6DAL.Repository.CRM.Employee
+@model PENFAD6DAL.Repository.CRM.Employee.crm_EmployeeBatchLogRepo
+@{
+    var y = Html.X();
+    var employer = new crm_EmployeeRepo();
+}
+<script>
+    var onSuccess = function (grid, data) {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+
+    var onSuccessgroup = function (grid, data)
+    {
+        grid.show();
+        grid.getStore().loadData(data);
+    };
+</script>
+
+@(Html.X().FormPanel()
+        .ID("frm_empbatchapproval_delete")
+        .Title("Delete Employees-Batch")
+        .Width(1500)
+        .BodyPadding(5)
+        .AutoScroll(true)
+        .Height(750)
+        .Closable(true)
+        .Layout(LayoutType.Column)
+        .Items(
+                Html.X().Panel()
+                .Width(2000)
+                .Layout(LayoutType.Column)
+
+        .Items(
+
+        Html.X().Panel()
+                    .ID("panel_forgrids_delete")
+                    .Width(800)
+                    .Title("Batch Employees Delete")
+                    .Border(true)
+                    .Height(720)
+                    .MarginSpec("10 0 0 10")
+                    .BodyPadding(5)
+                    .TopBar(Html.X().Toolbar()
+                            .Items(
+
+                            y.ComboBox().Name("Employer_Id")
+                                    .ID("deletebatch_cmbEmployerId")
+                                    .FieldLabel("Select Employer")
+                                   //.QueryMode(DataLoadMode.Local)
+                                   //.TriggerAction(TriggerAction.All)
+                                   .TabIndex(5).Width(450)
+                                    .BlankText("Select Employer")
+                                    .FieldStyle("text-transform: uppercase")
+                                    .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
+
+
+                           Html.X().Button()
+                                    .Text("View Batch Uploads")
+                                    .Width(250)
+                                    .Icon(Icon.ApplicationViewDetail)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Timeout = 12000000;
+                                        de.Click.Url = Url.Action("Get_BatchLogPending");
+                                        de.Click.Success = "onSuccess(App.batchloggrid_delete, result.data);";
+                                    })
+                                    .Handler("#{emp_list_store_delete}.removeAll();")
+                                ////.Handler("#{panel_majornav}.reload();")
+                                )//end button
+                            )// end topbar
+
+                     //begin role grid
+                     .Items(Html.X().GridPanel()
+                                    .ID("batchloggrid_delete")
+                                    //.Hidden(true)
+                                    .Border(true)
+                                    //.Width(400)
+                                    .Height(350)
+                                    .MarginSpec("10 0 0 10")
+                                    .Store(Html.X().Store()
+                                        .ID("batchstore_delete")
+                                        .AutoLoad(false)
+                                        .Model(Html.X().Model()
+                                            .Fields(
+                                                new ModelField("Employer_name", ModelFieldType.String),
+                                                new ModelField("Scheme_Name", ModelFieldType.String),
+                                                new ModelField("Employer_Id", ModelFieldType.String),
+                                                new ModelField("Batch_Status", ModelFieldType.String),
+                                                new ModelField("Batch_No", ModelFieldType.String),
+                                                new ModelField("MakerId", ModelFieldType.String),
+                                                new ModelField("MakeDate", ModelFieldType.String)
+                                                    )//end fields
+                                                )//end model
+                                                .Reader(reader =>
+                                                    reader.Add(Html.X().ArrayReader())
+                                                )//end reader
+                                                 //.ServerProxy(Html.X().AjaxProxy().Url(Url.Action("Get_BatchLogPending")))
+                                            )//end  store
+                                    .ColumnModel(
+                                            Html.X().Column().Text("Employer").DataIndex("Employer_name").Width(400),
+                                            Html.X().Column().Text("Scheme").DataIndex("Scheme_Name").Width(400),
+                                            Html.X().Column().Text("Emp. ID").DataIndex("Employer_Id").Width(90),
+                                            Html.X().Column().Text("Status").DataIndex("Batch_Status").Width(100),
+                                            //Html.X().Column().Text("Batch_No").DataIndex("UserRoleDesc").Width(150),
+                                            Html.X().Column().Text("Upload By").DataIndex("MakerId").Width(100),
+                                            Html.X().Column().Text("Date").DataIndex("MakeDate").Width(150)
+                                            )//end columnmodel
+                                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                                    .DirectEvents(de =>
+                                    {
+                                        de.CellClick.Url = Url.Action("Get_EmployeesInBatchLogPending");
+                                        de.CellClick.Success = "onSuccessgroup(App.employeeslist_grid_delete, result.data);";
+                                    })
+                                  ) //end rolegridpanel
+
+                        .Items(Html.X().Panel()
+                                .ID("pn_fset_delete")
+                                .Title("Batch Details")
+                                .Height(350)
+                                .AutoScroll(true)
+                                //.Border(true)
+                                .Width(620)
+                                .MarginSpec("10 0 0 10")
+                                .Items(Html.X().FieldSet()
+                                            .ID("fsset_details_delete")
+                                            .Height(180)
+                                            .MarginSpec("10 0 0 0")
+                                            .FieldDefaults(d =>
+                                            {
+                                                d.LabelWidth = 115;
+                                                //d.LabelStyle = "color:black;padding-left:4px;";
+                                            })
+                                            .Items(Html.X().TextField()
+                                                        // .ID("Employer_name")
+                                                        .Name("Employer_name")
+                                                        .FieldLabel("Employer")
+                                                        .MarginSpec("10 0 10 0")
+                                                        .Width(600)
+                                                        .ReadOnly(true),
+
+                                                Html.X().Hidden()
+                                                       // .ID("Batch_No")
+                                                       .Name("Batch_No"),
+
+                                               //Html.X().TextField()
+                                               //            // .ID("Employer_Id")
+                                               //            .Name("Employer_Id")
+                                               //            .FieldLabel("Employer ID")
+                                               //            .Width(450)
+                                               //            .MarginSpec("10 0 0 3")
+                                               //            .ReadOnly(true),
+                                               Html.X().TextField()
+                                                           //.ID("Scheme_Name")
+                                                           .Name("Scheme_Name")
+                                                           .FieldLabel("Scheme")
+                                                           .Width(600)
+                                                           .MarginSpec("10 0 0 3")
+                                                           .ReadOnly(true)
+                                                   )
+                                       )//end fsset_details
+
+                                )//end items pn_fset
+
+
+
+               )//end panel_forgrids
+
+
+
+  .Items(Html.X().Panel()
+                                .ID("pn_fsetsss_delete")
+                                .Title("Employee List")
+                                 .Header(true)
+                                .Height(720)
+                                .AutoScroll(true)
+                                .Border(true)
+                                 .Width(670)
+                                .MarginSpec("10 0 0 10")
+        // second column begins
+        .Items(Html.X().GridPanel()
+                    .ID("employeeslist_grid_delete")
+                    .ColumnWidth(0.6)
+                    /// .Title("Employee List")
+                    .Header(true)
+                    .Border(true)
+                    .Width(650)
+                    .MarginSpec("10 0 0 10")
+                    .Height(650)
+
+                    //.HeightSpec("auto")
+                    .BodyPadding(5)
+                    .AutoScroll(true)
+
+                    .Store(Html.X().Store()
+                            .AutoLoad(false)
+                            .ID("emp_list_store_delete")
+                            .Model(Html.X().Model()
+                                .Fields(
+                                        new ModelField("Surname", ModelFieldType.String),
+                                        new ModelField("First_Name", ModelFieldType.String),
+                                        new ModelField("Other_Name", ModelFieldType.String),
+                                        new ModelField("Scheme_Name", ModelFieldType.String),
+                                        new ModelField("Fund_Name", ModelFieldType.String)
+                                        )//end fields
+                                    )//end model
+                                    .Reader(reader =>
+                                        reader.Add(Html.X().ArrayReader())
+                                    )//end reader
+                            )//end  store
+                             .Refresh()
+                            .BottomBar(
+                            Html.X().PagingToolbar())
+                    .ColumnModel(
+                            Html.X().Column().Text("Surname").DataIndex("Surname").Width(300),
+                            Html.X().Column().Text("First Name").DataIndex("First_Name").Width(300),
+                            Html.X().Column().Text("Other Name").DataIndex("Other_Name").Width(150),
+                            Html.X().Column().Text("Scheme").DataIndex("Scheme_Name").Width(300),
+                            Html.X().Column().Text("Fund Name").DataIndex("Fund_Name").Width(150)
+                            )//end columnmodel
+                    .View(Html.X().GridView().StripeRows(true).TrackOver(true))
+                    .Plugins(Html.X().FilterHeader())
+                    //.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+
+                    .Buttons(Html.X().Button()
+                                    .Icon(Icon.DriveDelete).Width(200)
+                                    .Text("Delete This Batch")
+                                    .MarginSpec("30 5 0 10")
+
+                                    .DirectEvents(de =>
+                                    {
+
+                                        de.Click.Confirmation.ConfirmRequest = true;
+                                        de.Click.Confirmation.Title = "Delete Batch";
+                                        de.Click.Confirmation.Message = "Delete selected batch ?";
+                                        de.Click.Url = Url.Action("Delete_BatchRecord");
+                                    }), // end delete button,
+
+                                Html.X().Button()
+                                    .Text("Clear")
+                                    .Width(120)
+                                    .MarginSpec("30 5 0 10")
+                                    .Icon(Icon.ArrowRefresh)
+                                    .DirectEvents(de =>
+                                    {
+                                        de.Click.Url = Url.Action("ClearControls");
+                                    })
+                              ////.Handler("#{batchstore}.removeAll();")
+                              //.Handler("#{emp_list_store}.removeAll();")
+                              )// end buttons
+
+            )//end second panel which is grid
+
+
+            )
+
+
+
+     )
+)

@@ -1,0 +1,284 @@
+﻿
+@using PENFAD6DAL.Repository.CRM.Employer
+@using PENFAD6DAL.Repository.Setup.PfmSetup
+
+
+@model IEnumerable<crm_EmployerSchemeFundRepo>
+
+@{
+    var schemeFund = new pfm_Scheme_FundRepo();
+    var employer = new crm_EmployerRepo();
+    var x = Html.X();
+}
+
+@(x.FormPanel()
+            .ID("ES")
+            .Title("Employer Account Setup")
+            .Frame(true)
+            .Closable(true)
+            .AutoScroll(true)
+            .MarginSpec("0 0 0 0")
+            .Width(1200)
+            .Height(1300)
+            .FieldDefaults(fd =>
+            {
+                fd.LabelAlign = LabelAlign.Top;
+                fd.MsgTarget = MessageTarget.Side;
+            })
+
+            .Items(
+            //                   x.FieldSet()
+            //                   .Collapsible(true)
+            //                   .Height(700)
+            //                   .Width(600)
+            //                   .Frame(true)
+            //                   .Layout(LayoutType.Column)
+            //                   .Title("Add Employer Scheme")
+            //                   .MarginSpec("0 0 0 10")
+            //                   .Defaults(dd =>
+            //                   { dd.Add(new Parameter("LabelWidth", "115")); })
+
+    //                   .Items(
+    //     x.FieldSet()
+    //    .ColumnWidth(0.6)
+    //    .Collapsible(true)
+    //    .Height(750)
+    //     .AutoScroll(true)
+    //    .Title("Employer Scheme List")
+    //    .MarginSpec("0 0 0 10")
+    //    .Defaults(dd =>
+    //    { dd.Add(new Parameter("LabelWidth", "115")); })
+
+    //        .Items(
+
+    //        x.GridPanel()
+    //        .ID("esGrid")
+    //        .Title("View Employer Scheme")
+    //        .Frame(true)
+    //        .AutoScroll(true)
+    //        .Width(1150)
+    //        .MarginSpec("10 0 0 10")
+    //        .Height(600)
+    //           .Plugins(
+    //         x.FilterHeader())
+    //        .Store(
+    //            x.Store()
+    //                .AutoLoad(true)
+    //                .ID("esStore")
+    //        //.DataSource(Model)
+    //        .Model(
+    //            x.Model()
+    //                .Fields(
+    //                    x.ModelField().Name("ES_Id").Type(ModelFieldType.String),
+    //                    x.ModelField().Name("Scheme_Id").Type(ModelFieldType.String),
+    //                    x.ModelField().Name("Scheme_Name").Type(ModelFieldType.String),
+    //                    x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+    //                    x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+    //                    x.ModelField().Name("ES_Status").Type(ModelFieldType.String)
+    //                    )
+    //        )
+    //        .ServerProxy(
+    //               Html.X().AjaxProxy()
+    //               .Url(Url.Action("Read"))
+    //              )
+
+    //        .PageSize(10)
+    //)
+    //.Refresh()
+    //.BottomBar(
+    //    Html.X().PagingToolbar()
+    //)
+    //// .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+    //.ColumnModel(x.Column().DataIndex("ES_Id").Text("ES ID").Width(0))
+    //.ColumnModel(x.Column().DataIndex("Scheme_Id").Text("SCHEME ID").Width(0))
+    //.ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYER ID").Width(0))
+    //.ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(300))
+    // .ColumnModel(x.Column().DataIndex("Scheme_Name").Text("SCHEME").Width(200))
+    //.ColumnModel(x.Column().DataIndex("ES_Status").Text("STATUS").Width(100))
+
+    //),
+
+    x.FieldSet()
+                        .Width(480)
+                        .Collapsible(true)
+                        .Height(700)
+                        //.Layout(LayoutType.Column)
+                        .Title("Create Employer-Scheme Account")
+                        .MarginSpec("0 0 0 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                            .Items(
+
+                              x.Button()
+                            .Text("Select Employer")
+                            .Width(400)
+                            .Icon(Icon.ApplicationFormAdd)
+                            .TabIndex(28)
+                            .Handler("App.employer.show(this);")
+                            .MarginSpec("35 10 10 10"),
+
+                            x.Hidden().Name("EMSF_Id"),
+                            x.Hidden().Name("Employer_Id"),
+
+                            x.TextField()
+                            .Name("Employer_Name")
+                            .Width(400)
+                            .FieldLabel("Name of Employer")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employer must be selected."),
+
+                             x.TextField()
+                            .Name("Registration_Number")
+                            .Width(400)
+                            .FieldLabel("Registration Number")
+                            .Editable(false)
+                            .AllowBlank(false)
+                            .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE")
+                            .BlankText("Employer must be selected."),
+
+                             x.TextField()
+                            .Name("Phone_Number")
+                            .Width(400)
+                            .FieldLabel("Phone Number")
+                            .ReadOnly(true)
+                             .MarginSpec("3 0 10 10"),
+
+                             x.TextArea()
+                            .Name("Office_Location")
+                            .Width(400)
+                            .FieldLabel("Office Location")
+                            .Editable(false)
+                             .MarginSpec("3 0 10 10")
+                            .FieldStyle("TEXT-TRANSFORM:UPPERCASE"),
+                            //.BlankText("Employer must be selected.")
+
+                            x.ComboBox().Name("Scheme_Fund_Id")
+                            .FieldLabel("Scheme/Fund")
+                            .MarginSpec("3 0 10 10").TabIndex(5).Width(400)
+                            .AllowBlank(false)
+                            //.Editable(false)
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All)
+                            .EmptyText("Select Scheme")
+                            .BlankText("Scheme is required.").Items(schemeFund.GetSchemeFundList().Select(d => new ListItem(d.Scheme_Name + " / " + d.Fund_Name, d.Scheme_Fund_Id))),
+
+
+                        x.FieldSet()
+                        //.Height(100)
+                        .Width(400)
+                        .Layout(LayoutType.Column)
+                        .MarginSpec("10 10 10 10")
+                        .Defaults(dd =>
+                        { dd.Add(new Parameter("LabelWidth", "115")); })
+
+                        .Items(
+                            x.Button()
+                                .Text("Create Employer Account")
+                                .Width(380)
+                                .Icon(Icon.Add)
+                                .DirectEvents(de =>
+                                {
+                                    de.Click.Confirmation.ConfirmRequest = true;
+                                    de.Click.Confirmation.Title = "Save Record";
+                                    de.Click.Confirmation.Message = "Save Employer Account?";
+                                    de.Click.Url = Url.Action("SaveRecord");
+
+                                }).MarginSpec("20 10 0 0"),
+
+
+                            x.Button()
+                                .Text("Clear")
+                                .Width(380)
+                                .Icon(Icon.ArrowRefresh)
+                                .OnClientClick("this.up('form').getForm().reset();")
+                                .MarginSpec("20 10 0 0")
+
+                            )
+
+
+                            ),
+
+
+
+                                x.Window()
+                                .ID("employer")
+                                .Title("Employer List")
+                                .Width(1000)
+                                .Height(500)
+                                .X(0)
+                                .Y(0)
+                                .Modal(true)
+                                .AutoRender(false)
+                                .Collapsible(true)
+                                .Maximizable(true)
+                                .Hidden(true)
+                                .Loader(x.ComponentLoader()
+                                .Mode(LoadMode.Frame)
+                                .LoadMask(lm => lm.ShowMask = true)
+                                       )
+                                    .Items(
+                                    x.GridPanel()
+                                    .ID("empGrid")
+                                    .Frame(true)
+                                    .WidthSpec("Auto")
+                                    .HeightSpec("Auto")
+                                    .MarginSpec("10 0 0 10")
+                                    .Plugins(
+                                    x.FilterHeader()
+                                        )
+                                    .Store(
+                                    x.Store()
+                                    .AutoLoad(true)
+                                    .ID("empStore")
+                                    // .DataSource(Model)
+                                    .Model(
+                                    x.Model()
+                                    .Fields(
+                                        x.ModelField().Name("Employer_Id").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Employer_Name").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Registration_Number").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Office_Location").Type(ModelFieldType.String),
+                                        x.ModelField().Name("Phone_Number").Type(ModelFieldType.String)
+                                            )
+                                            )
+                                    .ServerProxy(
+                                    x.AjaxProxy()
+                                    .Url(Url.Action("ReadEmployer"))
+                                            )
+                                    .PageSize(10)
+                                            )
+                                    .BottomBar(
+                                    x.PagingToolbar()
+                                             )
+                    .Refresh()
+                    .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.ES.getForm().loadRecord(selected[0]); App.employer.hide(); }")
+                    .ColumnModel(x.Column().DataIndex("Employer_Id").Text("EMPLOYEE ID").Width(0))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER NAME").Width(300))
+                    .ColumnModel(x.Column().DataIndex("Registration_Number").Text("REGISTRATION NUMBER").Width(200))
+                    .ColumnModel(x.Column().DataIndex("Office_Location").Text("OFFICE LOCATION").Width(600))
+                    .ColumnModel(x.Column().DataIndex("Phone_Number").Text("PHONE NUMBER").Width(200))
+                                    )
+                     )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
