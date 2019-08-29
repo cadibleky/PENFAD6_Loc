@@ -84,17 +84,17 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
 
         }
 
-        public ActionResult Read2(string Employer_Id)
+        public ActionResult Read2(string Employer_Id, string Employer_Name)
         {
             try
             {
-                if (string.IsNullOrEmpty(Employer_Id))
+                if (string.IsNullOrEmpty(Employer_Id) || Employer_Id == "null")
                 {
                     X.Mask.Hide();
                     X.Msg.Show(new MessageBoxConfig
                     {
                         Title = "Error",
-                        Message = "Employer name is required",
+                        Message = "Select Employer",
                         Buttons = MessageBox.Button.OK,
                         Icon = MessageBox.Icon.INFO,
                         Width = 350
@@ -102,6 +102,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                     });
                     return this.Direct();
                 }
+                
 
                 X.GetCmp<Store>("nokStore").Reload();
                 X.GetCmp<Store>("BeneStore").Reload();
@@ -111,7 +112,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                 store.Reload();
                 store.DataBind();
 
-                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList2(Employer_Id);
+                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList2(Employer_Id, Employer_Name);
                 if(obj.Count == 0)
                 {
                     X.Mask.Hide();
@@ -149,11 +150,25 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
 
         }
 
-        public ActionResult Read22()
+        public ActionResult Read22(string SFirst_Name, string SSurname, string SEmployee_Id, string SSSNIT)
         {
             try
             {
-               
+                if (string.IsNullOrEmpty(SFirst_Name) && string.IsNullOrEmpty(SSurname) && string.IsNullOrEmpty(SEmployee_Id) && string.IsNullOrEmpty(SSSNIT))
+                {
+                    X.Mask.Hide();
+                    X.Msg.Show(new MessageBoxConfig
+                    {
+                        Title = "Error",
+                        Message = "Enter a parameter",
+                        Buttons = MessageBox.Button.OK,
+                        Icon = MessageBox.Icon.INFO,
+                        Width = 350
+
+                    });
+                    return this.Direct();
+                }
+              
                 X.GetCmp<Store>("nokStore").Reload();
                 X.GetCmp<Store>("BeneStore").Reload();
                 X.GetCmp<Store>("view_employeeStore").Reload();
@@ -162,7 +177,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                 store.Reload();
                 store.DataBind();
                
-                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList22();
+                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList22(SFirst_Name,SSurname,SEmployee_Id,SSSNIT);
                 X.Mask.Hide();
                 if (obj.Count == 0)
                 {

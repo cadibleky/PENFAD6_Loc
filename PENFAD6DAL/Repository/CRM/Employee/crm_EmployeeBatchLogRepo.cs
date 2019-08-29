@@ -17,7 +17,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
         public string Batch_No { get; set; }
         public string Batch_Status { get; set; }
         public string Batch_Description { get; set; }
-        public string Employer_name { get; set; }
+        public string Employer_Name { get; set; }
         public string Employer_Id { get; set; }
         public string MakerId { get; set; }
         public DateTime  MakeDate { get; set; }
@@ -64,7 +64,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
                             da.Fill(dt);
                             batch_list = dt.AsEnumerable().Select(row => new crm_EmployeeBatchLogRepo
                             {
-                                 Employer_name = row.Field<string>("EMPLOYER_NAME"),
+                                 Employer_Name = row.Field<string>("Employer_Name"),
                                  Employer_Id = row.Field<string>("EMPLOYER_ID"),
                                  Scheme_Name = row.Field<string>("SCHEME_NAME"),
                                  Batch_Status = row.Field<string>("BATCHSTATUS"),
@@ -118,7 +118,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
                             da.Fill(dt);
                             batch_list = dt.AsEnumerable().Select(row => new crm_EmployeeBatchLogRepo
                             {
-                                Employer_name = row.Field<string>("EMPLOYER_NAME"),
+                                Employer_Name = row.Field<string>("Employer_Name"),
                                 Employer_Id = row.Field<string>("EMPLOYER_ID"),
                                 Scheme_Name = row.Field<string>("SCHEME_NAME"),
                                 Batch_Status = row.Field<string>("BATCHSTATUS"),
@@ -230,7 +230,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
                             da.Fill(dt);
                             batch_list = dt.AsEnumerable().Select(row => new crm_EmployeeBatchLogRepo
                             {
-                                Employer_name = row.Field<string>("Employer_Name"),
+                                Employer_Name = row.Field<string>("Employer_Name"),
                                 Employer_Id = row.Field<string>("EMPLOYER_ID"),
                                 Scheme_Name = row.Field<string>("SCHEME_NAME"),
                                 Scheme_Id = row.Field<string>("SCHEME_ID"),

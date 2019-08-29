@@ -786,11 +786,11 @@ namespace PENFAD6UI.Areas.Remittance.Controllers.Withdrawal
         }
 
 
-        public ActionResult ReadESchemeFund(string Employer_Id)
+        public ActionResult ReadESchemeFund(string Employer_Id, string Employer_Name)
         {
             try
             {
-                return this.Store(WithdrawalRepo.GetSFList(Employer_Id));
+                return this.Store(WithdrawalRepo.GetSFList(Employer_Id, Employer_Name));
             }
             catch (Exception ex)
             {

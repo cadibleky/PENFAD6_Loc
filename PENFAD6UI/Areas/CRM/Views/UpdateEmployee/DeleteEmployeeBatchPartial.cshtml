@@ -84,7 +84,7 @@
                                         .AutoLoad(false)
                                         .Model(Html.X().Model()
                                             .Fields(
-                                                new ModelField("Employer_name", ModelFieldType.String),
+                                                new ModelField("Employer_Name", ModelFieldType.String),
                                                 new ModelField("Scheme_Name", ModelFieldType.String),
                                                 new ModelField("Employer_Id", ModelFieldType.String),
                                                 new ModelField("Batch_Status", ModelFieldType.String),
@@ -99,7 +99,7 @@
                                                  //.ServerProxy(Html.X().AjaxProxy().Url(Url.Action("Get_BatchLogPending")))
                                             )//end  store
                                     .ColumnModel(
-                                            Html.X().Column().Text("Employer").DataIndex("Employer_name").Width(400),
+                                            Html.X().Column().Text("Employer").DataIndex("Employer_Name").Width(400),
                                             Html.X().Column().Text("Scheme").DataIndex("Scheme_Name").Width(400),
                                             Html.X().Column().Text("Emp. ID").DataIndex("Employer_Id").Width(90),
                                             Html.X().Column().Text("Status").DataIndex("Batch_Status").Width(100),
@@ -134,8 +134,8 @@
                                                 //d.LabelStyle = "color:black;padding-left:4px;";
                                             })
                                             .Items(Html.X().TextField()
-                                                        // .ID("Employer_name")
-                                                        .Name("Employer_name")
+                                                        // .ID("Employer_Name")
+                                                        .Name("Employer_Name")
                                                         .FieldLabel("Employer")
                                                         .MarginSpec("10 0 10 0")
                                                         .Width(600)

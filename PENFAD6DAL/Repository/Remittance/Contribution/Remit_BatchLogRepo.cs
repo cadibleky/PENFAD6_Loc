@@ -73,7 +73,7 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
                             da.Fill(dt);
                             batch_list = dt.AsEnumerable().Select(row => new Remit_BatchLogRepo
                             {
-                                Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+                                Employer_Name = row.Field<string>("Employer_Name"),
                                 Employer_Id = row.Field<string>("EMPLOYER_ID"),
                                 Scheme_Name = row.Field<string>("SCHEME_NAME"),
 
@@ -134,7 +134,7 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
                             da.Fill(dt);
                             batch_list = dt.AsEnumerable().Select(row => new Remit_BatchLogRepo
                             {
-                                Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+                                Employer_Name = row.Field<string>("Employer_Name"),
                                 Employer_Id = row.Field<string>("EMPLOYER_ID"),
                                 Scheme_Name = row.Field<string>("SCHEME_NAME"),
 

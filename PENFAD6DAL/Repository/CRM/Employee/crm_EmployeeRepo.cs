@@ -21,7 +21,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
     {
         public string Cust_No { get; set; }
 		public string Fund_Id { get; set; }
-        public string Scheme_Id { get; set; }
+        public new string Scheme_Id { get; set; }
         public string Cust_Status { get; set; }
         public string Cust_Status_New { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Employee Id is required")]
@@ -174,6 +174,13 @@ namespace PENFAD6DAL.Repository.CRM.Employee
         public byte[] Employee_Photo_Id { get; set; }
         public string Message { get; set; }
 
+        public string SSurname { get; set; }
+        public string SFirst_Name { get; set; }
+        public string SEmployee_Id { get; set; }
+        public string SSSNIT { get; set; }
+
+     
+
         IDbConnection con;
 
         private crm_EmployeeBatchLogRepo batch_log = new crm_EmployeeBatchLogRepo();
@@ -192,77 +199,157 @@ namespace PENFAD6DAL.Repository.CRM.Employee
 
                 var param = new DynamicParameters();
 
-                param.Add(name: "p_CustNo", value: crmEmployee.Cust_No, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_EmployeeId", value: crmEmployee.Employee_Id, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_EmployerId", value: crmEmployee.Employer_Id, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_Title", value: crmEmployee.Employee_Title, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_Surname", value: crmEmployee.Surname, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_FirstName", value: crmEmployee.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_OtherName", value: crmEmployee.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MaidenName", value: crmEmployee.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_Gender", value: crmEmployee.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_DateofBirth", value: crmEmployee.Date_Of_Birth, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-                param.Add(name: "p_HomeTown", value: crmEmployee.HomeTown, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_TownOfBirth", value: crmEmployee.Town_Of_Birth, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_TownofBirthDistrict", value: crmEmployee.Town_Of_Birth_District, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_TownofBirthCity", value: crmEmployee.Town_Of_Birth_City, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_TownofBirthRegion", value: crmEmployee.Town_Of_Birth_Region, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_Nationality", value: crmEmployee.Nationality, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_PostalAddress", value: crmEmployee.Postal_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_ResAddress", value: crmEmployee.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_ResidentCountry", value: crmEmployee.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MobileNumber", value: crmEmployee.Mobile_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_OtherNumber", value: crmEmployee.Other_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_EmailAddress", value: crmEmployee.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_OtherEmail", value: crmEmployee.Other_Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_IdentityType", value: crmEmployee.Identity_Type, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_IdentityIssueDate", value: crmEmployee.Identity_Issue_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                param.Add(name: "p_IdentityExpiryDate", value: crmEmployee.Identity_Expiry_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                param.Add(name: "p_IdentityNumber", value: crmEmployee.Identity_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_SSNIT_NO", value: crmEmployee.SSNIT_NO, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_TIN", value: crmEmployee.TIN, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MaritalStatus", value: crmEmployee.Marital_Status, dbType: DbType.String, direction: ParameterDirection.Input);
-                //param.Add(name: "p_Branch", value: crmEmployee.Branch_Id, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_ResidentCountry", value: crmEmployee.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_Position", value: crmEmployee.Position, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_EmployeeType", value: crmEmployee.Employee_Type, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_IndividualBatch", value: "Individual", dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_BatchNo", value: crmEmployee.Batch_No, dbType: DbType.String, direction: ParameterDirection.Input);
-                //param.Add(name: "p_EmpIdSystemUser", value: crmEmployee.EmpId_SystemUser, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_DateOfEmployment", value: crmEmployee.Date_Of_Employment, dbType: DbType.Date, direction: ParameterDirection.Input);
-                //param.Add(name: "p_EmploymentStatus", value: crmEmployee.Employment_Status, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_FatherLastName", value: crmEmployee.Father_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_FatherFirstName", value: crmEmployee.Father_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_FatherMiddleName", value: crmEmployee.Father_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_FatherBirthDate", value: crmEmployee.Father_Birth_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-                param.Add(name: "p_MotherFirstName", value: crmEmployee.Mother_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MotherLastName", value: crmEmployee.Mother_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MotherMiddleName", value: crmEmployee.Mother_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MotherMaidenName", value: crmEmployee.Mother_Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MotherBirthDate", value: crmEmployee.Mother_Birth_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
-                param.Add(name: "p_Profession", value: crmEmployee.Profession, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_FatherPhoneNumber", value: crmEmployee.Father_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MotherPhoneNo", value: crmEmployee.Mother_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MakeId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_MakeDate", value: GlobalValue.Scheme_Today_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                //param.Add(name: "p_UpdateId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_RegistrationDate", value: crmEmployee.Employee_Registration_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                param.Add(name: "p_ResidentCity", value: crmEmployee.Resident_City, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_ResidentDistrict", value: crmEmployee.Resident_District, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "p_ResidentRegion", value: crmEmployee.Resident_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+                if (crmEmployee.Employer_Name == "PERSONAL PENSIONS")
+                {
+                    param.Add(name: "p_CustNo", value: crmEmployee.Cust_No, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmployeeId", value: crmEmployee.Employee_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmployerId", value: crmEmployee.Employer_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Title", value: crmEmployee.Employee_Title, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Surname", value: crmEmployee.Surname, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FirstName", value: crmEmployee.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_OtherName", value: crmEmployee.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MaidenName", value: crmEmployee.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Gender", value: crmEmployee.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_DateofBirth", value: crmEmployee.Date_Of_Birth, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                    param.Add(name: "p_HomeTown", value: crmEmployee.HomeTown, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownOfBirth", value: crmEmployee.Town_Of_Birth, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownofBirthDistrict", value: crmEmployee.Town_Of_Birth_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownofBirthCity", value: crmEmployee.Town_Of_Birth_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownofBirthRegion", value: crmEmployee.Town_Of_Birth_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Nationality", value: crmEmployee.Nationality, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_PostalAddress", value: crmEmployee.Postal_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResAddress", value: crmEmployee.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentCountry", value: crmEmployee.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MobileNumber", value: crmEmployee.Mobile_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_OtherNumber", value: crmEmployee.Other_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmailAddress", value: crmEmployee.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_OtherEmail", value: crmEmployee.Other_Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityType", value: crmEmployee.Identity_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityIssueDate", value: crmEmployee.Identity_Issue_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityExpiryDate", value: crmEmployee.Identity_Expiry_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityNumber", value: crmEmployee.Identity_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_SSNIT_NO", value: crmEmployee.SSNIT_NO, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TIN", value: crmEmployee.TIN, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MaritalStatus", value: crmEmployee.Marital_Status, dbType: DbType.String, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_Branch", value: crmEmployee.Branch_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentCountry", value: crmEmployee.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Position", value: crmEmployee.Position, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmployeeType", value: crmEmployee.Employee_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IndividualBatch", value: "Individual", dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_BatchNo", value: crmEmployee.Batch_No, dbType: DbType.String, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_EmpIdSystemUser", value: crmEmployee.EmpId_SystemUser, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_DateOfEmployment", value: crmEmployee.Date_Of_Employment, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_EmploymentStatus", value: crmEmployee.Employment_Status, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherLastName", value: crmEmployee.Father_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherFirstName", value: crmEmployee.Father_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherMiddleName", value: crmEmployee.Father_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherBirthDate", value: crmEmployee.Father_Birth_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherFirstName", value: crmEmployee.Mother_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherLastName", value: crmEmployee.Mother_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherMiddleName", value: crmEmployee.Mother_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherMaidenName", value: crmEmployee.Mother_Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherBirthDate", value: crmEmployee.Mother_Birth_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Profession", value: crmEmployee.Profession, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherPhoneNumber", value: crmEmployee.Father_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherPhoneNo", value: crmEmployee.Mother_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MakeId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MakeDate", value: GlobalValue.Scheme_Today_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_UpdateId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_RegistrationDate", value: crmEmployee.Employee_Registration_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentCity", value: crmEmployee.Resident_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentDistrict", value: crmEmployee.Resident_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentRegion", value: crmEmployee.Resident_Region, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                param.Add(name: "p_UserPassword", value: crmEmployee.user_Password, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_UserPassword", value: crmEmployee.user_Password, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                param.Add(name: "P_SCHEME_FUND_ID", value: crmEmployee.Scheme_Fund_Id, dbType: DbType.String, direction: ParameterDirection.Input);
-                param.Add(name: "P_EMPLOYEE_PHOTO", value: crmEmployee.Employee_Photo, dbType: DbType.Binary, direction: ParameterDirection.Input);
-                param.Add(name: "P_EMPLOYEE_PHOTO_ID", value: crmEmployee.Employee_Photo_Id, dbType: DbType.Binary, direction: ParameterDirection.Input);
-
-                int result = con.Execute(sql: "MIX_CRM_EMPLOYEE", param: param, commandType: CommandType.StoredProcedure);
+                    param.Add(name: "P_SCHEME_FUND_ID", value: crmEmployee.Scheme_Fund_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "P_EMPLOYEE_PHOTO", value: crmEmployee.Employee_Photo, dbType: DbType.Binary, direction: ParameterDirection.Input);
+                    param.Add(name: "P_EMPLOYEE_PHOTO_ID", value: crmEmployee.Employee_Photo_Id, dbType: DbType.Binary, direction: ParameterDirection.Input);
+                    param.Add(name: "P_PERSONAL_PENSIONS", value: "YES", dbType: DbType.String, direction: ParameterDirection.Input);
+                    int result = con.Execute(sql: "MIX_CRM_EMPLOYEE_P", param: param, commandType: CommandType.StoredProcedure);
+                
 
                 if (result < 0)
                     return true;
                 else
                     return false;
+
+                }
+                else
+                {
+                    param.Add(name: "p_CustNo", value: crmEmployee.Cust_No, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmployeeId", value: crmEmployee.Employee_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmployerId", value: crmEmployee.Employer_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Title", value: crmEmployee.Employee_Title, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Surname", value: crmEmployee.Surname, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FirstName", value: crmEmployee.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_OtherName", value: crmEmployee.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MaidenName", value: crmEmployee.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Gender", value: crmEmployee.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_DateofBirth", value: crmEmployee.Date_Of_Birth, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                    param.Add(name: "p_HomeTown", value: crmEmployee.HomeTown, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownOfBirth", value: crmEmployee.Town_Of_Birth, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownofBirthDistrict", value: crmEmployee.Town_Of_Birth_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownofBirthCity", value: crmEmployee.Town_Of_Birth_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TownofBirthRegion", value: crmEmployee.Town_Of_Birth_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Nationality", value: crmEmployee.Nationality, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_PostalAddress", value: crmEmployee.Postal_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResAddress", value: crmEmployee.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentCountry", value: crmEmployee.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MobileNumber", value: crmEmployee.Mobile_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_OtherNumber", value: crmEmployee.Other_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmailAddress", value: crmEmployee.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_OtherEmail", value: crmEmployee.Other_Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityType", value: crmEmployee.Identity_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityIssueDate", value: crmEmployee.Identity_Issue_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityExpiryDate", value: crmEmployee.Identity_Expiry_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IdentityNumber", value: crmEmployee.Identity_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_SSNIT_NO", value: crmEmployee.SSNIT_NO, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_TIN", value: crmEmployee.TIN, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MaritalStatus", value: crmEmployee.Marital_Status, dbType: DbType.String, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_Branch", value: crmEmployee.Branch_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentCountry", value: crmEmployee.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Position", value: crmEmployee.Position, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_EmployeeType", value: crmEmployee.Employee_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_IndividualBatch", value: "Individual", dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_BatchNo", value: crmEmployee.Batch_No, dbType: DbType.String, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_EmpIdSystemUser", value: crmEmployee.EmpId_SystemUser, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_DateOfEmployment", value: crmEmployee.Date_Of_Employment, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_EmploymentStatus", value: crmEmployee.Employment_Status, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherLastName", value: crmEmployee.Father_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherFirstName", value: crmEmployee.Father_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherMiddleName", value: crmEmployee.Father_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherBirthDate", value: crmEmployee.Father_Birth_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherFirstName", value: crmEmployee.Mother_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherLastName", value: crmEmployee.Mother_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherMiddleName", value: crmEmployee.Mother_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherMaidenName", value: crmEmployee.Mother_Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherBirthDate", value: crmEmployee.Mother_Birth_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                    param.Add(name: "p_Profession", value: crmEmployee.Profession, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_FatherPhoneNumber", value: crmEmployee.Father_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MotherPhoneNo", value: crmEmployee.Mother_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MakeId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_MakeDate", value: GlobalValue.Scheme_Today_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    //param.Add(name: "p_UpdateId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_RegistrationDate", value: crmEmployee.Employee_Registration_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentCity", value: crmEmployee.Resident_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentDistrict", value: crmEmployee.Resident_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "p_ResidentRegion", value: crmEmployee.Resident_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                    param.Add(name: "p_UserPassword", value: crmEmployee.user_Password, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                    param.Add(name: "P_SCHEME_FUND_ID", value: crmEmployee.Scheme_Fund_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                    param.Add(name: "P_EMPLOYEE_PHOTO", value: crmEmployee.Employee_Photo, dbType: DbType.Binary, direction: ParameterDirection.Input);
+                    param.Add(name: "P_EMPLOYEE_PHOTO_ID", value: crmEmployee.Employee_Photo_Id, dbType: DbType.Binary, direction: ParameterDirection.Input);
+
+                    int result = con.Execute(sql: "MIX_CRM_EMPLOYEE", param: param, commandType: CommandType.StoredProcedure);
+                    if (result < 0)
+                        return true;
+                    else
+                        return false;
+
+                }
+            
             }
             catch (Exception ex)
             {
@@ -407,16 +494,40 @@ namespace PENFAD6DAL.Repository.CRM.Employee
         }
 		
 		//FILTERING LIST FROM EMPLOYEE BY EMPLOYER ID
-		public List<crm_EmployeeRepo> GetEmployeeList2(string Employer_Id)
+		public List<crm_EmployeeRepo> GetEmployeeList2(string Employer_Id, string Employer_Name)
         {
             try
             {
-                AppSettings app = new AppSettings();
-                con = app.GetConnection();
-                List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
 
-                string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE Employer_Id = '" + Employer_Id + "' and Cust_Status = 'HIRED'";
-                return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
+
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select  * from VW_ALL_CRM_EMPLOYEES WHERE PERSONAL_PENSIONS = 'YES' and Cust_Status = 'HIRED'";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+                else
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE Employer_Id = '" + Employer_Id + "' and Cust_Status = 'HIRED'";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+
+               
 
             }
             catch (Exception ex)
@@ -431,16 +542,118 @@ namespace PENFAD6DAL.Repository.CRM.Employee
         }
 
         //FILTERING ALL LIST
-        public List<crm_EmployeeRepo> GetEmployeeList22()
+        public List<crm_EmployeeRepo> GetEmployeeList22(string SFirst_Name, string SSurname, string SEmployee_Id, string SSSNIT)
         {
             try
             {
-                AppSettings app = new AppSettings();
-                con = app.GetConnection();
-                List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
 
-                string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  Cust_Status = 'HIRED'";
-                return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                if (!string.IsNullOrEmpty(SFirst_Name) && string.IsNullOrEmpty(SSurname) && string.IsNullOrEmpty(SEmployee_Id) && string.IsNullOrEmpty(SSSNIT))
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  FIRST_NAME like '%'||'" + SFirst_Name.ToUpper() + "'||'%'  ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(SSurname) && string.IsNullOrEmpty(SFirst_Name) && string.IsNullOrEmpty(SEmployee_Id) && string.IsNullOrEmpty(SSSNIT))
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  surname like '%'||'" + SSurname.ToUpper() + "'||'%'  ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+                if (!string.IsNullOrEmpty(SEmployee_Id) && string.IsNullOrEmpty(SFirst_Name) && string.IsNullOrEmpty(SSSNIT) && string.IsNullOrEmpty(SSurname))
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  employee_id like '%'||'" + SEmployee_Id.ToUpper() + "'||'%'  ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(SSSNIT) && string.IsNullOrEmpty(SFirst_Name) && string.IsNullOrEmpty(SSurname) && string.IsNullOrEmpty(SSSNIT))
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  SSNIT_NO like '%'||'" + SSSNIT.ToUpper() + "'||'%'  ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+
+
+                if (!string.IsNullOrEmpty(SFirst_Name) && !string.IsNullOrEmpty(SSurname))
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  FIRST_NAME like '%'||'" + SFirst_Name.ToUpper() + "'||'%' AND surname like '%'||'" + SSurname.ToUpper() + "'||'%'  ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+
+                else
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_ALL_CRM_EMPLOYEES WHERE  SSNIT_NO like '%'||'" + SSSNIT.ToUpper() + "'||'%'  ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+                
+         
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Dispose();
+            }
+
+        }
+
+        public List<crm_EmployeeRepo> GetEmployeeList5(string Employer_Id, string Employer_Name)
+        {
+            try
+            {
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
+
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select  * from crm_employee WHERE PERSONAL_PENSIONS = 'YES' and  Employer_yes_no = 'NO'";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+                else
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from crm_employee WHERE Employer_Id = '" + Employer_Id + "' and Employer_yes_no = 'NO' ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+
+                }
+
+                
 
             }
             catch (Exception ex)
@@ -454,16 +667,40 @@ namespace PENFAD6DAL.Repository.CRM.Employee
 
         }
 
-        public List<crm_EmployeeRepo> GetEmployeeList5(string Employer_Id)
+        public List<crm_EmployeeRepo> GetEmployeeList5e(string Employer_Id, string Employer_Name)
         {
             try
             {
-                AppSettings app = new AppSettings();
-                con = app.GetConnection();
-                List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
 
-                string query = "Select * from crm_employee WHERE Employer_Id = '" + Employer_Id + "' and Employer_yes_no = 'NO' ";
-                return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
+
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select  * from vw_all_crm_employees WHERE PERSONAL_PENSIONS = 'YES' and  Employer_yes_no = 'NO'";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+                else
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from vw_all_crm_employees WHERE Employer_Id = '" + Employer_Id + "' and Employer_yes_no = 'NO' ";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+
+                }
+
 
             }
             catch (Exception ex)
@@ -477,16 +714,43 @@ namespace PENFAD6DAL.Repository.CRM.Employee
 
         }
 
-        public List<crm_EmployeeRepo> GetEmployeeList5e(string Employer_Id)
+        public List<crm_EmployeeSchemeFundRepo> GetEmployeeList6(string Employer_Id, string Employer_Name) 
         {
             try
             {
-                AppSettings app = new AppSettings();
-                con = app.GetConnection();
-                List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
 
-                string query = "Select * from vw_all_crm_employees WHERE Employer_Id = '" + Employer_Id + "' and Employer_yes_no = 'NO' ";
-                return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeSchemeFundRepo> bn = new List<crm_EmployeeSchemeFundRepo>();
+
+                    string query = "Select  * from VW_REP_ESF_EMP WHERE PERSONAL_PENSIONS = 'YES' and Employer_yes_no = 'NO' and ESF_STATUS = 'ACTIVE' AND PERSONAL_PENSIONS1 ='YES'";
+                    return bn = con.Query<crm_EmployeeSchemeFundRepo>(query).ToList();
+
+                    
+                }
+                else
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeSchemeFundRepo> bn = new List<crm_EmployeeSchemeFundRepo>();
+
+                    string query = "Select * from VW_REP_ESF_EMP WHERE Employer_Id = '" + Employer_Id + "' and Employer_yes_no = 'NO' and ESF_STATUS = 'ACTIVE' ";
+                    return bn = con.Query<crm_EmployeeSchemeFundRepo>(query).ToList();
+
+
+                }
+
 
             }
             catch (Exception ex)
@@ -500,40 +764,38 @@ namespace PENFAD6DAL.Repository.CRM.Employee
 
         }
 
-        public List<crm_EmployeeSchemeFundRepo> GetEmployeeList6(string Employer_Id) 
-        {
-            try
-            {
-                AppSettings app = new AppSettings();
-                con = app.GetConnection();
-                List<crm_EmployeeSchemeFundRepo> bn = new List<crm_EmployeeSchemeFundRepo>();
 
-                string query = "Select * from VW_REP_ESF_EMP WHERE Employer_Id = '" + Employer_Id + "' and Employer_yes_no = 'NO' and ESF_STATUS = 'ACTIVE' ";
-                return bn = con.Query<crm_EmployeeSchemeFundRepo>(query).ToList();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                con.Dispose();
-            }
-
-        }
-
-
-        public List<crm_EmployeeRepo> GetEmployeeList8(string Employer_Id)
+        public List<crm_EmployeeRepo> GetEmployeeList8(string Employer_Id, string Employer_Name)
 		{
 			try
 			{
-				AppSettings app = new AppSettings();
-				con = app.GetConnection();
-				List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
 
-				string query = "Select * from VW_REP_ESF_EMP2 WHERE Employer_Id = '" + Employer_Id + "' and ESF_STATUS = 'ACTIVE'";
-				return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select  * from VW_REP_ESF_EMP2 WHERE PERSONAL_PENSIONS = 'YES' and ESF_STATUS = 'ACTIVE' AND PERSONAL_PENSIONS1 ='YES'";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
+                else
+                {
+                    AppSettings app = new AppSettings();
+                    con = app.GetConnection();
+                    List<crm_EmployeeRepo> bn = new List<crm_EmployeeRepo>();
+
+                    string query = "Select * from VW_REP_ESF_EMP2 WHERE Employer_Id = '" + Employer_Id + "' and ESF_STATUS = 'ACTIVE'";
+                    return bn = con.Query<crm_EmployeeRepo>(query).ToList();
+                }
 
 			}
 			catch (Exception ex)
@@ -790,7 +1052,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
                     // Mother_Birth_Date = Convert.ToDateTime(row["Mother_Birth_Date"]),
                     Mother_Birth_Date = row.Field<DateTime?>("Mother_Birth_Date"),
                     Mother_Phone_Number = (row["Mother_Phone_Number"]).ToString(),
-                    Employer_Name = (row["EMPLOYER_NAME"]).ToString(),
+                    Employer_Name = (row["Employer_Name"]).ToString(),
                     Nationality = (row["Nationality"]).ToString(),
                     Resident_City = (row["Resident_City"]).ToString(),
                     Resident_District = (row["Resident_District"]).ToString(),
@@ -1154,7 +1416,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
                     //Scheme_Id = row.Field<string>("SCHEME_ID"),
                     //Scheme_Name = row.Field<string>("SCHEME_NAME"),
                     Employer_Id = row.Field<string>("EMPLOYER_ID"),
-                    Employer_Name = row.Field<string>("EMPLOYER_NAME")
+                    Employer_Name = row.Field<string>("Employer_Name")
 
                 }).ToList();
 
@@ -1994,25 +2256,49 @@ namespace PENFAD6DAL.Repository.CRM.Employee
         }
 
         //get Scheme-Fund list for employee 
-        public List<crm_EmployeeRepo> GetEmployeeSFList(string Scheme_Fund_Id, string Employer_Id)
+        public List<crm_EmployeeRepo> GetEmployeeSFList(string Scheme_Fund_Id, string Employer_Id, string Employer_Name)
         {
-            var db = new AppSettings();
-            con = db.GetConnection();
+          
             try
             {
-                List<crm_EmployeeRepo> ObjFund = new List<crm_EmployeeRepo>();
 
-                return ObjFund = db.GetConnection().Query<crm_EmployeeRepo>("Select * from VW_ES_ESF WHERE SCHEME_FUND_ID = '" + Scheme_Fund_Id + "' and Employer_id = '" + Employer_Id + "' and ESF_STATUS = 'ACTIVE'").ToList();
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
+
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+                    
+
+                    var db = new AppSettings();
+                    con = db.GetConnection();
+                    List<crm_EmployeeRepo> ObjFund = new List<crm_EmployeeRepo>();
+
+                    return ObjFund = db.GetConnection().Query<crm_EmployeeRepo>("Select * from VW_ES_ESF WHERE SCHEME_FUND_ID = '" + Scheme_Fund_Id + "' and PERSONAL_PENSIONS = 'YES' and ESF_STATUS = 'ACTIVE'").ToList();
+
+                }
+                else
+                {
+                    var db = new AppSettings();
+                    con = db.GetConnection();
+                    List<crm_EmployeeRepo> ObjFund = new List<crm_EmployeeRepo>();
+
+                    return ObjFund = db.GetConnection().Query<crm_EmployeeRepo>("Select * from VW_ES_ESF WHERE SCHEME_FUND_ID = '" + Scheme_Fund_Id + "' and Employer_id = '" + Employer_Id + "' and ESF_STATUS = 'ACTIVE'").ToList();
+
+
+                }
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            finally
-            {
-                db.Dispose();
-            }
-
+            
         }
 
 

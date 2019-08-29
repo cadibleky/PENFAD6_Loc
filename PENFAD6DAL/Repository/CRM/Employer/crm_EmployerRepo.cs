@@ -547,7 +547,7 @@ namespace PENFAD6DAL.Repository.CRM.Employer
                 var eList = dt.Tables[0].AsEnumerable().Select(row => new crm_EmployerRepo
                 {
                     Employer_Id = row.Field<string>("EMPLOYER_ID"),
-                    Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+                    Employer_Name = row.Field<string>("Employer_Name"),
                     Tin_No = row.Field<string>("TIN"),
                     Ssnit = row.Field<string>("SSNIT"),
                     Npra_Number = row.Field<string>("NPRA_NUMBER"),
@@ -628,7 +628,7 @@ namespace PENFAD6DAL.Repository.CRM.Employer
                 var eList = dt.Tables[0].AsEnumerable().Select(row => new crm_EmployerRepo
                 {
                     Employer_Id = row.Field<string>("EMPLOYER_ID"),
-                    Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+                    Employer_Name = row.Field<string>("Employer_Name"),
                     Tin_No = row.Field<string>("TIN"),
                     Ssnit = row.Field<string>("SSNIT"),
                     Npra_Number = row.Field<string>("NPRA_NUMBER"),
@@ -713,7 +713,7 @@ namespace PENFAD6DAL.Repository.CRM.Employer
                 var eList = dt.Tables[0].AsEnumerable().Select(row => new crm_EmployerRepo
                 {
                     Employer_Id = row.Field<string>("EMPLOYER_ID"),
-                    Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+                    Employer_Name = row.Field<string>("Employer_Name"),
                     Tin_No = row.Field<string>("TIN"),
                     Ssnit = row.Field<string>("SSNIT"),
                     Npra_Number = row.Field<string>("NPRA_NUMBER"),

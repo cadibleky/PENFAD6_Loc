@@ -109,4 +109,3 @@ E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Dapper.dll
 E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\bin\Debug\Oracle.ManagedDataAccess.dll
 E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.dll
 E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.pdb
-E:\PENFAD\PENFAD6_Loc\PENFAD6DAL\obj\Debug\PENFAD6DAL.csprojResolveAssemblyReference.cache

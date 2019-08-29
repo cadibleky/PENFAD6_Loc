@@ -62,7 +62,7 @@
                                      y.TextField().ID("Scheme_Employer_Id").Name("Employer_Id").FieldLabel("Employer ID").ReadOnly(true).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 10").Width(200)
                                                 .StyleSpec("color:#333; font-size: 20px; font-weight: bold").TabIndex(1),
 
-                                     y.TextField().Name("Employer_name").ID("Scheme_Employer_name").FieldLabel("Employer Name").MarginSpec("0 10 0 10").Width(480).ReadOnly(true).AllowBlank(false)
+                                     y.TextField().Name("Employer_Name").ID("Scheme_Employer_Name").FieldLabel("Employer Name").MarginSpec("0 10 0 10").Width(480).ReadOnly(true).AllowBlank(false)
                                                   .StyleSpec("color:#333; font-size: 20px; font-weight: bold").BlankText("Employer name is required.").TabIndex(2),
 
                                       y.TextField().Name("Scheme_Id").ID("Scheme_Scheme_Id").FieldLabel("Scheme Id").MarginSpec("0 10 0 10").Width(200).TabIndex(3)
@@ -162,7 +162,7 @@
                                         .AutoLoad(false)
                                         .Model(Html.X().Model()
                                                 .Fields(
-                                                         new ModelField("Employer_name", ModelFieldType.String),
+                                                         new ModelField("Employer_Name", ModelFieldType.String),
                                                           new ModelField("Scheme_Name", ModelFieldType.String),
                                                          new ModelField("Employer_Id", ModelFieldType.String),
                                                           new ModelField("Scheme_Id", ModelFieldType.String)
@@ -176,7 +176,7 @@
                                     )//end  store
 
                             .ColumnModel(
-                                    Html.X().Column().Text("Employer Name").DataIndex("Employer_name").Width(400),
+                                    Html.X().Column().Text("Employer Name").DataIndex("Employer_Name").Width(400),
                                     Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(350),
                                     Html.X().Column().Text("Employer Id").DataIndex("Employer_Id").Width(200),
                                    Html.X().Column().Text("Scheme Id").DataIndex("Scheme_Id").Width(100)

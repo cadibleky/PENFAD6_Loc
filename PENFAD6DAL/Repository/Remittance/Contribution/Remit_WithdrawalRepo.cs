@@ -1596,24 +1596,48 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
 
 
         //get list for employer 
-        public List<Remit_WithdrawalRepo> GetSFList(string SF_Id)
+        public List<Remit_WithdrawalRepo> GetSFList(string Employer_Id, string Employer_Name)
         {
-            var db = new AppSettings();
-            con = db.GetConnection();
+            //var db = new AppSettings();
+            //con = db.GetConnection();
             try
             {
-                List<Remit_WithdrawalRepo> ObjFund = new List<Remit_WithdrawalRepo>();
 
-                return ObjFund = db.GetConnection().Query<Remit_WithdrawalRepo>("Select * from VW_REMIT_WITHDRAWAL_ESF WHERE EMPLOYER_ID = '" + SF_Id + "' and  ESF_STATUS = 'ACTIVE'").ToList();
+                //get emplyer name
+                //Get connection
+                var conn = new AppSettings();
+                var param = new DynamicParameters();
+                param.Add("p_employer_id", Employer_Id, DbType.String, ParameterDirection.Input);
+                param.Add("VDATA", "", DbType.String, ParameterDirection.Output);
+                conn.GetConnection().Execute("GET_Employer_Name", param, commandType: CommandType.StoredProcedure);
+                Employer_Name = param.Get<string>("VDATA");
+
+                if (Employer_Name == "PERSONAL PENSIONS")
+                {
+                    var db = new AppSettings();
+                    con = db.GetConnection();
+                    List<Remit_WithdrawalRepo> ObjFund = new List<Remit_WithdrawalRepo>();
+
+                    return ObjFund = db.GetConnection().Query<Remit_WithdrawalRepo>("Select * from VW_REMIT_WITHDRAWAL_ESF WHERE PERSONAL_PENSIONS = 'YES'and  ESF_STATUS = 'ACTIVE' and PERSONAL_PENSIONS1 = 'YES'").ToList();
+
+
+                }
+                else
+                {
+                    var db = new AppSettings();
+                    con = db.GetConnection();
+                    List<Remit_WithdrawalRepo> ObjFund = new List<Remit_WithdrawalRepo>();
+
+                    return ObjFund = db.GetConnection().Query<Remit_WithdrawalRepo>("Select * from VW_REMIT_WITHDRAWAL_ESF WHERE EMPLOYER_ID = '" + Employer_Id + "' and  ESF_STATUS = 'ACTIVE'").ToList();
+
+                }
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            finally
-            {
-                db.Dispose();
-            }
+           
         }
 
         // FOR PENDING WITHDRAWAL

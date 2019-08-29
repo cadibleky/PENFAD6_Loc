@@ -100,7 +100,7 @@
                         Html.X().PagingToolbar()
                     )
                     .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
-                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("EMPLOYER_NAME").Width(100))
+                    .ColumnModel(x.Column().DataIndex("Employer_Name").Text("Employer_Name").Width(100))
                     .ColumnModel(x.Column().DataIndex("Employee_Id").Text("EMPLOYEE ID").Width(100))
                     .ColumnModel(x.Column().DataIndex("ESF_Id").Text("ESF ID").Width(0))
                     .ColumnModel(x.Column().DataIndex("Scheme_Fund_Id").Text("SCHEME FUND ID").Width(0))

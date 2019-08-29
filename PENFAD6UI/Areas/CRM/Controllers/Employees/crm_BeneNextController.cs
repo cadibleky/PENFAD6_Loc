@@ -71,7 +71,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
             }
         }
 
-		public ActionResult Read5(string Employer_Id)
+		public ActionResult Read5(string Employer_Id, string Employer_Name)
 		{
 			try
 			{
@@ -98,7 +98,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
 				Store store = X.GetCmp<Store>("change_ESF_employeeStore_employer_bene");
 				store.Reload();
 				store.DataBind();
-				List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList8(Employer_Id);
+				List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList8(Employer_Id, Employer_Name);
 				if (obj.Count == 0)
 				{
 					X.Msg.Show(new MessageBoxConfig

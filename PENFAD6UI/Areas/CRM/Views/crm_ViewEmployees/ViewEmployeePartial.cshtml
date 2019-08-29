@@ -61,33 +61,33 @@
                     .Width(1200)
                     .Frame(true)
                     .MarginSpec("10 0 0 10")
+                    .Defaults(dd =>
+                    { dd.Add(new Parameter("LabelWidth", "115")); })
                     .Items(
                         x.Panel()
                             .TabMenuHidden(true)
                             .Title("VIEW EMPLOYEE LIST")
                             .BodyPadding(6)
                             .Items(
-                                    //x.Toolbar()
-                                    //            .Dock(Dock.Top)
-                                    //            .Items(
+                                   
                                     x.FieldSet()
-                                            .Title("Search")
-                                            .Width(700)
+                                            .Title("Search By Employer")
+                                            .Width(1200)
                                             .Items(
                                                     x.Panel()
-                                                        .Layout(LayoutType.HBox)
+                                                    .Layout(LayoutType.Column)
                                                         .Items(
                                                                     x.ComboBox().Name("Employer_Id")
                                                                             .ID("view_cmbEmployerId")
                                                                             .FieldLabel("Employer Name")
                                                                             .QueryMode(DataLoadMode.Local)
                                                                             .TriggerAction(TriggerAction.All)
-                                                                            .MarginSpec("0 30 0 10").TabIndex(5).Width(400)
+                                                                            .MarginSpec("0 30 0 10").TabIndex(5).Width(600)
                                                                             .AllowBlank(false)
                                                                             .FieldStyle("text-transform: uppercase")
                                                                             .Items(employer.GetEmployerList().Select(d => new ListItem(d.Employer_Name, d.Employer_Id))),
                                                                 x.Button()
-                                                                        .Text("View Employees")
+                                                                        .Text("Search")
                                                                         .Icon(Icon.ArrowRefresh)
                                                                         .MarginSpec("30 0 20 0")
                                                                         .Width(200)
@@ -101,18 +101,61 @@
 
                                                     )
                                                     ),
-                                                                    x.Button()
-                                                                        .Text("View All Employees")
+
+                                    //            .Items(
+                                    x.FieldSet()
+                                            .Title("Search using any of the following")
+                                            .Width(1200)
+                                            .Items(
+                                                    x.Panel()
+                                                    .Layout(LayoutType.Column)
+                                                        .Items(
+                                                                   x.TextField().Name("SFirst_Name")
+                                                                        .ID("StxtFirstName")
+                                                                        .FieldLabel("First Name")
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .MarginSpec("0 30 0 10").Width(200).TabIndex(2)
+                                                                        ,
+
+
+                                                                        x.TextField().Name("SSurname")
+                                                                        .ID("StxtSurname")
+                                                                        .FieldLabel("Surname")
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .MarginSpec("0 30 0 10").Width(200).TabIndex(2)
+                                                                        ,
+
+                                                                        x.TextField().Name("SEmployee_Id")
+                                                                        .ID("StxtEmployee_Id")
+                                                                        .FieldLabel("Employee Id")
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .MarginSpec("0 30 0 10").Width(200).TabIndex(2)
+                                                                        ,
+
+                                                                        x.TextField().Name("SSSNIT")
+                                                                        .ID("StxtSSSNIT")
+                                                                        .FieldLabel("SSNIT No.")
+                                                                        .FieldStyle("text-transform: uppercase")
+                                                                        .MarginSpec("0 30 0 10").Width(200).TabIndex(2)
+                                                                        ,
+
+                                                                        x.Button()
+                                                                        .Text("Search")
                                                                         .Icon(Icon.ArrowRefresh)
-                                                                        .MarginSpec("0 0 5 0")
-                                                                        .Width(400)
+                                                                        .MarginSpec("30 0 20 0")
+                                                                        .Width(200)
                                                                         .DirectEvents(de =>
                                                                         {
                                                                             de.Click.Timeout = 12000000;
                                                                             de.Click.Url = Url.Action("Read22");
                                                                             de.Click.Success = "onSuccess(App.view_employeeGrid, result.data);";
-                                                                            
-                                                                        }),//.Listeners(l => l.Click.Handler = "Ext.net.Mask.show({msg: 'Loading... Please wait.'})"),
+
+                                                                        })
+
+                                                    )
+                                                    ),
+
+                                                                        
                                     x.GridPanel()
                                         .ID("view_employeeGrid")
                                         .Frame(true)
@@ -190,7 +233,7 @@
                                     // .PageSize(10)
                                     .ServerProxy(
                                            x.AjaxProxy()
-                                            .Url(Url.Action("Read2"))
+                                            .Url(Url.Action("Read22"))
                                             .Reader(x.JsonReader().RootProperty("data")))
                                             .Parameters(ps =>
                                                        ps.Add(new StoreParameter("Employer_Id", "App.view_cmbEmployerId.getValue()", ParameterMode.Raw))

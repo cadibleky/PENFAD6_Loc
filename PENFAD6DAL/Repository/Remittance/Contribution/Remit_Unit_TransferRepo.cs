@@ -479,7 +479,7 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
 		//             Scheme_Id = row.Field<string>("SCHEME_ID"),
 		//             Scheme_Name = row.Field<string>("SCHEME_NAME"),
 		//             Employer_Id = row.Field<string>("EMPLOYER_ID"),
-		//             Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+		//             Employer_Name = row.Field<string>("Employer_Name"),
 		//             Receipt_Id = row.Field<string>("RECEIPT_ID"),
 		//             Trans_Amount = row.Field<Decimal>("TRANS_AMOUNT"),
 		//             Actual_Receipt_Date = row.Field<DateTime>("ACTUAL_RECEIPT_DATE"),
@@ -542,7 +542,7 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
 		//             Scheme_Id = row.Field<string>("SCHEME_ID"),
 		//             Scheme_Name = row.Field<string>("SCHEME_NAME"),
 		//             Employer_Id = row.Field<string>("EMPLOYER_ID"),
-		//             Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+		//             Employer_Name = row.Field<string>("Employer_Name"),
 		//             Receipt_Id = row.Field<string>("RECEIPT_ID"),
 		//             Trans_Amount = row.Field<Decimal>("TRANS_AMOUNT"),
 		//             Actual_Receipt_Date = row.Field<DateTime>("ACTUAL_RECEIPT_DATE"),
@@ -604,7 +604,7 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
 		//             Scheme_Id = row.Field<string>("SCHEME_ID"),
 		//             Scheme_Name = row.Field<string>("SCHEME_NAME"),
 		//             Employer_Id = row.Field<string>("EMPLOYER_ID"),
-		//             Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+		//             Employer_Name = row.Field<string>("Employer_Name"),
 		//             Cash_Balance = row.Field<decimal>("CASH_BALANCE"),
 		//             Today_Date = row.Field<DateTime>("TODAY_DATE")
 

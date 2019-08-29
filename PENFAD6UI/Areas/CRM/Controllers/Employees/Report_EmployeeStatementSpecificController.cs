@@ -285,11 +285,11 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
 
             return this.Store(data);
         }
-        public ActionResult FilterEmpolyeeSFGrid(String Scheme_Fund_Id, string Employer_Id)
+        public ActionResult FilterEmpolyeeSFGrid(String Scheme_Fund_Id, string Employer_Id, string Employer_Name)
         {
             try
             {
-                return this.Store(employeeRepo.GetEmployeeSFList(Scheme_Fund_Id, Employer_Id));
+                return this.Store(employeeRepo.GetEmployeeSFList(Scheme_Fund_Id, Employer_Id, Employer_Name));
             }
             catch (System.Exception)
             {

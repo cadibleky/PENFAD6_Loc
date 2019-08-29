@@ -135,7 +135,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                     ImageWork.Upload_Any_File_Not_Image(file_posted);
 
 
-                    if (BatchEmployeeUpload(ImageWork.Current_Path_For_Other_Files, crmEmployeelog_repo.Employer_Id, crmEmployeelog_repo.Scheme_Id))
+                    if (BatchEmployeeUpload(ImageWork.Current_Path_For_Other_Files, crmEmployeelog_repo.Employer_Id, crmEmployeelog_repo.Scheme_Id, crmEmployeelog_repo.Employer_Name))
                     {
                         X.Mask.Hide();
                         X.Msg.Show(new MessageBoxConfig
@@ -242,7 +242,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
         }
 
 
-        public bool BatchEmployeeUpload(string filePath, string Employer_number, string scheme_id)
+        public bool BatchEmployeeUpload(string filePath, string Employer_number, string scheme_id, string Employer_Name)
         {
             try
             {
@@ -1253,89 +1253,180 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                                         nxt.Date_Of_Birth = GlobalValue.Default_Date_Value;
                                         /////add employee
 
-                                        param.Add(name: "p_EmployeeId", value: employee_Repo.Employee_Id, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_EmployerId", value: Employer_number, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_Title", value: employee_Repo.Employee_Title, dbType: DbType.String, direction: ParameterDirection.Input);
+                                        if (Employer_Name == "PERSONAL PENSIONS")
+                                        {
 
-                                        param.Add(name: "p_Surname", value: employee_Repo.Surname, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_FirstName", value: employee_Repo.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_OtherName", value: employee_Repo.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MaidenName", value: employee_Repo.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmployeeId", value: employee_Repo.Employee_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmployerId", value: Employer_number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Title", value: employee_Repo.Employee_Title, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_Gender", value: employee_Repo.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_DateofBirth", value: employee_Repo.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_HomeTown", value: employee_Repo.HomeTown, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_TownOfBirth", value: employee_Repo.Town_Of_Birth, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_TownofBirthDistrict", value: employee_Repo.Town_Of_Birth_District, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_TownofBirthCity", value: employee_Repo.Town_Of_Birth_City, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_TownofBirthRegion", value: employee_Repo.Town_Of_Birth_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Surname", value: employee_Repo.Surname, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FirstName", value: employee_Repo.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_OtherName", value: employee_Repo.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MaidenName", value: employee_Repo.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_Nationality", value: employee_Repo.Nationtionality, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_PostalAddress", value: employee_Repo.Postal_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_ResAddress", value: employee_Repo.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_ResidentCountry", value: employee_Repo.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MobileNumber", value: employee_Repo.Mobile_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_OtherNumber", value: employee_Repo.Other_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_EmailAddress", value: employee_Repo.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_OtherEmail", value: employee_Repo.Other_Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Gender", value: employee_Repo.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_DateofBirth", value: employee_Repo.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_HomeTown", value: employee_Repo.HomeTown, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownOfBirth", value: employee_Repo.Town_Of_Birth, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownofBirthDistrict", value: employee_Repo.Town_Of_Birth_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownofBirthCity", value: employee_Repo.Town_Of_Birth_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownofBirthRegion", value: employee_Repo.Town_Of_Birth_Region, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_IdentityType", value: employee_Repo.Identity_Type, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_IdentityNumber", value: employee_Repo.Identity_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_IdentityIssueDate", value: employee_Repo.Identity_Issue_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_IdentityExpiryDate", value: employee_Repo.Identity_Expiry_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MaritalStatus", value: employee_Repo.Marital_Status, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        // not included in batch -- param.Add(name: "p_Position", value: employee_Repo.Position, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_EmployeeType", value: employee_Repo.Employee_Type, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_DateOfEmployment", value: employee_Repo.Date_Of_Employment, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_Cust_Status", value: "PENDING", dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Nationality", value: employee_Repo.Nationtionality, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_PostalAddress", value: employee_Repo.Postal_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_ResAddress", value: employee_Repo.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_ResidentCountry", value: employee_Repo.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MobileNumber", value: employee_Repo.Mobile_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_OtherNumber", value: employee_Repo.Other_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmailAddress", value: employee_Repo.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_OtherEmail", value: employee_Repo.Other_Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_MakeId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MakeDate", value: GlobalValue.Scheme_Today_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityType", value: employee_Repo.Identity_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityNumber", value: employee_Repo.Identity_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityIssueDate", value: employee_Repo.Identity_Issue_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityExpiryDate", value: employee_Repo.Identity_Expiry_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MaritalStatus", value: employee_Repo.Marital_Status, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            // not included in batch -- param.Add(name: "p_Position", value: employee_Repo.Position, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmployeeType", value: employee_Repo.Employee_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_DateOfEmployment", value: employee_Repo.Date_Of_Employment, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Cust_Status", value: "PENDING", dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_IndividualBatch", value: "BATCH", dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_BatchNo", value: batchno, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        // not included in batch -- param.Add(name: "p_Profession", value: employee_Repo.Profession, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_SSNIT", value: employee_Repo.SSNIT_NO, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_TIN", value: employee_Repo.TIN, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MakeId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MakeDate", value: GlobalValue.Scheme_Today_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_FatherLastName", value: employee_Repo.Father_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_FatherFirstName", value: employee_Repo.Father_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_FatherMiddleName", value: employee_Repo.Father_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_FatherBirthDate", value: employee_Repo.Father_Birth_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MotherFirstName", value: employee_Repo.Mother_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MotherLastName", value: employee_Repo.Mother_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MotherMiddleName", value: employee_Repo.Mother_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MotherMaidenName", value: employee_Repo.Mother_Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MotherBirthDate", value: employee_Repo.Mother_Birth_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_FatherPhoneNumber", value: employee_Repo.Father_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_MotherPhoneNo", value: employee_Repo.Mother_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IndividualBatch", value: "BATCH", dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_BatchNo", value: batchno, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            // not included in batch -- param.Add(name: "p_Profession", value: employee_Repo.Profession, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_SSNIT", value: employee_Repo.SSNIT_NO, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TIN", value: employee_Repo.TIN, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "p_RegistrationDate", value: employee_Repo.Employee_Registration_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        param.Add(name: "p_Resident_City", value: employee_Repo.Resident_City, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "P_Resident_District", value: employee_Repo.Resident_District, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "P_Resident_Region", value: employee_Repo.Resident_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherLastName", value: employee_Repo.Father_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherFirstName", value: employee_Repo.Father_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherMiddleName", value: employee_Repo.Father_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherBirthDate", value: employee_Repo.Father_Birth_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherFirstName", value: employee_Repo.Mother_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherLastName", value: employee_Repo.Mother_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherMiddleName", value: employee_Repo.Mother_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherMaidenName", value: employee_Repo.Mother_Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherBirthDate", value: employee_Repo.Mother_Birth_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherPhoneNumber", value: employee_Repo.Father_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherPhoneNo", value: employee_Repo.Mother_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        param.Add(name: "P_User_Password", value: employee_Repo.user_Password, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_RegistrationDate", value: employee_Repo.Employee_Registration_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Resident_City", value: employee_Repo.Resident_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_Resident_District", value: employee_Repo.Resident_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_Resident_Region", value: employee_Repo.Resident_Region, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        ////Next Of Kin
-                                        param.Add(name: "b_BENEFICIARY_NEXTOFKIN", value: "NEXT OF KIN", dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_SURNAME", value: nxt.ESurname, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_FIRST_NAME", value: nxt.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_OTHER_NAME", value: nxt.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_MAIDEN_NAME", value: nxt.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_PHONE_NUMBER1", value: nxt.Phone_Number1, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_PHONE_NUMBER2", value: nxt.Phone_Number2, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_RESIDENTIAL_ADDRESS", value: nxt.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_EMAIL_ADDRESS", value: nxt.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_RELATIONSHIP", value: nxt.Relationship_Name, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "b_DATE_OF_BIRTH", value: nxt.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
-                                        //param.Add(name: "b_RegistrationDate", value: nxt.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_User_Password", value: employee_Repo.user_Password, dbType: DbType.String, direction: ParameterDirection.Input);
 
-                                        ////create scheme fund account for employee
-                                        //param.Add(name: "P_ESF_ID", value: ESFRepo.Cust_No + ESFRepo.Scheme_Fund_Id, dbType: DbType.String, direction: ParameterDirection.Input);
-                                        param.Add(name: "P_SCHEME_FUND_ID", value: Scheme_fund_id, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            ////Next Of Kin
+                                            param.Add(name: "b_BENEFICIARY_NEXTOFKIN", value: "NEXT OF KIN", dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_SURNAME", value: nxt.ESurname, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_FIRST_NAME", value: nxt.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_OTHER_NAME", value: nxt.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_MAIDEN_NAME", value: nxt.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_PHONE_NUMBER1", value: nxt.Phone_Number1, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_PHONE_NUMBER2", value: nxt.Phone_Number2, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_RESIDENTIAL_ADDRESS", value: nxt.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_EMAIL_ADDRESS", value: nxt.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_RELATIONSHIP", value: nxt.Relationship_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_DATE_OF_BIRTH", value: nxt.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            //param.Add(name: "b_RegistrationDate", value: nxt.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
 
-                                        conn.Execute(sql: "ADD_CRM_EMPLOYEE_BATCH", param: param, commandType: CommandType.StoredProcedure);
+                                            ////create scheme fund account for employee
+                                            //param.Add(name: "P_ESF_ID", value: ESFRepo.Cust_No + ESFRepo.Scheme_Fund_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_SCHEME_FUND_ID", value: Scheme_fund_id, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_PERSONAL_PENSIONS", value: "YES", dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            conn.Execute(sql: "ADD_CRM_EMPLOYEE_BATCH_P", param: param, commandType: CommandType.StoredProcedure);
+                                        }
+                                        else
+                                        {
+                                            param.Add(name: "p_EmployeeId", value: employee_Repo.Employee_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmployerId", value: Employer_number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Title", value: employee_Repo.Employee_Title, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_Surname", value: employee_Repo.Surname, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FirstName", value: employee_Repo.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_OtherName", value: employee_Repo.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MaidenName", value: employee_Repo.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_Gender", value: employee_Repo.Gender, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_DateofBirth", value: employee_Repo.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_HomeTown", value: employee_Repo.HomeTown, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownOfBirth", value: employee_Repo.Town_Of_Birth, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownofBirthDistrict", value: employee_Repo.Town_Of_Birth_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownofBirthCity", value: employee_Repo.Town_Of_Birth_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TownofBirthRegion", value: employee_Repo.Town_Of_Birth_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_Nationality", value: employee_Repo.Nationtionality, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_PostalAddress", value: employee_Repo.Postal_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_ResAddress", value: employee_Repo.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_ResidentCountry", value: employee_Repo.Resident_Country, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MobileNumber", value: employee_Repo.Mobile_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_OtherNumber", value: employee_Repo.Other_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmailAddress", value: employee_Repo.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_OtherEmail", value: employee_Repo.Other_Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_IdentityType", value: employee_Repo.Identity_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityNumber", value: employee_Repo.Identity_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityIssueDate", value: employee_Repo.Identity_Issue_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_IdentityExpiryDate", value: employee_Repo.Identity_Expiry_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MaritalStatus", value: employee_Repo.Marital_Status, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            // not included in batch -- param.Add(name: "p_Position", value: employee_Repo.Position, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_EmployeeType", value: employee_Repo.Employee_Type, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_DateOfEmployment", value: employee_Repo.Date_Of_Employment, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Cust_Status", value: "PENDING", dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_MakeId", value: GlobalValue.User_ID, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MakeDate", value: GlobalValue.Scheme_Today_Date, dbType: DbType.DateTime, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_IndividualBatch", value: "BATCH", dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_BatchNo", value: batchno, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            // not included in batch -- param.Add(name: "p_Profession", value: employee_Repo.Profession, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_SSNIT", value: employee_Repo.SSNIT_NO, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_TIN", value: employee_Repo.TIN, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_FatherLastName", value: employee_Repo.Father_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherFirstName", value: employee_Repo.Father_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherMiddleName", value: employee_Repo.Father_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherBirthDate", value: employee_Repo.Father_Birth_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherFirstName", value: employee_Repo.Mother_First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherLastName", value: employee_Repo.Mother_Last_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherMiddleName", value: employee_Repo.Mother_Middle_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherMaidenName", value: employee_Repo.Mother_Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherBirthDate", value: employee_Repo.Mother_Birth_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_FatherPhoneNumber", value: employee_Repo.Father_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_MotherPhoneNo", value: employee_Repo.Mother_Phone_Number, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "p_RegistrationDate", value: employee_Repo.Employee_Registration_Date, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            param.Add(name: "p_Resident_City", value: employee_Repo.Resident_City, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_Resident_District", value: employee_Repo.Resident_District, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_Resident_Region", value: employee_Repo.Resident_Region, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            param.Add(name: "P_User_Password", value: employee_Repo.user_Password, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            ////Next Of Kin
+                                            param.Add(name: "b_BENEFICIARY_NEXTOFKIN", value: "NEXT OF KIN", dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_SURNAME", value: nxt.ESurname, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_FIRST_NAME", value: nxt.First_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_OTHER_NAME", value: nxt.Other_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_MAIDEN_NAME", value: nxt.Maiden_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_PHONE_NUMBER1", value: nxt.Phone_Number1, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_PHONE_NUMBER2", value: nxt.Phone_Number2, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_RESIDENTIAL_ADDRESS", value: nxt.Residential_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_EMAIL_ADDRESS", value: nxt.Email_Address, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_RELATIONSHIP", value: nxt.Relationship_Name, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "b_DATE_OF_BIRTH", value: nxt.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
+                                            //param.Add(name: "b_RegistrationDate", value: nxt.Date_Of_Birth, dbType: DbType.Date, direction: ParameterDirection.Input);
+
+                                            ////create scheme fund account for employee
+                                            //param.Add(name: "P_ESF_ID", value: ESFRepo.Cust_No + ESFRepo.Scheme_Fund_Id, dbType: DbType.String, direction: ParameterDirection.Input);
+                                            param.Add(name: "P_SCHEME_FUND_ID", value: Scheme_fund_id, dbType: DbType.String, direction: ParameterDirection.Input);
+
+                                            conn.Execute(sql: "ADD_CRM_EMPLOYEE_BATCH", param: param, commandType: CommandType.StoredProcedure);
+                                        }
 
                                     } // end for create_new_or_justacct =1
 

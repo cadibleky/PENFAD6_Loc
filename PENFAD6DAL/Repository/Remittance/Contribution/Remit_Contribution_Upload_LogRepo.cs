@@ -148,7 +148,7 @@ namespace PENFAD6DAL.Repository.Remittance.Contribution
                 var eList = dt.Tables[0].AsEnumerable().Select(row => new Remit_Contribution_Upload_LogRepo
                 {
                     Employer_Id = row.Field<string>("EMPLOYER_ID"),
-                   Employer_Name = row.Field<string>("EMPLOYER_NAME"),
+                   Employer_Name = row.Field<string>("Employer_Name"),
                     Business_Address = row.Field<string>("BUSINESS_ADDRESS"),
                     Postal_Address = row.Field<string>("POSTAL_ADDRESS"),
                     Phone_Number = row.Field<string>("PHONE_NUMBER"),

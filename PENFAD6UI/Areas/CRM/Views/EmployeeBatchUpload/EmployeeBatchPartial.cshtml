@@ -56,21 +56,21 @@
                             .Items(
 
                                            y.Button().ID("dfgh").Text("Select Employer Account").Width(300).Icon(Icon.Add).MarginSpec("5 600 20 10").TabIndex(60)
-                                                .Handler("App.win_Employer.show(this)")
+                                                .Handler("App.ebuwin_Employer.show(this)")
                                            ,
 
-                                     y.TextField().ID("Employer_Id").Name("Employer_Id").FieldLabel("Employer ID").ReadOnly(true).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 10").Width(200)
+                                     y.TextField().ID("ebuEmployer_Id").Name("Employer_Id").FieldLabel("Employer ID").ReadOnly(true).FieldStyle("text-transform: uppercase").MarginSpec("0 10 0 10").Width(200)
                                                 .StyleSpec("color:#333; font-size: 20px; font-weight: bold").TabIndex(1),
 
-                                     y.TextField().Name("Employer_name").ID("Employer_name").FieldLabel("Employer Name").MarginSpec("0 10 0 10").Width(480).ReadOnly(true).AllowBlank(false)
+                                     y.TextField().Name("Employer_Name").ID("ebuEmployer_Name").FieldLabel("Employer Name").MarginSpec("0 10 0 10").Width(480).ReadOnly(true).AllowBlank(false)
                                                   .StyleSpec("color:#333; font-size: 20px; font-weight: bold").BlankText("Employer name is required.").TabIndex(2),
 
-                                      y.TextField().Name("Scheme_Id").ID("Scheme_Id").FieldLabel("Scheme Id").MarginSpec("0 10 0 10").Width(200).TabIndex(3)
+                                      y.TextField().Name("Scheme_Id").ID("ebuScheme_Id").FieldLabel("Scheme Id").MarginSpec("0 10 0 10").Width(200).TabIndex(3)
                                                         .ReadOnly(true).FieldStyle("text-transform: uppercase")
                                                         .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
                                                          .BlankText("Scheme name is required."),
 
-                                     y.TextField().Name("Scheme_Name").ID("Scheme_Name").Width(480).TabIndex(4)
+                                     y.TextField().Name("Scheme_Name").ID("ebuScheme_Name").Width(480).TabIndex(4)
                                                        .ReadOnly(true).FieldStyle("text-transform: uppercase")
                                                        .FieldLabel("Scheme Name").MarginSpec("0 10 0 10").TabIndex(5)
                                                        .AllowBlank(false).StyleSpec("color:#333; font-size: 20px; font-weight: bold")
@@ -126,7 +126,7 @@
                      )// panel1_panel_batch_upload
 
         .Items(y.Window()
-                .ID("win_Employer")
+                .ID("ebuwin_Employer")
                 .Icon(Icon.Application)
                 .Title("Employer List")
                 .Width(1000)
@@ -139,7 +139,7 @@
                 //.SetPagePosition(50,50)
                 .Hidden(true)
                 .Items(y.GridPanel()
-                            .ID("employer_grid")
+                            .ID("ebuemployer_grid")
                             //.Hidden(true)
                             .Border(true)
                             .Width(980)
@@ -147,8 +147,7 @@
 
                             .MarginSpec("10 0 0 10")
                             .TopBar(Html.X().Toolbar()
-                                        .Items(Html.X().Button()
-                                                    .ID("btn_viewemployers")
+                                        .Items(Html.X().Button()                                               
                                                     .Text("View Employer Accounts")
                                                     .Width(300)
                                                     .Icon(Icon.ApplicationViewDetail)
@@ -156,7 +155,7 @@
                                                     {
                                                         de.Click.Timeout = 12000000;
                                                         de.Click.Url = Url.Action("Get_EmployersScheme");
-                                                        de.Click.Success = "onSuccess(App.employer_grid, result.data);";
+                                                        de.Click.Success = "onSuccess(App.ebuemployer_grid, result.data);";
                                                         //de.Click.ExtraParams.Add(new { containerId = "panel_majornav" });
                                                     })
                                                         //.Handler("#{panel_majornav}.reload();")
@@ -167,7 +166,7 @@
                                         .AutoLoad(false)
                                         .Model(Html.X().Model()
                                                 .Fields(
-                                                         new ModelField("Employer_name", ModelFieldType.String),
+                                                         new ModelField("Employer_Name", ModelFieldType.String),
                                                           new ModelField("Scheme_Name", ModelFieldType.String),
                                                          new ModelField("Employer_Id", ModelFieldType.String),
                                                           new ModelField("Scheme_Id", ModelFieldType.String)
@@ -181,7 +180,7 @@
                                     )//end  store
 
                             .ColumnModel(
-                                    Html.X().Column().Text("Employer Name").DataIndex("Employer_name").Width(400),
+                                    Html.X().Column().Text("Employer Name").DataIndex("Employer_Name").Width(400),
                                     Html.X().Column().Text("Scheme Name").DataIndex("Scheme_Name").Width(350),
                                     Html.X().Column().Text("Employer Id").DataIndex("Employer_Id").Width(200),
                                    Html.X().Column().Text("Scheme Id").DataIndex("Scheme_Id").Width(100)
@@ -189,7 +188,7 @@
                                     )//end columnmodel
                             .View(Html.X().GridView().StripeRows(true).TrackOver(true))
                             //.Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
-                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.pn_employeebatchupload.getForm().loadRecord(selected[0]); App.win_Employer.hide(true); App.Scheme_Id.clearValue(); App.Scheme_Id.getStore().load() }")
+                            .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { App.pn_employeebatchupload.getForm().loadRecord(selected[0]); App.ebuwin_Employer.hide(true); App.ebuScheme_Id.clearValue(); App.ebuScheme_Id.getStore().load() }")
                             .Refresh()
                             .BottomBar(Html.X().PagingToolbar())
                             .Plugins(y.FilterHeader())

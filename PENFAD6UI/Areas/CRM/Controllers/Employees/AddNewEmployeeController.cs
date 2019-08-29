@@ -300,7 +300,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
             }
             catch (Exception ex)
             {
-                logger.WriteLog(ex.Message);
+                //logger.WriteLog(ex.Message);
 
                 X.Msg.Show(new MessageBoxConfig
                 {

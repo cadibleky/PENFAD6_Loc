@@ -534,7 +534,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
 
         }
       
-        public ActionResult Read2(string Employer_Id)
+        public ActionResult Read2(string Employer_Id, String Employer_Name)
         {
             try
             {
@@ -559,7 +559,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                 Store store = X.GetCmp<Store>("employeeStore");
                 store.Reload();
                 store.DataBind();
-                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList2(Employer_Id);
+                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList2(Employer_Id, Employer_Name);
                 if (obj.Count == 0)
                 {
                     X.Msg.Show(new MessageBoxConfig
@@ -579,7 +579,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
             }
             catch (Exception ex)
             {
-                logger.WriteLog(ex.Message);
+        
                 X.Msg.Show(new MessageBoxConfig
                 {
                     Title = "Error",
@@ -986,7 +986,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
             }
         }
 
-        public ActionResult Read5(string Employer_Id)
+        public ActionResult Read5(string Employer_Id, string Employer_Name)
         {
             try
             {
@@ -1013,7 +1013,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                 Store store = X.GetCmp<Store>("change_ESF_employeeStore");
                 store.Reload();
                 store.DataBind();
-                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList5(Employer_Id);
+                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList5(Employer_Id, Employer_Name);
                 if (obj.Count == 0)
                 {
                     X.Msg.Show(new MessageBoxConfig
@@ -1050,7 +1050,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
         }
 
 
-        public ActionResult Read5e(string Employer_Id)
+        public ActionResult Read5e(string Employer_Id, string Employer_Name)
         {
             try
             {
@@ -1077,7 +1077,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                 Store store = X.GetCmp<Store>("change_ESF_employeeStore");
                 store.Reload();
                 store.DataBind();
-                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList5e(Employer_Id);
+                List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList5e(Employer_Id, Employer_Name);
                 if (obj.Count == 0)
                 {
                     X.Msg.Show(new MessageBoxConfig

@@ -142,7 +142,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                                 repo_emplog.First_Name = (string)reader["First_Name"];
                                // repo_emplog.Mobile_Number = (string)reader["Mobile_Number"];
                                 repo_emplog.Scheme_Name = (string)reader["Scheme_Name"];
-                                repo_emplog.Employer_name = (string)reader["Employer_name"];
+                                repo_emplog.Employer_Name = (string)reader["Employer_Name"];
                                 repo_emplog.SEND_SMS = (string)reader["SEND_SMS"];
                                String mcode = (string)reader["CUST_NO"];
 
@@ -340,7 +340,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
                             repo_emplog.First_Name = (string)reader["First_Name"];
                            // repo_emplog.Mobile_Number = (string)reader["Mobile_Number"];
                             repo_emplog.Scheme_Name = (string)reader["Scheme_Name"];
-                            repo_emplog.Employer_name = (string)reader["Employer_name"];
+                            repo_emplog.Employer_Name = (string)reader["Employer_Name"];
                             String mcode = (string)reader["CUST_NO"];
 
                                if (repo_emplog.Mobile_Number.Length < 9)

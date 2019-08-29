@@ -357,11 +357,11 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
             }
         }
 
-        public ActionResult Read5(string Employer_Id)
+        public ActionResult Read5(string Employer_Id, string Employer_Name)
 		{
 			try
 			{
-				if (string.IsNullOrEmpty(Employer_Id))
+				if (string.IsNullOrEmpty(Employer_Id) || Employer_Id == "null")
 				{
 					X.Msg.Show(new MessageBoxConfig
 					{
@@ -384,7 +384,7 @@ namespace PENFAD6UI.Areas.CRM.Controllers.Employees
 				Store store = X.GetCmp<Store>("change_ESF_employeeStore");
 				store.Reload();
 				store.DataBind();
-				List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList5(Employer_Id);
+				List<crm_EmployeeRepo> obj = employeeRepo.GetEmployeeList5(Employer_Id, Employer_Name);
 				if (obj.Count == 0)
 				{
 					X.Msg.Show(new MessageBoxConfig

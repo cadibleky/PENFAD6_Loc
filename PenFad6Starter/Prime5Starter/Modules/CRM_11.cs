@@ -102,7 +102,7 @@ namespace PenFad6Starter.Modules
                 adcon.add_Module_oracle(11010202, "Beneficiary/Next-Of-Kin", parentid, modulecode, "CRM/crm_BeneNext/AddBeneNextEditTab", posi += 1, Leaf, "description", tree);//L
                 adcon.add_Module_oracle(11010203, "Batch Employee Edit", parentid, modulecode, "CRM/EmployeeBatchEdit/AddEmployeeBatchEditTab", posi += 1, Leaf, "description", tree);//L
                 adcon.add_Module_oracle(11010204, "Change Employee Status", parentid, modulecode, "CRM/UpdateEmployee/AddTransferEmployeeTab", posi += 1, Leaf, "description", tree);//L
-                adcon.add_Module_oracle(11010205, "Activate Employee", parentid, modulecode, "CRM/UpdateEmployee/AddActivateEmployeeTab", posi += 1, Leaf, "description", tree);//L
+                //adcon.add_Module_oracle(11010205, "Activate Employee", parentid, modulecode, "CRM/UpdateEmployee/AddActivateEmployeeTab", posi += 1, Leaf, "description", tree);//L
                 adcon.add_Module_oracle(11010206, "Change Employer", parentid, modulecode, "CRM/Employee_Scheme_Funds/AddChangeESFTab_Employer", posi += 1, Leaf, "description", tree);//L
 
                 parentid = 110103; // for approve employee

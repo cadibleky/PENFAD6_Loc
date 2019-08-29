@@ -539,7 +539,7 @@ namespace PENFAD6DAL.Repository.CRM.Employee
                     Surname = row.Field<String>("SURNAME"),
                     First_Name = row.Field<String>("FIRST_NAME"),
                     Other_Name = row.Field<String>("OTHER_NAME"),
-					Employer_Name = row.Field<String>("EMPLOYER_NAME"),
+					Employer_Name = row.Field<String>("Employer_Name"),
 					Auth_Status = row.Field<string>("AUTH_STATUS"),
                     ESF_Status = row.Field<string>("ESF_STATUS"),
                     Date_Of_Birth = row.Field<DateTime?>("DATE_OF_BIRTH")
